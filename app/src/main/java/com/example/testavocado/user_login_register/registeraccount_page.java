@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class registeraccount_page extends AppCompatActivity {
     private Button registerbtn;
     private EditText edtxt_user_firstname, edtxt_user_lastname, edtxt_user_emil, edtxt_user_password;
     private TextInputLayout txtinputlayoutfirstname, txtinputlayoutlastname, txtinputlayoutemil, txtinputlayoutpassword;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +74,13 @@ public class registeraccount_page extends AppCompatActivity {
                    // validation.Email(newaccount.getUser_emil());
 
                     if(validateinfo(newaccount)==1) {
+                        mProgressBar.setVisibility(View.VISIBLE);
+
                         RegisterMethods.onRegisteringNewUser(newaccount.getUser_firstname(), newaccount.getUser_lastname(), newaccount.getUser_emil(), newaccount.getUser_password()
                                 , TimeMethods.getUTCdatetimeAsString(), mycontext, new RegisterMethods.onLoginRegister() {
                                     @Override
                                     public void onSuccessListener(int user_id) {
+
                                         HelpMethods.save_user_id(user_id, mycontext);
                                         FragmentManager fragmentManager = getSupportFragmentManager();
                                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -87,20 +92,21 @@ public class registeraccount_page extends AppCompatActivity {
                                         //realtive activty layout
                                         fragmentTransaction.add(R.id.realtive_registeraccountboss_page, fragmentpage1).commit();
 
-
+                                        mProgressBar.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onServerException(String ex) {
                                         Log.d(TAG, "onServerException: " + ex);
-
                                         txtinputlayoutemil.setError(getString(R.string.emilused));
-
+                                        mProgressBar.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onFailureListener(String ex) {
                                         Log.d(TAG, "onFailureListener: " + ex);
+                                        mProgressBar.setVisibility(View.GONE);
+                                        Toast.makeText(mycontext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
@@ -137,6 +143,8 @@ public class registeraccount_page extends AppCompatActivity {
     public void load_widgets() {
         Log.i(getString(R.string.log_i), "sucess load widgets_regusteracciunt_page");
 
+        mProgressBar=findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.GONE);
         arrow_image = (ImageView) findViewById(R.id.imgv_merge_register_arrow);
         parentreltive = (RelativeLayout) findViewById(R.id.realtive_registeraccountboss_page);
         registerbtn = (Button) findViewById(R.id.btn_register_merge_registeraccount);

@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         adjustStatusBarColor();
         HelpMethods.closeKeyboard(LoginActivity.this);
         initWidgets();
-
-
     }
 
 
@@ -147,11 +145,17 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onServerException(String ex) {
                                     progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(mContext, getString(R.string.EMAIL_PASSWORD_CHECK), Toast.LENGTH_SHORT).show();
+                                    mEmail.setText("");
+                                    mPassword.setText("");
                                 }
 
                                 @Override
                                 public void onFailureListener(String ex) {
                                     progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                                    mEmail.setText("");
+                                    mPassword.setText("");
                                 }
                             });
                         }

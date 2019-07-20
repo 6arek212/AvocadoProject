@@ -29,4 +29,10 @@
     </RelativeLayout>
 
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>
