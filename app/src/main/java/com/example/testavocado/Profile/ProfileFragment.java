@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        Log.d(TAG, "onCreateView: is current user "+is_current_user+"  incoming_user_id "+incoming_user_id);
+        Log.d(TAG, "onCreateView: is current user " + is_current_user + "  incoming_user_id " + incoming_user_id);
         initWidgets(view);
         getProfileInfo();
 
@@ -86,6 +86,9 @@ public class ProfileFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
 
+
+        if (!is_current_user) {
+            adapter.is_privateAccount=user.isUser_is_private();
             if (!user.isUser_is_private()) {
 
                 if (user.getFriend_request_id() != -1) {
@@ -111,10 +114,17 @@ public class ProfileFragment extends Fragment {
             } else {
                 //TODO private account adding layout
                 Toast.makeText(mContext, "account is private !", Toast.LENGTH_SHORT).show();
+
             }
+        }
+        else {
+            adapter.is_current_user = is_current_user;
+            getPosts(0);
+        }
 
         mRecyclerView.setAdapter(adapter);
         recyclerViewBottomDetectionListener();
+        mSwipe.setRefreshing(false);
     }
 
 

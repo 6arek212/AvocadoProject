@@ -187,7 +187,6 @@
     <string name="setting_fragment">setting_fragment</string>
 
 
-
     <string name="new_chat">New Chat</string>
     <string name="add_a_picture">add a Picture</string>
     <string name="enter_your_post_text">enter your post text</string>
@@ -199,9 +198,6 @@
     <string name="add_connections">Add connections</string>
     <string name="friends_only">friends only</string>
     <string name="public_post">public post</string>
-
-
-
 
 
     <string-array name="lists">

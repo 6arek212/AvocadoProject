@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Connection.ConnectionsActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".Connection.ConnectionsActivity" />
         <activity
             android:name=".Home.AddNewPostActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -44,7 +45,7 @@
         <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Chat.ConversationActivity" />
-        <activity android:name=".Settings.SettingsActivity"/>
+        <activity android:name=".Settings.SettingsActivity" />
         <activity
             android:name=".BaseActivity"
             android:windowSoftInputMode="adjustPan" />

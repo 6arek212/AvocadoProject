@@ -60,6 +60,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     public static final int PROFILE_LAYOUT = 1;
     public static final int PROGRESS_BAR = 2;
     public static final int END_LIST = 3;
+    public static final int PRIVATE_ACCOUNT = 4;
     public static final int FRIENDS_REQUEST_RECEIVED = 0;
     public static final int FRIENDS_LAYOUT = 1;
     public static final int FRIENDS_REQUEST_SENT = 2;
@@ -71,7 +72,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     private int user_id, incomingUserId;
     private User user;
     private FragmentManager fragmentManager;
-    public boolean is_endOfPosts, is_current_user;
+    public boolean is_endOfPosts, is_current_user, is_privateAccount;
     public int addingLayoutType;
 
 
@@ -114,12 +115,15 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position == 0)
             return PROFILE_LAYOUT;
-        else if (postsList.get(position) != null)
+        else if (is_privateAccount) {
+            return PRIVATE_ACCOUNT;
+        } else if (postsList.get(position) != null)
             return PROFILE_POSTS;
         else if (postsList.get(position) == null && !is_endOfPosts)
             return PROGRESS_BAR;
         else
             return END_LIST;
+
     }
 
 
@@ -141,9 +145,12 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     R.layout.progressbar_item, viewGroup, false);
 
             vh = new ProgressViewHolder(v);
-        } else {
+        } else if (i == END_LIST) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_end_item, viewGroup, false);
             vh = new EndViewHolder(view);
+        } else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_account_private, viewGroup, false);
+            vh = new PrivateAccountViewHolder(view);
         }
 
         return vh;
@@ -161,7 +168,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.mCountryCity.setText(user.getUser_country() + "," + user.getUser_city());
             v1.mConnectionCount.setText(user.getUser_connection_count() + "");
             v1.mPostsCount.setText(user.getUser_posts_count() + "");
-            v1.mbio.setText("test");
+            v1.mbio.setText("text");
 
 
             Glide.with(mContext)
@@ -178,7 +185,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 v1.btn_add_bio.setVisibility(View.GONE);
                 v1.addingLayout.setVisibility(View.VISIBLE);
 
-                  if (addingLayoutType == FRIENDS_LAYOUT) {
+                if (addingLayoutType == FRIENDS_LAYOUT) {
                     v1.friendsLayout.setVisibility(View.VISIBLE);
                     v1.friendRequestRecivedLayout.setVisibility(View.GONE);
                     v1.friendRequestSentLayout.setVisibility(View.GONE);
@@ -976,6 +983,15 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         public EndViewHolder(View v) {
             super(v);
             end = (TextView) v.findViewById(R.id.end);
+        }
+    }
+
+    public static class PrivateAccountViewHolder extends RecyclerView.ViewHolder {
+        EditText mPrivate;
+
+        public PrivateAccountViewHolder(View v) {
+            super(v);
+            mPrivate = v.findViewById(R.id.private_account);
         }
     }
 
