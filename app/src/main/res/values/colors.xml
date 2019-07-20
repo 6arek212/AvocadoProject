@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4CAF50</color>a9e56b
+    <color name="colorPrimaryDark">#4CAF50</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorButton">#58af54</color>
+    <color name="colorBlue">#64B1B5</color>
+    <color name="colorLiteBlue">#89CFD5</color>
+
+    <color name="colorGreen2">#A2E9A7</color>
+    <color name="statusBarLogin">#c6f381</color>
+    <color name="colorEditTextGrey">#fafafa</color>
+    <color name="colorEditTextGreen">#cc9bd76c</color>
+    <color name="colortabs">#fefafafa</color>
+    <color name="tab_indicator_grey">#FEC4C3C3</color>
+    <color name="colorRed">#FEF54949</color>
+    <color name="colorLiteRed">#FEF87272</color>
+    <color name="greenLite">#8cBFF02F</color>
+    <color name="colorDarkGreen">#4CAF50</color>
+    <color name="light1">#1affffff</color>
+    <color name="colorGray">#bfbfbf</color>
+    <color name="avocado">#a6d210</color>
+    <color name="avocado1">#BFF02F</color>
+    <color name="avocado2">#BFF02F</color>
+    <color name="light0">#ccffffff</color>
+    <color name="gray">#bfbfbf</color>
+    <color name="white">#fff</color>
+    <color name="gray1">#E9E9E9</color>
+   #a9e56b
+
+    50B4FF blue
+
+
+</resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:id="@+id/relativelaout_merge_activit_addbio_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relativelaout1_merge_activit_addbio_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image_merge_activit_addbio_center"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="2mm"
+                android:src="@drawable/profile_ic"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/first_name_merge_activit_addbio_center"
+                style="@style/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3mm"
+                android:layout_toRightOf="@id/profile_image_merge_activit_addbio_center"
+                android:text="Ahmad" />
+
+            <TextView
+                android:id="@+id/last_name_merge_activit_addbio_center"
+                style="@style/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="1mm"
+                android:layout_toRightOf="@id/first_name_merge_activit_addbio_center"
+                android:text="Gabarin" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relativelaout2_merge_activit_addbio_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativelaout1_merge_activit_addbio_center"
+            android:layout_marginTop="2mm">
+
+            <TextView
+                android:id="@+id/line1_merge_activit_addbio_center"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinputlayount_1_merge_activit_addbio_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line1_merge_activit_addbio_center"
+                android:layout_marginLeft="3mm"
+                android:layout_marginRight="3mm"
+                app:counterEnabled="true"
+                app:counterMaxLength="110">
+
+                <EditText
+                    android:id="@+id/edtxt_bio_text_merge_activit_addbio_center"
+                    style="@style/edtxt_inside_textinput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:hint="Add Bio"
+
+                    />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/line2_merge_activit_addbio_center"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/textinputlayount_1_merge_activit_addbio_center"
+                android:layout_marginTop="2mm"
+                android:background="@color/gray1" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</merge>

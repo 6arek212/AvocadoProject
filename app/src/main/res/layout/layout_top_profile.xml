@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+
+            android:id="@+id/realtive1_person_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- top bar merge-->
+
+
+            <RelativeLayout
+                android:id="@+id/realtive2_person_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/merge_fragment_myprofile_top" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/realtive3_person_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/realtive2_person_profile"
+                android:layout_marginTop="9dp">
+
+                <include layout="@layout/merge_fragment_myprofile_center" />
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:id="@+id/realtive5_person_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/realtive3_person_profile"
+                android:layout_marginTop="16dp">
+
+                <include layout="@layout/merge_fragment_mainpage_createpost" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

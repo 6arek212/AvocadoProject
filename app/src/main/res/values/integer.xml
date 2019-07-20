@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="defaultValue">-1</integer>
+    <integer name="password_maximum_length">16</integer>
+    <integer name="password_minimum_length">6</integer>
+    <integer name="first_last_name_maximux_length">19</integer>
+    <integer name="first_last_minimum_length">3</integer>
+    <integer name="num_posts_toshow">10</integer>
+</resources>

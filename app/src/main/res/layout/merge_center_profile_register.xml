@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/realtive1_merge_center_profile_register"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+            android:text="What's Your Birthday?"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtv_selectdate_merge_ceneter_profile_register"
+            android:layout_below="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+            android:text="@string/select_date"
+            android:textSize="30dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:layout_marginTop="2mm"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/txtv_selectdate_merge_ceneter_profile_register"
+            android:background="@color/light0"
+            android:layout_marginTop="3mm"
+            android:textSize="3mm"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/realtive2_merge_center_profile_register"
+        android:layout_below="@+id/realtive1_merge_center_profile_register"
+        android:layout_marginTop="3mm"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What's Your gender?"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:id="@+id/txtv_your_gender_profile_register"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radiogrup_merge_center_profile_register"
+            android:layout_below="@+id/txtv_your_gender_profile_register"
+            android:layout_marginTop="3mm"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:id="@+id/radio_btn_male_merge_center_profile_register"
+                style="@style/text"
+                android:drawableLeft="@mipmap/male_icon"
+                android:paddingLeft="5mm"
+
+                />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:id="@+id/radio_btn_female_merge_center_profile_register"
+                style="@style/text"
+                android:drawableLeft="@mipmap/female_icon"
+                android:paddingLeft="5mm"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/radiogrup_merge_center_profile_register"
+            android:background="@color/light0"
+            android:layout_marginTop="3mm"
+            android:textSize="3mm"
+            />
+    </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_register_merge_center_profile_register"
+            android:layout_below="@id/realtive2_merge_center_profile_register"
+            android:text="Register"
+            style="@style/button_style1"
+            android:layout_marginTop="5mm"
+            />
+    </RelativeLayout>
+</merge>

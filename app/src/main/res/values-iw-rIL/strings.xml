@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Avocado</string>
+    <string name="public_post">כללי</string>
+    <string name="friends_only">חברים בלבד</string>
+    <string name="add_connections">הוספת חיבור</string>
+    <string name="chat">שיחות</string>
+    <string name="connections_requests">בקשות חיבורים</string>
+    <string name="getting_a_pic">הוספת תמונה</string>
+    <string name="login">הרשמה</string>
+    <string name="main_feed">דף ראשי</string>
+    <string name="enter_your_post_text">הוסף טקסט</string>
+    <string name="add_a_picture">הוספת תמונה</string>
+    <string name="new_chat">שיחה חדשה</string>
+    <string name="ERROR_TOAST">שגיאה</string>
+</resources>

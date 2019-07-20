@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/realtive1_merge_top_profilepicture_register"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_ic"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8mm"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtv_profileimage_merge_top_register"
+            android:text="Profil image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3mm"
+            android:textSize="3mm"
+            android:textColor="@android:color/white"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtv_editprofileimage_merge_top_register"
+            android:text="Click to Edit profile image"
+            android:layout_centerHorizontal="true"
+            android:textSize="3mm"
+            android:layout_below="@id/profile_image"
+            android:layout_marginTop="2mm"
+            android:textColor="@android:color/white"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/txtv_editprofileimage_merge_top_register"
+            android:background="@color/light0"
+            android:layout_marginTop="3mm"
+            android:textSize="3mm"
+            />
+    </RelativeLayout>
+
+
+    </RelativeLayout>
+</merge>

@@ -1,0 +1,61 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/realtive_merge_activity_chat_message_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1mm"
+            android:layout_marginRight="1mm"
+            android:background="@drawable/edtxt_input_style1"
+            android:paddingRight="1mm"
+            android:paddingLeft="1mm"
+            >
+
+            <EditText
+                android:id="@+id/text_send"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2mm"
+                android:layout_marginRight="2mm"
+                android:layout_toLeftOf="@+id/send"
+                android:layout_toRightOf="@+id/emoji"
+                android:background="@drawable/edtxt_style3"
+                android:layout_centerVertical="true"
+                android:hint="Type a message"
+                android:paddingLeft="2mm"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/send"
+                app:fabSize="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/ic_send"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_centerVertical="true"
+
+                />
+
+            <TextView
+                android:id="@+id/emoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_emoji_shape"
+                android:layout_centerVertical="true"
+
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</merge>

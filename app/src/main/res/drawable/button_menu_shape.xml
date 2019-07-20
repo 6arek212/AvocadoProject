@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <solid android:color="#ffffffff"/>
+            <padding android:top="2dp" android:bottom="2dp" android:right="1mm" android:left="1mm" />
+        </shape>
+    </item >
+    <item android:drawable="@drawable/menu_ic_green" android:width="30dp"
+        android:height="30dp">
+
+    </item>
+</layer-list>

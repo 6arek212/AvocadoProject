@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/friends"
+            android:icon="@mipmap/friends_ic1"
+            android:title="Friends"
+            />
+
+        <item android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings"/>
+
+
+        <item android:id="@+id/logout"
+            android:icon="@mipmap/log_out_ic_64"
+            android:title="Log Out"/>
+    </group>
+</menu>

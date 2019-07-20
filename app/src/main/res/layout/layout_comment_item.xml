@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/grey_border_bottom2"
+    android:layout_marginBottom="9dp">
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profileLink">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_launcher_round"
+            android:id="@+id/profileImage"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentUserName"
+            android:layout_toRightOf="@+id/profileImage"
+            android:text="tarik husin"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_marginTop="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileLink"
+        android:id="@+id/relLayout2">
+
+
+        <TextView
+            android:textColor="@color/colorBlack"
+            android:id="@+id/commentText"
+            android:padding="9dp"
+            android:background="@drawable/green_rounded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="hhhhhhhhhh that looks funny you such an idiot person"
+            android:maxLines="6"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayout2">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="3 d"
+            android:id="@+id/commentTime"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/deleteComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_black_x"
+        android:layout_alignParentEnd="true"/>
+
+
+
+</RelativeLayout>

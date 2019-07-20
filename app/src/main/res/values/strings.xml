@@ -1,0 +1,303 @@
+<resources>
+    <string name="app_name">testAvocado</string>
+
+
+    //////////////Feedback for Toast messages///////////////////////
+
+    <string name="ERROR_TOAST">something went wrong !</string>
+    <string name="ACCOUNT_CREATED">account created successfully </string>
+
+    <string name="PASSWORD_SHORT">password is too short</string>
+    <string name="PASSWORD_LONG">password is too long</string>
+    <string name="PASSWORD_INVALED">password contain special character</string>
+
+
+    <string name="EMAIL_PATTERN">email format is incorrect</string>
+
+    <string name="NAME_TOO_LONG">the name is too long</string>
+    <string name="NAME_SPACE">the name should not contain spaces</string>
+
+
+    <string name="field_required">all fields are required !</string>
+    <string name="EMAIL_PASSWORD_CHECK">check you email or password</string>
+
+    <string name="LOGIN_SUCCESS">successfully logged in </string>
+
+    <string name="UPDATED">successfully updated </string>
+    <string name="UPDATING">updating... </string>
+
+    <string name="permission">you should allow permission</string>
+
+    <string name="POSTED">posted</string>
+    <string name="COMMENT_TEXT">you need  to enter some text</string>
+    <string name="COMMENT_ADDED">comment added</string>
+
+    <string name="REQUEST_SENT">request sent</string>
+
+
+    <string name="REQUEST_ACCEPTED">request accepted</string>
+
+    <string name="CHECK_INTERNET">error check your internet connection !</string>
+
+    <string name="GPS_ERROR">no GPS signal !</string>
+
+
+    /////////////////////// Server Functions Names ///////////////////
+    <string name="createUsersTable">createUsersTable</string>
+    <string name="registerNewUser">registerNewUser</string>
+    <string name="loginWithEmailAndPassword">loginWithEmailAndPassword</string>
+    <string name="checkIfEmailExists">checkIfEmailExists</string>
+    <string name="getUserIdByEmail">getUserIdByEmail</string>
+    <string name="getUserById">getUserById</string>
+    <string name="getAllUsers">getAllUsers</string>
+    <string name="updateLastNameGenderBirthDate">updateLastNameGenderBirthDate</string>
+    <string name="updateCityCountry">updateCityCountry</string>
+
+    <string name="addNewPost">addNewPost</string>
+    <string name="requestingFriendPosts">requestingFriendPosts</string>
+    <string name="requestPostComments">requestPostComments</string>
+    <string name="addNewCommentToPost">addNewCommentToPost</string>
+    <string name="gettingUpdatedComments">gettingUpdatedComments</string>
+    <string name="sendFriendRequest">sendFriendRequest</string>
+    <string name="searchUsersByName">searchUsersByName</string>
+    <string name="getInCommeingConnectionsRequest">getInCommeingConnectionsRequest</string>
+    <string name="deleteFriendRequest">deleteFriendRequest</string>
+    <string name="accepteFriendRequest">accepteFriendRequest</string>
+    <string name="GettingChats">GettingChats</string>
+    <string name="GettingUserAndChats">GettingUserAndChats</string>
+    <string name="GettingUnreadedMessages">GettingUnreadedMessages</string>
+    <string name="SendingMessage">SendingMessage</string>
+    <string name="CheckingCreatingChat">CheckingCreatingChat</string>
+    <string name="likePost">likePost</string>
+
+
+    <string name="index">index</string>
+    <string name="offset">Offset</string>
+    <string name="username">Username</string>
+    <string name="new_photo">new_photo</string>
+    <string name="last_request">Last_request</string>
+
+    <string name="uri">uri</string>
+
+    ////////////////////////// Status Object Fields//////////////////////////
+
+    <string name="State">State</string>
+    <string name="Exception">Exception</string>
+    <string name="Json_data">Json_data</string>
+
+
+    /////////////////////////////shared Preferences//////////////////////
+
+    <string name="sharedPref_userId">sharedPref_userId</string>
+    <string name="sharedPref_userfristname">sharedPref_userfristname</string>
+    <string name="sharedPref_userlastname">sharedPref_userlastname</string>
+    <string name="sharedPref_profilepic">sharedPref_profilepic</string>
+    <string name="private_profile_switch">private_profile_switch</string>
+    <string name="location_switch">location_switch</string>
+
+
+    //////////////////////////// User Fields ////////////////////////////
+    <string name="user_first_name">User_first_name</string>
+    <string name="user_email">User_Email</string>
+    <string name="user_password">User_password</string>
+    <string name="user_id">User_id</string>
+    <string name="user_last_name">User_last_name</string>
+    <string name="user_birth_date">User_birth_date</string>
+    <string name="user_gender">User_Gender</string>
+    <string name="user_profile_photo">User_profile_photo</string>
+    <string name="user_posts_count">User_posts_count</string>
+    <string name="user_photos_count">User_photos_count</string>
+    <string name="user_connection_count">User_connection_count</string>
+    <string name="user_reputation">User_reputation</string>
+    <string name="user_current_location">User_current_location</string>
+    <string name="user_city">User_city</string>
+    <string name="user_country">User_country</string>
+    <string name="user_is_active">User_is_active</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="fields_required_toUpdate">all field required for update</string>
+
+
+    /////////////////////////////Post Fileds//////////////////////
+    <string name="post_text">Post_text</string>
+    <string name="post_image_path">Post_image_path</string>
+    <string name="post_type">Post_type</string>
+    <string name="post_location">Post_location</string>
+    <string name="post_id">Post_id</string>
+    <string name="post_likes_count">Post_likes_count</string>
+    <string name="post_comments_count">Post_comments_count</string>
+    <string name="post_share_count">Post_share_count</string>
+    <string name="post_date_time">Post_date_time</string>
+    <string name="post_dislike_count">Post_dislike_count</string>
+    <string name="post_reports_count">Post_reports_count</string>
+    <string name="post_is_shared">Post_is_shared</string>
+    <string name="original_post_id">Original_post_id</string>
+
+
+    /////////////////////////////Comments Fileds//////////////////////
+    <string name="comment_id">Comment_id</string>
+    <string name="comment_user_id">Comment_user_id</string>
+    <string name="comment_text">Comment_text</string>
+    <string name="comment_date_time">Comment_date_time</string>
+    <string name="comment_user_name">Comment_user_name</string>
+    <string name="comment_user_profile_image_path">Comment_user_profile_image_path</string>
+    <string name="comments_incomming_count">Comments_incomming_count</string>
+
+
+    /////////////////////////////send friend request Fileds//////////////////////
+    <string name="request_id">Request_id</string>
+    <string name="sender_id">Sender_id</string>
+    <string name="receiver_id">Receiver_id</string>
+    <string name="date_time_sent">Date_time_sent</string>
+    <string name="date_time_accepted">Date_time_accepted</string>
+    <string name="text_cmp">Text_cmp</string>
+    <string name="is_accepted">Is_accepted</string>
+
+
+    /////////////////////////////Chat Fileds//////////////////////
+
+    <string name="message">Message</string>
+    <string name="datetime">Datetime</string>
+    <string name="chat_id">Chat_id</string>
+    <string name="message_id">Message_id</string>
+
+
+    /////////////////////////////Activity Extra Get A PIC activity//////////////////////
+    <string name="bitmap">bitmap</string>
+    <string name="imagePath">imagePath</string>
+    <string name="current_user_profile">current_user_profile</string>
+    <string name="another_user_profile">another_user_profile</string>
+
+
+    /////////////////////////////Fragments//////////////////////
+
+    <string name="conversation_fragment">conversation_fragment</string>
+    <string name="new_chat_fragment">new_chat_fragment</string>
+    <string name="LikesDislikesFragment">LikesDislikesFragment</string>
+    <string name="profile_fragment">ProfileFragment</string>
+    <string name="showRequests_fragment">showRequests_fragment</string>
+    <string name="connection_requests_fragment">connection_requests_fragment</string>
+    <string name="post_fragment">post_fragment</string>
+    <string name="notification_fragment">notification_fragment</string>
+    <string name="chat_fragment">chat_fragment</string>
+    <string name="image_fragment">image_fragment</string>
+    <string name="commentsDialog">commentsDialog</string>
+    <string name="image_list_fragment">image_list_fragment</string>
+    <string name="confirm_dialog">confirm_dialog</string>
+    <string name="setting_fragment">setting_fragment</string>
+
+
+
+    <string name="new_chat">New Chat</string>
+    <string name="add_a_picture">add a Picture</string>
+    <string name="enter_your_post_text">enter your post text</string>
+    <string name="main_feed">Main Feed</string>
+    <string name="login">login</string>
+    <string name="getting_a_pic">getting a pic</string>
+    <string name="connections_requests">Connections Requests</string>
+    <string name="chat">Chat</string>
+    <string name="add_connections">Add connections</string>
+    <string name="friends_only">friends only</string>
+    <string name="public_post">public post</string>
+
+
+
+
+
+    <string-array name="lists">
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+    </string-array>
+
+
+    <!--ahmad-->
+
+    <string name="log_i">avocado</string>
+    <string name="give_permission">you should give permission to access the camera and gallery to update your picture !</string>
+    <string name="select_date">Select Date</string>
+    <string name="test_text">njknknnkjkjnjnjkjkjkjkjnnjnjnjnjjknjjnnjknknkjkjjknjjnj
+    kmmkmkmkkmmkkmkm</string>
+    <string name="no_intrent_connection">check your internet connection and try again!</string>
+    <string name="view_your_profile">View your profile</string>
+    <!--friends words-->
+    <string name="add_freind">Add Friend</string>
+    <string name="cancel_request">Cancel Request</string>
+    <string name="respond">Respond</string>
+    <string name="friends">Friends</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete">Delete</string>
+    <string name="not_found">Not found</string>
+    <string name="succuess_registred">Success registred</string>
+    <string name="you_are_friends_now">Your are now friends</string>
+    <string name="request_deleted">Request Deleted</string>
+    <!-- activity names -->
+    <string name="register_activity">registeraccount_page.this</string>
+    <string name="contect_reister_Activity">user_rigster,this</string>
+    <string name="settings">Settings</string>
+    <string name="log_out">Log Out</string>
+
+    <!--words-->
+    <string name="Search">Search</string>
+
+    <!-- first and last name-->
+    <string name="first_last_charcter_numbers_only">"The firstname and the last name most have charcters only"</string>
+    <string name="long_name">The name is too long</string>
+    <string name="short_name">Fist name most be long than 2 charcter</string>
+
+
+    <!--password length-->
+    <string name="password_atleast">"The password must have at least 6 characters"</string>
+    <string name="password_maximum">The password must have a maximum of 16 characters</string>
+    <string name="password_conditions">Your password must have a numbers and charcters only</string>
+
+    <!--invalid email -->
+    <string name="invalid_emiladdress">invalid email address format</string>
+
+
+    <!--Async http client URL-->
+    <string name="httpclient_url">http://ahmadgabarin-001-site1.ftempurl.com/home/</string>
+
+    <!-- mvc functions names-->
+    <string name="add_new_user">add_new_user</string>
+    <string name="check_if_emil_exists">check_if_emil_exists</string>
+    <string name="get_all_users">get_all_users</string>
+    <string name="loginuser">user_login</string>
+    <string name="add_newpost">add_new_post</string>
+    <string name="get_myposts">get_myposts</string>
+    <string name="get_user_by_userid">get_user_by_userid</string>
+    <string name="update_bio_myprofile">update_myprofile_bio</string>
+    <string name="get_myprofile_byid">get_profile_by_userid</string>
+    <string name="get_allusers_like_anypostion">get_all_users_like_inanypostion</string>
+    <string name="get_allusers_startwith">get_all_users_statwith</string>
+    <string name="get_person_post_bytype">get_person_byposts_type</string>
+    <string name="get_person_posts_public_friends">get_person_posts_publicfriends</string>
+    <string name="send_friend_request">send_friend_request</string>
+    <string name="check_if_request_sent">check_if_request_sent</string>
+    <string name="update_friend_request">update_friend_request</string>
+    <string name="delete_friend_request">delete_friend_request</string>
+    <string name="get_friends_posts">get_myfirends_posts</string>
+    <string name="get_post_comments">get_post_comments</string>
+    <string name="add_post_comment">add_post_comment</string>
+    <string name="get_contacts_mymessages_list">get_contacts_mymessages_list</string>
+    <string name="add_contact_mymessages_list">add_contact_mymessages_list</string>
+    <string name="get_chat_messages">get_chat_messages</string>
+    <string name="send_chat_message">send_chat_message</string>
+    <string name="get_all_friends_requests">get_all_friends_requests</string>
+
+
+    <!-- emil used-->
+    <string name="emilused">email already used</string>
+
+
+    <!--merge_create_post_center  spinner vlaues-->
+    <string-array name="spinner_item">
+        <item>Only me</item>
+        <item>Friends</item>
+        <item>Public</item>
+    </string-array>
+
+
+    <!--myuser object-->
+    <string name="user_object">user_object</string>
+</resources>

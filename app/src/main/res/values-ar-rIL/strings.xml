@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ابو كادو</string>
+    <string name="ERROR_TOAST">حصل خطاء</string>
+    <string name="ACCOUNT_CREATED">تم انشاء حساب</string>
+    <string name="PASSWORD_SHORT">كلمه المرور قصيره</string>
+    <string name="PASSWORD_LONG">كلمه المرور طويله</string>
+    <string name="EMAIL_PASSWORD_CHECK">افحص المعطيات</string>
+    <string name="LOGIN_SUCCESS">تم تسجيل الدخول</string>
+    <string name="POSTED">تم النشر</string>
+    <string name="COMMENT_ADDED">تم اضافه تعليق</string>
+    <string name="public_post">منشور عام</string>
+    <string name="friends_only">فقط الاصدقاء</string>
+    <string name="add_connections">اضف اتصالات</string>
+    <string name="chat">المحادثات</string>
+    <string name="connections_requests">طلبات الاتصالات</string>
+    <string name="getting_a_pic">اضافه صوره</string>
+    <string name="login">التسجيل</string>
+    <string name="main_feed">الصفحه الرئيسيه</string>
+    <string name="enter_your_post_text">اضف تعليق</string>
+    <string name="add_a_picture">اضافة صوره</string>
+    <string name="new_chat">محادثه جديده</string>
+</resources>

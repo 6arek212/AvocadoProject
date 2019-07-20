@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/userlogin_style"
+    android:id="@+id/realtive_fragment_register_page1"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/realtive1_fragment_register_page1"
+        android:background="@color/light1"
+        >
+        <include layout="@layout/merge_top_profilepicture_register"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/realtive2_fragment_register_page1"
+        android:layout_below="@id/realtive1_fragment_register_page1"
+        android:layout_marginTop="1mm"
+        >
+        <include layout="@layout/merge_center_profile_register"/>
+    </RelativeLayout>
+
+</RelativeLayout>

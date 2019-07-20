@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/appbar_merge_activity_add_bio_topbar"
+            android:background="@drawable/userlogin_style"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgv_merge_activity_add_bio_topbar"
+                    android:src="@mipmap/arrow"
+                    android:background="@drawable/userlogin_style"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="2mm"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtv_addbio_merge_activity_add_bio_topbar"
+                    android:text="Edit Bio"
+                    style="@style/text"
+                    android:layout_toRightOf="@id/imgv_merge_activity_add_bio_topbar"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4mm"
+                    android:textSize="25dp"
+                    android:textColor="@color/white"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_save_merge_activity_add_bio_topbar"
+                    android:text="Save"
+                    style="@style/text"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/white"
+                    android:background="@drawable/userlogin_style"
+                    />
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </RelativeLayout>
+</merge>

@@ -1,0 +1,161 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">
+            @style/PreferenceThemeOverlay.v14.Material
+        </item>
+    </style>
+
+    <style name="inputtext_layout_style">
+        <item name="android:layout_marginTop">3mm</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:layout_marginLeft">5mm</item>
+        <item name="android:layout_marginRight">5mm</item>
+    </style>
+
+    <!--Edit text box style-->
+
+    <style name="edtxt_toolbar_mainpage_style">
+        <item name="android:layout_marginRight">10mm</item>
+        <item name="android:layout_marginLeft">10mm</item>
+    </style>
+
+    <style name="edtxt_accountrgister_style">
+        <item name="android:paddingLeft">5mm</item>
+        <!--<item name="android:layout_marginLeft">5mm</item>
+        <item name="android:layout_marginRight">5mm</item>-->
+        <item name="android:background">@drawable/edtxt_shape1_userlogin</item>
+    </style>
+
+
+    <!-- Buttons style -->
+    <style name="button_style1">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_marginLeft">5mm</item>
+        <item name="android:layout_marginRight">5mm</item>
+        <item name="android:layout_marginTop">5mm</item>
+        <item name="android:background">@drawable/btnlogin_shape1</item>
+    </style>
+
+    <style name="button_style3">
+        <item name="android:layout_marginRight">5mm</item>
+        <item name="android:layout_marginLeft">5mm</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="buttons_person_profile">
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:paddingTop">1mm</item>
+        <item name="android:paddingBottom">1mm</item>
+
+    </style>
+
+    <!--Realtive layoutstlye-->
+
+    <style name="Realtive_style1">
+        <item name="android:layout_marginLeft">3mm</item>
+        <item name="android:layout_marginRight">3mm</item>
+        <item name="android:layout_marginTop">2mm</item>
+    </style>
+    <!--recycle view styles-->
+    <style name="recycleview_styl1">
+        <item name="android:layout_marginLeft">1mm</item>
+        <item name="android:layout_marginRight">1mm</item>
+        <item name="android:layout_marginTop">1mm</item>
+    </style>
+
+    <style name="text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- textview_post_text-->
+    <style name="txtv_style_bottom_sheet">
+        <item name="android:layout_marginLeft">1mm</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">3mm</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
+    <style name="post_text">
+        <item name="android:layout_marginTop">5mm</item>
+        <item name="android:layout_marginRight">5mm</item>
+        <item name="android:layout_marginLeft">5mm</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">#000070</item>
+    </style>
+
+    <style name="txtv_postheader">
+        <item name="android:textColor">@color/avocado2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="txtv_color">
+        <item name="android:textColor">#000070</item>
+    </style>
+
+    <style name="txtview_person_profile">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="txtv_style2">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">23dp</item>
+        <item name="android:layout_marginLeft">1mm</item>
+    </style>
+
+    <style name="txtv_name1">
+        <item name="android:textColor">#41E605</item>
+        <item name="android:textSize">23dp</item>
+    </style>
+
+    <style name="txtv_style1">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">23dp</item>
+        <item name="android:layout_marginLeft">1mm</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--buttons post recycleview style-->
+    <style name="button_style2">
+        <item name="android:layout_marginRight">2mm</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="button_style4">
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+    <!--Edittxt inside textinput-->
+    <style name="edtxt_inside_textinput">
+        <item name="android:layout_marginLeft">2mm</item>
+        <item name="android:layout_marginTop">2mm</item>
+        <item name="android:layout_marginBottom">2mm</item>
+        <item name="android:paddingTop">2mm</item>
+    </style>
+
+
+    <!--cardview-->
+    <style name="cardview_style">
+        <item name="android:filterTouchesWhenObscured">true</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="cardElevation">1mm</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="cardCornerRadius">2mm</item>
+        <item name="cardMaxElevation">2mm</item>
+        <item name="android:layout_marginBottom">1mm</item>
+
+    </style>
+</resources>

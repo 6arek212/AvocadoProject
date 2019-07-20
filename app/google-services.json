@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "196063752085",
+    "firebase_url": "https://project-avocado-ab26a.firebaseio.com",
+    "project_id": "project-avocado-ab26a",
+    "storage_bucket": "project-avocado-ab26a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196063752085:android:0093436abdb82fd4",
+        "android_client_info": {
+          "package_name": "com.example.testavocado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196063752085-13dcmbm13hn3umulmhcohug3js9sh4s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.testavocado",
+            "certificate_hash": "b2964a757e96570728c467ae63cfc0ed4f8a953c"
+          }
+        },
+        {
+          "client_id": "196063752085-f124ek2p6qchns6bk9e72qi3ukt9l6l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxou1_n_Ui7gVTJLjkUt7ceHBfv6hJtQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196063752085-f124ek2p6qchns6bk9e72qi3ukt9l6l0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,110 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:behavior="http://schemas.android.com/tools">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/relLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_connections"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_marginTop="9dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relLayout1"
+                    android:background="@color/colorPrimary"
+                    android:paddingBottom="9dp">
+
+                    <EditText
+                        android:id="@+id/searchName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:background="@drawable/bg_grey_rounded"
+                        android:hint="search..."
+                        android:inputType="textNoSuggestions"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="5dp" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/searchName"
+                        >
+
+                        <CheckBox
+                            android:id="@+id/nearbyUsersBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="9dp"
+                            android:hapticFeedbackEnabled="true"
+                            android:text="Search Nearby Users"
+                            android:textColor="@color/colorAccent" />
+
+
+                        <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
+                            android:id="@+id/number_picker_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toEndOf="@+id/nearbyUsersBox"
+                            android:layout_toRightOf="@+id/nearbyUsersBox"
+                            android:hapticFeedbackEnabled="true"
+                            app:snp_buttonBackgroundTintSelector="@color/colorLiteBlue"
+                            app:snp_maxValue="100"
+                            app:snp_minValue="0"
+                            app:snp_scrollEnabled="true"
+                            app:snp_updateInterval="25"
+                            app:snp_value_text_color="@color/colorLiteBlue"
+                            app:snp_value_text_size="20sp"
+                            android:layout_centerVertical="true"
+                            />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+</merge>

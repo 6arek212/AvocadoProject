@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+
+
+            />
+        </shape>
+    </item >
+    <item android:drawable="@drawable/emoji_shpae_ic"
+        android:width="40dp" android:height="40dp">
+
+    </item>
+</layer-list>

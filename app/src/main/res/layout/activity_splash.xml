@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".SplashScreen.SplashActivity"
+android:background="@drawable/userlogin_style">
+
+
+    <ImageView
+        android:id="@+id/imgv_shape_mainactivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/avocado_logo"
+        android:layout_marginTop="15mm"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgv_wordlogo_mainactivity"
+        android:src="@drawable/logo1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15mm"
+        android:layout_below="@id/imgv_shape_mainactivity"
+        />
+
+</RelativeLayout>
+
