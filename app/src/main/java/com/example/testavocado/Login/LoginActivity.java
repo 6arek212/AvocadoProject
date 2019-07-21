@@ -5,13 +5,18 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.testavocado.ForgotPasswordActivity;
 import com.example.testavocado.Models.Setting;
+import com.example.testavocado.ShakeDetector;
 import com.example.testavocado.user_login_register.registeraccount_page;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +27,10 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,9 +57,14 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView avocado;
     private ProgressBar progressBar;
 
-
     //var
     private Context mContext;
+    
+    
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -60,11 +74,55 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        
         adjustStatusBarColor();
         HelpMethods.closeKeyboard(LoginActivity.this);
         initWidgets();
+        initShakeDetectior();
+
+
     }
 
+    private void initShakeDetectior() {
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                /*
+                 * The following method, "handleShakeEvent(count):" is a stub //
+                 * method you would use to setup whatever you want done once the
+                 * device has been shook.
+                 */
+                handleShakeEvent(count);
+            }
+        });
+    }
+
+    private void handleShakeEvent(int count) {
+        mEmail.setText("");
+        mPassword.setText("");
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
 
     private void adjustStatusBarColor() {
         Window window = getWindow();
@@ -166,23 +224,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 case R.id.createAccount:
                     Intent intent = new Intent(mContext, registeraccount_page.class);
-
-
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        Pair[] pairs = new Pair[3];
-                        pairs[0] = new Pair<View, String>(mEmail, "edEmail");
-                        pairs[1] = new Pair<View, String>(mPassword, "edPassword");
-                        pairs[2] = new Pair<View, String>(mLogin, "btn");
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, pairs);
-
-
-                        startActivity(intent, options.toBundle());
-
-                    } else {
-                        startActivity(intent);
-
-                    }
-
+                    startActivity(intent);
                     break;
 
                 case R.id.forgotPassword:

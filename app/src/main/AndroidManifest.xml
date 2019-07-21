@@ -20,6 +20,9 @@
     <uses-feature android:name="android.hardware.fingerprint"
         android:required="false"/>
 
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="false" />
+
+
     <application
         android:name=".Service.App"
         android:allowBackup="true"
@@ -29,7 +32,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".Connection.ConnectionsActivity" />
         <activity
             android:name=".Home.AddNewPostActivity"

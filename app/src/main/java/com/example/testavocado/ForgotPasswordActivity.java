@@ -1,6 +1,7 @@
 package com.example.testavocado;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testavocado.Login.RegisterActivity;
+import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.Validation;
 import com.example.testavocado.user_login_register.registeraccount_page;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgotPasswordActivity";
@@ -27,12 +30,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private Button mSend;
     private ProgressBar mProgressBar;
     private TextView mRegister;
-
+    private ConstraintLayout constraintLayout;
 
     //vars
     private Context mContext;
-
-
 
 
     @Override
@@ -46,8 +47,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     /**
-     *                  setting up the status bar color so it match the primary color of this activity
-     *
+     * setting up the status bar color so it match the primary color of this activity
      */
     private void adjustStatusBarColor() {
         Log.d(TAG, "adjustStatusBarColor: adjusting status bar color");
@@ -62,53 +62,60 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
 
-
     /**
-     *          init all the widget and attaching a click listener to the send button
-     *          and handling the password recovery
-     *
+     * init all the widget and attaching a click listener to the send button
+     * and handling the password recovery
      */
 
     private void initWidgets() {
-        mEmail=findViewById(R.id.email);
-        mSend=findViewById(R.id.send);
-        mProgressBar=findViewById(R.id.progressBar);
+        mEmail = findViewById(R.id.email);
+        mSend = findViewById(R.id.send);
+        constraintLayout = findViewById(R.id.forgotPasswordLayout);
+        mProgressBar = findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        mRegister=findViewById(R.id.register);
-        mContext=this;
+        mRegister = findViewById(R.id.register);
+        mContext = this;
 
-
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HelpMethods.closeKeyboard(ForgotPasswordActivity.this);
+            }
+        });
 
 
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validation validation=new Validation(mContext);
-                String email=mEmail.getText().toString();
+                Validation validation = new Validation(mContext);
+                String email = mEmail.getText().toString();
 
-                if(validation.Email(email)){
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    PasswordMethods.sendEmailForPasswordRecovery(email, new PasswordMethods.OnSendingEmailListener() {
-                        @Override
-                        public void onSent() {
-                            Toast.makeText(mContext, "email has been sent", Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.GONE);
-                        }
+                if (!email.trim().isEmpty()) {
+                    if (validation.Email(email)) {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        PasswordMethods.sendEmailForPasswordRecovery(email, new PasswordMethods.OnSendingEmailListener() {
+                            @Override
+                            public void onSent() {
+                                Toast.makeText(mContext, "email has been sent", Toast.LENGTH_SHORT).show();
+                                mProgressBar.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onServerError(String exception) {
-                            Log.d(TAG, "onServerError: "+exception);
-                            mProgressBar.setVisibility(View.GONE);
-                        }
+                            @Override
+                            public void onServerError(String exception) {
+                                Log.d(TAG, "onServerError: " + exception);
+                                mProgressBar.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onFailure(String exception) {
-                            Log.d(TAG, "onFailure: "+exception);
-                            Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.GONE);
-                        }
-                    });
-
+                            @Override
+                            public void onFailure(String exception) {
+                                Log.d(TAG, "onFailure: " + exception);
+                                Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                                mProgressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                } else {
+                    Snackbar.make(constraintLayout, getString(R.string.field_required), Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
