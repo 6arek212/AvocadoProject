@@ -15,8 +15,7 @@ import com.example.testavocado.ForgotPasswordActivity;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.ShakeDetector;
 import com.example.testavocado.user_login_register.registeraccount_page;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
