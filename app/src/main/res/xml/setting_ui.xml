@@ -5,7 +5,7 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="privateAccount"
+        android:key="private_profile_switch"
         android:summary="make your profile private users cant see your posts unless you are connected to them"
         android:title="Private Account" />
 
@@ -13,9 +13,19 @@
     <SwitchPreference
         android:background="@color/colorPrimary"
         android:defaultValue="true"
-        android:key="location"
+        android:key="location_switch"
         android:summary="allow location to check for nearby users"
         android:title="Location" />
+
+
+    <SwitchPreference
+        android:background="@color/colorPrimary"
+        android:defaultValue="false"
+        android:key="fingerPrint"
+        android:summary="secure your account by using fingerprint scan when launch"
+        android:title="Fingerprint" />
+
+
 
 
 </PreferenceScreen>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testavocado.Dialogs.ConfirmDialog;
+import com.example.testavocado.Dialogs.ConfirmDialogEditeText;
 import com.example.testavocado.Login.LoginActivity;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.AccountSettingMethods;
@@ -40,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initWidgets() {
         mDeleteAccount = findViewById(R.id.deleteAccount);
-        progressBar=findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         mContext = this;
         progressBar.setVisibility(View.GONE);
 
@@ -53,23 +54,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
-
     private void deleteAccount() {
 
         final int user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
 
-        final ConfirmDialog confirmDialog = new ConfirmDialog();
+        final ConfirmDialogEditeText confirmDialog = new ConfirmDialogEditeText();
         confirmDialog.setTitle("Are you sure you want to delete your account ?");
-        confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
+        confirmDialog.setHind("Password");
+        confirmDialog.setOnConfirm(new ConfirmDialogEditeText.OnConfirmListener() {
             @Override
-            public void onConfirm() {
+            public void onConfirm(String text) {
                 progressBar.setVisibility(View.VISIBLE);
 
-                AccountSettingMethods.deleteAccount(user_id, new AccountSettingMethods.OnDeletingAccount() {
+                AccountSettingMethods.deleteAccount(user_id,text, new AccountSettingMethods.OnDeletingAccount() {
                     @Override
                     public void onSuccess() {
-                        HelpMethods.deleteUserIdSharedPreferences(mContext,SettingsActivity.this);
+                        HelpMethods.deleteUserIdSharedPreferences(mContext, SettingsActivity.this);
                         updateUI();
                         progressBar.setVisibility(View.GONE);
 
@@ -78,10 +78,9 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void serverException(String exception) {
                         Log.d(TAG, "serverException: " + exception);
-                        Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                        confirmDialog.dismiss();
+                        //password incorrect
+                        Toast.makeText(mContext, exception, Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
-
                     }
 
                     @Override
@@ -96,17 +95,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        confirmDialog.show(getSupportFragmentManager(),mContext.getString(R.string.confirm_dialog));
+        confirmDialog.show(getSupportFragmentManager(), mContext.getString(R.string.confirm_dialog));
     }
 
 
-
-
-
     /**
-     *
-     *          updating the ui to BaseProfileActivity
-     *
+     * updating the ui to BaseProfileActivity
      */
 
     private void updateUI() {

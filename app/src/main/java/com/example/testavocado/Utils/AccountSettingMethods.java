@@ -27,7 +27,7 @@ public class AccountSettingMethods {
 
 
         @POST("api/LoginRegisterInfo/deleteAccount")
-        Call<Status> deleteAccount(@Query("user_id") int user_id);
+        Call<Status> deleteAccount(@Query("user_id") int user_id,@Query("password") String  password);
     }
 
 
@@ -108,12 +108,12 @@ public class AccountSettingMethods {
         void OnFailure(String exception);
     }
 
-    public static void deleteAccount(int user_id, final OnDeletingAccount listener) {
+    public static void deleteAccount(int user_id,String password, final OnDeletingAccount listener) {
 
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         AccountSettingsMethods accountSettingsMethods = retrofit.create(AccountSettingsMethods.class);
 
-        final Call<Status> ca = accountSettingsMethods.deleteAccount(user_id);
+        final Call<Status> ca = accountSettingsMethods.deleteAccount(user_id,password);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {

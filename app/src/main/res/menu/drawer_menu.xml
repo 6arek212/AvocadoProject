@@ -9,6 +9,11 @@
             android:title="Friends"
             />
 
+        <item android:id="@+id/savedPosts"
+            android:icon="@drawable/ic_save"
+            android:title="Saved posts"/>
+
+
         <item android:id="@+id/settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings"/>

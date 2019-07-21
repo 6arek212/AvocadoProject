@@ -27,9 +27,10 @@
     <color name="gray">#bfbfbf</color>
     <color name="white">#fff</color>
     <color name="gray1">#E9E9E9</color>
-   #a9e56b
 
-    50B4FF blue
+    <color name="greenish">#3ADA41</color>
+    <color name="darktheme">#2A2F39</color>
+
 
 
 </resources>

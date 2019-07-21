@@ -38,6 +38,7 @@ public class ImageListFragment extends Fragment {
         Log.d(TAG, "initWidgets: "+imageUrls);
         viewPager = view.findViewById(R.id.viewPager);
 
+
         ImagesViewPagerNoClick adapter=new ImagesViewPagerNoClick(getContext(),imageUrls,getFragmentManager());
         viewPager.setAdapter(adapter);
 

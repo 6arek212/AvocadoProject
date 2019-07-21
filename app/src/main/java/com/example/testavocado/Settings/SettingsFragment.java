@@ -1,8 +1,12 @@
 package com.example.testavocado.Settings;
 
+import android.content.Context;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
@@ -25,17 +29,22 @@ import static com.example.testavocado.Utils.AccountSettingMethods.PRIVATE_ACCOUN
 public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingsFragment";
 
-    private static final String ACCOUNT_PRIVATE="privateAccount";
-    private static final String LOCATION="location";
     private int user_id;
 
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.setting_ui, rootKey);
+        addPreferencesFromResource(R.xml.setting_ui);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         user_id= HelpMethods.checkSharedPreferencesForUserId(getContext());
 
-        findPreference(ACCOUNT_PRIVATE).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        checkFingerprint();
+
+        findPreference(getString(R.string.private_profile_switch)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Toast.makeText(getContext(), (Boolean)newValue+"", Toast.LENGTH_SHORT).show();
@@ -45,7 +54,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
 
 
-        findPreference(LOCATION).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        findPreference(getString(R.string.location_switch)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Toast.makeText(getContext(), (Boolean)newValue+"", Toast.LENGTH_SHORT).show();
@@ -54,13 +63,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-
-
-
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
-    private void updateSetting(boolean state,int type){
+
+
+    private void updateSetting(boolean state, int type){
         Log.d(TAG, "updateSetting: user_id "+user_id+"  state "+state+" type "+type);
         AccountSettingMethods.updateAccountSettings(user_id,state, type, new AccountSettingMethods.OnUpdatingAccountSetting() {
             @Override
@@ -82,6 +91,44 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             }
         });
+    }
+
+
+
+    private void checkFingerprint(){
+        // Check if we're running on Android 6.0 (M) or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //Fingerprint API only available on from Android 6.0 (M)
+            FingerprintManager fingerprintManager = (FingerprintManager) getContext().getSystemService(Context.FINGERPRINT_SERVICE);
+            if (!fingerprintManager.isHardwareDetected()) {
+                // Device doesn't support fingerprint authentication
+                findPreference(getString(R.string.fingerPrint)).setVisible(false);
+
+            } else if (!fingerprintManager.hasEnrolledFingerprints()) {
+                // User hasn't enrolled any fingerprints to authenticate with
+                findPreference(getString(R.string.fingerPrint)).setEnabled(false);
+                findPreference(getString(R.string.fingerPrint)).setSummary("you need to add you fingerprint to the system");
+
+            } else {
+                // Everything is ready for fingerprint authentication
+                findPreference(getString(R.string.fingerPrint)).setEnabled(true);
+            }
+        } else {
+            FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(getContext());
+
+            if (!fingerprintManagerCompat.isHardwareDetected()) {
+                // Device doesn't support fingerprint authentication
+                findPreference(getString(R.string.fingerPrint)).setEnabled(false);
+
+            } else if (!fingerprintManagerCompat.hasEnrolledFingerprints()) {
+                // User hasn't enrolled any fingerprints to authenticate with
+                findPreference(getString(R.string.fingerPrint)).setEnabled(false);
+                findPreference(getString(R.string.fingerPrint)).setSummary("you need to add you fingerprint to the system");
+            } else {
+                // Everything is ready for fingerprint authentication
+                findPreference(getString(R.string.fingerPrint)).setEnabled(true);
+            }
+        }
     }
 
 }

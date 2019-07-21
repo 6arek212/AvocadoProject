@@ -94,6 +94,9 @@
     <string name="sharedPref_profilepic">sharedPref_profilepic</string>
     <string name="private_profile_switch">private_profile_switch</string>
     <string name="location_switch">location_switch</string>
+    <string name="fingerPrint">fingerPrint</string>
+
+
 
 
     //////////////////////////// User Fields ////////////////////////////

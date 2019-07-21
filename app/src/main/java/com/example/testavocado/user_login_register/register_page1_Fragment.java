@@ -196,7 +196,7 @@ public class register_page1_Fragment extends Fragment {
 
                                     setting.setProfilePic(ImageUrl);
                                     setting.setAccount_is_private(false);
-                                    setting.setUser_location_swich(false);
+                                    setting.setUser_location_switch(false);
 
                                     InfoMethodsHandler.updateProfilePhotoGenderBirthDate(setting.getUser_id(), ImageUrl, myuser.getUser_gender(), myuser.getUser_birthday(), "israel", new InfoMethodsHandler.OnUpdateListener() {
                                         @Override

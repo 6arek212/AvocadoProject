@@ -4,14 +4,18 @@ import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 
 import com.example.testavocado.Models.Setting;
-import com.example.testavocado.user_login_register.register_page1_Fragment;
 import com.example.testavocado.user_login_register.registeraccount_page;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -31,20 +35,21 @@ import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.Validation;
 
 
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     //widgets
-    EditText mPassword, mEmail;
-    Button mLogin;
-    RelativeLayout relativeLayout;
-    TextView forgotPassword, createAccount;
-    ImageView avocado;
-    ProgressBar progressBar;
+    private EditText mPassword, mEmail;
+    private Button mLogin;
+    private RelativeLayout relativeLayout;
+    private TextView forgotPassword, createAccount;
+    private ImageView avocado;
+    private ProgressBar progressBar;
 
 
     //var
-    Context mContext;
+    private Context mContext;
 
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -136,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                             LoginMethods.loginWithEmailAndPassword(email, password, new LoginMethods.onLogin() {
                                 @Override
                                 public void onSuccessListener(Setting setting) {
-                                    HelpMethods.addSharedPreferences(setting,mContext);
+                                    HelpMethods.addSharedPreferences(setting, mContext);
                                     updateUI();
                                     progressBar.setVisibility(View.GONE);
                                     Toast.makeText(mContext, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();

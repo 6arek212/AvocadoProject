@@ -23,18 +23,31 @@ public class Setting {
     @SerializedName("User_last_name")
     private String user_last_name;
 
+    private boolean fingerprint;
+
+
 
 
     public Setting() {
+    }
+
+    public void setUser_location_switch(boolean user_location_switch) {
+        this.user_location_switch = user_location_switch;
+    }
+
+    public boolean isFingerprint() {
+        return fingerprint;
+    }
+
+    public void setFingerprint(boolean fingerprint) {
+        this.fingerprint = fingerprint;
     }
 
     public boolean isUser_location_switch() {
         return user_location_switch;
     }
 
-    public void setUser_location_swich(boolean user_location_switch) {
-        this.user_location_switch = user_location_switch;
-    }
+
 
     public boolean isAccount_is_private() {
         return account_is_private;

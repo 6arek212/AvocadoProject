@@ -1,5 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,6 +94,7 @@
             </LinearLayout>
 
 
+
             <Button
                 android:transitionName="btn"
                 android:id="@+id/login"
@@ -106,6 +108,12 @@
                 android:textColor="@color/colorButton"
                 android:elevation="10dp"
                 />
+
+
+
+
+
+
 
 
 
