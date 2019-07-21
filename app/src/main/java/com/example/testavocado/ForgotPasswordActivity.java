@@ -3,15 +3,21 @@ package com.example.testavocado;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.testavocado.Login.RegisterActivity;
 import com.example.testavocado.Utils.Validation;
+import com.example.testavocado.user_login_register.registeraccount_page;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgotPasswordActivity";
@@ -20,6 +26,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText mEmail;
     private Button mSend;
     private ProgressBar mProgressBar;
+    private TextView mRegister;
 
 
     //vars
@@ -34,7 +41,26 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         initWidgets();
+        adjustStatusBarColor();
     }
+
+
+    /**
+     *                  setting up the status bar color so it match the primary color of this activity
+     *
+     */
+    private void adjustStatusBarColor() {
+        Log.d(TAG, "adjustStatusBarColor: adjusting status bar color");
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(getColor(R.color.darktheme));
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(getResources().getColor(R.color.darktheme));
+            }
+        }
+    }
+
 
 
     /**
@@ -48,6 +74,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         mSend=findViewById(R.id.send);
         mProgressBar=findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
+        mRegister=findViewById(R.id.register);
         mContext=this;
 
 
@@ -83,6 +110,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     });
 
                 }
+            }
+        });
+
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, registeraccount_page.class));
+                finish();
             }
         });
     }

@@ -9,6 +9,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.testavocado.ForgotPasswordActivity;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.user_login_register.registeraccount_page;
 import com.google.android.material.snackbar.Snackbar;
@@ -117,12 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                     break;
 
 
-                case R.id.password:
-                    break;
-
-                case R.id.email:
-                    break;
-
                 case R.id.login:
                     Log.d(TAG, "onClick: click login");
                     String email, password;
@@ -191,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                     break;
 
                 case R.id.forgotPassword:
+                    startActivity(new Intent(mContext, ForgotPasswordActivity.class));
                     break;
 
             }
