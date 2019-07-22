@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -44,7 +46,6 @@ import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.Validation;
 
 
-
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
@@ -58,8 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //var
     private Context mContext;
-    
-    
+
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -74,16 +74,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        
         adjustStatusBarColor();
         HelpMethods.closeKeyboard(LoginActivity.this);
         initWidgets();
-        initShakeDetectior();
+        initShakeDetector();
 
 
     }
 
-    private void initShakeDetectior() {
+    private void initShakeDetector() {
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -106,6 +105,15 @@ public class LoginActivity extends AppCompatActivity {
     private void handleShakeEvent(int count) {
         mEmail.setText("");
         mPassword.setText("");
+
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+// Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(300);
+        }
     }
 
 
@@ -113,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // Add the following line to register the Session Manager Listener onResume
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
