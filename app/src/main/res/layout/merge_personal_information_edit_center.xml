@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/General"
+            android:layout_marginTop="4mm"
+            android:layout_marginLeft="2mm"
+            style="@style/txtv_title1"
+            />
+
+
+        <LinearLayout
+            style="@style/linearlayout_style1"
+            android:id="@+id/linear_layout_account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4mm"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtv_account_name"
+                android:text="myname" />
+        </LinearLayout>
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="2mm"
+            >
+        </view>
+
+        <LinearLayout
+            style="@style/linearlayout_style1"
+            android:id="@+id/linear_layout_account_emailaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/emailaddress" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtv_account_emailaddress"
+                android:text="myemail" />
+        </LinearLayout>
+
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="2mm"
+            >
+        </view>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_account_phonenumber"
+            style="@style/linearlayout_style1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phonenumber" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtv_account_phonenumber"
+                android:text="myphonenumber" />
+        </LinearLayout>
+
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="2mm"
+            >
+        </view>
+    </LinearLayout>
+</merge>

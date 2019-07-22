@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">testAvocado</string>
 
-
+    <string name="personalinformation">Personal Information</string>
+    <string name="emailaddress">Email Address</string>
+    <string name="name">Name</string>
+    <string name="phonenumber">Phone number</string>
+    <string name="General">General</string>
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>

@@ -83,7 +83,25 @@
         <item name="android:textSize">3mm</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
+<!--textview title-->
+    <style name="txtv_title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">4mm</item>
+        <item name="android:layout_marginTop">5mm</item>
+        <item name="android:layout_marginLeft">3mm</item>
+    </style>
 
+    <style name="txtv_title1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">4mm</item>
+    </style>
+
+    <style name="txtv_title2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 
     <style name="post_text">
         <item name="android:layout_marginTop">5mm</item>
@@ -158,4 +176,12 @@
         <item name="android:layout_marginBottom">1mm</item>
 
     </style>
+
+
+    <!--linearlayout style-->
+    <style name="linearlayout_style1">
+        <item name="android:layout_marginTop">2mm</item>
+        <item name="android:layout_marginLeft">2mm</item>
+    </style>
+
 </resources>
