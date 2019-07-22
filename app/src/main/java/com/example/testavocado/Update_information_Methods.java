@@ -1,6 +1,8 @@
 package com.example.testavocado;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.testavocado.Models.Status;
 import com.example.testavocado.Profile.Bio_Methods;
@@ -18,39 +20,47 @@ public class Update_information_Methods {
     public static final String TAG = "Update_information_Meth";
 
     public interface on_first_last_name_updated {
-        void onSuccessListener(int  result);
+        void onSuccessListener(int result);
+
         void onServerException(String ex);
+
         void onFailureListener(String ex);
     }
 
     public interface update_first_lastname {
-        @GET("api/Update/update_first_lastname") // rout path method in c#
-        Call<Status> update_first_lastname(@Query("userid") int userid, @Query("firstname") String firstname,@Query("lastname") String lastname);
+        @GET("api/Update/update_first_lastname")
+            // rout path method in c#
+        Call<Status> update_first_lastname(@Query("userid") int userid, @Query("firstname") String firstname, @Query("lastname") String lastname);
     }
 
-    public static void Update_first_last_name(int userid, String firstname,String lastname, final Update_information_Methods.on_first_last_name_updated listener)
-    {
-        Retrofit retrofit= NetworkClient.getRetrofitClient();
-        update_first_lastname bi=retrofit.create(update_first_lastname.class);
+    public static void Update_first_last_name(final Context mcontext, int userid, String firstname, String lastname, final Update_information_Methods.on_first_last_name_updated listener) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        update_first_lastname bi = retrofit.create(update_first_lastname.class);
 
-        final Call<Status> sa=bi.update_first_lastname(userid,firstname,lastname);
+        final Call<Status> sa = bi.update_first_lastname(userid, firstname, lastname);
 
         sa.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
-                Status status=response.body();
-
-                if(status.getState()==1){
-                    Log.d(TAG, "onResponse: "+status);
-                    listener.onSuccessListener(status.getState());
-                }
-                else if(status.getState()==0)
+                Status status = response.body();
+                if (response.isSuccessful())
                 {
-                    listener.onServerException(status.getException());
-                }else
-                {
-                    listener.onFailureListener(status.getException());
+                    if (status.getState() == 1)
+                    {
+                        Log.d(TAG, "onResponse: " + status);
+                        listener.onSuccessListener(status.getState());
+                    }
+                    else if (status.getState() == 0)
+                    {
+                        listener.onServerException(status.getException());
+                    }
+                    else
+                        {
+                        listener.onFailureListener(status.getException());
+                    }
                 }
+                else
+                    Toast.makeText(mcontext, mcontext.getString(R.string.no_intrent_connection)+"", Toast.LENGTH_SHORT).show();
 
             }
 

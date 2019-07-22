@@ -71,7 +71,7 @@ public class change_first_last_name_fragment extends Fragment {
                     validations validations1=new validations(mcontext);
                     if(validations1.Name_validate(firstname)==1&&validations1.lastname_validate(lastname)==1)
                     {
-                        Update_information_Methods.Update_first_last_name(setting1.getUser_id(), firstname, lastname,
+                        Update_information_Methods.Update_first_last_name(mcontext,setting1.getUser_id(), firstname, lastname,
                                 new Update_information_Methods.on_first_last_name_updated() {
                             @Override
                             public void onSuccessListener(int result) {
