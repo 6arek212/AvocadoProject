@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.HelpMethods;
 
 public class Personal_information_fragment extends Fragment {
     public static final String TAG = "Personal_information_fragment";
@@ -38,6 +41,29 @@ public class Personal_information_fragment extends Fragment {
         linearLayout_name=(LinearLayout)myview.findViewById(R.id.linear_layout_account_name);
         linearLayout_email=(LinearLayout)myview.findViewById(R.id.linear_layout_account_emailaddress);
         linearLayout_phonenumber=(LinearLayout)myview.findViewById(R.id.linear_layout_account_phonenumber);
+        // set widgets values
+        Setting setting1=HelpMethods.getSharedPreferences(mcontext);
+        txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
+    }
+
+
+    class onclick  implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId())
+            {
+                case R.id.linear_layout_account_name :
+                    Toast.makeText(mcontext, "test", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.linear_layout_account_emailaddress:
+                    break;
+
+                case R.id.linear_layout_account_phonenumber :
+                    break;
+            }
+        }
     }
 
 
