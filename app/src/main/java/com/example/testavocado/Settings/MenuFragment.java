@@ -97,6 +97,13 @@ public class MenuFragment extends Fragment {
                         break;
 
 
+                    case R.id.games:
+                        fragment = new GamesFragment();
+                        transaction.replace(R.id.settingsLayout, fragment)
+                                .addToBackStack(getString(R.string.games_fragment)).commit();
+
+                        break;
+
 
                     case R.id.logout:
                         ConfirmDialog confirmDialog = new ConfirmDialog();

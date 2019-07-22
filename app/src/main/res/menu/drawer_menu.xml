@@ -14,6 +14,12 @@
             android:title="Saved posts"/>
 
 
+
+        <item android:id="@+id/games"
+            android:icon="@drawable/ic_game"
+            android:title="Games"/>
+
+
         <item android:id="@+id/settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings"/>

@@ -97,8 +97,6 @@
     <string name="fingerPrint">fingerPrint</string>
 
 
-
-
     //////////////////////////// User Fields ////////////////////////////
     <string name="user_first_name">User_first_name</string>
     <string name="user_email">User_Email</string>
@@ -188,6 +186,8 @@
     <string name="image_list_fragment">image_list_fragment</string>
     <string name="confirm_dialog">confirm_dialog</string>
     <string name="setting_fragment">setting_fragment</string>
+    <string name="games_fragment">games_fragment</string>
+
 
 
     <string name="new_chat">New Chat</string>
