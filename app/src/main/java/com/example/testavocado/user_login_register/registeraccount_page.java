@@ -2,11 +2,13 @@ package com.example.testavocado.user_login_register;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,8 +50,27 @@ public class registeraccount_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeraccount_page);
         load_widgets();
+        adjustStatusBarColor();
     }
 
+
+
+
+
+    /**
+     * setting up the status bar color so it match the primary color of this activity
+     */
+    private void adjustStatusBarColor() {
+        Log.d(TAG, "adjustStatusBarColor: adjusting status bar color");
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(getColor(R.color.darktheme));
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(getResources().getColor(R.color.darktheme));
+            }
+        }
+    }
 
 
 
