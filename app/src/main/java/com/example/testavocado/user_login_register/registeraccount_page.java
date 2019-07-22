@@ -50,6 +50,8 @@ public class registeraccount_page extends AppCompatActivity {
         load_widgets();
     }
 
+    //wellcome
+
 
     class myclick implements View.OnClickListener {
         @Override
