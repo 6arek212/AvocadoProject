@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.testavocado.Models.Setting;
+import com.example.testavocado.Utils.HelpMethods;
+
 public class Personal_information extends AppCompatActivity {
 
     public static final String TAG = "Personal_information";
@@ -38,8 +41,8 @@ public class Personal_information extends AppCompatActivity {
         linearLayout_email.setOnClickListener(new onclick());
         linearLayout_phonenumber.setOnClickListener(new onclick());
         // set widgets values
-        //Setting setting1= HelpMethods.getSharedPreferences(mcontext);
-        //txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
+        Setting setting1= HelpMethods.getSharedPreferences(mcontext);
+        txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
 
     }
 
