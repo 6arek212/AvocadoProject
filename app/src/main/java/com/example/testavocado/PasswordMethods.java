@@ -49,10 +49,10 @@ public class PasswordMethods {
 
 
                     } else if (status.getState() == 0) {
-                        listener.onServerError(0 + "  " + status.getException());
+                        listener.onServerError(status.getException());
 
                     } else {
-                        listener.onServerError(-1 + "  " + status.getException());
+                        listener.onServerError( status.getException());
                     }
 
                 } else {

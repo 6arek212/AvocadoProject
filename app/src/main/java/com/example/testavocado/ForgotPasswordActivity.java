@@ -93,17 +93,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 if (!email.trim().isEmpty()) {
                     if (validation.Email(email)) {
                         mProgressBar.setVisibility(View.VISIBLE);
+                        mSend.setEnabled(false);
                         PasswordMethods.sendEmailForPasswordRecovery(email, new PasswordMethods.OnSendingEmailListener() {
                             @Override
                             public void onSent() {
                                 Toast.makeText(mContext, "email has been sent", Toast.LENGTH_SHORT).show();
                                 mProgressBar.setVisibility(View.GONE);
+                                mEmail.setText("");
+                                mSend.setEnabled(true);
                             }
 
                             @Override
                             public void onServerError(String exception) {
                                 Log.d(TAG, "onServerError: " + exception);
                                 mProgressBar.setVisibility(View.GONE);
+                                mSend.setEnabled(true);
+                                Toast.makeText(mContext, exception, Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -111,6 +116,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: " + exception);
                                 Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
                                 mProgressBar.setVisibility(View.GONE);
+                                mSend.setEnabled(true);
                             }
                         });
                     }
