@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.HelpMethods;
@@ -44,6 +45,7 @@ public class Personal_information_fragment extends Fragment {
         // set widgets values
         Setting setting1=HelpMethods.getSharedPreferences(mcontext);
         txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
+
     }
 
 

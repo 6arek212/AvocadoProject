@@ -6,6 +6,11 @@
     <string name="name">Name</string>
     <string name="phonenumber">Phone number</string>
     <string name="General">General</string>
+    <string name="privacy_settings">Privacy Settings</string>
+    <string name="update_information">Update your name, phone numbers and email addresses</string>
+    <string name="update_privacy_settings">Control who can see your posts and content,as well as who can search for you</string>
+    <string name="account_settings">Account Setting</string>
+    <string name="account_settings_explain">Manage information about you</string>
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>
