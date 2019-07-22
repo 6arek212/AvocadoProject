@@ -27,7 +27,7 @@ public class Personal_information extends AppCompatActivity {
         load_widgets();
     }
 
-
+//aa
     public void load_widgets()
     {
         txtv_name=(TextView)findViewById(R.id.txtv_account_name);
