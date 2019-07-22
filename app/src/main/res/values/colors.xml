@@ -31,6 +31,8 @@
     <color name="greenish">#3ADA41</color>
     <color name="darktheme">#2A2F39</color>
     <color name="blackTransparent">#77000000</color>
+    <color name="greenSplash">#9bdb62</color>
+
 
 
 </resources>

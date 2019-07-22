@@ -13,6 +13,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -84,6 +85,29 @@ public class SplashActivity extends AppCompatActivity {
             setTimer();
         }
     }
+
+
+
+
+
+
+    /**
+     * setting up the status bar color so it match the primary color of this activity
+     */
+    private void adjustStatusBarColor() {
+        Log.d(TAG, "adjustStatusBarColor: adjusting status bar color");
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(getColor(R.color.greenSplash));
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(getResources().getColor(R.color.greenSplash));
+            }
+        }
+    }
+
+
+
 
     /**
      * setting up time for the splash screen
