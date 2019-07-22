@@ -52,6 +52,7 @@ public class change_first_last_name_fragment extends Fragment {
         txtv_title.setOnClickListener(new onclick());
         imgv_arrowback.setOnClickListener(new onclick());
         //set values
+        txtv_title.setText(getString(R.string.name));
         setting1= HelpMethods.getSharedPreferences(mcontext);
         edtxt_first_name.setText(setting1.getUser_first_name());
         edtxt_last_name.setText(setting1.getUser_last_name());
@@ -93,7 +94,9 @@ public class change_first_last_name_fragment extends Fragment {
                     break;
 
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:
-                    getActivity().finish();
+                    for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
+                       getActivity(). getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
                     break;
             }
         }
