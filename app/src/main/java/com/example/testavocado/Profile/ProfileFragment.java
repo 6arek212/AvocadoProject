@@ -40,7 +40,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     //Widgets
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipe;
 
 

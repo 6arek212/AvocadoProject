@@ -40,9 +40,9 @@ public class NotificationFragment extends Fragment {
 
 
     //widgets
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipe;
-    RelativeLayout mainLayoutNotification;
+    private RelativeLayout mainLayoutNotification;
 
 
     //vars

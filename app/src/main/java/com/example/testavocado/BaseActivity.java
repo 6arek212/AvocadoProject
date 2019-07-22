@@ -13,7 +13,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -175,7 +177,76 @@ public class BaseActivity extends AppCompatActivity  {
         mtab.getTabAt(2).setIcon(R.drawable.notification_ic);
         mtab.getTabAt(3).setIcon(R.mipmap.menu_icon_gray);
 
-        mViewPager.setOffscreenPageLimit(0);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(TAG, "onPageScrolled: "+position+"  "+mtab.getSelectedTabPosition());
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
+        mtab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: ");
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabReselected: ");
+                int i=tab.getPosition();
+                Log.d(TAG, "onTabReselected: "+i+"  "+mViewPager.getCurrentItem());
+
+
+                if(getSupportFragmentManager().getBackStackEntryCount()>0){
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                else{
+                    if(i==0&&mViewPager.getCurrentItem()==0){
+                        scrollToTheTop(mainFeedFragment.mRecyclerView);
+                    }
+                    else if(i==1&&mViewPager.getCurrentItem()==1){
+
+                        scrollToTheTop(profileFragment.mRecyclerView);
+                    }
+                    else if(i==2&&mViewPager.getCurrentItem()==2){
+
+                        scrollToTheTop(notificationFragment.mRecyclerView);
+                    }
+                }
+            }
+        });
+
+        //mViewPager.setOffscreenPageLimit(0);
+    }
+
+
+
+
+
+    private void scrollToTheTop(RecyclerView recyclerView){
+        recyclerView.smoothScrollToPosition(0);
     }
 
 

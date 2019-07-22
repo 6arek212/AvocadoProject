@@ -39,7 +39,7 @@ public class MainFeedFragment extends Fragment {
 
 
     //widgets
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CoordinatorLayout mainLayoutPosts;
 
