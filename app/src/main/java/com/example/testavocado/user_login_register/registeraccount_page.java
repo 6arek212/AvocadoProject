@@ -50,9 +50,7 @@ public class registeraccount_page extends AppCompatActivity {
         load_widgets();
     }
 
-    //wellcome
 
-    //hi ahmadaaaa
 
 
     class myclick implements View.OnClickListener {
