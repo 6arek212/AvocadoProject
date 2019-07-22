@@ -11,6 +11,8 @@
     <string name="update_privacy_settings">Control who can see your posts and content,as well as who can search for you</string>
     <string name="account_settings">Account Setting</string>
     <string name="account_settings_explain">Manage information about you</string>
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>
@@ -237,6 +239,7 @@
     <string name="delete">Delete</string>
     <string name="not_found">Not found</string>
     <string name="succuess_registred">Success registred</string>
+    <string name="succuess_updated">Success Updated</string>
     <string name="you_are_friends_now">Your are now friends</string>
     <string name="request_deleted">Request Deleted</string>
     <!-- activity names -->
@@ -252,6 +255,7 @@
     <string name="first_last_charcter_numbers_only">"The firstname and the last name most have charcters only"</string>
     <string name="long_name">The name is too long</string>
     <string name="short_name">Fist name most be long than 2 charcter</string>
+    <string name="short_name1">Last name most be long than 2 charcter</string>
 
 
     <!--password length-->

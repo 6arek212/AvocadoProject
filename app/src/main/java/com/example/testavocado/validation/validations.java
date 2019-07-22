@@ -121,6 +121,39 @@ public class validations {
     }
 
     // validate last name
+    //validate FistName
+    public  int lastname_validate(String lastname)
+    {
+        //1 the name is good
+        //-1 the name is wrong
+        //remove spaceing
+
+        if(lastname.indexOf(" ")!=-1) {
+            String name1 = "";
+            String[] splitedstring = lastname.split(" ");
+            for (int i = 0; i < splitedstring.length; i++)
+                name1 += splitedstring[i];
+            lastname=name1;
+        }
+
+        if(lastname.length()<mcontext.getResources().getInteger(R.integer.first_last_minimum_length)
+                || lastname.length()>mcontext.getResources().getInteger(R.integer.first_last_name_maximux_length)) {
+
+            if(lastname.length()<mcontext.getResources().getInteger(R.integer.first_last_minimum_length))
+                Toast.makeText(mcontext, mcontext.getString(R.string.short_name1)+"", Toast.LENGTH_SHORT).show();
+            if(lastname.length()>mcontext.getResources().getInteger(R.integer.first_last_name_maximux_length))
+                Toast.makeText(mcontext, mcontext.getString(R.string.long_name)+"", Toast.LENGTH_SHORT).show();
+
+            return -1;
+        }
+        if(lastname.matches( "[a-zA-Z]*" ))
+            return 1;
+
+        else {
+            Toast.makeText(mcontext, mcontext.getString(R.string.first_last_charcter_numbers_only)+"", Toast.LENGTH_SHORT).show();
+            return -1;
+        }
+    }
    // public  boolean validateLastName( String lastName)
    // {
      //   return lastName.matches( "[a-z]+[A-Z]+[0-9]*" );

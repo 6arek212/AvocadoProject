@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testavocado.Models.Setting;
+import com.example.testavocado.Settings.SettingsFragment;
 import com.example.testavocado.Utils.HelpMethods;
 
 public class Personal_information extends AppCompatActivity {
@@ -43,7 +44,6 @@ public class Personal_information extends AppCompatActivity {
         // set widgets values
         Setting setting1= HelpMethods.getSharedPreferences(mcontext);
         txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
-
     }
 
 
@@ -54,7 +54,10 @@ public class Personal_information extends AppCompatActivity {
             switch (v.getId())
             {
                 case R.id.linear_layout_account_name :
-                    Toast.makeText(mcontext, "name", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.constrainlayout1, new change_first_last_name_fragment())
+                            .addToBackStack("done").commit();
                     break;
 
                 case R.id.linear_layout_account_emailaddress:
