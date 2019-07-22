@@ -57,6 +57,9 @@
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".Account_settings1"/>
         <activity android:name=".Personal_information"/>
+        <activity android:name=".XOGame.XOActivity"/>
+        <activity android:name=".DamkaGame.DamkaActivity"/>
+
         <activity
             android:name=".BaseActivity"
             android:windowSoftInputMode="adjustPan" />
