@@ -79,6 +79,7 @@ public class MenuFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
                 Fragment fragment;
 
 
