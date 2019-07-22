@@ -52,6 +52,8 @@ public class registeraccount_page extends AppCompatActivity {
 
     //wellcome
 
+    //hi ahmad
+
 
     class myclick implements View.OnClickListener {
         @Override
