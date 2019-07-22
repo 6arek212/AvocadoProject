@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blackTransparent">
+
+
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose a game "
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/damkaGame"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/damka"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/xoGame" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="DAMKA"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintEnd_toEndOf="@+id/damkaGame"
+                app:layout_constraintStart_toStartOf="@+id/damkaGame"
+                app:layout_constraintTop_toBottomOf="@+id/damkaGame" />
+
+
+            <ImageView
+                android:id="@+id/xoGame"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:src="@drawable/xo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="XO"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/xoGame"
+                app:layout_constraintStart_toStartOf="@+id/xoGame"
+                app:layout_constraintTop_toBottomOf="@+id/xoGame" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

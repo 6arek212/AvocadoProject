@@ -32,8 +32,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Personal_information"></activity>
-        <activity android:name=".Account_settings1" />
+        <activity android:name=".XOGame.XOActivity"></activity>
+        <activity android:name=".DamkaGame.DamkaActivity" />
         <activity
             android:name=".ForgotPasswordActivity"
             android:windowSoftInputMode="adjustPan" />

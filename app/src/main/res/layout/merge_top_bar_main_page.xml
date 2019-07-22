@@ -22,6 +22,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true">
 
+
                 <EditText
                     android:transitionName="search"
                     android:id="@+id/search"
