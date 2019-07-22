@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
 import com.google.android.material.navigation.NavigationView;
 
@@ -92,7 +93,7 @@ public class MenuFragment extends Fragment {
 
 
                     case R.id.settings:
-                        mContext.startActivity(new Intent(mContext,SettingsActivity.class));
+                        mContext.startActivity(new Intent(mContext, Account_settings1.class));
 
                         break;
 
