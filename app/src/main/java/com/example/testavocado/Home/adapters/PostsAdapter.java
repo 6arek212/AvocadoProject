@@ -228,9 +228,13 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 v1.mSharedPost.setVisibility(View.VISIBLE);
                 v1.share.setVisibility(View.GONE);
                 attachOriginalPostFragment(v1.mSharedPost, i);
+
+                v1.mShareLayout.setVisibility(View.GONE);
+
             } else {
                 v1.share.setVisibility(View.VISIBLE);
                 v1.mSharedPost.setVisibility(View.GONE);
+                v1.mShareLayout.setVisibility(View.VISIBLE);
             }
 
 
@@ -683,7 +687,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
-        RelativeLayout commentsLayout, likeLayout, mPhotoLayout;
+        RelativeLayout commentsLayout, likeLayout, mPhotoLayout,mShareLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
 
@@ -710,6 +714,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mPhotoLayout = itemView.findViewById(R.id.relLayout4);
+            mShareLayout=itemView.findViewById(R.id.shareLayout);
         }
     }
 

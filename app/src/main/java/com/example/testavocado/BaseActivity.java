@@ -80,17 +80,21 @@ public class BaseActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        user_id = HelpMethods.checkSharedPreferencesForUserId(this);
+        if(savedInstanceState==null) {
+            user_id = HelpMethods.checkSharedPreferencesForUserId(this);
+            mContext = this;
+            initWidgets();
+            setViewpager();
+            serviceIntents();
+        }
+    }
 
-        mContext = this;
-
-        initWidgets();
-        setViewpager();
 
 
 
-        //handling service intents
 
+    //handling service intents
+    private void serviceIntents(){
         Intent intent = getIntent();
         FragmentTransaction frt = getSupportFragmentManager().beginTransaction();
 
@@ -112,6 +116,7 @@ public class BaseActivity extends AppCompatActivity  {
             }
         }
     }
+
 
 
 
@@ -214,7 +219,6 @@ public class BaseActivity extends AppCompatActivity  {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabReselected: ");
                 int i=tab.getPosition();
                 Log.d(TAG, "onTabReselected: "+i+"  "+mViewPager.getCurrentItem());
 

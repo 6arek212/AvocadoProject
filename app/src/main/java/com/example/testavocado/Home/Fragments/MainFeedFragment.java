@@ -59,8 +59,11 @@ public class MainFeedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main_feed2, container, false);
 
+        if (savedInstanceState==null){
+            initWidgets(view);
+        }
 
-        initWidgets(view);
+
 
         return view;
     }
