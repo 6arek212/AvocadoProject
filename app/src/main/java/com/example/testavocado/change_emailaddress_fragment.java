@@ -11,12 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.Login.LoginMethods;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.HelpMethods;
+import com.example.testavocado.validation.validations;
 
 public class change_emailaddress_fragment extends Fragment {
     public static final String TAG = "change_emailaddress_fra";
@@ -64,7 +68,13 @@ public class change_emailaddress_fragment extends Fragment {
                     break;
 
                 case R.id.btn_addnewemail_edit:
-
+                    String email=edtxt_email.getText().toString();
+                    validations validations1=new validations(mcontext);
+                    if(validations1.EMailValidation(email))
+                    {
+                        //check if email exists or not if not exists then sending message to old email and new email
+                    }
+                    else Toast.makeText(mcontext, getString(R.string.wrong_email_format)+"", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:
