@@ -68,7 +68,10 @@ public class Personal_information extends AppCompatActivity {
                     break;
 
                 case R.id.linear_layout_account_phonenumber :
-                    Toast.makeText(mcontext, "phonenumber", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.constrainlayout1, new phonenumber_edit_fragment())
+                            .addToBackStack("done").commit();
                     break;
             }
         }
