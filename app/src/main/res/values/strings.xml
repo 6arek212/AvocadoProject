@@ -13,6 +13,11 @@
     <string name="account_settings_explain">Manage information about you</string>
     <string name="firstname">First name</string>
     <string name="lastname">Last name</string>
+    <string name="addemail_title1">Add an additional email address</string>
+    <string name="addemail_title2">To save this setting please enter your Avocado password</string>
+    <string name="addemail">Add Email</string>
+    <string name="cancel">Cancel</string>
+    <string name="password">Password</string>
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>
