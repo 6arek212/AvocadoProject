@@ -19,6 +19,9 @@
     <string name="cancel">Cancel</string>
     <string name="password">Password</string>
     <string name="wrong_email_format">email address wrong format please enter correct email.</string>
+    <string name="whats_your_phonenumber_text">Whats Your Phone Number?</string>
+    <string name="phonenumber_title">Phone Number Confirmation</string>
+    <string name="mobilephonenumber_text">Mobile phone number</string>
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>

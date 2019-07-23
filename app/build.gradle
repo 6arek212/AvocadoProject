@@ -72,4 +72,7 @@ dependencies {
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 
     implementation 'androidx.biometric:biometric:1.0.0-alpha04'
+
+    //country code picker
+    implementation 'com.github.inpossoft:CountryCodePickerProject:2.0.0'
 }
