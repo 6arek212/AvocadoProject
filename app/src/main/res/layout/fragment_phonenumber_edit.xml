@@ -21,42 +21,70 @@
         <include layout="@layout/merge_topbar_back_arrow" />
     </LinearLayout>
 
-    <com.hbb20.CountryCodePicker
-        android:id="@+id/coutrycodepicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:contentColor="@android:color/black"
-        app:defaultCode="972"
-        app:layout_constraintBottom_toBottomOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toTopOf="@+id/editText">
-
-    </com.hbb20.CountryCodePicker>
-
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        style="@style/txtv_style1"
         android:layout_marginTop="32dp"
         android:text="@string/whats_your_phonenumber_text"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/only_you_will_see_your_phonenumber"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/coutrycodepicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:contentColor="@android:color/black"
+        app:defaultCode="972"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edtxt_style2"
         android:hint="@string/mobilephonenumber_text"
         android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/coutrycodepicker1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coutrycodepicker1"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintTop_toTopOf="@+id/coutrycodepicker1"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/btn_style1"
+        android:text="@string/continue_text"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintStart_toStartOf="@+id/coutrycodepicker1"
+        app:layout_constraintTop_toBottomOf="@+id/coutrycodepicker1"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
