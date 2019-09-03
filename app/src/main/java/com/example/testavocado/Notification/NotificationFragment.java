@@ -60,7 +60,7 @@ public class NotificationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
         mContext = getContext();
         datetime = TimeMethods.getUTCdatetimeAsString();
         current_user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);

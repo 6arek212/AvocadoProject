@@ -168,7 +168,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.mCountryCity.setText(user.getUser_country() + "," + user.getUser_city());
             v1.mConnectionCount.setText(user.getUser_connection_count() + "");
             v1.mPostsCount.setText(user.getUser_posts_count() + "");
-            v1.mbio.setText("text");
+            v1.mbio.setText(user.getUser_bio());
 
 
             Glide.with(mContext)

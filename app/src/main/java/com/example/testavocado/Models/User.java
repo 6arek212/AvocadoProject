@@ -61,9 +61,19 @@ public class User {
     private boolean is_accepted;
 
 
+    @SerializedName("User_bio")
+    private String user_bio;
+
     public User() {
     }
 
+    public String getUser_bio() {
+        return user_bio;
+    }
+
+    public void setUser_bio(String user_bio) {
+        this.user_bio = user_bio;
+    }
 
     public int getSender_id() {
         return sender_id;

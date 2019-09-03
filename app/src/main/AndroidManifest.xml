@@ -40,7 +40,6 @@
         <activity android:name=".GalleryAndPicSnap.GetaPicActivity" />
         <activity android:name=".Profile.add_bio" />
         <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".Notification.NotificationActivity" />
         <activity android:name=".Chat.ChatActivity" />
         <activity android:name=".user_login_register.registeraccount_page" />
         <activity android:name=".SplashScreen.SplashActivity">
