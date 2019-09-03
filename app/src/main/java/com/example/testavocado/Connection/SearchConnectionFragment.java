@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.testavocado.Utils.HelpMethods;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -57,8 +58,7 @@ public class SearchConnectionFragment extends Fragment {
     private RelativeLayout mainLayout;
     private SwipeRefreshLayout mSwipe;
 
-    private int visibleThreshold = 5;
-    private int lastVisibleItem, totalItemCount;
+
     private static boolean loading;
 
 
@@ -109,6 +109,7 @@ public class SearchConnectionFragment extends Fragment {
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 if (isChecked) {
                     getLocation();
+                    adapter.clearList();
                 } else {
                     adapter.searchByLocation = false;
                     getUsers(0);
@@ -173,47 +174,52 @@ public class SearchConnectionFragment extends Fragment {
     }
 
 
+
+
+
     /**
      * Attaching a listener to detect when the list reached the bottom
      */
     private void recyclerViewBottomDetectionListener() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView
-                .getLayoutManager();
-
-
         mRecyclerView
                 .addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView,
                                            int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
+                        HelpMethods.closeKeyboard(getActivity());
+                        if (isRecyclerScrollable())
+                            if (!mRecyclerView.canScrollVertically(1) && !loading) {
+                                Log.d(TAG, "recyclerViewBottomDetectionListener: bottom");
 
-                        totalItemCount = linearLayoutManager.getItemCount();
-                        lastVisibleItem = linearLayoutManager
-                                .findLastVisibleItemPosition();
-                        if (!loading
-                                && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                            // End has been reached
-                            // Do something
+                                loading = true;
 
-                            mRecyclerView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mNearByUsers.isChecked()) {
-                                        getNearbyUsers(adapter.getItemCount(), lat, longi,numberPicker.getValue());
+                                if (mNearByUsers.isChecked())
+                                    getNearbyUsers(adapter.getItemCount(), lat, longi,numberPicker.getValue());
+                                 else
+                                    getUsers(adapter.getItemCount());
 
-                                    } else {
-                                        getUsers(adapter.getItemCount());
-                                    }
-                                }
-                            });
-
-
-                            loading = true;
-                        }
+                            }
                     }
                 });
     }
+
+
+    /**
+     * using this when detecting if the bottom reached
+     */
+
+    public static void setLoaded() {
+        loading = false;
+    }
+
+
+    public boolean isRecyclerScrollable() {
+        return mRecyclerView.computeVerticalScrollRange() > mRecyclerView.getHeight();
+    }
+
+
+
 
 
     /***

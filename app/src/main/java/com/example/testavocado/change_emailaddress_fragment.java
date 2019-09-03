@@ -85,13 +85,13 @@ public class change_emailaddress_fragment extends Fragment {
     }
 
 
-    //closeing all of the fragment in backstack
+    //pop back stack
     public void close_all_fragments()
     {
-        for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
-            getActivity(). getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
+        getFragmentManager().popBackStack();
     }
+
+
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Activity) {

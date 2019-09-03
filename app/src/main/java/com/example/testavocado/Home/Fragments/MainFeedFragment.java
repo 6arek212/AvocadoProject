@@ -167,43 +167,6 @@ public class MainFeedFragment extends Fragment {
         PostMethods.getFriendsPosts(user_id, datetime, offset, type, new PostMethods.OnGettingFriendsPostListener() {
             @Override
             public void OnSuccess(final String json) {
-
-            /*    new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONArray jsonArray = null;
-                        try {
-                            jsonArray = new JSONArray(json);
-                            posts = new ArrayList<>();
-
-
-                            for (int k = 0; k < jsonArray.length(); k++) {
-                                posts.add(new Gson().fromJson(jsonArray.get(k).toString(), Post.class));
-                                posts.get(k).setPost_date_time(TimeMethods.getTimestampDifference(posts.get(k).getPost_date_time()));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                        handle12r.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (offset != 0) {
-                                    adapter.removeProg();
-                                    adapter.addSetOfPosts(posts, adapter.getItemCount());
-
-                                } else {
-                                    adapter.addSetOfPost2s(posts);
-                                }
-                                setLoaded();
-                            }
-                        });
-                    }
-                }).start();*/
-
-
                 asyncTask = new postsAsyncTask(MainFeedFragment.this, offset);
                 asyncTask.execute(json);
                 Log.d(TAG, "OnSuccess: added posts");

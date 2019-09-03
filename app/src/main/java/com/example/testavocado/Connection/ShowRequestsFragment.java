@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.testavocado.Utils.HelpMethods;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -89,40 +91,35 @@ public class ShowRequestsFragment extends Fragment {
      * Attaching a listener to detect when the list reached the bottom
      */
     private void recyclerViewBottomDetectionListener() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView
-                .getLayoutManager();
-
-
         mRecyclerView
                 .addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView,
                                            int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
+                        HelpMethods.closeKeyboard(getActivity());
+                        if (isRecyclerScrollable())
+                            if (!mRecyclerView.canScrollVertically(1) && !loading) {
+                                Log.d(TAG, "recyclerViewBottomDetectionListener: bottom");
 
-                        totalItemCount = linearLayoutManager.getItemCount();
-                        lastVisibleItem = linearLayoutManager
-                                .findLastVisibleItemPosition();
-                        if (!loading
-                                && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                            // End has been reached
-                            // Do something
+                                loading = true;
 
-                            mRecyclerView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    getRequests(adapter.getItemCount());
-                                }
-                            });
-
-
-                            loading = true;
-                        }
+                                getRequests(adapter.getItemCount() - 1);
+                            }
                     }
                 });
     }
 
 
+    /**
+     * using this when detecting if the bottom reached
+     */
+
+
+
+    public boolean isRecyclerScrollable() {
+        return mRecyclerView.computeVerticalScrollRange() > mRecyclerView.getHeight();
+    }
 
 
 

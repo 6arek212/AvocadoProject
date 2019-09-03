@@ -94,9 +94,7 @@ public class change_first_last_name_fragment extends Fragment {
                     break;
 
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:
-                    for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
-                       getActivity(). getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    }
+                    getFragmentManager().popBackStack();
                     break;
             }
         }

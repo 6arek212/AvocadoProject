@@ -2,6 +2,8 @@ package com.example.testavocado.Connection;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testavocado.Models.UserAdd;
+import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.TimeMethods;
 
 import java.util.ArrayList;
@@ -124,7 +128,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
             v1.mFriends.setVisibility(View.GONE);
             acceptOnClick(v1.mAccept, v1, i);
             denyClick(v1.mDeny, i);
-
+            attachOnClickProfile(i,v1.profile);
 
 
         } else if (type == 1) {
@@ -154,10 +158,8 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
                 ConnectionsHandler.acceptFriendRequest(requestList.get(index).getRequest_id(), TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
                     @Override
                     public void onSuccessListener() {
-                        requestList.remove(index);
-                        Toast.makeText(mContext, "request removed ", Toast.LENGTH_SHORT).show();
-                        notifyItemRemoved(index);
                         viewHolder.mFriends.setVisibility(View.VISIBLE);
+                        viewHolder.requestsLayout.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -251,7 +253,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
      * @param s
      */
     public void addNewRequestList(List<UserAdd> userAdd, int s) {
-        requestList = userAdd;
+        requestList .addAll(userAdd);
         notifyItemRangeInserted(s, userAdd.size());
     }
 
@@ -277,7 +279,20 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
 
+    public void attachOnClickProfile(final int i, RelativeLayout relativeLayout) {
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.is_current_user = false;
+                fragment.incoming_user_id = requestList.get(i).getUser_id();
+                FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+                FragmentTransaction tr = fragmentManager.beginTransaction();
+                tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+            }
+        });
 
+    }
 
 
 
@@ -289,17 +304,19 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     public class RequestsViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
         TextView mUserFullName;
-        RelativeLayout mFriends;
+        RelativeLayout mFriends,requestsLayout,profile;
         Button mAccept;
         ImageButton mDeny;
 
-        public RequestsViewHolder(@NonNull View itemView) {
+         RequestsViewHolder(@NonNull View itemView) {
             super(itemView);
             mProfileImage = itemView.findViewById(R.id.profileImage);
             mUserFullName = itemView.findViewById(R.id.userName);
             mAccept = itemView.findViewById(R.id.btnAcceptRequest);
             mDeny = itemView.findViewById(R.id.btnDeny);
             mFriends = itemView.findViewById(R.id.alredyFriendsLayout);
+            requestsLayout=itemView.findViewById(R.id.requestsLayout);
+            profile=itemView.findViewById(R.id.profile);
         }
     }
 

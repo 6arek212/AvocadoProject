@@ -30,6 +30,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <RelativeLayout
+                        android:id="@+id/profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profileImage"
                         android:layout_width="35dp"
@@ -48,7 +52,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"/>
 
-
+                    </RelativeLayout>
                 </RelativeLayout>
 
 
@@ -56,6 +60,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/requestsLayout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="50">
@@ -106,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="you already friends "/>
+                android:text="you are friends "/>
 
         </RelativeLayout>
 

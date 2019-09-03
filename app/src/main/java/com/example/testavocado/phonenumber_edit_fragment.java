@@ -67,9 +67,8 @@ public class phonenumber_edit_fragment extends Fragment {
     //closeing all of the fragment in backstack
     public void close_all_fragments()
     {
-        for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
-            getActivity(). getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
+        getFragmentManager().popBackStack();
+
     }
 
     public void onAttach(Context context) {

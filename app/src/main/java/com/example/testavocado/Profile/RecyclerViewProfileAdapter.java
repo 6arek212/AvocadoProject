@@ -198,14 +198,16 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     v1.friendRequestSentLayout.setVisibility(View.VISIBLE);
                     v1.AddFriendLayout.setVisibility(View.GONE);
 
-                    setFriendsRequestReceived(v1);
+                    setFriendsRequestSendLayout(v1);
+
                 } else if (addingLayoutType == FRIENDS_REQUEST_RECEIVED) {
                     v1.friendsLayout.setVisibility(View.GONE);
                     v1.friendRequestRecivedLayout.setVisibility(View.VISIBLE);
                     v1.friendRequestSentLayout.setVisibility(View.GONE);
                     v1.AddFriendLayout.setVisibility(View.GONE);
 
-                    setFriendsRequestSendLayout(v1);
+                    setFriendsRequestReceived(v1);
+
                 } else {
                     v1.friendsLayout.setVisibility(View.GONE);
                     v1.friendRequestRecivedLayout.setVisibility(View.GONE);
@@ -476,6 +478,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
 
     private void setFriendsRequestSendLayout(final InfoViewHolder v1) {
+
         v1.btnRemoveRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -923,8 +926,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         private CircleImageView mProfileImage;
         private LinearLayout friendsLayout, friendRequestSentLayout, friendRequestRecivedLayout, addingLayout, AddFriendLayout;
         private RelativeLayout mAddPost;
-        private Button mFriends, mMessage, btnRemoveRequest, btnAccept, btnDeleteConnection, btnAddFriend;
-        private Button btn_add_bio;
+        private Button mFriends, mMessage, btnRemoveRequest, btnAccept, btnDeleteConnection, btnAddFriend,btn_add_bio;
 
 
         public InfoViewHolder(@NonNull View itemView) {
@@ -987,7 +989,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     }
 
     public static class PrivateAccountViewHolder extends RecyclerView.ViewHolder {
-        EditText mPrivate;
+        TextView mPrivate;
 
         public PrivateAccountViewHolder(View v) {
             super(v);

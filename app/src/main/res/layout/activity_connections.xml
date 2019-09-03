@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Connection.ConnectionsActivity">
+    tools:context=".Connection.ConnectionsActivity"
+    android:id="@+id/mainLayoutConnection">
 
     <RelativeLayout
         android:layout_width="match_parent"

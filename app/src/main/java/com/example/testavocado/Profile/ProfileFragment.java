@@ -88,35 +88,32 @@ public class ProfileFragment extends Fragment {
 
 
         if (!is_current_user) {
+            if (user.getFriend_request_id() != -1) {
+                //there is a friendship request
+
+                if (!user.isIs_accepted() && user.getSender_id() == current_user_id) {
+                    // 1-if the current user sent a friend request he can remove it
+                    adapter.addingLayoutType = FRIENDS_REQUEST_SENT;
+
+                } else if (!user.isIs_accepted() && user.getSender_id() != current_user_id) {
+                    //2- if the current user has a friend request he can accept it
+                    adapter.addingLayoutType = FRIENDS_REQUEST_RECEIVED;
+                } else if (user.isIs_accepted()) {
+                    //3- they are friends he can send him message or remove friendship
+                    adapter.addingLayoutType = FRIENDS_LAYOUT;
+                }
+            } else {
+                adapter.addingLayoutType = FRIENDS_ADDING;
+            }
+
             adapter.is_privateAccount=user.isUser_is_private();
             if (!user.isUser_is_private()) {
-
-                if (user.getFriend_request_id() != -1) {
-                    //there is a friendship request
-
-                    if (!user.isIs_accepted() && user.getSender_id() == current_user_id) {
-                        // 1-if the current user sent a friend request he can remove it
-                        adapter.addingLayoutType = FRIENDS_REQUEST_SENT;
-
-                    } else if (!user.isIs_accepted() && user.getSender_id() != current_user_id) {
-                        //2- if the current user has a friend request he can accept it
-                        adapter.addingLayoutType = FRIENDS_REQUEST_RECEIVED;
-                    } else if (user.isIs_accepted()) {
-                        //3- they are friends he can send him message or remove friendship
-                        adapter.addingLayoutType = FRIENDS_LAYOUT;
-                    }
-                } else {
-                    adapter.addingLayoutType = FRIENDS_ADDING;
-                }
-
                 adapter.is_current_user = is_current_user;
                 getPosts(0);
-            } else {
-                //TODO private account adding layout
-                Toast.makeText(mContext, "account is private !", Toast.LENGTH_SHORT).show();
-
             }
         }
+
+
         else {
             adapter.is_current_user = is_current_user;
             getPosts(0);
