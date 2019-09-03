@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.CheckBoxPreference;
@@ -38,6 +39,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
 
+
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         user_id= HelpMethods.checkSharedPreferencesForUserId(getContext());
@@ -47,7 +53,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         findPreference(getString(R.string.private_profile_switch)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Toast.makeText(getContext(), (Boolean)newValue+"", Toast.LENGTH_SHORT).show();
                 updateSetting((Boolean)newValue,PRIVATE_ACCOUNT_TYPE);
                 return true;
             }
@@ -57,7 +62,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         findPreference(getString(R.string.location_switch)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Toast.makeText(getContext(), (Boolean)newValue+"", Toast.LENGTH_SHORT).show();
                 updateSetting((Boolean)newValue,LOCATION_TYPE);
                 return true;
             }

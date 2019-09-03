@@ -11,13 +11,23 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+
+import com.example.testavocado.Service.myWorker;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -40,6 +50,7 @@ import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.SectionStatePagerAdapter;
 import com.example.testavocado.Utils.TimeMethods;
 
+import java.util.concurrent.TimeUnit;
 
 
 public class BaseActivity extends AppCompatActivity  {
@@ -306,9 +317,17 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        scheduleJob();
+       // scheduleJob();
+
+        StartWorker();
     }
 
+
+    public static void StartWorker(){
+        PeriodicWorkRequest request=new PeriodicWorkRequest.Builder(myWorker.class,6, TimeUnit.SECONDS).build();
+        WorkManager.getInstance().enqueue(request);
+
+    }
 
     @Override
     protected void onStop() {

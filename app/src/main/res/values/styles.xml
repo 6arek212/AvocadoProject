@@ -9,7 +9,30 @@
         <item name="preferenceTheme">
             @style/PreferenceThemeOverlay.v14.Material
         </item>
+
     </style>
+
+
+
+
+
+    <style name="darkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000</item>
+        <item name="colorPrimaryDark">#67000000</item>
+        <item name="colorAccent">#22000000</item>
+        <item name="preferenceTheme">
+            @style/PreferenceThemeOverlay.v14.Material
+        </item>
+
+    </style>
+
+
+
+
+
+
+
 
     <style name="inputtext_layout_style">
         <item name="android:layout_marginTop">3mm</item>

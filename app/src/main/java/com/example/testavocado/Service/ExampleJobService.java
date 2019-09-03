@@ -117,21 +117,13 @@ public class ExampleJobService extends JobService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; 1==1; i++) {
-                    Log.d(TAG, "run: " + i);
+                Log.d(TAG, "run: notification ");
+
                     if (jobCancelled) {
                         return;
                     }
                     
                     getNotified();
-
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
                // Log.d(TAG, "Job finished");
               //  jobFinished(params, false);
             }

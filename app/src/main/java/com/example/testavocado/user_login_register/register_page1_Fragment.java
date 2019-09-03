@@ -136,7 +136,7 @@ public class register_page1_Fragment extends Fragment {
                     }
 
                     DatePickerDialog mpicker = new DatePickerDialog(mContext, android.R.style.
-                            Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year1, month1, day1);
+                        Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year1, month1, day1);
                     mpicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     Calendar calendar=Calendar.getInstance();
                     //made the register age minimum 13 year

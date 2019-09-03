@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/darktheme"
+    android:background="@drawable/userlogin_style"
 
     tools:context=".user_login_register.registeraccount_page"
     android:id="@+id/realtive_registeraccountboss_page"

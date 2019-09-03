@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: starting");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        adjustStatusBarColor();
         initWidgets();
 // Check if we're running on Android 6.0 (M) or higher
 
