@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.appyvet.materialrangebar.RangeBar;
 import com.example.testavocado.Utils.HelpMethods;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
@@ -45,7 +46,7 @@ public class SearchConnectionFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private EditText mSearchName;
     private CheckBox mNearByUsers;
-    private ScrollableNumberPicker numberPicker;
+    private RangeBar numberPicker;
 
 
     //vars
@@ -89,18 +90,34 @@ public class SearchConnectionFragment extends Fragment {
         mSwipe = view.findViewById(R.id.swipe);
         mContext = getContext();
         user_current_id = ConnectionsActivity.user_current_id;
+        numberPicker.setVisibility(View.GONE);
 
 
         initRecyclerView();
         initTextListener();
 
-        numberPicker.setListener(new ScrollableNumberPickerListener() {
+        numberPicker.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
             @Override
-            public void onNumberPicked(int value) {
+            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
+                Log.d(TAG, "onRangeChangeListener: "+rightPinIndex);
                 if (mNearByUsers.isChecked())
-                    getNearbyUsers(0, lat, longi,numberPicker.getValue());
+                    getNearbyUsers(0, lat, longi,rightPinIndex);
+            }
+
+            @Override
+            public void onTouchStarted(RangeBar rangeBar) {
+
+            }
+
+            @Override
+            public void onTouchEnded(RangeBar rangeBar) {
+
             }
         });
+
+
+
+
 
 
         mNearByUsers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,9 +125,11 @@ public class SearchConnectionFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 if (isChecked) {
+                    numberPicker.setVisibility(View.VISIBLE);
                     getLocation();
                     adapter.clearList();
                 } else {
+                    numberPicker.setVisibility(View.GONE);
                     adapter.searchByLocation = false;
                     getUsers(0);
                 }
@@ -123,7 +142,7 @@ public class SearchConnectionFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (mNearByUsers.isChecked()) {
-                    getNearbyUsers(0, lat, longi,numberPicker.getValue());
+                    getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
 
                 } else {
                     getUsers(0);
@@ -163,7 +182,7 @@ public class SearchConnectionFragment extends Fragment {
                 } else {
                     Log.d(TAG, "afterTextChanged: else " + mSearchName.getText().toString().length());
                     if (mNearByUsers.isChecked()) {
-                        getNearbyUsers(0, lat, longi,numberPicker.getValue());
+                        getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
 
                     } else {
                         getUsers(0);
@@ -195,7 +214,7 @@ public class SearchConnectionFragment extends Fragment {
                                 loading = true;
 
                                 if (mNearByUsers.isChecked())
-                                    getNearbyUsers(adapter.getItemCount(), lat, longi,numberPicker.getValue());
+                                    getNearbyUsers(adapter.getItemCount(), lat, longi,numberPicker.getRightIndex());
                                  else
                                     getUsers(adapter.getItemCount());
 
@@ -308,7 +327,7 @@ public class SearchConnectionFragment extends Fragment {
                 Log.d(TAG, "onSuccessListener: ");
                 adapter.removeProg();
 
-                if (km == numberPicker.getValue())
+                if (km == numberPicker.getRightIndex())
                     adapter.addNewSetUserToAdd(userAddList, adapter.getItemCount());
 
                 if (mSearchName.getText().toString().isEmpty())
@@ -379,7 +398,7 @@ public class SearchConnectionFragment extends Fragment {
             longi = l1.getLongitude();
 
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l1.getLatitude(), l1.getLongitude(),numberPicker.getValue());
+            getNearbyUsers(0, l1.getLatitude(), l1.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l1.getLatitude(), l1.getLongitude());
         } else if (l2 != null) {
             Log.d(TAG, "updateLocation12: got it l2 " + l2);
@@ -387,7 +406,7 @@ public class SearchConnectionFragment extends Fragment {
             longi = l2.getLongitude();
 
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l2.getLatitude(), l2.getLongitude(),numberPicker.getValue());
+            getNearbyUsers(0, l2.getLatitude(), l2.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l2.getLatitude(), l2.getLongitude());
         } else if (l3 != null) {
             Log.d(TAG, "updateLocation12: got it l3 " + l3);
@@ -395,7 +414,7 @@ public class SearchConnectionFragment extends Fragment {
             longi = l3.getLongitude();
 
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l3.getLatitude(), l3.getLongitude(),numberPicker.getValue());
+            getNearbyUsers(0, l3.getLatitude(), l3.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l3.getLatitude(), l3.getLongitude());
         } else {
             mNearByUsers.setChecked(false);

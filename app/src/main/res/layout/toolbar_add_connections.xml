@@ -5,14 +5,19 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        >
+
+
+
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|snap"
             android:elevation="4dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
             >
 
             <RelativeLayout
@@ -81,31 +86,50 @@
 
 
 
-
-                        <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
+                        <com.appyvet.materialrangebar.RangeBar
+                            android:layout_below="@+id/nearbyUsersBox"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/number_picker_horizontal"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_toEndOf="@+id/nearbyUsersBox"
-                            android:layout_toRightOf="@+id/nearbyUsersBox"
-                            android:hapticFeedbackEnabled="true"
-                            app:snp_buttonBackgroundTintSelector="@color/colorLiteBlue"
-                            app:snp_maxValue="100"
-                            app:snp_minValue="0"
-                            app:snp_scrollEnabled="true"
-                            app:snp_updateInterval="25"
-                            app:snp_value_text_color="@color/colorLiteBlue"
-                            app:snp_value_text_size="20sp"
-                            android:layout_centerVertical="true"
-                            />
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            app:mrb_barWeight="2dp"
+                            app:mrb_connectingLineWeight="4dp"
+                            app:mrb_leftSelectorColor="#FFB300"
+                            app:mrb_pinColor="#6c3f6a"
+                            app:mrb_pinMaxFont="15sp"
+                            app:mrb_pinMinFont="12sp"
+                            app:mrb_pinRadius="14dp"
+                            app:mrb_pinTextColor="@color/white"
+                            app:mrb_rangeBar="false"
+                            app:mrb_rangeBarPaddingBottom="30dp"
+                            app:mrb_rangeBar_rounded="true"
+                            app:mrb_rightSelectorColor="#1E88E5"
+                            app:mrb_selectorBoundaryColor="@color/colorLiteBlue"
+                            app:mrb_selectorBoundarySize="2dp"
+                            app:mrb_selectorSize="10dp"
+                            app:mrb_temporaryPins="true"
+                            app:mrb_tickDefaultColor="@color/colorLiteBlue"
+                            app:mrb_tickEnd="100"
+                            app:mrb_tickHeight="4dp"
+                            app:mrb_tickInterval="1"
+                            app:mrb_tickLabelColor="@color/colorLiteBlue"
+                            app:mrb_tickLabelSelectedColor="@color/white"
+                            app:mrb_tickLabelSize="4sp"
+                            app:mrb_tickStart="1"
+                             />
+
+
+
 
                     </RelativeLayout>
                 </RelativeLayout>
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

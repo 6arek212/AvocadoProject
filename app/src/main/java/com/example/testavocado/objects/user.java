@@ -12,6 +12,7 @@ public class user implements Serializable {
   private String user_lastlogin;
   private String user_password;
   private boolean isactive;
+  private String country;
 
   //------------------------------------------------------------------------------------------------>
 
@@ -30,6 +31,15 @@ public class user implements Serializable {
     public user()
     {}
     //------------------------------------------------------------------------------------------------>
+
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public int getUserid() {
         return userid;

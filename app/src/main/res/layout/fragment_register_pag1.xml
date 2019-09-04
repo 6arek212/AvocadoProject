@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/userlogin_style"
     android:id="@+id/realtive_fragment_register_page1"
     >
 
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/realtive1_fragment_register_page1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:background="@color/light1"
-        >
-        <include layout="@layout/merge_top_profilepicture_register"/>
-    </RelativeLayout>
+        app:layout_constraintBottom_toTopOf="@+id/realtive2_fragment_register_page1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <include layout="@layout/merge_top_profilepicture_register" />
+    </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/realtive2_fragment_register_page1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/realtive2_fragment_register_page1"
         android:layout_below="@id/realtive1_fragment_register_page1"
-        android:layout_marginTop="1mm"
-        >
-        <include layout="@layout/merge_center_profile_register"/>
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/realtive1_fragment_register_page1"
+        app:layout_constraintTop_toBottomOf="@+id/realtive1_fragment_register_page1"
+        app:layout_constraintVertical_bias="0.0">
+
+        <include layout="@layout/merge_center_profile_register" />
     </RelativeLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

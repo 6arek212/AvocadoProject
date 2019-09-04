@@ -328,4 +328,7 @@
     <!--myuser object-->
     <string name="user_object">user_object</string>
     <string name="enterText">you need to enter some text</string>
+    <string name="select_country">Select Country</string>
+    <string name="search">Search...</string>
+    <string name="add_new_post">Add New Post</string>
 </resources>

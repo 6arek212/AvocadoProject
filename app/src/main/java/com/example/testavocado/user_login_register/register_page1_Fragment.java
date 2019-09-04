@@ -36,6 +36,8 @@ import com.example.testavocado.Utils.TimeMethods;
 import com.example.testavocado.methods.add_newuser.add_new_user_method;
 import com.example.testavocado.methods.add_newuser.on_add_new_user;
 import com.example.testavocado.objects.user;
+import com.ybs.countrypicker.CountryPicker;
+import com.ybs.countrypicker.CountryPickerListener;
 
 import java.io.File;
 import java.util.Calendar;
@@ -65,7 +67,7 @@ public class register_page1_Fragment extends Fragment {
     private boolean is_image_seclected = false;
     private String[] permission;
     private Uri selectedImage;
-
+    private TextView selectCountry;
 
     @Nullable
     @Override
@@ -88,10 +90,13 @@ public class register_page1_Fragment extends Fragment {
         radio_btn_female = (RadioButton) view.findViewById(R.id.radio_btn_female_merge_center_profile_register);
         radio_btn_male = (RadioButton) view.findViewById(R.id.radio_btn_male_merge_center_profile_register);
         btn_register = (Button) view.findViewById(R.id.btn_register_merge_center_profile_register);
+        selectCountry=view.findViewById(R.id.selectCountry);
+
         // set on click---------------------------------------------------------------------------------------------------->
         txtv_selectdate.setOnClickListener(new onclick());
         btn_register.setOnClickListener(new onclick());
         circleImageViewprofilepicture.setOnClickListener(new onclick());
+        selectCountry.setOnClickListener(new onclick());
         //set date listner
         mdateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -198,7 +203,7 @@ public class register_page1_Fragment extends Fragment {
                                     setting.setAccount_is_private(false);
                                     setting.setUser_location_switch(false);
 
-                                    InfoMethodsHandler.updateProfilePhotoGenderBirthDate(setting.getUser_id(), ImageUrl, myuser.getUser_gender(), myuser.getUser_birthday(), "israel", new InfoMethodsHandler.OnUpdateListener() {
+                                    InfoMethodsHandler.updateProfilePhotoGenderBirthDate(setting.getUser_id(), ImageUrl, myuser.getUser_gender(), myuser.getUser_birthday(), myuser.getCountry(), new InfoMethodsHandler.OnUpdateListener() {
                                         @Override
                                         public void onSuccessListener() {
                                             Log.d(TAG, "onSuccessListener: ");
@@ -241,6 +246,22 @@ public class register_page1_Fragment extends Fragment {
                         Toast.makeText(mContext, "You need to select your Gender", Toast.LENGTH_SHORT).show();
                     }
 
+
+                    break;
+
+                case R.id.selectCountry:
+                    final CountryPicker picker = CountryPicker.newInstance("Select Country");  // dialog title
+                    picker.setListener(new CountryPickerListener() {
+                        @Override
+                        public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+                            // Implement your code here
+                            selectCountry.setText(name);
+                            myuser.setCountry(name);
+                            Log.d(TAG, "onSelectCountry: "+name);
+                            picker.dismiss();
+                        }
+                    });
+                    picker.show(getFragmentManager(), "COUNTRY_PICKER");
 
                     break;
             }

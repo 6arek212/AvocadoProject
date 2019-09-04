@@ -81,5 +81,7 @@ dependencies {
 
     implementation 'at.blogc:expandabletextview:1.0.5'
 
+    implementation 'com.appyvet:materialrangebar:1.4.6'
 
+    implementation 'com.github.yesterselga:country-picker-android:1.0'
 }

@@ -34,7 +34,7 @@
                     android:drawableLeft="@drawable/ic_search"
                     android:drawablePadding="9dp"
                     android:focusable="false"
-                    android:hint="Search..."
+                    android:hint="@string/search"
                     android:textColorHint="@android:color/white"
                     android:layout_toStartOf="@+id/chat"/>
 

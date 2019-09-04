@@ -25,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="9dp"
-                tools:listitem="@layout/layout_add_connections_item" />
+                tools:listitem="@layout/layout_add_connections_item"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
