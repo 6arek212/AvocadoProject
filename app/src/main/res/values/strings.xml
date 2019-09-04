@@ -331,4 +331,5 @@
     <string name="select_country">Select Country</string>
     <string name="search">Search...</string>
     <string name="add_new_post">Add New Post</string>
+    <string name="cant_send_empty_message">cant send empty message</string>
 </resources>

@@ -29,7 +29,8 @@ public class SQLiteMethods extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table if not exists messages_tbl(message_id int,chat_id int ,message_sender_id int , message_text text ,message_datetime datetime )";
+        String query = "create table if not exists messages_tbl(message_id int,chat_id int ," +
+                "message_sender_id int , message_text text ,message_datetime datetime )";
         db.execSQL(query);
 
         query = "create table if not exists chats_tbl(chat_id int primary key," +
@@ -52,6 +53,16 @@ public class SQLiteMethods extends SQLiteOpenHelper {
     public void cleatChatsTable() {
         SQLiteDatabase db = getWritableDatabase();
         String query = "delete from chats_tbl";
+        db.execSQL(query);
+    }
+
+
+
+    public void deleteChat(int chat_id){
+        String query="delete from messages_tbl where chat_id="+chat_id;
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(query);
+        query="delete from chats_tbl where chat_id="+chat_id;
         db.execSQL(query);
     }
 

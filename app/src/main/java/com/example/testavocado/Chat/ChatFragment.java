@@ -73,7 +73,7 @@ public class ChatFragment extends Fragment {
         db.getChatsFromDb(current_user_id, new OnRequestingChatsListener() {
             @Override
             public void OnSuccessfullyGettingChats(List<Chat> chats) {
-                Log.d(TAG, "OnSuccessfullyGettingChats: ");
+                Log.d(TAG, "OnSuccessfullyGettingChats: "+chats.size());
                 adapter.addChatSet(chats);
             }
 

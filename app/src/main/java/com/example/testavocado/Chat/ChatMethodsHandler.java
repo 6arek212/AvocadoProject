@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public class ChatMethodsHandler {
@@ -59,6 +60,8 @@ public class ChatMethodsHandler {
         @GET("api/ChatMessages/GettingUnreadedMessages")
         Call<Status> GettingUnreadedMessages(@Query("User_id") int user_id,@Query("Chat_id") int chat_id);
 
+        @POST("api/ChatMessages/deleteChat")
+        Call<Status> deleteChat(@Query("user_id") int user_id,@Query("chat_id") int chat_id);
     }
 
 
@@ -119,74 +122,7 @@ public class ChatMethodsHandler {
     }
 
 
-    /*
-    private static void gettingChats(int user_id, final Context context, final OnRequestingChatsListener requestingChatsListener) {
-        RequestParams params = new RequestParams();
-        params.add(context.getString(R.string.user_id), String.valueOf(user_id));
 
-
-        ServerConnection.get(context.getString(R.string.GettingChats), params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-
-                Log.d(TAG, "onSuccess: connection done");
-                Status status = new Gson().fromJson(String.valueOf(response), Status.class);
-
-                try {
-                    Log.d(TAG, "onSuccess: state = " + status.getState());
-
-                    if (status.getState()==1) {
-                        JSONArray jsonArray = new JSONArray(response.getString(context.getString(R.string.Json_data)));
-                        Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
-
-
-
-                        List<Chat> chats = new ArrayList<>();
-                        for (int i = 0; i < jsonArray.length(); i++)
-                            chats.add(new Gson().fromJson(jsonArray.get(i).toString(),Chat.class));
-                        Log.d(TAG, "onSuccess: " + chats.get(0));
-
-
-                        requestingChatsListener.OnSuccessfullyGettingChats(chats);
-
-
-                    } else if (status.getState()==0) {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        requestingChatsListener.OnServerException(status.getException());
-
-
-                    } else {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        requestingChatsListener.OnServerException(status.getException());
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onSuccess: JSONException   " + e.getMessage());
-                    requestingChatsListener.OnFailure(e.getMessage());
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                requestingChatsListener.OnFailure(throwable.getMessage());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                requestingChatsListener.OnFailure(throwable.getMessage());
-            }
-        });
-
-    }*/
 
 
 
@@ -252,88 +188,6 @@ public class ChatMethodsHandler {
     }
 
 
-        /**
-         * using it for when creating a chat
-         *
-
-         */
-
-    /*
-    public static void OnGettingUserAndChats(int user_id, String text, int offset, final Context context, final OnRequestingUserAndChatsListener listener) {
-        RequestParams params = new RequestParams();
-
-        params.add(context.getString(R.string.user_id), String.valueOf(user_id));
-        params.add(context.getString(R.string.username), text);
-        params.add(context.getString(R.string.offset), String.valueOf(offset));
-
-        ServerConnection.get(context.getString(R.string.GettingUserAndChats), params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-
-                Log.d(TAG, "onSuccess: connection done");
-                Status status = new Gson().fromJson(String.valueOf(response), Status.class);
-
-                try {
-                    Log.d(TAG, "onSuccess: state = " + status.getState());
-
-                    if (status.getState()==1) {
-                        JSONArray jsonArray = new JSONArray(response.getString(context.getString(R.string.Json_data)));
-                        Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
-
-                        List<ChatUser> chatUsers =new ArrayList<>();
-
-                        for(int i=0;i<jsonArray.length();i++){
-                            chatUsers.add(new Gson().fromJson(jsonArray.get(i).toString(),ChatUser.class));
-                        }
-
-
-
-                        listener.OnSuccessfullyGettingUsersAndChats(chatUsers);
-
-
-                        Log.d(TAG, "onSuccess: " + chatUsers.get(0));
-
-
-                    } else if (status.getState()==0) {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-
-                    } else {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onSuccess: JSONException   " + e.getMessage());
-                    listener.OnServerException(e.getMessage());
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                listener.OnFailure(throwable.getMessage());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                listener.OnFailure(throwable.getMessage());
-            }
-        });
-
-
-    }*/
-
 
         public interface OnGettingUnreadMessagesListener {
             public void onSuccessListener(List<Message> messages);
@@ -391,86 +245,6 @@ public class ChatMethodsHandler {
     }
 
 
-    /*
-    public static void OnGettingUnreadedMessages(int user_id, int chat_id, final Context context, final OnRequestingUnrededMessagesListener listener) {
-
-        RequestParams params = new RequestParams();
-
-        params.add(context.getString(R.string.user_id), String.valueOf(user_id));
-        params.add(context.getString(R.string.chat_id), String.valueOf(chat_id));
-
-
-        ServerConnection.get(context.getString(R.string.GettingUnreadedMessages), params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-
-                Log.d(TAG, "onSuccess: connection done");
-                Status status = new Gson().fromJson(String.valueOf(response), Status.class);
-
-                try {
-                    Log.d(TAG, "onSuccess: state unread messages = " + status.getState());
-
-                    if (status.getState()==1) {
-                        JSONArray jsonArray = new JSONArray(response.getString(context.getString(R.string.Json_data)));
-                        Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
-
-                        List<Message> messages = new ArrayList<>();
-
-                        for(int i=0;i<jsonArray.length();i++){
-                            messages.add(new Gson().fromJson(jsonArray.get(i).toString(),Message.class));
-                        }
-
-
-                        listener.OnSuccessfullyGettingUnrededMessages(messages);
-
-
-                        Log.d(TAG, "onSuccess: " + messages.get(0));
-
-
-                    } else if (status.getState()==0) {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-
-                    } else {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onSuccess: JSONException   " + e.getMessage());
-                    listener.OnServerException(e.getMessage());
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                listener.OnFailure(throwable.getMessage());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                listener.OnFailure(throwable.getMessage());
-            }
-
-            @Override
-            public boolean getUseSynchronousMode() {
-                return false;
-            }
-        });
-
-    }*/
-
 
 
 
@@ -523,74 +297,6 @@ public class ChatMethodsHandler {
 
 
 
-/*
-    public static void OnSendingMessage(int chat_id, int user_id, String message, String datetime, final Context context, final OnSendingMessage listener) {
-
-        RequestParams params = new RequestParams();
-
-        params.add(context.getString(R.string.user_id), String.valueOf(user_id));
-        params.add(context.getString(R.string.chat_id), String.valueOf(chat_id));
-        params.add(context.getString(R.string.message), message);
-        params.add(context.getString(R.string.datetime), datetime);
-
-
-        ServerConnection.get(context.getString(R.string.SendingMessage), params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-
-                Log.d(TAG, "onSuccess: connection done");
-
-
-                try {
-                    Status status = new Gson().fromJson(String.valueOf(response), Status.class);
-                    Log.d(TAG, "onSuccess: state = " + status);
-
-                    if (status.getState()==1) {
-
-                        JSONObject json=new JSONObject(status.getJson_data());
-                        int message_id = json.getInt(context.getString(R.string.message_id));
-                        listener.OnSuccess(message_id);
-
-                    } else if (status.getState()==0) {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-
-                    } else {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onSuccess: JSONException   " + e.getMessage());
-                    listener.OnServerException(e.getMessage());
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                listener.OnFailure(throwable.getMessage());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                listener.OnFailure(throwable.getMessage());
-            }
-        });
-
-    }
-
-*/
 
 
 
@@ -645,81 +351,65 @@ public class ChatMethodsHandler {
 
     }
 
-    /*
-
-    public static void OnCheckingCreatingChat(int user_id,int receiver_id ,String message, String datetime, final Context context, final OnCreatingChat listener) {
-
-        RequestParams params = new RequestParams();
-
-        params.add(context.getString(R.string.sender_id), String.valueOf(user_id));
-        params.add(context.getString(R.string.receiver_id), String.valueOf(receiver_id));
-        params.add(context.getString(R.string.message), message);
-        params.add(context.getString(R.string.datetime), datetime);
 
 
-        ServerConnection.get(context.getString(R.string.CheckingCreatingChat), params, new JsonHttpResponseHandler() {
 
+
+
+
+
+
+
+    public interface OnDeletingChatListener {
+        public void onDeleted();
+        public void onServerException(String ex);
+        public void onFailureListener(String ex);
+    }
+
+    public static void OnDeletingChat(int user_id,int chat_id, final OnDeletingChatListener listener) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        ChatInterface interface1=retrofit.create(ChatInterface.class);
+
+        final Call<Status> ca=interface1.deleteChat(user_id,chat_id) ;
+        ca.enqueue(new Callback<Status>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status=response.body();
+                Log.d(TAG, "onResponse:  getting chats  "+status);
 
-
-                Log.d(TAG, "onSuccess: connection done OnCheckingCreatingChat");
-
-
-                try {
-                    Status status = new Gson().fromJson(String.valueOf(response), Status.class);
-                    Log.d(TAG, "onSuccess: state = " + status.getState());
-
-                    if (status.getState()==1) {
-
-                        JSONObject json=new JSONObject(status.getJson_data());
-
-
-                        int chat_id = json.getInt(context.getString(R.string.chat_id));
-                        int message_id = json.getInt(context.getString(R.string.message_id));
-
-
-
-                        listener.OnSuccess(chat_id,message_id);
-
-                    } else if (status.getState()==0) {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
-
-                    } else {
-                        Log.d(TAG, "onSuccess: " + status.getException());
-                        listener.OnServerException(status.getException());
-
+                if(response.isSuccessful()){
+                    if(status.getState()==1){
+                        Log.d(TAG, "onResponse: "+status);
+                            listener.onDeleted();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onSuccess: JSONException   " + e.getMessage());
-                    listener.OnServerException(e.getMessage());
-
+                    else if(status.getState()==0)
+                    {
+                        listener.onServerException(status.getException());
+                    }else
+                    {
+                        listener.onServerException(status.getException());
+                    }
                 }
-
-
+                else{
+                    listener.onFailureListener(response.message());
+                }
             }
-
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                listener.OnFailure(throwable.getMessage()+"   "+errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                listener.OnFailure(throwable.getMessage()+"  "+responseString);
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
             }
         });
 
 
 
+    }
 
-    }*/
+
+
+
+
+
+
 
 }

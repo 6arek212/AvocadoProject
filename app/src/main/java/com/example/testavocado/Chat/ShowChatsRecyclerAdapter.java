@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import static com.example.testavocado.Chat.ChatActivity.SQL_VER;
+
 
 public class ShowChatsRecyclerAdapter extends RecyclerView.Adapter<ShowChatsRecyclerAdapter.ViewHolder> {
 
@@ -71,8 +73,10 @@ public class ShowChatsRecyclerAdapter extends RecyclerView.Adapter<ShowChatsRecy
 
 
         viewHolder.mNot_Read.setText((chat.getChat_sender_id() == current_user_id ? chat.getSender_not_read() : chat.getReceiver_not_read()) + "");
+        deleteChat(viewHolder.delete,i);
 
         onClick(viewHolder.frameLayout, i);
+
     }
 
 
@@ -127,7 +131,7 @@ public class ShowChatsRecyclerAdapter extends RecyclerView.Adapter<ShowChatsRecy
         ImageView mProfileImage;
         TextView mUserName, mTime, mLastMessage, mNot_Read;
         SwipeRevealLayout mSwipeLayout;
-        FrameLayout frameLayout;
+        FrameLayout frameLayout,delete;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -139,7 +143,40 @@ public class ShowChatsRecyclerAdapter extends RecyclerView.Adapter<ShowChatsRecy
             mSwipeLayout = itemView.findViewById(R.id.swipe_layout);
             mTime = itemView.findViewById(R.id.time);
             mLastMessage = itemView.findViewById(R.id.lastMessage);
-
+            delete=itemView.findViewById(R.id.delete_layout);
         }
+    }
+
+
+
+    private void deleteChat(FrameLayout delete, final int adapterPosition) {
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatMethodsHandler.OnDeletingChat(current_user_id, chats.get(adapterPosition).getChat_id(), new ChatMethodsHandler.OnDeletingChatListener() {
+                    @Override
+                    public void onDeleted() {
+                        Log.d(TAG, "onDeleted: deleted");
+                        SQLiteMethods sqLiteMethods=new SQLiteMethods(context,"db1",null,SQL_VER);
+                        sqLiteMethods.deleteChat(chats.get(adapterPosition).getChat_id());
+                        chats.remove(adapterPosition);
+                        notifyItemRemoved(adapterPosition);
+                    }
+
+                    @Override
+                    public void onServerException(String ex) {
+                        Log.d(TAG, "onServerException: "+ex);
+
+                    }
+
+                    @Override
+                    public void onFailureListener(String ex) {
+                        Log.d(TAG, "onFailureListener: "+ex);
+
+                    }
+                });
+
+            }
+        });
     }
 }

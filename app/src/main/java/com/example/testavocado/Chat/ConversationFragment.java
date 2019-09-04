@@ -191,7 +191,7 @@ public class ConversationFragment extends Fragment {
                 final String text = mText_to_send.getText().toString();
 
                 if (text.trim().isEmpty()) {
-                    Toast.makeText(mContext, "cant send empty message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.cant_send_empty_message), Toast.LENGTH_SHORT).show();
 
 
                 } else {
@@ -256,7 +256,6 @@ public class ConversationFragment extends Fragment {
 
                                // message.setMessage_datetime(TimeMethods.convertDateTimeFormat(time));
                                 adapter.addMessageTop(message);
-                                Toast.makeText(mContext, "sent  " + adapter.getItemCount(), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
