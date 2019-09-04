@@ -32,6 +32,7 @@ import com.example.testavocado.Utils.Permissions;
 import com.example.testavocado.Utils.PhotoUpload;
 import com.example.testavocado.Utils.PostTypes;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class AddNewPostActivity extends AppCompatActivity {
     private ImageButton mPost;
     private ViewPager mViewPager;
     private TabLayout tablayout;
+    private TextInputLayout input_counter;
 
 
     //vars
@@ -105,6 +107,7 @@ public class AddNewPostActivity extends AppCompatActivity {
         mPost = findViewById(R.id.sharePost);
         tablayout = findViewById(R.id.tablayout);
         mProgressBar.setVisibility(View.GONE);
+        input_counter=findViewById(R.id.input_counter);
 
         initSpinner();
 
@@ -137,7 +140,7 @@ public class AddNewPostActivity extends AppCompatActivity {
 
 
                 if (postText.trim().isEmpty()) {
-                    Toast.makeText(mContext, "you need to enter some text", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.enterText), Toast.LENGTH_SHORT).show();
                 } else {
                     final int postType = mPostType.getSelectedItemPosition();
                     mProgressBar.setVisibility(View.VISIBLE);
@@ -171,7 +174,7 @@ public class AddNewPostActivity extends AppCompatActivity {
                     } else {
                         uploadingPost(postType, postText, null);
                     }
-                    //finish();
+
                 }
             }
         });
@@ -191,17 +194,12 @@ public class AddNewPostActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-
     }
 
 

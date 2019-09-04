@@ -327,4 +327,5 @@
 
     <!--myuser object-->
     <string name="user_object">user_object</string>
+    <string name="enterText">you need to enter some text</string>
 </resources>

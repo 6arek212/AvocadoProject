@@ -63,25 +63,39 @@
                     android:layout_marginTop="16dp">
 
 
-                    <EditText
-                        android:id="@+id/postText"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="25dp"
-                        android:background="@drawable/register_edit_text_bg"
-                        android:drawableLeft="@drawable/ic_last_name"
-                        android:drawableStart="@drawable/ic_last_name"
-                        android:drawablePadding="16dp"
-                        android:hint="@string/enter_your_post_text"
-                        android:maxLines="6"
-                        android:maxLength="255"
-                        android:paddingLeft="9dp"
-                        android:paddingTop="16dp"
-                        android:paddingRight="9dp"
-                        android:paddingBottom="50dp"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="16sp"/>
+                        android:id="@+id/input_counter"
+                        app:hintEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:counterEnabled="true"
+                        app:hintTextColor="@color/colorGray"
+                        >
+
+                        <EditText
+                            android:id="@+id/postText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:background="@drawable/register_edit_text_bg"
+                            android:drawableLeft="@drawable/ic_last_name"
+                            android:drawableStart="@drawable/ic_last_name"
+                            android:drawablePadding="16dp"
+                            android:hint="@string/enter_your_post_text"
+                            android:maxLines="6"
+                            android:paddingLeft="9dp"
+                            android:paddingTop="16dp"
+                            android:paddingRight="9dp"
+                            android:paddingBottom="50dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
 
                 </RelativeLayout>
