@@ -94,7 +94,7 @@ public class PostFragment extends Fragment {
         mContext = getContext();
         mProfileImage = view.findViewById(R.id.profileImage);
         mPostUserName = view.findViewById(R.id.postUserName);
-        mPostText = view.findViewById(R.id.postText);
+        mPostText = view.findViewById(R.id.expandableTextView);
         mPostTime = view.findViewById(R.id.postTime);
         mPostLikes = view.findViewById(R.id.postLikesCount);
         mPostRemoved = view.findViewById(R.id.postRemoved);

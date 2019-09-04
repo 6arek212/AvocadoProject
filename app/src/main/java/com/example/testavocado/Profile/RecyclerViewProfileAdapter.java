@@ -921,7 +921,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
             mProfileImage = itemView.findViewById(R.id.profileImage);
             mPostUserName = itemView.findViewById(R.id.postUserName);
-            mPostText = itemView.findViewById(R.id.postText);
+            mPostText = itemView.findViewById(R.id.expandableTextView);
             mPostTime = itemView.findViewById(R.id.postTime);
             mPostLikes = itemView.findViewById(R.id.postLikesCount);
             mPostComments = itemView.findViewById(R.id.postCommentsCount);
