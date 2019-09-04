@@ -297,7 +297,6 @@ public class register_page1_Fragment extends Fragment {
                     String imagePath = data.getExtras().getString(getString(R.string.imagePath));
                     Log.d(TAG, "onActivityResult: got image path " + imagePath);
 
-                    int width = getResources().getDisplayMetrics().widthPixels;
 
                     Uri uri = Uri.fromFile(new File(imagePath));
                     circleImageViewprofilepicture.setImageURI(uri);

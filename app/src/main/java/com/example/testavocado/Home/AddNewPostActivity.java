@@ -262,13 +262,8 @@ public class AddNewPostActivity extends AppCompatActivity {
                     String imagePath = data.getExtras().getString(getString(R.string.imagePath));
                     Log.d(TAG, "onActivityResult: got image path " + imagePath);
 
-                    int width = getResources().getDisplayMetrics().widthPixels;
-
                     Uri uri = Uri.fromFile(new File(imagePath));
-
-
                     adap.addImage(uri, adap.getItemCount());
-
                     is_image_seclected = true;
 
                 } else if (data.getExtras().get(getString(R.string.bitmap)) != null) {

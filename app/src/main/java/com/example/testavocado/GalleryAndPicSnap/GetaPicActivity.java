@@ -63,8 +63,7 @@ public class GetaPicActivity extends AppCompatActivity implements  onSelectedIma
     private void setupViewPager(){
         SectionPagerAdapter adapter=new SectionPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new GalleryFragment());
-      //  adapter.addFragment(new PhotoFragment());
-        adapter.addFragment(new CameraFragment());
+        adapter.addFragment(new PhotoFragment());
 
         viewPager=findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);

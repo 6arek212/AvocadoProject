@@ -1,9 +1,15 @@
 package com.example.testavocado.GalleryAndPicSnap;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,14 +24,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.testavocado.BuildConfig;
 import com.example.testavocado.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.os.Environment.DIRECTORY_PICTURES;
 
 
@@ -74,24 +88,7 @@ public class PhotoFragment extends Fragment {
         btnLaunchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((GetaPicActivity)getActivity()).getCurrentTab()==PHOTO_FRAGMENT_NUM){
-                    Log.d(TAG, "onCreateView: starting camera");
-
-                    //"android.media.action.IMAGE_CAPTURE"
-                  //  Intent cameraIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                   // startActivityForResult(cameraIntent,CAMERA_REQUEST_CODE);
-
-                    dispatchTakePictureIntent();
-
-                 /*  ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, "New Picture");
-                    values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-                    imageUri = getActivity().getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, 55);*/
-                }
+                openCameraIntent();
             }
         });
     }
@@ -99,6 +96,67 @@ public class PhotoFragment extends Fragment {
 
 
 
+    String imageFilePath;
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+
+
+
+
+
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
+
+    private void openCameraIntent() {
+        Intent pictureIntent = new Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE);
+        if(pictureIntent.resolveActivity(mContext.getPackageManager()) != null){
+            //Create a file to store the image
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            if (photoFile != null) {
+
+               Uri photoURI = FileProvider.getUriForFile(mContext,mContext.getPackageName(), photoFile);
+                pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        photoURI);
+                startActivityForResult(pictureIntent,
+                        REQUEST_CAPTURE_IMAGE);
+            }
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            Log.d(TAG, "onActivityResult: "+imageFilePath);
+            onSelectedImageListener.onSelectedPathImage(imageFilePath);
+        }
+        else if(resultCode == Activity.RESULT_CANCELED) {
+            // User Cancelled the action
+        }
+    }
 
     /**
      *
@@ -114,119 +172,5 @@ public class PhotoFragment extends Fragment {
     }
 
 
-
-
-
-    /**
-     *
-     *
-     *                      checking the result from the camera
-     *                      to update getaPic Activity
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-        if (requestCode == 55)
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                   /* Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                            getActivity().getContentResolver(), imageUri);
-                    String  imageurl = getRealPathFromURI(imageUri);
-                    */
-
-
-                    onSelectedImageListener.onSelectedPathImage(currentPhotoPath);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "onActivityResult: error getting bitmap"+e.getMessage() );
-                }
-
-            }
-
-
-        if(requestCode==CAMERA_REQUEST_CODE && data!=null){
-            Log.d(TAG, "onActivityResult: navigating to home activity");
-
-
-            /*Bitmap bitmap;
-            bitmap=(Bitmap) data.getExtras().get("data");
-
-            onSelectedImageListener.onSelectedBitmapImage(bitmap);*/
-
-
-
-        }
-
-    }
-
-
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-
-
-
-
-
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.e(TAG, "dispatchTakePictureIntent: IOException"+ex.getMessage() );
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(mContext,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
-
-
-
-
-
-
-    String currentPhotoPath;
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-
-        File storageDir =Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
 
 }

@@ -21,7 +21,9 @@
         android:required="false"/>
 
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="false" />
-
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera.flash"/>
 
     <application
         android:name=".Service.App"
@@ -63,15 +65,19 @@
             android:name=".BaseActivity"
             android:windowSoftInputMode="adjustPan" />
 
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mydomain.fileprovider"
+            android:authorities="com.example.testavocado"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
+
+
 
         <service
             android:name=".Service.ExampleJobService"

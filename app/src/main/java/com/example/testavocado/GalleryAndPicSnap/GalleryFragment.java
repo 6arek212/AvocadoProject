@@ -270,31 +270,7 @@ public class GalleryFragment extends Fragment {
     private void setImage(String imageUrl, ImageView imageView, String append) {
         Log.d(TAG, "setImage: setting image");
 
-    /*    ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(append + imageUrl, imageView, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
 
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-            }
-        });*/
 
         progressBar.setVisibility(View.VISIBLE);
 
