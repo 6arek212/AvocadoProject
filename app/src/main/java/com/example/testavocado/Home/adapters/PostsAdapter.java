@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -45,11 +47,10 @@ import com.example.testavocado.Utils.TimeMethods;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.blogc.android.views.ExpandableTextView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.testavocado.Home.PostMethods.FRIENDS_POSTS;
-import static com.example.testavocado.Home.PostMethods.PUBLIC_FRIENDS_POSTS;
-import static com.example.testavocado.Home.PostMethods.PUBLIC_POSTS;
+
 
 public class PostsAdapter extends RecyclerView.Adapter {
     private static final String TAG = "PostsAdapter";
@@ -85,7 +86,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         postsList.add(null);
         is_endOfPosts = false;
         feedFragment = fragment;
-        dontShow = true;
+        Show = true;
         firstTime = true;
     }
 
@@ -147,37 +148,10 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
 
     MainFeedFragment feedFragment;
-    public boolean dontShow;
+    public boolean Show;
     public int post_type;
 
-    private void handlingCheckBox(CheckBox friends, CheckBox publicPosts) {
-        int size = postsList.size();
-        dontShow = true;
 
-
-        if (friends.isChecked() && publicPosts.isChecked()) {
-            //get friend and public posts
-            feedFragment.getPosts(0, PUBLIC_FRIENDS_POSTS);
-            post_type = PUBLIC_FRIENDS_POSTS;
-        } else if (friends.isChecked() && !publicPosts.isChecked()) {
-            feedFragment.getPosts(0, FRIENDS_POSTS);
-            post_type = FRIENDS_POSTS;
-
-
-        } else if (!friends.isChecked() && publicPosts.isChecked()) {
-            //get public posts
-            feedFragment.getPosts(0, PUBLIC_POSTS);
-            post_type = PUBLIC_POSTS;
-
-        } else {
-            Log.d(TAG, "handlingCheckBox: delete posts" + postsList.size());
-            postsList.clear();
-            addNull();
-            notifyItemRangeRemoved(1, size);
-            dontShow = false;
-
-        }
-    }
 
 
     @Override
@@ -197,21 +171,38 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 v1.mFriendsPosts.setChecked(true);
                 firstTime = false;
             }
-            CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    handlingCheckBox(v1.mFriendsPosts, v1.mPublicPosts);
-                }
-            };
 
-            v1.mPublicPosts.setOnCheckedChangeListener(onCheckedChangeListener);
-            v1.mFriendsPosts.setOnCheckedChangeListener(onCheckedChangeListener);
+
+            feedFragment.handleCheckBOx(v1.mPublicPosts,v1.mFriendsPosts);
+            feedFragment.setProfileImage(v1.mProfileImage);
 
         } else if (viewHolder.getItemViewType() == 0) {
             final PostViewHolder v1 = (PostViewHolder) viewHolder;
 
             v1.mPostUserName.setText(postsList.get(i).getUser_name() + " " + postsList.get(i).getUser_last_name());
+
             v1.mPostText.setText(postsList.get(i).getPost_text());
+
+
+            v1.expand.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(final View v)
+                {
+                    if (v1.mPostText.isExpanded())
+                    {
+                        v1.mPostText.collapse();
+                        v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_ex));
+                    }
+                    else
+                    {
+                        v1.mPostText.expand();
+                        v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_col));
+                    }
+                }
+            });
+
+
             v1.mPostLikes.setText(String.valueOf(postsList.get(i).getPost_likes_count()));
             v1.mPostComments.setText(String.valueOf(postsList.get(i).getPost_comments_count()));
             v1.mPostShares.setText(String.valueOf(postsList.get(i).getPost_share_count()));
@@ -683,13 +674,14 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mPostUserName, mPostText, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost;
+        TextView mPostUserName, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost,expand;
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
         RelativeLayout commentsLayout, likeLayout, mPhotoLayout,mShareLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
+        ExpandableTextView mPostText;
 
 
         public PostViewHolder(@NonNull View itemView) {
@@ -697,7 +689,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
             mProfileImage = itemView.findViewById(R.id.profileImage);
             mPostUserName = itemView.findViewById(R.id.postUserName);
-            mPostText = itemView.findViewById(R.id.postText);
+            mPostText = itemView.findViewById(R.id.expandableTextView);
             mPostTime = itemView.findViewById(R.id.postTime);
             mPostLikes = itemView.findViewById(R.id.postLikesCount);
             mPostComments = itemView.findViewById(R.id.postCommentsCount);
@@ -715,7 +707,12 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mPhotoLayout = itemView.findViewById(R.id.relLayout4);
             mShareLayout=itemView.findViewById(R.id.shareLayout);
+            expand=itemView.findViewById(R.id.button_toggle);
+
+
+            mPostText.setInterpolator(new OvershootInterpolator());
         }
+
     }
 
 
@@ -731,6 +728,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mAddPost = itemView.findViewById(R.id.addPost);
             mFriendsPosts = itemView.findViewById(R.id.friendPosts);
             mPublicPosts = itemView.findViewById(R.id.publicPosts);
+            mProfileImage=itemView.findViewById(R.id.profileImage);
         }
     }
 

@@ -63,6 +63,10 @@
 
     <string name="GPS_ERROR">no GPS signal !</string>
 
+    <string name="hello">hello</string>
+    <string name="whatsOnYourMind">whats on you\'r mind</string>
+
+
 
     /////////////////////// Server Functions Names ///////////////////
     <string name="createUsersTable">createUsersTable</string>

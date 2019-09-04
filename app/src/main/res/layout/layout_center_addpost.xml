@@ -37,19 +37,20 @@
 
                     <TextView
                         android:id="@+id/whatsOnYourMind"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_toRightOf="@+id/profileImage"
                         android:layout_toEndOf="@+id/profileImage"
-                        android:text="hello tarik what's on your mind"
+                        android:text="hello"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         android:layout_marginRight="16dp"
                         android:layout_marginEnd="16dp"
                         />
+
 
                 </RelativeLayout>
 

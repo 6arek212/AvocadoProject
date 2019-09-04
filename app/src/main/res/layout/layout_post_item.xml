@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/tools"
     android:background="@drawable/white_gray_border_bottom"
     android:elevation="10dp"
     android:layout_marginBottom="7dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
     <RelativeLayout
@@ -105,17 +105,36 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relLayout2">
 
-
-                <TextView
-                    android:layout_marginTop="16dp"
-                    android:id="@+id/postText"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:text="hello this is my first post here im going to explain alll of the things for myy firend s"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="15sp"
-                    />
+                    android:orientation="vertical">
+
+                    <at.blogc.android.views.ExpandableTextView
+                        android:id="@+id/expandableTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:maxLines="5"
+                        android:text="hello this is my first post here im going to explain alll of the things for myy firend s"
+                        android:ellipsize="end"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorBlack"
+                        app:animation_duration="750"/>
+
+
+
+
+                    <TextView
+                        android:id="@+id/button_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_ex"
+                        android:layout_gravity="end"
+                        />
+
+                </LinearLayout>
+
 
 
             </RelativeLayout>

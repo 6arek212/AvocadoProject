@@ -601,7 +601,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                 PostFragment fragment = new PostFragment();
                 fragment.post_id = postsList.get(i).getOriginal_post_id();
-                frt.replace(R.id.mainLayoutPosts, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                frt.replace(R.id.realtive_person_profile, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
                         .commit();
             }
         });

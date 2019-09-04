@@ -3,6 +3,9 @@ package com.example.testavocado.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import com.bumptech.glide.Glide;
+import com.example.testavocado.Models.Setting;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +55,6 @@ public class AddNewPostActivity extends AppCompatActivity {
     //widgets
     private CircleImageView mProfilePhoto;
     private ImageView mClose;
-    //  private ImageView mPostImage,mDeleteImage;
     private TextView mWhatOnYourMind, mAddPic;
     private EditText mPostText;
     private Spinner mPostType;
@@ -93,7 +95,6 @@ public class AddNewPostActivity extends AppCompatActivity {
     private void initWidgets() {
         mProfilePhoto = findViewById(R.id.profileImage);
         mClose = findViewById(R.id.close);
-        // mPostImage = findViewById(R.id.postImage);
         mWhatOnYourMind = findViewById(R.id.whatsOnYourMind);
         mAddPic = findViewById(R.id.addPic);
         mProgressBar=findViewById(R.id.progressBar);
@@ -106,6 +107,18 @@ public class AddNewPostActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.GONE);
 
         initSpinner();
+
+        Setting setting=HelpMethods.getSharedPreferences(mContext);
+        mWhatOnYourMind.setText(getString(R.string.hello) +" "+setting.getUser_first_name()+" "+setting.getUser_last_name()
+        +" "+getString(R.string.whatsOnYourMind));
+
+        Glide.with(mContext)
+                .load(setting.getProfilePic())
+                .centerCrop()
+                .error(R.drawable.error)
+                .into(mProfilePhoto);
+
+
         permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
         user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
 

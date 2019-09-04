@@ -5,7 +5,8 @@
     android:id="@+id/realtive_person_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorEditTextGrey">
+    android:background="@color/colorEditTextGrey"
+    >
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

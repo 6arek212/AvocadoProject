@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
+import com.example.testavocado.Chat.SQLiteMethods;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.testavocado.Chat.ChatActivity.SQL_VER;
 
 public class MenuFragment extends Fragment {
     public static final String TAG = "MenuFragment";
@@ -117,6 +120,8 @@ public class MenuFragment extends Fragment {
                             public void onConfirm() {
                                 HelpMethods.deleteUserIdSharedPreferences(mContext,getActivity());
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                                SQLiteMethods sqLiteMethods=new SQLiteMethods(mContext,"db1",null,SQL_VER);
+                                sqLiteMethods.cleatChatsTable();
                                 getActivity().finish();
                             }
                         });
@@ -134,15 +139,6 @@ public class MenuFragment extends Fragment {
         viewProfileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-               // ProfileFragment fragment = new ProfileFragment();
-              //  Bundle bundle = new Bundle();
-              //  bundle.putInt(getString(R.string.current_user_profile), HelpMethods.checkSharedPreferencesForUserId(mContext));
-             //   fragment.setArguments(bundle);
-
-             //   transaction.replace(R.id.settingsLayout, fragment)
-               //         .addToBackStack(getString(R.string.profile_fragment)).commit();
                 BaseActivity.mViewPager.setCurrentItem(1);
             }
         });

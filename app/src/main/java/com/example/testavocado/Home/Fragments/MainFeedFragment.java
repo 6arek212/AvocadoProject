@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.testavocado.Home.PostMethods;
@@ -37,9 +40,58 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.testavocado.Home.PostMethods.FRIENDS_POSTS;
+import static com.example.testavocado.Home.PostMethods.PUBLIC_FRIENDS_POSTS;
+import static com.example.testavocado.Home.PostMethods.PUBLIC_POSTS;
+
 
 public class MainFeedFragment extends Fragment {
     private static final String TAG = "MainFeedFragment";
+
+
+    public void handleCheckBOx(final CheckBox publicPosts,final CheckBox friends){
+
+
+        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                adapter.Show=true;
+                if (friends.isChecked() && publicPosts.isChecked()) {
+                    //get friend and public posts
+                    getPosts(0, PUBLIC_FRIENDS_POSTS);
+                    adapter.post_type = PUBLIC_FRIENDS_POSTS;
+
+                } else if (friends.isChecked() && !publicPosts.isChecked()) {
+                    getPosts(0, FRIENDS_POSTS);
+                    adapter.post_type = FRIENDS_POSTS;;
+
+                } else if (!friends.isChecked() && publicPosts.isChecked()) {
+                    //get public posts
+                    getPosts(0, PUBLIC_POSTS);
+                    adapter.post_type = PUBLIC_POSTS;;
+                } else {
+                    Log.d(TAG, "handlingCheckBox: delete posts" + adapter.getItemCount());
+                    adapter.clear();
+                    adapter.notifyDataSetChanged();
+                    adapter.Show=false;
+                }}
+        };
+
+        publicPosts.setOnCheckedChangeListener(onCheckedChangeListener);
+        friends.setOnCheckedChangeListener(onCheckedChangeListener);
+    }
+
+
+    public void setProfileImage(CircleImageView image){
+        Glide.with(mContext)
+                .load(HelpMethods.getSharedPreferences(mContext).getProfilePic())
+                .centerCrop()
+                .error(R.drawable.person_icon)
+                .into(image);
+    }
+
 
 
     //widgets
@@ -74,7 +126,6 @@ public class MainFeedFragment extends Fragment {
 
     private void initWidgets(View view) {
         mContext = getContext();
-
         user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = view.findViewById(R.id.swipe);
@@ -85,6 +136,7 @@ public class MainFeedFragment extends Fragment {
         adapter = new PostsAdapter(getFragmentManager(), mContext, user_id, MainFeedFragment.this);
         mRecyclerView.setAdapter(adapter);
         handler = new Handler();
+
 
         widgetsEvent();
         recyclerViewBottomDetectionListener();
@@ -99,7 +151,7 @@ public class MainFeedFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (adapter.dontShow) {
+                if (adapter.Show) {
                     getPosts(0, adapter.post_type);
                 }
             }

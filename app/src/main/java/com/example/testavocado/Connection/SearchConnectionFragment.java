@@ -85,7 +85,7 @@ public class SearchConnectionFragment extends Fragment {
         mSearchName = view.findViewById(R.id.searchName);
         mNearByUsers = view.findViewById(R.id.nearbyUsersBox);
         numberPicker = view.findViewById(R.id.number_picker_horizontal);
-        mainLayout = view.findViewById(R.id.mainLayoutConnection);
+        mainLayout = view.findViewById(R.id.layoutSearch);
         mSwipe = view.findViewById(R.id.swipe);
         mContext = getContext();
         user_current_id = ConnectionsActivity.user_current_id;

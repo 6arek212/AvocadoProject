@@ -77,4 +77,9 @@ dependencies {
     implementation 'com.github.inpossoft:CountryCodePickerProject:2.0.0'
 
     implementation "android.arch.work:work-runtime:1.0.1"
+
+
+    implementation 'at.blogc:expandabletextview:1.0.5'
+
+
 }

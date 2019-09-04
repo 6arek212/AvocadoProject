@@ -20,9 +20,11 @@ import com.example.testavocado.Utils.HelpMethods;
 
 import java.util.List;
 
+import static com.example.testavocado.Chat.ChatActivity.SQL_VER;
+
 public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
-    public static final int SQL_VER=1;
+
 
 
     //widgets

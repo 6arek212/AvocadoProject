@@ -153,16 +153,7 @@ public class SQLiteMethods extends SQLiteOpenHelper {
     }
 
 
-    public void updateChats() {
 
-
-    }
-
-
-    public void CheckUsers() {
-
-
-    }
 
 
     public void insetMessage(Message message, int chat_id) {
