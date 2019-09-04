@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.util.Log;
@@ -39,33 +40,41 @@ public class HelpMethods {
     }
 
 
+    /**
+     * update profile pic in shared preference
+     */
 
 
+    public static void updateProfilePic(String imageUrl, Context context) {
+        SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.settings), Context.MODE_PRIVATE);
+        ed = preferences.edit();
+        ed.putString(context.getString(R.string.sharedPref_profilepic), imageUrl);
+        ed.apply();
+
+    }
 
 
     /**
      * getting shared Preferences
      */
-    public static Setting getSharedPreferences( Context context) {
-        Setting setting=new Setting();
+    public static Setting getSharedPreferences(Context context) {
+        Setting setting = new Setting();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        setting.setAccount_is_private(preferences.getBoolean(context.getString(R.string.private_profile_switch),false));
-        setting.setUser_location_switch(preferences.getBoolean(context.getString(R.string.location_switch),false));
-        setting.setFingerprint(preferences.getBoolean(context.getString(R.string.fingerPrint),false));
+        setting.setAccount_is_private(preferences.getBoolean(context.getString(R.string.private_profile_switch), false));
+        setting.setUser_location_switch(preferences.getBoolean(context.getString(R.string.location_switch), false));
+        setting.setFingerprint(preferences.getBoolean(context.getString(R.string.fingerPrint), false));
 
         preferences = context.getSharedPreferences(context.getString(R.string.settings), Context.MODE_PRIVATE);
-        setting.setUser_id(preferences.getInt(context.getString(R.string.sharedPref_userId),-1));
-        setting.setUser_first_name(preferences.getString(context.getString(R.string.sharedPref_userfristname),""));
-        setting.setUser_last_name(preferences.getString(context.getString(R.string.sharedPref_userlastname),""));
-        setting.setProfilePic(preferences.getString(context.getString(R.string.sharedPref_profilepic),""));
+        setting.setUser_id(preferences.getInt(context.getString(R.string.sharedPref_userId), -1));
+        setting.setUser_first_name(preferences.getString(context.getString(R.string.sharedPref_userfristname), ""));
+        setting.setUser_last_name(preferences.getString(context.getString(R.string.sharedPref_userlastname), ""));
+        setting.setProfilePic(preferences.getString(context.getString(R.string.sharedPref_profilepic), ""));
 
 
         return setting;
     }
-
-
-
 
 
     /**
@@ -105,7 +114,7 @@ public class HelpMethods {
     //getting user profile pic shared prefe link
     public static String get_user_profile_pic_sharedprefernces(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.settings), 0);
-        String path_profile_pic = sharedPreferences.getString(context.getString(R.string.sharedPref_profilepic), "null");
+        String path_profile_pic = sharedPreferences.getString(context.getString(R.string.sharedPref_profilepic), "");
         return path_profile_pic;
     }
 

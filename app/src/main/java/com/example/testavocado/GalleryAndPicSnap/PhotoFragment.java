@@ -49,6 +49,7 @@ public class PhotoFragment extends Fragment {
     //activity result codes
     public static final int PHOTO_FRAGMENT_NUM=1;
     public static final int CAMERA_REQUEST_CODE=5;
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
 
 
 
@@ -60,6 +61,7 @@ public class PhotoFragment extends Fragment {
     //vars
     private onSelectedImageListener onSelectedImageListener;
     private Context mContext;
+    private String imageFilePath;
 
 
     @Nullable
@@ -96,7 +98,6 @@ public class PhotoFragment extends Fragment {
 
 
 
-    String imageFilePath;
     private File createImageFile() throws IOException {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss",
@@ -119,7 +120,6 @@ public class PhotoFragment extends Fragment {
 
 
 
-    private static final int REQUEST_CAPTURE_IMAGE = 100;
 
     private void openCameraIntent() {
         Intent pictureIntent = new Intent(

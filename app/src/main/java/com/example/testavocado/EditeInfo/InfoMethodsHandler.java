@@ -55,6 +55,10 @@ public class InfoMethodsHandler {
 
 
 
+
+
+
+
     public static void updateProfilePhotoGenderBirthDate(int userId, String image_path, int genderNum, String birthDate,String user_country,final OnUpdateListener listener) {
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         update1Method update=retrofit.create(update1Method.class);

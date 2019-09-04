@@ -172,9 +172,11 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.mPostsCount.setText(user.getUser_posts_count() + "");
             v1.mbio.setText(user.getUser_bio());
 
+            if (is_current_user)
+                changeProfilePic(v1);
 
             Glide.with(mContext)
-                    .load(HelpMethods.get_user_profile_pic_sharedprefernces(mContext))
+                    .load(user.getUser_profile_photo())
                     .centerCrop()
                     .error(R.drawable.profile_ic)
                     .into(v1.mProfileImage);
@@ -251,23 +253,19 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.mPostText.setText(postsList.get(i).getPost_text());
 
 
-            v1.expand.setOnClickListener(new View.OnClickListener()
-            {
+            v1.expand.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(final View v)
-                {
-                    if (v1.mPostText.isExpanded())
-                    {
+                public void onClick(final View v) {
+                    if (v1.mPostText.isExpanded()) {
                         v1.mPostText.collapse();
                         v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_ex));
-                    }
-                    else
-                    {
+                    } else {
                         v1.mPostText.expand();
                         v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_col));
                     }
                 }
-            });            v1.mPostLikes.setText(postsList.get(i).getPost_likes_count() + "");
+            });
+            v1.mPostLikes.setText(postsList.get(i).getPost_likes_count() + "");
             v1.mPostComments.setText(postsList.get(i).getPost_comments_count() + "");
             v1.mPostShares.setText(postsList.get(i).getPost_share_count() + "");
 
@@ -338,6 +336,34 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         } else if (!is_endOfPosts && type == PROGRESS_BAR) {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }
+
+    }
+
+
+    private void changeProfilePic(final InfoViewHolder v1) {
+        v1.mProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogPic bottomSheetDialogPic = new BottomSheetDialogPic();
+                bottomSheetDialogPic.show(fragmentManager, "pic");
+
+                bottomSheetDialogPic.setOnChangeProfilePicListner(new BottomSheetDialogPic.OnChangeProfilePicListener() {
+                    @Override
+                    public void onChange(String imageUrl) {
+
+                        HelpMethods.updateProfilePic(imageUrl, mContext);
+
+                        Glide.with(mContext)
+                                .load(imageUrl)
+                                .centerCrop()
+                                .error(R.drawable.profile_ic)
+                                .into(v1.mProfileImage);
+                    }
+                });
+
+            }
+        });
+
 
     }
 
@@ -907,7 +933,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mPostUserName,expand, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost;
+        TextView mPostUserName, expand, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost;
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
@@ -939,7 +965,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mPhotoLayout = itemView.findViewById(R.id.relLayout4);
 
-            expand=itemView.findViewById(R.id.button_toggle);
+            expand = itemView.findViewById(R.id.button_toggle);
             mPostText.setInterpolator(new OvershootInterpolator());
 
         }
@@ -951,7 +977,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         private CircleImageView mProfileImage;
         private LinearLayout friendsLayout, friendRequestSentLayout, friendRequestRecivedLayout, addingLayout, AddFriendLayout;
         private RelativeLayout mAddPost;
-        private Button mFriends, mMessage, btnRemoveRequest, btnAccept, btnDeleteConnection, btnAddFriend,btn_add_bio;
+        private Button mFriends, mMessage, btnRemoveRequest, btnAccept, btnDeleteConnection, btnAddFriend, btn_add_bio;
 
 
         public InfoViewHolder(@NonNull View itemView) {

@@ -332,4 +332,6 @@
     <string name="search">Search...</string>
     <string name="add_new_post">Add New Post</string>
     <string name="cant_send_empty_message">cant send empty message</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="show_profile_picture">Show profile picture</string>
 </resources>
