@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +43,7 @@ import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
 
+import at.blogc.android.views.ExpandableTextView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostFragment extends Fragment {
@@ -50,7 +52,7 @@ public class PostFragment extends Fragment {
 
     //Widgets
     private CircleImageView mProfileImage;
-    private TextView mPostUserName, mPostText, mPostTime, mPostLikes, mPostCommentsCount, mPostShares, like, share, dislike, mSharedPost, mPostRemoved;
+    private TextView mPostUserName, mPostTime, mPostLikes, mPostCommentsCount, mPostShares, like, share, dislike, mSharedPost, mPostRemoved,expand;
     private ImageView mPostOptions;
     private TabLayout mDots;
     private ViewPager mImageSlider;
@@ -60,6 +62,7 @@ public class PostFragment extends Fragment {
     private ScrollView mPostLayout;
     private SwipeRefreshLayout mSwipe;
     private CoordinatorLayout mainLayout;
+    private ExpandableTextView mPostText;
 
 
     //vsrs
@@ -115,7 +118,8 @@ public class PostFragment extends Fragment {
         user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
         mPostRemoved.setVisibility(View.GONE);
         mPostLayout.setVisibility(View.GONE);
-
+        expand=view.findViewById(R.id.button_toggle);
+        mPostText.setInterpolator(new OvershootInterpolator());
         getPost();
 
 
@@ -134,6 +138,25 @@ public class PostFragment extends Fragment {
     private void publishPost() {
         mPostUserName.setText(post.getUser_name() + " " + post.getUser_last_name());
         mPostText.setText(post.getPost_text());
+
+
+        expand.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View v)
+            {
+                if (mPostText.isExpanded())
+                {
+                    mPostText.collapse();
+                    expand.setBackground(mContext.getDrawable(R.drawable.ic_ex));
+                }
+                else
+                {
+                    mPostText.expand();
+                    expand.setBackground(mContext.getDrawable(R.drawable.ic_col));
+                }
+            }
+        });
         mPostLikes.setText(String.valueOf(post.getPost_likes_count()));
         mPostCommentsCount.setText(String.valueOf(post.getPost_comments_count()));
         mPostShares.setText(String.valueOf(post.getPost_share_count()));

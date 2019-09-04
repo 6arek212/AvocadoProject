@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,6 +52,7 @@ import com.example.testavocado.Utils.TimeMethods;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.blogc.android.views.ExpandableTextView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
@@ -247,7 +249,25 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
             v1.mPostUserName.setText(postsList.get(i).getUser_name() + " " + postsList.get(i).getUser_last_name());
             v1.mPostText.setText(postsList.get(i).getPost_text());
-            v1.mPostLikes.setText(postsList.get(i).getPost_likes_count() + "");
+
+
+            v1.expand.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(final View v)
+                {
+                    if (v1.mPostText.isExpanded())
+                    {
+                        v1.mPostText.collapse();
+                        v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_ex));
+                    }
+                    else
+                    {
+                        v1.mPostText.expand();
+                        v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_col));
+                    }
+                }
+            });            v1.mPostLikes.setText(postsList.get(i).getPost_likes_count() + "");
             v1.mPostComments.setText(postsList.get(i).getPost_comments_count() + "");
             v1.mPostShares.setText(postsList.get(i).getPost_share_count() + "");
 
@@ -887,13 +907,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mPostUserName, mPostText, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost;
+        TextView mPostUserName,expand, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost;
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
         RelativeLayout commentsLayout, likeLayout, mPhotoLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
+        ExpandableTextView mPostText;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -917,6 +938,10 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mPhotoLayout = itemView.findViewById(R.id.relLayout4);
+
+            expand=itemView.findViewById(R.id.button_toggle);
+            mPostText.setInterpolator(new OvershootInterpolator());
+
         }
     }
 
