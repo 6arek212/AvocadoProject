@@ -73,5 +73,9 @@
     <string name="phonenumber">رقم الهاتف</string>
     <string name="personalinformation">معلومات شخصية</string>
     <string name="permission">عليك السماح بالاذن</string>
-    <string name="update_information">"تحديث الاسم الرقم "</string>
+    <string name="update_information">"تحديث الاسم الرقم والايميل "</string>
+    <string name="update_privacy_settings">"تحكم بمن يرى منشوراتك  "</string>
+    <string name="password_maximum">كلمة السر يجب الا تتعدى ال 16 حرف</string>
+    <string name="password_conditions">كلمة السر يجب ان تحوي ارقام واحرف فقط</string>
+    <string name="password_atleast">كلمه السر يحب ات تحوي على الاقل 6 احرف</string>
 </resources>

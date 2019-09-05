@@ -74,4 +74,8 @@
     <string name="personalinformation">מידע אישי</string>
     <string name="permission">עליך להסכם על ההרשאות</string>
     <string name="password_maximum">הסיסמה צריכה להיות מקסימום  16 תוו</string>
+    <string name="update_information">עדכן שם מספר פלפון ומייל</string>
+    <string name="update_privacy_settings">תשלוט במי יראה הפוסטיפ</string>
+    <string name="password_conditions">המסמה צריכה להכיל מספרים ותווים בלבד</string>
+    <string name="password_atleast">הסמסה צריכה להכיל לפחות 6 תווים</string>
 </resources>
