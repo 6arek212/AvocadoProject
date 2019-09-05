@@ -14,10 +14,22 @@
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete Post"
+            android:text="@string/delete_post"
             android:textAlignment="center"
             android:layout_marginBottom="8dp"/>
 
+
+
+
+        <TextView
+            android:id="@+id/savePost"
+            android:background="@drawable/green_border_bottom"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_post"
+            android:textAlignment="center"
+            android:layout_marginBottom="8dp"/>
 
 
 
@@ -27,7 +39,7 @@
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hide Post"
+            android:text="@string/hide_post"
             android:textAlignment="center"
             android:layout_marginBottom="8dp"/>
 
@@ -39,7 +51,7 @@
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Report Post"
+            android:text="@string/report_post"
             android:textAlignment="center"
             android:layout_marginBottom="8dp"/>
     </LinearLayout>

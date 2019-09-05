@@ -38,7 +38,7 @@ import com.example.testavocado.Dialogs.CommentMethodsHandler;
 import com.example.testavocado.Dialogs.CommentsDialog2;
 import com.example.testavocado.Dialogs.ConfirmDialog;
 import com.example.testavocado.Home.AddNewPostActivity;
-import com.example.testavocado.Home.BottomSheetDialog2;
+import com.example.testavocado.Home.BottomSheetDialog;
 import com.example.testavocado.Home.Fragments.LikesDislikesFragment;
 import com.example.testavocado.Home.PostMethods;
 import com.example.testavocado.Models.Post;
@@ -604,36 +604,41 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         mPostOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog2 bottomSheetDialog = new BottomSheetDialog2();
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                 bottomSheetDialog.post_userId = postsList.get(i).getUser_id();
                 bottomSheetDialog.post_id = postsList.get(i).getPost_id();
                 bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
 
-                bottomSheetDialog.setOnPostReportListener(new BottomSheetDialog2.OnPostReportListener() {
-                    @Override
-                    public void onReport() {
+               bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
+                   @Override
+                   public void onHide() {
+                       postsList.remove(i);
+                       notifyItemRemoved(i);
+                   }
 
-                    }
-                });
+                   @Override
+                   public void onDelete() {
+                       postsList.remove(i);
+                       notifyItemRemoved(i);
+                   }
 
+                   @Override
+                   public void onReport() {
 
-                bottomSheetDialog.setOnPostDeleteListener(new BottomSheetDialog2.OnPostDeleteListener() {
-                    @Override
-                    public void onDelete() {
-                        postsList.remove(i);
-                        notifyItemRemoved(i);
-                    }
-                });
+                   }
 
+                   @Override
+                   public void onSave(int saved_id) {
+                       postsList.get(i).setSaved_post_id(saved_id);
+                       Toast.makeText(mContext, mContext.getString(R.string.post_saved), Toast.LENGTH_SHORT).show();
+                   }
 
-                bottomSheetDialog.setOnPostHideListener(new BottomSheetDialog2.OnPostHideListener() {
-                    @Override
-                    public void onHide() {
-                        postsList.remove(i);
-                        notifyItemRemoved(i);
-                    }
-                });
+                   @Override
+                   public void onDeleteSavedPost() {
+
+                   }
+               });
             }
         });
     }

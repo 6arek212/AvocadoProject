@@ -205,12 +205,12 @@ public class PostItemHandler {
 
     public void attachBottomSheet(Post post, final FragmentManager fragmentManager, final OnBottomSheetAction onBottomSheetAction) {
 
-                final BottomSheetDialog2 bottomSheetDialog = new BottomSheetDialog2();
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                 bottomSheetDialog.post_id = post.getPost_id();
                 bottomSheetDialog.post_userId = post.getUser_id();
                 bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
-                bottomSheetDialog.setOnPostDeleteListener(new BottomSheetDialog2.OnPostDeleteListener() {
+                bottomSheetDialog.setOnPostDeleteListener(new BottomSheetDialog.OnPostDeleteListener() {
                     @Override
                     public void onDelete() {
                        onBottomSheetAction.onPostDeleted();
@@ -219,7 +219,7 @@ public class PostItemHandler {
 
 
 
-                bottomSheetDialog.setOnPostHideListener(new BottomSheetDialog2.OnPostHideListener() {
+                bottomSheetDialog.setOnPostHideListener(new BottomSheetDialog.OnPostHideListener() {
                     @Override
                     public void onHide() {
                         onBottomSheetAction.onPostHide();
@@ -229,7 +229,7 @@ public class PostItemHandler {
 
 
 
-                bottomSheetDialog.setOnPostReportListener(new BottomSheetDialog2.OnPostReportListener() {
+                bottomSheetDialog.setOnPostReportListener(new BottomSheetDialog.OnPostReportListener() {
                     @Override
                     public void onReport() {
                         onBottomSheetAction.onPostReported();

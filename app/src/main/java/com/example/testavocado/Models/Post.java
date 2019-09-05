@@ -66,12 +66,21 @@ public class Post {
     private int dis_like_id;
 
 
+    @SerializedName("saved_post_id")
+    private int saved_post_id;
+
 
     public Post() {
     }
 
 
+    public int getSaved_post_id() {
+        return saved_post_id;
+    }
 
+    public void setSaved_post_id(int saved_post_id) {
+        this.saved_post_id = saved_post_id;
+    }
 
     public String getUser_profile_photo() {
         return user_profile_photo;

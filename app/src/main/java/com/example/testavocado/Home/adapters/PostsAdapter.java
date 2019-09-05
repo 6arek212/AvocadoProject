@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.example.testavocado.Home.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.FragmentManager;
@@ -16,9 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,7 +32,6 @@ import com.example.testavocado.Dialogs.CommentMethodsHandler;
 import com.example.testavocado.Dialogs.CommentsDialog;
 import com.example.testavocado.Dialogs.ConfirmDialog;
 import com.example.testavocado.Home.AddNewPostActivity;
-import com.example.testavocado.Home.BottomSheetDialog;
 import com.example.testavocado.Home.Fragments.LikesDislikesFragment;
 import com.example.testavocado.Home.Fragments.MainFeedFragment;
 import com.example.testavocado.Home.PostMethods;
@@ -338,9 +337,44 @@ public class PostsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-                bottomSheetDialog.adapter = PostsAdapter.this;
-                bottomSheetDialog.index = i;
+                bottomSheetDialog.post_id=postsList.get(i).getPost_id();
+                bottomSheetDialog.post_saved=postsList.get(i).getSaved_post_id();
+                bottomSheetDialog.post_userId=postsList.get(i).getUser_id();
+
+                bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
+                   @Override
+                   public void onHide() {
+                       postsList.remove(i);
+                       notifyItemRemoved(i);
+                   }
+
+                   @Override
+                   public void onDelete() {
+                       postsList.remove(i);
+                       notifyItemRemoved(i);
+                   }
+
+                   @Override
+                   public void onReport() {
+
+                   }
+
+                    @Override
+                    public void onSave(int saved_id) {
+                       postsList.get(i).setSaved_post_id(saved_id);
+                        Toast.makeText(mContext, mContext.getString(R.string.post_saved), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDeleteSavedPost() {
+                       postsList.get(i).setSaved_post_id(0);
+                    }
+                });
+
+
                 bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
+
+
             }
         });
     }

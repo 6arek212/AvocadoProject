@@ -61,6 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
         final ConfirmDialogEditeText confirmDialog = new ConfirmDialogEditeText();
         confirmDialog.setTitle("Are you sure you want to delete your account ?");
         confirmDialog.setHind("Password");
+        confirmDialog.setType(true);
         confirmDialog.setOnConfirm(new ConfirmDialogEditeText.OnConfirmListener() {
             @Override
             public void onConfirm(String text) {

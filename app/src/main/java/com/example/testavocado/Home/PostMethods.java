@@ -91,10 +91,108 @@ public class PostMethods {
 
 
         @POST("api/Post/savePost")
-        Call<Status> savePost(@Query("post_id") int post_id, @Query("user_id") int user_id, @Query("datetime") String datetime);
+        Call<Status> savePost(@Query("post_id") int post_id, @Query("user_id") int user_id, @Query("datetime") String datetime, @Query("description") String description);
 
         @POST("api/Post/removeSavedPost")
         Call<Status> removeSavedPost(@Query("saved_post_id") int saved_post_id);
+
+    }
+
+
+    public interface OnDeleteingSavinedPostListener {
+        void onDeleted();
+
+        void onServerException(String ex);
+
+        void onFailure(String ex);
+    }
+
+
+    public static void deleteSavePost(int saved_post_id, final OnDeleteingSavinedPostListener listener) {
+
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        final PostsMethods save = retrofit.create(PostsMethods.class);
+
+        final Call<Status> ca = save.removeSavedPost(saved_post_id);
+        ca.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.isSuccessful()) {
+                    if (status.getState() == 1) {
+                        listener.onDeleted();
+                    } else if (status.getState() == 0) {
+                        listener.onServerException(status.getException());
+
+                    } else {
+                        listener.onServerException(status.getException());
+                    }
+                } else {
+                    listener.onFailure(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailure(t.getMessage());
+            }
+        });
+
+    }
+
+
+    public interface OnSavingPostListener {
+        void onSaved(int saved_id);
+
+        void onServerException(String ex);
+
+        void onFailure(String ex);
+    }
+
+
+    public static void savePost(int user_id, int post_id, String datetime, String description, final OnSavingPostListener listener) {
+        Log.d(TAG, "savePost: user_id " + user_id + "   post_id " + post_id + " datetime " + datetime);
+
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        final PostsMethods save = retrofit.create(PostsMethods.class);
+
+        final Call<Status> ca = save.savePost(post_id, user_id, datetime, description);
+        ca.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+
+                if(response.isSuccessful()){
+                    if (status.getState() == 1) {
+
+                        try{
+                            Log.d(TAG, "onResponse: savepost "+status.getJson_data());
+                            JSONObject json = new JSONObject(status.getJson_data());
+                            int saved_post_id = json.getInt("saved_post_id");
+                            listener.onSaved(saved_post_id);
+
+                        }catch (JSONException e){
+                            listener.onServerException(e.getMessage());
+                        }
+                    } else if (status.getState() == 0) {
+                        listener.onServerException(status.getException());
+
+                    } else {
+                        listener.onServerException(status.getException());
+                    }
+                }else {
+                    listener.onFailure(response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailure(t.getMessage());
+            }
+        });
 
     }
 
