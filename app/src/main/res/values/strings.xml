@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">testAvocado</string>
+    <string name="app_name">Avocado</string>
 
     <string name="personalinformation">Personal Information</string>
     <string name="emailaddress">Email Address</string>
@@ -24,6 +24,16 @@
     <string name="mobilephonenumber_text">Mobile phone number</string>
     <string name="continue_text">Continue</string>
     <string name="only_you_will_see_your_phonenumber">Only you will see this on your profile</string>
+    <string name="hello">hello</string>
+    <string name="whatsOnYourMind">whats on you\'r mind</string>
+    <string name="enterText">you need to enter some text</string>
+    <string name="select_country">Select Country</string>
+    <string name="search">Search...</string>
+    <string name="add_new_post">Add New Post</string>
+    <string name="cant_send_empty_message">cant send empty message</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="show_profile_picture">Show profile picture</string>
+
     //////////////Feedback for Toast messages///////////////////////
 
     <string name="ERROR_TOAST">something went wrong !</string>
@@ -63,8 +73,8 @@
 
     <string name="GPS_ERROR">no GPS signal !</string>
 
-    <string name="hello">hello</string>
-    <string name="whatsOnYourMind">whats on you\'r mind</string>
+
+
 
 
 
@@ -267,7 +277,7 @@
     <string name="Search">Search</string>
 
     <!-- first and last name-->
-    <string name="first_last_charcter_numbers_only">"The firstname and the last name most have charcters only"</string>
+    <string name="first_last_charcter_numbers_only">The firstname and the last name must have charcters only</string>
     <string name="long_name">The name is too long</string>
     <string name="short_name">Fist name most be long than 2 charcter</string>
     <string name="short_name1">Last name most be long than 2 charcter</string>
@@ -327,11 +337,7 @@
 
     <!--myuser object-->
     <string name="user_object">user_object</string>
-    <string name="enterText">you need to enter some text</string>
-    <string name="select_country">Select Country</string>
-    <string name="search">Search...</string>
-    <string name="add_new_post">Add New Post</string>
-    <string name="cant_send_empty_message">cant send empty message</string>
-    <string name="change_profile_picture">Change profile picture</string>
-    <string name="show_profile_picture">Show profile picture</string>
+
+
+
 </resources>

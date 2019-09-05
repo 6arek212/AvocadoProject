@@ -184,6 +184,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mPostText.setText(postsList.get(i).getPost_text());
 
 
+
+
+
             v1.expand.setOnClickListener(new View.OnClickListener()
             {
                 @Override
