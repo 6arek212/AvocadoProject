@@ -337,7 +337,7 @@
 
     <!--myuser object-->
     <string name="user_object">user_object</string>
-
+    <string name="you_need_add_firngerprint">you need to add you fingerprint to the system</string>
 
 
 </resources>

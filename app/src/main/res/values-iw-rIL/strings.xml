@@ -53,13 +53,11 @@
     <string name="female">נקבה</string>
     <string name="field_required">כל בשדות חובות</string>
     <string name="fields_required_toUpdate">כל בשדות חובות לעדכון</string>
-    <string name="fingerPrint">טביעת אצבע</string>
     <string name="first_last_charcter_numbers_only">השפ צריך להכיל רק אותיות</string>
     <string name="firstname">שם</string>
     <string name="friends">חברים</string>
     <string name="hello">שלום</string>
     <string name="lastname">שם משפחה</string>
-    <string name="likePost">אהבתי</string>
     <string name="log_out">התנתק</string>
     <string name="male">זכר</string>
     <string name="view_your_profile">הצג דף אישי</string>

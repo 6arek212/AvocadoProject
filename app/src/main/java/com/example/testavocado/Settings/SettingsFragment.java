@@ -104,6 +104,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Fingerprint API only available on from Android 6.0 (M)
             FingerprintManager fingerprintManager = (FingerprintManager) getContext().getSystemService(Context.FINGERPRINT_SERVICE);
+
+            if(fingerprintManager==null) {
+                findPreference(getString(R.string.fingerPrint)).setVisible(false);
+                return;
+            }
+
             if (!fingerprintManager.isHardwareDetected()) {
                 // Device doesn't support fingerprint authentication
                 findPreference(getString(R.string.fingerPrint)).setVisible(false);
@@ -111,7 +117,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             } else if (!fingerprintManager.hasEnrolledFingerprints()) {
                 // User hasn't enrolled any fingerprints to authenticate with
                 findPreference(getString(R.string.fingerPrint)).setEnabled(false);
-                findPreference(getString(R.string.fingerPrint)).setSummary("you need to add you fingerprint to the system");
+                findPreference(getString(R.string.fingerPrint)).setSummary(getString(R.string.you_need_add_firngerprint));
 
             } else {
                 // Everything is ready for fingerprint authentication
@@ -119,6 +125,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         } else {
             FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(getContext());
+
+            if(fingerprintManagerCompat==null)
+            {findPreference(getString(R.string.fingerPrint)).setVisible(false);
+                return;
+            }
 
             if (!fingerprintManagerCompat.isHardwareDetected()) {
                 // Device doesn't support fingerprint authentication

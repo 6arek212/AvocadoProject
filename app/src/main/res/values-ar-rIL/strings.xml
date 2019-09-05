@@ -53,13 +53,11 @@
     <string name="female">انثى</string>
     <string name="field_required">كل الحقول مطلوبة</string>
     <string name="fields_required_toUpdate">كل الحقول مطلوبة للتحديث</string>
-    <string name="fingerPrint">بصمة الاصبع</string>
     <string name="first_last_charcter_numbers_only">الاسم الاولى والعائلة يحب ان يحوي حروف</string>
     <string name="firstname">الاسم</string>
     <string name="friends">الاصدقاء</string>
     <string name="hello">مرحبا</string>
     <string name="lastname">اسم العائلة</string>
-    <string name="likePost">اعجاب</string>
     <string name="log_out">الخروج</string>
     <string name="male">ذكر</string>
     <string name="view_your_profile">اعرض الصفحة الشخصية</string>
