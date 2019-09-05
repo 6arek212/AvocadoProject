@@ -324,14 +324,13 @@ public class SearchConnectionFragment extends Fragment {
         ConnectionsHandler.getNearByUsers(user_current_id, latitude, longitude, km, mSearchName.getText().toString(), datetime, offset, new ConnectionsHandler.OnGettingNearByUsersListener() {
             @Override
             public void onSuccessListener(List<UserAdd> userAddList) {
-                Log.d(TAG, "onSuccessListener: ");
+                Log.d(TAG, "onSuccessListener: "+userAddList.size());
                 adapter.removeProg();
 
                 if (km == numberPicker.getRightIndex())
                     adapter.addNewSetUserToAdd(userAddList, adapter.getItemCount());
 
-                if (mSearchName.getText().toString().isEmpty())
-                    adapter.clearList();
+
 
 
                 mSwipe.setRefreshing(false);
