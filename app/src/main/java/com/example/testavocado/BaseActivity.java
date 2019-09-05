@@ -136,7 +136,7 @@ public class BaseActivity extends AppCompatActivity  {
 
     /**
      *          init all widgets
-     *
+     *ا
      */
     private void initWidgets(){
         mChat=findViewById(R.id.chat);
