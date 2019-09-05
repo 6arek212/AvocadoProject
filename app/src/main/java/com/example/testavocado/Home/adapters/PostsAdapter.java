@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import com.example.testavocado.Home.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +51,6 @@ import java.util.List;
 
 import at.blogc.android.views.ExpandableTextView;
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 
 public class PostsAdapter extends RecyclerView.Adapter {
@@ -102,8 +104,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
     @Override
     public int getItemViewType(int position) {
         Log.d(TAG, "getItemViewType: " + position);
@@ -151,8 +151,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public int post_type;
 
 
-
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         final int index = i;
@@ -172,7 +170,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             }
 
 
-            feedFragment.handleCheckBOx(v1.mPublicPosts,v1.mFriendsPosts);
+            feedFragment.handleCheckBOx(v1.mPublicPosts, v1.mFriendsPosts);
             feedFragment.setProfileImage(v1.mProfileImage);
 
         } else if (viewHolder.getItemViewType() == 0) {
@@ -183,21 +181,13 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mPostText.setText(postsList.get(i).getPost_text());
 
 
-
-
-
-            v1.expand.setOnClickListener(new View.OnClickListener()
-            {
+            v1.expand.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(final View v)
-                {
-                    if (v1.mPostText.isExpanded())
-                    {
+                public void onClick(final View v) {
+                    if (v1.mPostText.isExpanded()) {
                         v1.mPostText.collapse();
                         v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_ex));
-                    }
-                    else
-                    {
+                    } else {
                         v1.mPostText.expand();
                         v1.expand.setBackground(mContext.getDrawable(R.drawable.ic_col));
                     }
@@ -337,37 +327,37 @@ public class PostsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-                bottomSheetDialog.post_id=postsList.get(i).getPost_id();
-                bottomSheetDialog.post_saved=postsList.get(i).getSaved_post_id();
-                bottomSheetDialog.post_userId=postsList.get(i).getUser_id();
+                bottomSheetDialog.post_id = postsList.get(i).getPost_id();
+                bottomSheetDialog.post_saved = postsList.get(i).getSaved_post_id();
+                bottomSheetDialog.post_userId = postsList.get(i).getUser_id();
 
                 bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
-                   @Override
-                   public void onHide() {
-                       postsList.remove(i);
-                       notifyItemRemoved(i);
-                   }
+                    @Override
+                    public void onHide() {
+                        postsList.remove(i);
+                        notifyItemRemoved(i);
+                    }
 
-                   @Override
-                   public void onDelete() {
-                       postsList.remove(i);
-                       notifyItemRemoved(i);
-                   }
+                    @Override
+                    public void onDelete() {
+                        postsList.remove(i);
+                        notifyItemRemoved(i);
+                    }
 
-                   @Override
-                   public void onReport() {
+                    @Override
+                    public void onReport() {
 
-                   }
+                    }
 
                     @Override
                     public void onSave(int saved_id) {
-                       postsList.get(i).setSaved_post_id(saved_id);
+                        postsList.get(i).setSaved_post_id(saved_id);
                         Toast.makeText(mContext, mContext.getString(R.string.post_saved), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onDeleteSavedPost() {
-                       postsList.get(i).setSaved_post_id(0);
+                        postsList.get(i).setSaved_post_id(0);
                     }
                 });
 
@@ -442,11 +432,10 @@ public class PostsAdapter extends RecyclerView.Adapter {
                             });
                         }
                     });
-                    confirmDialog.show(fragmentManager,mContext.getString(R.string.confirm_dialog));
+                    confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
 
-                }
-                catch (NullPointerException ex){
-                    Log.e(TAG, "onClick: "+ex );
+                } catch (NullPointerException ex) {
+                    Log.e(TAG, "onClick: " + ex);
                 }
 
             }
@@ -711,11 +700,11 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mPostUserName, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost,expand;
+        TextView mPostUserName, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost, expand;
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
-        RelativeLayout commentsLayout, likeLayout, mPhotoLayout,mShareLayout;
+        RelativeLayout commentsLayout, likeLayout, mPhotoLayout, mShareLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
         ExpandableTextView mPostText;
@@ -743,8 +732,8 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mPhotoLayout = itemView.findViewById(R.id.relLayout4);
-            mShareLayout=itemView.findViewById(R.id.shareLayout);
-            expand=itemView.findViewById(R.id.button_toggle);
+            mShareLayout = itemView.findViewById(R.id.shareLayout);
+            expand = itemView.findViewById(R.id.button_toggle);
 
 
             mPostText.setInterpolator(new OvershootInterpolator());
@@ -765,7 +754,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mAddPost = itemView.findViewById(R.id.addPost);
             mFriendsPosts = itemView.findViewById(R.id.friendPosts);
             mPublicPosts = itemView.findViewById(R.id.publicPosts);
-            mProfileImage=itemView.findViewById(R.id.profileImage);
+            mProfileImage = itemView.findViewById(R.id.profileImage);
         }
     }
 

@@ -607,6 +607,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                 bottomSheetDialog.post_userId = postsList.get(i).getUser_id();
                 bottomSheetDialog.post_id = postsList.get(i).getPost_id();
+                bottomSheetDialog.post_saved=postsList.get(i).getSaved_post_id();
                 bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
 
@@ -636,7 +637,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
                    @Override
                    public void onDeleteSavedPost() {
-
+                       postsList.get(i).setSaved_post_id(0);
                    }
                });
             }
