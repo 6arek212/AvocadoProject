@@ -128,6 +128,15 @@ public class MenuFragment extends Fragment {
                         confirmDialog.show(getFragmentManager(), getString(R.string.confirm_dialog));
 
                         break;
+
+
+
+                    case R.id.savedPosts:
+                        fragment = new SavedPostsFragment();
+                        transaction.replace(R.id.baseLayout, fragment)
+                                .addToBackStack(getString(R.string.saved_posts_fragment)).commit();
+
+                        break;
                 }
 
 

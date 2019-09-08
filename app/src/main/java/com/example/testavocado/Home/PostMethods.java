@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.testavocado.Models.Like;
 import com.example.testavocado.Models.Post;
+import com.example.testavocado.Models.SavedPost;
 import com.example.testavocado.Models.Status;
 
 import com.example.testavocado.Utils.NetworkClient;
@@ -96,7 +97,76 @@ public class PostMethods {
         @POST("api/Post/removeSavedPost")
         Call<Status> removeSavedPost(@Query("saved_post_id") int saved_post_id);
 
+
+        @GET("api/Post/getSavedPosts")
+        Call<Status> getSavedPosts(@Query("user_id") int user_id,@Query("datetime") String datetime,@Query("offset") int offset);
+
     }
+
+
+
+
+
+
+
+
+
+    public interface OnGettingSavedPostListener {
+        void onSuccess(List<SavedPost> savedPosts);
+        void onServerException(String ex);
+        void onFailure(String ex);
+    }
+
+
+    public static void getSavedPosts(int user_id,String datetime,int offset, final OnGettingSavedPostListener listener) {
+
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        final PostsMethods save = retrofit.create(PostsMethods.class);
+
+        final Call<Status> ca = save.getSavedPosts(user_id,datetime,offset);
+        ca.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.isSuccessful()) {
+                    if (status.getState() == 1) {
+                        try{
+                            Log.d(TAG, "onResponse: getting saved posts "+status.getJson_data());
+                            JSONArray jsonArray=new JSONArray(status.getJson_data());
+                            List<SavedPost> savedPosts=new ArrayList<>();
+
+                            for(int i=0;i<jsonArray.length();i++){
+                                savedPosts.add(new Gson().fromJson(jsonArray.get(i).toString(),SavedPost.class));
+                            }
+                            listener.onSuccess(savedPosts);
+
+                        }catch (JSONException e){
+                            listener.onFailure(e.getMessage());
+                        }
+
+                    } else if (status.getState() == 0) {
+                        listener.onServerException(status.getException());
+
+                    } else {
+                        listener.onServerException(status.getException());
+                    }
+                } else {
+                    listener.onFailure(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailure(t.getMessage());
+            }
+        });
+
+    }
+
+
+
+
 
 
     public interface OnDeleteingSavinedPostListener {
@@ -378,6 +448,7 @@ public class PostMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.isSuccessful()) {
                     Status status = response.body();
+                    Log.d(TAG, "onResponse: report "+status);
 
                     if (status.getState() == 1) {
                         listener.OnPostReported();

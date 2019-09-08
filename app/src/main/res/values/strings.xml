@@ -225,6 +225,7 @@
     <string name="confirm_dialog">confirm_dialog</string>
     <string name="setting_fragment">setting_fragment</string>
     <string name="games_fragment">games_fragment</string>
+    <string name="saved_posts_fragment">saved_posts_fragment</string>
 
 
 

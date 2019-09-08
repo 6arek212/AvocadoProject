@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.example.testavocado.Home.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -67,7 +69,7 @@ public class PostFragment extends Fragment {
 
     //vsrs
     private int user_id;
-    public Post post;
+    private Post post;
     public int post_id;
     private Context mContext;
 
@@ -285,6 +287,7 @@ public class PostFragment extends Fragment {
                 fragment.attachOnClickProfileImage();
                 fragment.initPostCommentsDialog();
                 fragment.likeDislikeHandler();
+                fragment.attachBottomSheet();
 
                 fragment.mPostRemoved.setVisibility(View.GONE);
                 fragment.mPostLayout.setVisibility(View.VISIBLE);
@@ -315,7 +318,7 @@ public class PostFragment extends Fragment {
                     final Post postShare = new Post();
                     postShare.setUser_id(user_id);
                     postShare.setPost_text(post.getPost_text());
-                    //   postShare.setPost_image_path(post.getPost_image_path());
+                    postShare.setPost_images_url(post.getPost_images_url());
                     postShare.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
                     postShare.setPost_type(post.getPost_type());
                     postShare.setPost_is_shared(true);
@@ -347,6 +350,67 @@ public class PostFragment extends Fragment {
     }
 
 
+
+
+
+
+
+    private void attachBottomSheet() {
+        mPostOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+                bottomSheetDialog.post_id =post_id;
+                bottomSheetDialog.post_saved = post.getSaved_post_id();
+                bottomSheetDialog.post_userId = post.getUser_id();
+
+                bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
+                    @Override
+                    public void onHide() {
+                        getFragmentManager().popBackStack();
+                    }
+
+                    @Override
+                    public void onDelete() {
+                        getFragmentManager().popBackStack();
+                    }
+
+                    @Override
+                    public void onReport() {
+
+                    }
+
+                    @Override
+                    public void onSave(int saved_id) {
+                        post.setSaved_post_id(saved_id);
+                    }
+
+                    @Override
+                    public void onDeleteSavedPost() {
+                        post.setSaved_post_id(0);
+                    }
+                });
+
+
+                bottomSheetDialog.show(getFragmentManager(), "bottomSheetDialog");
+
+
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void attachLikeFragment() {
         likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,8 +421,13 @@ public class PostFragment extends Fragment {
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
                 FragmentTransaction tr = fragmentManager.beginTransaction();
-                tr.replace(R.id.mainLayoutPosts, fragment)
-                        .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                if(getActivity() instanceof BaseActivity){
+                    tr.replace(R.id.baseLayout, fragment) .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                }
+                else{
+                    tr.replace(R.id.mainLayoutConnection, fragment) .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                }
+
             }
         });
     }
@@ -426,7 +495,15 @@ public class PostFragment extends Fragment {
 
             FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
             FragmentTransaction tr = fragmentManager.beginTransaction();
-            tr.replace(R.id.mainLayoutPosts, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+
+
+            if(getActivity() instanceof BaseActivity){
+                tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+            }
+            else{
+                tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+
+            }
         }
     }
 
