@@ -9,31 +9,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import com.example.testavocado.Service.myWorker;
+import com.example.testavocado.Service.BackgroundService;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsActivity;
@@ -42,15 +36,12 @@ import com.example.testavocado.Home.Fragments.MainFeedFragment;
 import com.example.testavocado.Login.LoginMethods;
 import com.example.testavocado.Notification.NotificationFragment;
 import com.example.testavocado.Profile.ProfileFragment;
-import com.example.testavocado.Service.ExampleJobService;
 import com.example.testavocado.Settings.MenuFragment;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.LocationMethods;
 import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.SectionStatePagerAdapter;
 import com.example.testavocado.Utils.TimeMethods;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class BaseActivity extends AppCompatActivity  {
@@ -269,33 +260,14 @@ public class BaseActivity extends AppCompatActivity  {
 
 
 
-    /**
-     * starting a background Service
-     */
-    public void scheduleJob() {
-        ComponentName componentName = new ComponentName(this, ExampleJobService.class);
-        JobInfo info = new JobInfo.Builder(1234, componentName)
-                .setRequiresCharging(true)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build();
 
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d(TAG, "Job scheduled");
-        } else {
-            Log.d(TAG, "Job scheduling failed");
-        }
+
+
+
+    public void stopService() {
+        BackgroundService.stopThis();
+        stopService(new Intent(mContext,BackgroundService.class));
     }
-
-    public void cancelJob() {
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(1234);
-        Log.d(TAG, "Job cancelled");
-    }
-
 
     /**
      *
@@ -309,25 +281,26 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        cancelJob();
+        stopService();
         getLocation();
         updateOnlineState(ONLINE_STATE);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // scheduleJob();
+        if(Build.VERSION.SDK_INT>=26){
+            startForegroundService(new Intent(mContext, BackgroundService.class));
+        }else{
+            startService(new Intent(mContext, BackgroundService.class));
+        }
 
-        StartWorker();
-    }
-
-
-    public static void StartWorker(){
-        PeriodicWorkRequest request=new PeriodicWorkRequest.Builder(myWorker.class,6, TimeUnit.SECONDS).build();
-        WorkManager.getInstance().enqueue(request);
 
     }
+
+
+
 
     @Override
     protected void onStop() {

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.testavocado">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -78,10 +79,13 @@
         </provider>
 
 
-
         <service
-            android:name=".Service.ExampleJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:name=".Service.BackgroundService"
+            android:enabled="true"
+            android:exported="true"
+            ></service>
+
+
     </application>
 
 </manifest>

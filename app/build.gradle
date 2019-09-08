@@ -84,4 +84,7 @@ dependencies {
     implementation 'com.appyvet:materialrangebar:1.4.6'
 
     implementation 'com.github.yesterselga:country-picker-android:1.0'
+
+    implementation 'com.android.support:support-compat:28.0.0'
+
 }
