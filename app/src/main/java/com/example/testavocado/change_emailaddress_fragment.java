@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.testavocado.Login.LoginMethods;
+import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.validation.validations;
@@ -70,11 +71,34 @@ public class change_emailaddress_fragment extends Fragment {
                 case R.id.btn_addnewemail_edit:
                     String email=edtxt_email.getText().toString();
                     validations validations1=new validations(mcontext);
+                   
+                    if(edtxt_password.getText().toString().trim().isEmpty()){
+                        Toast.makeText(mcontext, "enter a password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                   
                     if(validations1.EMailValidation(email))
                     {
-                        //check if email exists or not if not exists then sending message to old email and new email
+                        Update_information_Methods.Update_emailaddress(mcontext, HelpMethods.get_userid_sharedp(mcontext), email,edtxt_password.getText().toString(), new Update_information_Methods.on_first_last_name_updated() {
+                            @Override
+                            public void onSuccessListener(int result) {
+                                Toast.makeText(mcontext, getString(R.string.UPDATED), Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            @Override
+                            public void onServerException(String ex) {
+                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onServerException: "+ex);
+                            }
+
+                            @Override
+                            public void onFailureListener(String ex) {
+                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailureListener: "+ex);
+                            }
+                        });
                     }
-                    else Toast.makeText(mcontext, getString(R.string.wrong_email_format)+"", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:

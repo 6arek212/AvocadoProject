@@ -55,6 +55,18 @@ public class HelpMethods {
     }
 
 
+
+    public static void updateName(String firstName,String lastName, Context context) {
+        SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.settings), Context.MODE_PRIVATE);
+        ed = preferences.edit();
+        ed.putString(context.getString(R.string.sharedPref_userfristname), firstName);
+        ed.putString(context.getString(R.string.sharedPref_userlastname), lastName);
+        ed.apply();
+    }
+
+
+
     /**
      * getting shared Preferences
      */

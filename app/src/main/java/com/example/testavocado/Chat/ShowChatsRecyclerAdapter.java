@@ -153,6 +153,7 @@ public class ShowChatsRecyclerAdapter extends RecyclerView.Adapter<ShowChatsRecy
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: current_user_id: "+current_user_id+"  chat iD "+chats.get(adapterPosition).getChat_id());
                 ChatMethodsHandler.OnDeletingChat(current_user_id, chats.get(adapterPosition).getChat_id(), new ChatMethodsHandler.OnDeletingChatListener() {
                     @Override
                     public void onDeleted() {

@@ -13,7 +13,7 @@
     <string name="account_settings_explain">Manage information about you</string>
     <string name="firstname">First name</string>
     <string name="lastname">Last name</string>
-    <string name="addemail_title1">Add an additional email address</string>
+    <string name="update_email">change you\'r email address</string>
     <string name="addemail_title2">To save this setting please enter your Avocado password</string>
     <string name="addemail">Add Email</string>
     <string name="cancel">Cancel</string>
@@ -267,7 +267,7 @@
     <string name="delete">Delete</string>
     <string name="not_found">Not found</string>
     <string name="succuess_registred">Success registred</string>
-    <string name="succuess_updated">Success Updated</string>
+    <string name="succuess_updated">updated Successfully</string>
     <string name="you_are_friends_now">Your are now friends</string>
     <string name="request_deleted">Request Deleted</string>
     <!-- activity names -->
@@ -346,6 +346,7 @@
     <string name="report_post">Report Post</string>
     <string name="delete_post">Delete Post</string>
     <string name="delete_from_savedposts">Delete from saved posts</string>
+    <string name="update">Update</string>
 
 
 </resources>

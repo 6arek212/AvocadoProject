@@ -65,7 +65,7 @@ public class change_first_last_name_fragment extends Fragment {
             switch (v.getId())
             {
                 case R.id.btn_save_edit:
-                    String firstname,lastname;
+                    final String firstname,lastname;
                     firstname=edtxt_first_name.getText().toString();
                     lastname=edtxt_last_name.getText().toString();
 
@@ -76,13 +76,15 @@ public class change_first_last_name_fragment extends Fragment {
                                 new Update_information_Methods.on_first_last_name_updated() {
                             @Override
                             public void onSuccessListener(int result) {
-                                if(result==1)
-                                    Toast.makeText(mcontext, R.string.succuess_updated+"", Toast.LENGTH_SHORT).show();
+                                if(result==1) {
+                                    Toast.makeText(mcontext, getString(R.string.succuess_updated), Toast.LENGTH_SHORT).show();
+                                    HelpMethods.updateName(firstname,lastname,mcontext);
+                                }
                             }
 
                             @Override
                             public void onServerException(String ex) {
-
+                                Toast.makeText(mcontext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

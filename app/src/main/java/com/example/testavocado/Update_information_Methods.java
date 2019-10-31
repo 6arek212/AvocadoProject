@@ -78,15 +78,15 @@ public class Update_information_Methods {
     public interface update_emailaddress {
         @GET("api/Update/update_emailaddress")
             // rout path method in c#
-        Call<Status> update_emailaddress(@Query("userid") int userid, @Query("emailaddress") String emailaddress);
+        Call<Status> update_emailaddress(@Query("userid") int userid, @Query("emailaddress") String emailaddress,@Query("password") String password);
     }
 
 
-    public static void Update_emailaddress(final Context mcontext, int userid, String emailaddress,final Update_information_Methods.on_first_last_name_updated listener) {
+    public static void Update_emailaddress(final Context mcontext, int userid, String emailaddress,String password,final Update_information_Methods.on_first_last_name_updated listener) {
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         update_emailaddress bi = retrofit.create(update_emailaddress.class);
 
-        final Call<Status> sa = bi.update_emailaddress(userid, emailaddress);
+        final Call<Status> sa = bi.update_emailaddress(userid, emailaddress,password);
 
         sa.enqueue(new Callback<Status>() {
             @Override
@@ -109,8 +109,7 @@ public class Update_information_Methods {
                     }
                 }
                 else
-                    Toast.makeText(mcontext, mcontext.getString(R.string.no_intrent_connection)+"", Toast.LENGTH_SHORT).show();
-
+                    listener.onFailureListener(response.message());
             }
 
             @Override
