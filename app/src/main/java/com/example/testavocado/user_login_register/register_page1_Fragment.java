@@ -104,7 +104,7 @@ public class register_page1_Fragment extends Fragment {
                 // insert into varibales
                 year1=year;
                 month1=month;
-                day1=day1;
+                day1=dayOfMonth;
 
                 first_date_select=false;
                 Log.d(TAG, "onDateSet: ");

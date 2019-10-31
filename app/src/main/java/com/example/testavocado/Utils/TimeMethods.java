@@ -65,6 +65,8 @@ public class TimeMethods {
 
 
 
+
+
     public static Date stringDateToDate(String StrDate) {
         Date dateToReturn = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
