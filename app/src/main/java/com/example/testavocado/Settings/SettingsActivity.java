@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testavocado.Dialogs.ConfirmDialog;
@@ -58,9 +59,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         final int user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
 
+
+
         final ConfirmDialogEditeText confirmDialog = new ConfirmDialogEditeText();
-        confirmDialog.setTitle("Are you sure you want to delete your account ?");
-        confirmDialog.setHind("Password");
+        confirmDialog.setTitle(getString(R.string.are_you_sure_remove_account));
+        confirmDialog.setHind(getString(R.string.password));
         confirmDialog.setType(true);
         confirmDialog.setOnConfirm(new ConfirmDialogEditeText.OnConfirmListener() {
             @Override
@@ -80,14 +83,14 @@ public class SettingsActivity extends AppCompatActivity {
                     public void serverException(String exception) {
                         Log.d(TAG, "serverException: " + exception);
                         //password incorrect
-                        Toast.makeText(mContext, exception, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void OnFailure(String exception) {
                         Log.d(TAG, "OnFailure: " + exception);
-                        Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
                         confirmDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
 

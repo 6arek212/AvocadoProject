@@ -69,17 +69,22 @@ public class InfoMethodsHandler {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status=response.body();
 
-                if(status.getState()==1){
-                    Log.d(TAG, "onResponse: "+status);
-                    listener.onSuccessListener();
+                if (response.isSuccessful()) {
+                    if(status.getState()==1){
+                        Log.d(TAG, "onResponse: "+status);
+                        listener.onSuccessListener();
+                    }
+                    else if(status.getState()==0)
+                    {
+                        listener.onServerException(status.getException());
+                    }else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }else{
+                    listener.onFailureListener(response.message());
                 }
-                else if(status.getState()==0)
-                {
-                    listener.onServerException(status.getException());
-                }else
-                {
-                    listener.onFailureListener(status.getException());
-                }
+
             }
             @Override
             public void onFailure(Call<Status> call, Throwable t) {

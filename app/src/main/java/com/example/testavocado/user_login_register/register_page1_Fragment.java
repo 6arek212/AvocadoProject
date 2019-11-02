@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -59,9 +60,10 @@ public class register_page1_Fragment extends Fragment {
     private View view;
     private String firstname, lastname, emil, password;
     private user myuser;
-    private int year1,month1,day1;
-    private boolean first_date_select=true;
+    private int year1, month1, day1;
+    private boolean first_date_select = true;
     public Setting setting;
+    private ProgressBar progressBar;
 
 
     private boolean is_image_seclected = false;
@@ -81,7 +83,7 @@ public class register_page1_Fragment extends Fragment {
     // laod widgets
     public void load_widgets(final View view) {
         Log.d(TAG, "load_widgets: ");
-        myuser=new user();
+        myuser = new user();
         permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
 
         txtv_selectdate = (TextView) view.findViewById(R.id.txtv_selectdate_merge_ceneter_profile_register);
@@ -90,8 +92,9 @@ public class register_page1_Fragment extends Fragment {
         radio_btn_female = (RadioButton) view.findViewById(R.id.radio_btn_female_merge_center_profile_register);
         radio_btn_male = (RadioButton) view.findViewById(R.id.radio_btn_male_merge_center_profile_register);
         btn_register = (Button) view.findViewById(R.id.btn_register_merge_center_profile_register);
-        selectCountry=view.findViewById(R.id.selectCountry);
-
+        selectCountry = view.findViewById(R.id.selectCountry);
+        progressBar=view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         // set on click---------------------------------------------------------------------------------------------------->
         txtv_selectdate.setOnClickListener(new onclick());
         btn_register.setOnClickListener(new onclick());
@@ -102,11 +105,11 @@ public class register_page1_Fragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 // insert into varibales
-                year1=year;
-                month1=month;
-                day1=dayOfMonth;
+                year1 = year;
+                month1 = month;
+                day1 = dayOfMonth;
 
-                first_date_select=false;
+                first_date_select = false;
                 Log.d(TAG, "onDateSet: ");
                 month = month + 1;
                 String date = year + "/" + month + "/" + dayOfMonth;
@@ -133,7 +136,7 @@ public class register_page1_Fragment extends Fragment {
                 case R.id.txtv_selectdate_merge_ceneter_profile_register:
                     // datepicker dialog show when clikc in textview select date
                     //if this first select
-                    if(first_date_select) {
+                    if (first_date_select) {
                         Calendar mcalendar = Calendar.getInstance();
                         year1 = mcalendar.get(Calendar.YEAR);
                         month1 = mcalendar.get(Calendar.MONTH);
@@ -141,23 +144,22 @@ public class register_page1_Fragment extends Fragment {
                     }
 
                     DatePickerDialog mpicker = new DatePickerDialog(mContext, android.R.style.
-                        Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year1, month1, day1);
+                            Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year1, month1, day1);
                     mpicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    Calendar calendar=Calendar.getInstance();
+                    Calendar calendar = Calendar.getInstance();
                     //made the register age minimum 13 year
-                    int maxyear=calendar.get(Calendar.YEAR)-13;
-                    int minyear=calendar.get(Calendar.YEAR)-120;
-                    calendar.set(Calendar.YEAR,maxyear);
+                    int maxyear = calendar.get(Calendar.YEAR) - 13;
+                    int minyear = calendar.get(Calendar.YEAR) - 120;
+                    calendar.set(Calendar.YEAR, maxyear);
                     Date date = new Date();
                     // set max select year currenttime-13 and min year currenttime-120
                     mpicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-                    Calendar calendar1=Calendar.getInstance();
-                    calendar1.set(Calendar.YEAR,minyear);
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.set(Calendar.YEAR, minyear);
                     mpicker.getDatePicker().setMinDate(calendar1.getTimeInMillis());
                     mpicker.show();
 
                     break;
-
 
 
                 case R.id.profile_image:
@@ -173,81 +175,72 @@ public class register_page1_Fragment extends Fragment {
                     break;
 
 
+                case R.id.btn_register_merge_center_profile_register: {
+                    progressBar.setVisibility(View.VISIBLE);
 
-                case R.id.btn_register_merge_center_profile_register:
-                    try {
-
-                        RadioButton btn = (RadioButton) view.findViewById(mradioGroup.getCheckedRadioButtonId());
-                        //asking if the client selected a date if not will get toast message
-                        if (!txtv_selectdate.getText().equals("Select Date"))
-                        {
-                            String birthday=txtv_selectdate.getText().toString();
-                            myuser.setUser_birthday(birthday);
-                            // if selected was female the value will be true else will be false
-                            if(btn.getId()== R.id.radio_btn_female_merge_center_profile_register)
-                                myuser.setUser_gender(0);
-                            else
-                                myuser.setUser_gender(1);
-
-                            Log.d(TAG, "onClick: myuser="+setting);
+                    RadioButton btn = (RadioButton) view.findViewById(mradioGroup.getCheckedRadioButtonId());
 
 
-                            //add new user method
-
-                            PhotoUpload.uploadNewPhotoFirebase(getString(R.string.user_profile_photo), TimeMethods.getUTCdatetimeAsStringFormat2(), selectedImage, setting.getUser_id(), mContext, new PhotoUpload.OnUploadingPostListener2() {
-                                @Override
-                                public void onSuccessListener(String ImageUrl) {
-                                    Log.d(TAG, "onSuccessListener: uploading succcess ");
-
-                                    setting.setProfilePic(ImageUrl);
-                                    setting.setAccount_is_private(false);
-                                    setting.setUser_location_switch(false);
-
-                                    InfoMethodsHandler.updateProfilePhotoGenderBirthDate(setting.getUser_id(), ImageUrl, myuser.getUser_gender(), myuser.getUser_birthday(), myuser.getCountry(), new InfoMethodsHandler.OnUpdateListener() {
-                                        @Override
-                                        public void onSuccessListener() {
-                                            Log.d(TAG, "onSuccessListener: ");
-                                            updateUI();
-                                        }
-
-                                        @Override
-                                        public void onServerException(String ex) {
-                                            Log.d(TAG, "onServerException: "+ex);
-
-
-                                        }
-
-                                        @Override
-                                        public void onFailureListener(String ex) {
-                                            Log.d(TAG, "onFailureListener: "+ex);
-
-                                        }
-                                    });
-
-                                }
-
-                                @Override
-                                public void onFailureListener(String ex) {
-                                    Log.d(TAG, "onFailureListener: failed uploading photo  " + ex);
-
-                                }
-                            });
-
-
-
-
-
-
-                        }
-                        else
-                        Toast.makeText(mContext, "Select your Date", Toast.LENGTH_SHORT).show();
-                    }
-                    catch (Exception ex) {
-                        Toast.makeText(mContext, "You need to select your Gender", Toast.LENGTH_SHORT).show();
+                    //asking if the client selected a date if not will get toast message
+                    if (txtv_selectdate.getText().equals("Select Date")) {
+                        Toast.makeText(mContext, getString(R.string.select_your_birthdate), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        return;
                     }
 
+                    if(btn==null){
+                        Toast.makeText(mContext, getString(R.string.select_your_gender), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        return;
+                    }
 
-                    break;
+                    if(selectCountry.getText().toString().equals(getString(R.string.select_country))){
+                        Toast.makeText(mContext, getString(R.string.select_your_country), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        return;
+                    }
+
+                    String birthday = txtv_selectdate.getText().toString();
+                    myuser.setUser_birthday(birthday);
+                    // if selected was female the value will be true else will be false
+
+                    if (btn.getId() == R.id.radio_btn_female_merge_center_profile_register)
+                        myuser.setUser_gender(0);
+                    else
+                        myuser.setUser_gender(1);
+
+                    Log.d(TAG, "onClick: myuser=" + setting+"  selectedImaage "+selectedImage);
+
+
+                    //add new user method
+
+                    setting.setAccount_is_private(false);
+                    setting.setUser_location_switch(false);
+
+                    if (selectedImage != null) {
+                        PhotoUpload.uploadNewPhotoFirebase(getString(R.string.user_profile_photo), TimeMethods.getUTCdatetimeAsStringFormat2(), selectedImage, setting.getUser_id(), mContext, new PhotoUpload.OnUploadingPostListener2() {
+                            @Override
+                            public void onSuccessListener(String ImageUrl) {
+                                Log.d(TAG, "onSuccessListener: uploading succcess ");
+                                setting.setProfilePic(ImageUrl);
+                                HelpMethods.updateProfilePic(ImageUrl,mContext);
+                                updateGenderPhone(ImageUrl);
+                            }
+
+                            @Override
+                            public void onFailureListener(String ex) {
+                                Log.d(TAG, "onFailureListener: failed uploading photo  " + ex);
+                                Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        updateGenderPhone("");
+                    }
+
+                }
+
+
+                break;
 
                 case R.id.selectCountry:
                     final CountryPicker picker = CountryPicker.newInstance("Select Country");  // dialog title
@@ -257,7 +250,7 @@ public class register_page1_Fragment extends Fragment {
                             // Implement your code here
                             selectCountry.setText(name);
                             myuser.setCountry(name);
-                            Log.d(TAG, "onSelectCountry: "+name);
+                            Log.d(TAG, "onSelectCountry: " + name);
                             picker.dismiss();
                         }
                     });
@@ -269,20 +262,14 @@ public class register_page1_Fragment extends Fragment {
     }
 
 
-
-
-
     private void updateUI() {
-        HelpMethods.addSharedPreferences(setting,mContext);
-        Intent intent=new Intent(mContext, BaseActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        HelpMethods.addSharedPreferences(setting, mContext);
+        Intent intent = new Intent(mContext, BaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         getActivity().finish();
 
     }
-
-
-
 
 
     @Override
@@ -300,7 +287,7 @@ public class register_page1_Fragment extends Fragment {
 
                     Uri uri = Uri.fromFile(new File(imagePath));
                     circleImageViewprofilepicture.setImageURI(uri);
-                    selectedImage=uri;
+                    selectedImage = uri;
                     is_image_seclected = true;
 
 
@@ -326,18 +313,30 @@ public class register_page1_Fragment extends Fragment {
     }
 
 
+    public void updateGenderPhone(String imgUrl) {
+        InfoMethodsHandler.updateProfilePhotoGenderBirthDate(setting.getUser_id(), imgUrl, myuser.getUser_gender(), myuser.getUser_birthday(), myuser.getCountry(), new InfoMethodsHandler.OnUpdateListener() {
+            @Override
+            public void onSuccessListener() {
+                Log.d(TAG, "onSuccessListener: ");
+                updateUI();
+                progressBar.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onServerException(String ex) {
+                Log.d(TAG, "onServerException: " + ex);
+                Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
 
-
-
-
-
-
-
-
-
-
-
+            @Override
+            public void onFailureListener(String ex) {
+                Log.d(TAG, "onFailureListener: " + ex);
+                Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 
 
     @Override

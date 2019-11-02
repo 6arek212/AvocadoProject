@@ -66,7 +66,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/dialogConfirm"
         app:layout_constraintStart_toStartOf="@+id/ed"
         app:layout_constraintTop_toBottomOf="@+id/ed"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/dialogConfirm"
+        />
 
 
     <TextView
@@ -81,6 +83,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/ed"
+        app:layout_constraintStart_toEndOf="@+id/dialogCancel"
         app:layout_constraintTop_toBottomOf="@+id/ed"
         app:layout_constraintVertical_bias="0.0" />
 
