@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.example.testavocado.Chat.ChatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -32,7 +33,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.testavocado.BaseActivity;
-import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsHandler;
 import com.example.testavocado.Dialogs.CommentMethodsHandler;
 import com.example.testavocado.Dialogs.CommentsDialog2;

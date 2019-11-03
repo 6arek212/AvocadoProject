@@ -1,9 +1,6 @@
 package com.example.testavocado;
 
 import android.Manifest;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
+import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Service.BackgroundService;
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,7 +27,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsActivity;
 
 import com.example.testavocado.Home.Fragments.MainFeedFragment;

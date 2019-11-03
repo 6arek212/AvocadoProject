@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,16 +27,13 @@ import android.widget.TextView;
 
 import com.example.testavocado.Dialogs.ConfirmDialog;
 import com.example.testavocado.Login.LoginActivity;
-import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.HelpMethods;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
