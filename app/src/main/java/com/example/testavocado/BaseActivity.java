@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
+import com.example.chat.MainActivity;
 import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Service.BackgroundService;
 import com.google.android.material.tabs.TabLayout;
@@ -144,7 +145,7 @@ public class BaseActivity extends AppCompatActivity  {
         mChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, ChatActivity.class));
+                startActivity(new Intent(mContext, MainActivity.class));
             }
         });
     }
@@ -263,7 +264,7 @@ public class BaseActivity extends AppCompatActivity  {
 
     public void stopService() {
         BackgroundService.stopThis();
-        stopService(new Intent(mContext,BackgroundService.class));
+        stopService(new Intent(this,BackgroundService.class));
     }
 
     /**

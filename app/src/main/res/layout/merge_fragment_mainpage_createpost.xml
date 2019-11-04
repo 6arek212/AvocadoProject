@@ -28,6 +28,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5mm"
             android:layout_toRightOf="@id/profileImage"
-            android:text="What's on your mind?" />
+            android:text="@string/what_s_on_your_mind" />
     </RelativeLayout>
 </merge>

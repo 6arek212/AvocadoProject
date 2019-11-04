@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_rounded_button"
-                android:text="OPEN CAMERA" />
+                android:text="@string/open_camera" />
 
 
         </RelativeLayout>

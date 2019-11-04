@@ -2,6 +2,7 @@ package com.example.testavocado.Settings;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
@@ -220,7 +221,7 @@ public class FriendsAdapter extends RecyclerView.Adapter {
         CircleImageView mProfileImage;
         TextView mUserName;
         ImageButton mDelete;
-        RelativeLayout mProfileLink;
+        ConstraintLayout mProfileLink;
 
         public FriendViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -34,6 +34,8 @@ import com.example.testavocado.methods.help_methods.Help_methods;
 import com.example.testavocado.objects.user;
 import com.example.testavocado.validation.validations;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class registeraccount_page extends AppCompatActivity {
     public static final String TAG = "registeraccount";
@@ -116,6 +118,9 @@ public class registeraccount_page extends AppCompatActivity {
                                         fragmentTransaction.add(R.id.realtive_registeraccountboss_page, fragmentpage1).commit();
 
                                         mProgressBar.setVisibility(View.GONE);
+
+                                        DatabaseReference fr=FirebaseDatabase.getInstance().getReference();
+                                        fr.child("users").child(String.valueOf(user_id)).child("name").setValue(newaccount.getUser_firstname()+" "+newaccount.getUser_lastname());
                                     }
 
                                     @Override

@@ -46,8 +46,8 @@
                         android:layout_height="wrap_content"
                         android:text="tarik husin"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/profileImage"
-                        android:layout_marginLeft="9dp"
+                        android:layout_toEndOf="@id/profileImage"
+                        android:layout_marginStart="9dp"
                         android:textSize="16sp"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"/>
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_red"
-                    android:text="deny"
+                    android:text="@string/deny"
                     android:textColor="@color/colorAccent"
                     android:src="@drawable/ic_white_x"
                     android:padding="6dp"
@@ -79,18 +79,18 @@
 
 
                 <Button
-                    android:layout_marginLeft="9dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="9dp"
+                    android:layout_alignParentEnd="true"
                     android:id="@+id/btnAcceptRequest"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_register_activity"
-                    android:text="accept"
+                    android:text="@string/accept"
                     android:textColor="@color/colorAccent"
                     android:drawableLeft="@drawable/ic_add"
                     android:padding="5dp"
-                    android:layout_toRightOf="@+id/btnDeny"
+                    android:layout_toEndOf="@id/btnDeny"
                     />
 
 
@@ -105,13 +105,12 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentEnd="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="you are friends "/>
+                android:text="@string/you_are_friends"/>
 
         </RelativeLayout>
 

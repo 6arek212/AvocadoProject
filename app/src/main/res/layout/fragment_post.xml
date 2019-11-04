@@ -34,7 +34,7 @@
         android:drawableStart="@drawable/ic_black_x"
         android:drawablePadding="16dp"
         android:padding="5dp"
-        android:text="Post has been removed"
+        android:text="@string/post_has_been_removed"
         android:textSize="24sp" />
 
 

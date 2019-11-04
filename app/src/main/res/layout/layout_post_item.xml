@@ -61,7 +61,7 @@
                         android:textColor="@color/colorBlue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="shared a post"
+                        android:text="@string/shared_a_post"
                         android:layout_toRightOf="@+id/postUserName"
                         android:layout_toEndOf="@id/postUserName"
                         android:layout_centerVertical="true"
@@ -323,7 +323,7 @@
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Like"/>
+                    android:text="@string/like"/>
 
 
                 <TextView
@@ -333,7 +333,7 @@
                     android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share"
+                    android:text="@string/share"
                     />
 
 
@@ -344,7 +344,7 @@
                     android:id="@+id/dislike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dislike"/>
+                    android:text="@string/dislike"/>
 
             </LinearLayout>
 
@@ -377,7 +377,7 @@
                 android:id="@+id/commentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="addd comment"
+                android:hint="@string/add_comment"
                 android:layout_toStartOf="@+id/send"
                 android:layout_toLeftOf="@+id/send"
                 android:textColorHint="@color/colorAccent"

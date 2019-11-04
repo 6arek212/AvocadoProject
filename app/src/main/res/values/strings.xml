@@ -17,7 +17,6 @@
     <string name="addemail_title2">To save this setting please enter your Avocado password</string>
     <string name="addemail">Add Email</string>
     <string name="cancel">Cancel</string>
-    <string name="password">Password</string>
     <string name="wrong_email_format">email address wrong format please enter correct email.</string>
     <string name="whats_your_phonenumber_text">Whats Your Phone Number?</string>
     <string name="phonenumber_title">Phone Number Confirmation</string>
@@ -250,6 +249,7 @@
 
 
     <!--ahmad-->
+    <string name="friends">Friends</string>
 
     <string name="log_i">avocado</string>
     <string name="give_permission">you should give permission to access the camera and gallery to update your picture !</string>
@@ -262,7 +262,6 @@
     <string name="add_freind">Add Friend</string>
     <string name="cancel_request">Cancel Request</string>
     <string name="respond">Respond</string>
-    <string name="friends">Friends</string>
     <string name="confirm">Confirm</string>
     <string name="delete">Delete</string>
     <string name="not_found">Not found</string>
@@ -339,9 +338,12 @@
 
 
     <!--myuser object-->
+    <string name="save_post">Save Post</string>
+    <string name="add_bio">Add Bio</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+
     <string name="user_object">user_object</string>
     <string name="you_need_add_firngerprint">you need to add you fingerprint to the system</string>
-    <string name="save_post">Save Post</string>
     <string name="hide_post">Hide Post</string>
     <string name="report_post">Report Post</string>
     <string name="delete_post">Delete Post</string>
@@ -351,6 +353,54 @@
     <string name="select_your_birthdate">Select your birth date</string>
     <string name="select_your_gender">You need to select your Gender</string>
     <string name="are_you_sure_remove_account">Are you sure you want to delete your account ?</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="typing">typing...</string>
+    <string name="you_sure_delete_chat">are you sure you want to delete chat with :</string>
+    <string name="delete_chat">Deleting chat !</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="like">Like</string>
+    <string name="share">Share</string>
+    <string name="dislike">Dislike</string>
+    <string name="add_comment">add comment</string>
+    <string name="delete_account">delete account</string>
+    <string name="save">Save</string>
+    <string name="edit_bio">Edit Bio</string>
 
+    <string name="forgot_password">FORGOT PASSWORD?</string>
+    <string name="we_just_need_your_registered_email_address_to_send_you_the_password">We just need your registered email address to send you the password</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="send">send</string>
+    <string name="don_t_have_an_account">DON\'T HAVE AN ACCOUNT?</string>
+    <string name="register">REGISTER</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="emil">Emil</string>
+    <string name="password">Password</string>
+    <string name="next">Next</string>
+    <string name="myname">myname</string>
+    <string name="myemail">myemail</string>
+    <string name="myphonenumber">myphonenumber</string>
+    <string name="put_your_finger_to_access_your_account">put your finger to access your account</string>
+    <string name="finger_authentication">Finger Authentication</string>
+    <string name="choose_a_game">Choose a game</string>
+    <string name="no_chats">No Chats</string>
+    <string name="saved_posts">Saved posts</string>
+    <string name="profile_image">Profile image</string>
+    <string name="click_to_edit_profile_image">Click to Edit profile image</string>
+    <string name="what_s_your_birthday">What\'s Your Birthday?</string>
+    <string name="what_s_your_gender">What\'s Your gender?</string>
+    <string name="post_has_been_removed">Post has been removed</string>
+    <string name="open_camera">OPEN CAMERA</string>
+    <string name="posts">Posts</string>
+    <string name="connections">Connections</string>
+    <string name="remove_request">remove request</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="accept">Accept</string>
+    <string name="deny">Deny</string>
+    <string name="shared_a_post">shared a post</string>
+    <string name="post_discription">post discription :</string>
+    <string name="notification">Notification</string>
+    <string name="you_are_friends">you are friends</string>
+    <string name="search_nearby_users">Search Nearby Users</string>
 
 </resources>

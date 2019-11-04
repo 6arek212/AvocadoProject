@@ -3,10 +3,18 @@ package com.example.testavocado.Connection;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.testavocado.Models.Friend;
 import com.example.testavocado.Models.Status;
 import com.example.testavocado.Models.UserAdd;
+import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.NetworkClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -282,7 +290,7 @@ public class ConnectionsHandler {
     }
 
 
-    public static void RemoveFriend(int request_id, int u1, int u2, final OnRemovingFriendListener listener) {
+    public static void RemoveFriend(int request_id,final int u1,final int u2, final OnRemovingFriendListener listener) {
         Log.d(TAG, "RemoveFriend:  attempting to remove friend  ");
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ConnectionsInterface interface1 = retrofit.create(ConnectionsInterface.class);
@@ -297,6 +305,38 @@ public class ConnectionsHandler {
                 if (response.isSuccessful()) {
                     if (status.getState() == 1) {
                         listener.onSuccessListener();
+
+                       final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                        fr.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String chatId=dataSnapshot.child(String.valueOf(u1)).child("friends").child(String.valueOf(u2))
+                                        .child("chatId").getValue(String.class);
+
+                                fr.child("users").child(String.valueOf(u1)).child("friends").child(String.valueOf(u2)).removeValue();
+                                fr.child("users").child(String.valueOf(u2)).child("friends").child(String.valueOf(u1)).removeValue();
+
+
+                                if(chatId!=null){
+                                    fr.child("users").child(String.valueOf(u1)).child("chats").child(chatId).removeValue();
+                                    fr.child("users").child(String.valueOf(u2)).child("chats").child(chatId).removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                            }
+                        });
+
+
+
+
+
+
+
+
                     } else if (status.getState() == 0) {
                         listener.onServer(status.getException());
                     } else {
@@ -325,7 +365,7 @@ public class ConnectionsHandler {
         public void onFailure(String ex);
     }
 
-    public static void acceptFriendRequest(int request_id, String date_time_accepted, final OnAcceptingFriendRequestListener listener) {
+    public static void acceptFriendRequest(int request_id, final int otherId ,final int userId, String date_time_accepted, final OnAcceptingFriendRequestListener listener) {
         Log.d(TAG, "acceptFriendRequest: attempting to accepting firnd request ");
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ConnectionsInterface interface1 = retrofit.create(ConnectionsInterface.class);
@@ -339,6 +379,17 @@ public class ConnectionsHandler {
 
                 if (status.getState() == 1) {
                     listener.onSuccessListener();
+
+
+
+                    final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                    fr.child("users").child(String.valueOf(userId)).child("friends").child(String.valueOf(otherId))
+                            .child("with").setValue(otherId);
+                    fr.child("users").child(String.valueOf(otherId)).child("friends").child(String.valueOf(userId))
+                            .child("with").setValue(userId);
+
+
+
                 } else if (status.getState() == 0) {
                     listener.onServer(status.getException());
                 } else {

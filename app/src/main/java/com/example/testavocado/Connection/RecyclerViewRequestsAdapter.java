@@ -39,7 +39,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     private List<UserAdd> requestList = new ArrayList<>();
     private OnLoadMoreItemsListener onLoadMoreItemsListener;
     public boolean is_endOfPosts;
-
+    private int userId;
 
     /**
      *      adding null to the list to show progress bar
@@ -70,6 +70,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
     public RecyclerViewRequestsAdapter(Context context) {
         mContext = context;
+        userId=HelpMethods.checkSharedPreferencesForUserId(mContext);
     }
 
 
@@ -155,7 +156,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectionsHandler.acceptFriendRequest(requestList.get(index).getRequest_id(), TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                ConnectionsHandler.acceptFriendRequest(requestList.get(index).getRequest_id(),requestList.get(index).getUser_id() ,userId,TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
                     @Override
                     public void onSuccessListener() {
                         viewHolder.mFriends.setVisibility(View.VISIBLE);

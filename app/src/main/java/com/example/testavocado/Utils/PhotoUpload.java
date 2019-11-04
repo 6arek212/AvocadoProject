@@ -9,6 +9,8 @@ import com.example.testavocado.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -23,7 +25,7 @@ public class PhotoUpload {
     }
 
 
-    public static void uploadNewPhoto(String photoType, String datetime, byte[] bytes, int user_id, final Context mContext, final OnUploadingPostListener listener) {
+    public static void uploadNewPhoto(final String photoType, String datetime, byte[] bytes, final int user_id, final Context mContext, final OnUploadingPostListener listener) {
         Log.d(TAG, "uploadNewPhoto: uploading new photo ");
 
 
@@ -65,9 +67,15 @@ public class PhotoUpload {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
 
-                            Log.d(TAG, "onSuccess: firebaseUrl : " + downloadUri.toString());
-
+                            Log.d(TAG, "onSuccess: firebaseUrl : " + downloadUri.toString()+" type "+photoType );
+                            if (photoType.equals(mContext.getString(R.string.user_profile_photo))){
+                                DatabaseReference ds= FirebaseDatabase.getInstance().getReference();
+                                ds.child("users").child(String.valueOf(user_id)).child("profilePic").setValue(downloadUri.toString());
+                            }
                             listener.onSuccessListener(downloadUri.toString());
+
+
+
 
                         } else {
                             // Handle failures
@@ -94,7 +102,7 @@ public class PhotoUpload {
 
 
 
-    public static void uploadNewPhotoFirebase(String photoType, String datetime, Uri uri, int user_id,
+    public static void uploadNewPhotoFirebase(final String photoType, String datetime, Uri uri,final int user_id,
                                               final Context mContext, final OnUploadingPostListener2 listener) {
 
 
@@ -114,28 +122,6 @@ public class PhotoUpload {
         }
 
 
-
-/*
-// Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-
-            }
-        }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful())
-                    String s = task.getResult().toString();
-            }
-        });*/
 
             UploadTask uploadTask = storageReference.putFile(uri);
 
@@ -157,8 +143,13 @@ public class PhotoUpload {
                         Uri downloadUri = task.getResult();
                         Log.d(TAG, "onComplete: " + downloadUri);
                         listener.onSuccessListener(downloadUri.toString());
+                        if (photoType.equals(mContext.getString(R.string.user_profile_photo))){
+                            DatabaseReference ds= FirebaseDatabase.getInstance().getReference();
+                            ds.child("users").child(String.valueOf(user_id)).child("profilePic").setValue(downloadUri.toString());
+                        }
                     } else {
                         // Handle failures
+                        listener.onFailureListener(task.getException().toString());
                         // ...
                     }
                 }

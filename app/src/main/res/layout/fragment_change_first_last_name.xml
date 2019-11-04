@@ -59,7 +59,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/edtxt_shape1_userlogin"
-        android:hint="Firstname"
+        android:hint="@string/first_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -82,7 +82,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/edtxt_shape1_userlogin"
-        android:hint="Last name"
+        android:hint="@string/last_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -94,7 +94,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:text="Save"
+        android:text="@string/save"
         android:background="@drawable/btnlogin_shape1"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"

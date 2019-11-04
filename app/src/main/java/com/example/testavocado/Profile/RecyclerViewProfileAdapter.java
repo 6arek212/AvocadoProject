@@ -407,7 +407,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         v1.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectionsHandler.acceptFriendRequest(user.getFriend_request_id(), TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                ConnectionsHandler.acceptFriendRequest(user.getFriend_request_id(),incomingUserId,user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
                     @Override
                     public void onSuccessListener() {
                         v1.friendsLayout.setVisibility(View.VISIBLE);

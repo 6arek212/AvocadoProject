@@ -80,7 +80,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="9dp"
                             android:hapticFeedbackEnabled="true"
-                            android:text="Search Nearby Users"
+                            android:text="@string/search_nearby_users"
                             android:textColor="@color/colorAccent" />
 
 

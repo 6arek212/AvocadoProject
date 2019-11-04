@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
-            android:text="What's Your Birthday?"
+            android:text="@string/what_s_your_birthday"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
             android:textSize="15dp"
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="What's Your gender?"
+            android:text="@string/what_s_your_gender"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
             android:id="@+id/txtv_your_gender_profile_register"
@@ -71,7 +71,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
+                android:text="@string/male"
                 android:id="@+id/radio_btn_male_merge_center_profile_register"
                 style="@style/text"
                 android:drawableLeft="@mipmap/male_icon"
@@ -82,7 +82,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female"
+                android:text="@string/female"
                 android:id="@+id/radio_btn_female_merge_center_profile_register"
                 style="@style/text"
                 android:drawableLeft="@mipmap/female_icon"
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_register_merge_center_profile_register"
             android:layout_below="@id/selectCountry"
-            android:text="Register"
+            android:text="@string/register"
             style="@style/button_style1"
             android:layout_marginTop="5mm"
             />

@@ -203,7 +203,7 @@ public class NotificationFragment extends Fragment {
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     notifications.add(new Gson().fromJson(jsonArray.get(i).toString(), Notification.class));
-                    notifications.get(i).setNotification_datetime(TimeMethods.convertDateTimeFormat(notifications.get(i).getNotification_datetime()));
+                    notifications.get(i).setNotification_datetime(TimeMethods.convertDateTimeFormat2(notifications.get(i).getNotification_datetime()));
                     Log.d(TAG, "doInBackground: notifications " + notifications.get(i));
                 }
 

@@ -337,7 +337,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectionsHandler.acceptFriendRequest(userAddList.get(index).getRequest_id(), TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                ConnectionsHandler.acceptFriendRequest(userAddList.get(index).getRequest_id(),userAddList.get(index).getUser_id(),current_user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
                     @Override
                     public void onSuccessListener() {
                         Log.d(TAG, "onSuccessListener: friend request accepted ");

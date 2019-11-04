@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_account_name"
-                android:text="myname" />
+                android:text="@string/myname" />
         </LinearLayout>
 
         <TextView
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_account_emailaddress"
-                android:text="myemail" />
+                android:text="@string/myemail" />
         </LinearLayout>
 
 
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_account_phonenumber"
-                android:text="myphonenumber" />
+                android:text="@string/myphonenumber" />
         </LinearLayout>
 
 

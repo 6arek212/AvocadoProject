@@ -27,8 +27,9 @@
                 android:layout_toLeftOf="@+id/send"
                 android:layout_toRightOf="@+id/emoji"
                 android:background="@drawable/edtxt_style3"
-                android:layout_centerVertical="true"
                 android:hint="Type a message"
+                android:layout_centerVertical="true"
+
                 android:paddingLeft="2mm"
                 />
 

@@ -21,16 +21,64 @@ public class TimeMethods {
     public static String convertDateTimeFormat(String datetime){
 
         Date date = null;
+        String dueDateAsNormal ="";
+
         try {
             date = new SimpleDateFormat(DATE_FORMAT).parse(datetime);
+            SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm");
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(date);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return  new SimpleDateFormat("HH:mm").format(date);
+        return  dueDateAsNormal;
+    }
+
+    public static String convertDateTimeFormat2(String date){
+        SimpleDateFormat oldFormatter = new SimpleDateFormat(DATE_FORMAT);
+        oldFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal ="";
+
+        try {
+            value = oldFormatter.parse(date);
+            SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm");
+
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(TAG, "getNewDate: "+e.getMessage());
+        }
+
+        return dueDateAsNormal;
     }
 
 
+
+
+
+    public static String getNewLocalDate(String date){
+        SimpleDateFormat oldFormatter = new SimpleDateFormat(DATE_FORMAT);
+        oldFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal ="";
+
+        try {
+            value = oldFormatter.parse(date);
+            SimpleDateFormat newFormatter = new SimpleDateFormat(DATE_FORMAT);
+
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(TAG, "getNewDate: "+e.getMessage());
+        }
+
+        return dueDateAsNormal;
+    }
 
 
 
@@ -85,25 +133,7 @@ public class TimeMethods {
 
 
 
-    public static String getNewLocalDate(String date){
-        SimpleDateFormat oldFormatter = new SimpleDateFormat(DATE_FORMAT);
-        oldFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date value = null;
-        String dueDateAsNormal ="";
 
-        try {
-            value = oldFormatter.parse(date);
-            SimpleDateFormat newFormatter = new SimpleDateFormat(DATE_FORMAT);
-
-            newFormatter.setTimeZone(TimeZone.getDefault());
-            dueDateAsNormal = newFormatter.format(value);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d(TAG, "getNewDate: "+e.getMessage());
-        }
-
-        return dueDateAsNormal;
-    }
 
 
 
