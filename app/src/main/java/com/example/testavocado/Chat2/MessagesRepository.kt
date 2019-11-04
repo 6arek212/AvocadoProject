@@ -1,6 +1,8 @@
 package com.example.chat
 
+import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -10,18 +12,18 @@ import com.example.smartphone.database.Chat
 import com.example.smartphone.database.Chat2
 import com.example.smartphone.database.Message
 import com.example.smartphone.database.mDatabase
+import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.*
 
 class MessagesRepository(
     val database: mDatabase,
     val userId: Int,
-    val chat:Chat2
+    val chat:Chat2,
+    val application: Application
 ) {
 
     private val chatId=MutableLiveData<String>()
@@ -38,7 +40,24 @@ class MessagesRepository(
         get() = _typing
 
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String>
+        get() = _error
+
+
+    private val _clearText=MutableLiveData<Boolean>()
+    val clearText:LiveData<Boolean>
+        get()=_clearText
+
+
+
+    fun showErrorComplete(){
+        _error.value=null
+    }
+
+
     init {
+        _error.value=null
         if(chat.sender==0){
             chat.sender=userId
             isTheSender = true
@@ -59,8 +78,10 @@ class MessagesRepository(
             return
         }
 
-        myRef.child(chat.chatId).child("messages").addValueEventListener(object : ValueEventListener {
+        myRef.child(chat.chatId).child("messages")
+                .addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
+                _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
             }
 
@@ -98,6 +119,7 @@ class MessagesRepository(
 
     fun sendMessage(msg: String) {
         val key = myRef.child(chat.chatId).child("messages").push().key
+
         key?.let {
             val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId,chat.chatId)
             myRef.child(chat.chatId).child("messages").child(key).setValue(message)
@@ -117,12 +139,10 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("lastMsg").setValue(msg)
             ref.child("chats").child(chat.chatId).child("datetimeLastMsg").setValue(TimeMethods.getUTCdatetimeAsString())
 
-
-
-
             jobScope.launch {
-               database.messageDao.insert(message)
-           }
+                database.messageDao.insert(message)
+            }
+
         }
     }
 
@@ -140,6 +160,7 @@ class MessagesRepository(
         )
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
+                    _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
                 }
 
@@ -217,4 +238,3 @@ class MessagesRepository(
 
 }
 
-data class Friend(var name:String="",val id:Int=0,var chat:String="",var sender:Int=0)

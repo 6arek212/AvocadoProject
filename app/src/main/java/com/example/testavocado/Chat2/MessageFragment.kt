@@ -56,8 +56,20 @@ class MessageFragment : Fragment() {
 
 
         val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application))
-        binding.recyclerView.layoutManager=LinearLayoutManager(context)
+        val ln=LinearLayoutManager(context)
+        ln.reverseLayout=true
+        binding.recyclerView.layoutManager=ln
         binding.recyclerView.adapter=adapter
+        binding.recyclerView.scrollToPosition(0)
+
+
+        viewModel.error.observe(this, Observer {
+            Log.d("errorMeSSAGE","$it")
+                if (!it.isNullOrEmpty()){
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show();
+                    viewModel.showErrorComplete()
+                }
+        })
 
 
         binding.close.setOnClickListener{
@@ -66,6 +78,9 @@ class MessageFragment : Fragment() {
 
         viewModel.messages.observe(this, Observer {
             adapter.submitList(it)
+            binding.recyclerView.post{
+                binding.recyclerView.scrollToPosition(0)
+            }
         })
 
         viewModel.clearText.observe(this, Observer {
@@ -83,6 +98,14 @@ class MessageFragment : Fragment() {
             }else
             {
                 binding.typing.visibility=View.GONE
+            }
+        })
+
+
+        viewModel.showMessageEmptyText.observe(this, Observer {
+            if(it){
+                Toast.makeText(context, getString(R.string.cant_send_empty_message), Toast.LENGTH_SHORT).show()
+                viewModel.messageShowComplete()
             }
         })
 

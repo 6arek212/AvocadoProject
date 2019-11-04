@@ -21,9 +21,10 @@ class MessageViewModel (application: Application,val chat:Chat2): ViewModel() {
 
 
     val database=mDatabase.getInstance(application.applicationContext)
-    val repo=MessagesRepository(database,HelpMethods.checkSharedPreferencesForUserId(application),chat)
+    val repo=MessagesRepository(database,HelpMethods.checkSharedPreferencesForUserId(application),chat,application)
 
     val messages=repo.messages
+    val error=repo.error
 
     val textToSend=MutableLiveData<String>()
 
@@ -31,16 +32,34 @@ class MessageViewModel (application: Application,val chat:Chat2): ViewModel() {
     val clearText:LiveData<Boolean>
     get()=_clearText
 
+
+    private val _showMessageEmptyText=MutableLiveData<Boolean>()
+    val showMessageEmptyText:LiveData<Boolean>
+        get()=_showMessageEmptyText
+
     val typing=repo.typing
 
     init {
+        _showMessageEmptyText.value=false
         Log.d("ididid","${HelpMethods.checkSharedPreferencesForUserId(application)}")
     }
 
 
+    fun showErrorComplete(){
+        repo.showErrorComplete()
+    }
+
+    fun messageShowComplete(){
+        _showMessageEmptyText.value=false
+    }
 
 
     fun sendMsg(){
+        if(textToSend.value.isNullOrEmpty()){
+            _showMessageEmptyText.value=true
+            return
+        }
+
         if(chat.chatId.isEmpty()){
             textToSend.value?.let {
                 repo.sendAndCreateChat(it)

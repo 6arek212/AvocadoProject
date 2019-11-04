@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chat.ChatViewModelFactory
-import com.example.chat.Friend
 import com.example.chat.MessageViewModel
 import com.example.smartphone.database.Chat2
 import com.example.testavocado.R
@@ -76,7 +75,7 @@ class ChatsFragment : Fragment() {
 
 
     fun alert(chat:Chat2) {
-        val alertDialog = AlertDialog.Builder(context)
+        val alertDialog = AlertDialog.Builder(context,R.style.AlertDialogStyle)
 
         alertDialog.apply {
             setTitle(getString(R.string.delete_chat))
@@ -88,6 +87,7 @@ class ChatsFragment : Fragment() {
 
             setNegativeButton("No", null)
             setIcon(android.R.drawable.ic_dialog_alert)
+
 
             show()
         }

@@ -3,7 +3,6 @@ package com.example.chat.Chats
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
-import com.example.chat.Friend
 import com.example.smartphone.database.Chat
 import com.example.smartphone.database.Chat2
 import com.example.smartphone.database.mDatabase

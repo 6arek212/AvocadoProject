@@ -31,7 +31,7 @@ interface MessagesDao{
     fun insert(messages: Message)
 
 
-    @Query("select * from messages_tbl where chat_id=:chat")
+    @Query("select * from messages_tbl where chat_id=:chat order by datetime DESC")
     fun getMessages(chat:String):LiveData<List<Message>>
 
     @Query("delete from messages_tbl where chat_id=:chatId")
