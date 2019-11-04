@@ -121,6 +121,7 @@ public class NotificationAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(notifications.get(i).getUser_sent_profile_image())
                     .centerCrop()
+                    .placeholder(R.drawable.loading_img)
                     .error(R.drawable.error)
                     .into(v1.mProfileImage);
 

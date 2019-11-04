@@ -178,6 +178,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(user.getUser_profile_photo())
                     .centerCrop()
+                    .placeholder(R.drawable.loading_img)
                     .error(R.drawable.profile_ic)
                     .into(v1.mProfileImage);
 
@@ -245,6 +246,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(postsList.get(i).getUser_profile_photo())
                     .centerCrop()
+                    .placeholder(R.drawable.loading_img)
                     .error(R.drawable.error)
                     .into(v1.mProfileImage);
 
@@ -356,6 +358,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                         Glide.with(mContext)
                                 .load(imageUrl)
                                 .centerCrop()
+                                .placeholder(R.drawable.loading_img)
                                 .error(R.drawable.profile_ic)
                                 .into(v1.mProfileImage);
                     }

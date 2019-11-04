@@ -54,13 +54,12 @@ public class ImagesViewPagerClick extends PagerAdapter {
 
             Log.d(TAG, "instantiateItem: adding image "+position+"   "+imageUrls.get(position));
 
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
-        circularProgressDrawable.start();
+
 
 
         Glide.with(context)
                 .load(imageUrls.get(position))
-                .placeholder(circularProgressDrawable)
+                .placeholder(R.drawable.loading_img)
                 .centerCrop()
                 .error(R.drawable.error)
                 .into(imageView);

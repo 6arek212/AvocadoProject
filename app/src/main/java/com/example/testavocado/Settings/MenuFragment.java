@@ -66,8 +66,9 @@ public class MenuFragment extends Fragment {
         String profile_pic_path=HelpMethods.get_user_profile_pic_sharedprefernces(mContext);
         Glide.with(mContext)
                 .load(profile_pic_path).
-                centerCrop().
-                error(R.drawable.profile_ic)
+                centerCrop()
+                .placeholder(R.drawable.loading_img)
+                .error(R.drawable.profile_ic)
                 .into(profile_pic);
 
         Log.d(TAG, "onCreateView:path= "+profile_pic_path);
