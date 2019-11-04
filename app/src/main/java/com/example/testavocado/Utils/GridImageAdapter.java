@@ -58,7 +58,6 @@ public class GridImageAdapter extends ArrayAdapter<String> {
         if(convertView==null){
             convertView=mInflater.inflate(layoutResource,parent,false);
             viewHolder=new ViewHolder();
-            viewHolder.progressBar=convertView.findViewById(R.id.gridImageProgressBar);
             viewHolder.image=convertView.findViewById(R.id.gridImageView);
 
             convertView.setTag(viewHolder);
@@ -73,7 +72,6 @@ public class GridImageAdapter extends ArrayAdapter<String> {
         Log.d(TAG, "getView: "+mAppend + imgURL);
 
 
-        viewHolder.progressBar.setVisibility(View.VISIBLE);
 
 
         Glide.with(getContext())

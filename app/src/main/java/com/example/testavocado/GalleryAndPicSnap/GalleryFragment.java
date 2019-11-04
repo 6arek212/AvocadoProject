@@ -45,7 +45,6 @@ public class GalleryFragment extends Fragment {
     //widgets
     private GridView gridView;
     private ImageView galleryImage,close,done;
-    private ProgressBar progressBar;
     private Spinner directorySpinner;
 
     //vars
@@ -79,11 +78,9 @@ public class GalleryFragment extends Fragment {
     private void initWidgets(View view) {
         gridView = view.findViewById(R.id.gridView);
         galleryImage = view.findViewById(R.id.galleryImageView);
-        progressBar = view.findViewById(R.id.progressBar);
         close=view.findViewById(R.id.close);
         done=view.findViewById(R.id.done);
         directorySpinner = view.findViewById(R.id.spinnerDirectory);
-        progressBar.setVisibility(View.GONE);
         directories = new ArrayList<>();
 
 
@@ -270,10 +267,6 @@ public class GalleryFragment extends Fragment {
      */
     private void setImage(String imageUrl, ImageView imageView, String append) {
         Log.d(TAG, "setImage: setting image");
-
-
-
-        progressBar.setVisibility(View.VISIBLE);
 
 
         Glide.with(mContext)
