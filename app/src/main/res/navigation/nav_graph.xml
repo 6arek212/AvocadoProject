@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chatsFragment">
+
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.chat.MessageFragment"
+        android:label="message_fragment"
+        tools:layout="@layout/message_fragment" >
+        <argument
+            android:name="chat"
+            app:argType="com.example.smartphone.database.Chat2" />
+        <action
+            android:id="@+id/action_messageFragment_to_chatsFragment"
+            app:destination="@id/chatsFragment"
+            app:popUpTo="@+id/chatsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.example.chat.Chats.ChatsFragment"
+        android:label="ChatsFragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_newChatFragment"
+            app:destination="@id/newChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newChatFragment"
+        android:name="com.example.chat.NewChat.NewChatFragment"
+        android:label="NewChatFragment" >
+        <action
+            android:id="@+id/action_newChatFragment_to_messageFragment"
+            app:destination="@id/messageFragment"
+            app:popUpTo="@+id/newChatFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
