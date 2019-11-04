@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smartphone.database.Chat
 import com.example.smartphone.database.Chat2
 import com.example.testavocado.R
@@ -72,16 +73,42 @@ class MessageFragment : Fragment() {
         })
 
 
+        //close click
         binding.close.setOnClickListener{
             findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToChatsFragment())
         }
 
+
+        //adding messages
         viewModel.messages.observe(this, Observer {
             adapter.submitList(it)
-            binding.recyclerView.post{
+        })
+
+
+
+        //scroll to the top
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                binding.recyclerView.scrollToPosition(0)
+            }
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                 binding.recyclerView.scrollToPosition(0)
             }
         })
+
+
 
         viewModel.clearText.observe(this, Observer {
             if(it){
