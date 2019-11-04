@@ -16,7 +16,7 @@
         <action
             android:id="@+id/action_messageFragment_to_chatsFragment"
             app:destination="@id/chatsFragment"
-            app:popUpTo="@+id/chatsFragment"
+            app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -25,10 +25,18 @@
         android:label="ChatsFragment" >
         <action
             android:id="@+id/action_chatsFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
+            app:destination="@id/messageFragment"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@animator/slide_out_right" />
         <action
             android:id="@+id/action_chatsFragment_to_newChatFragment"
-            app:destination="@id/newChatFragment" />
+            app:destination="@id/newChatFragment"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/newChatFragment"
@@ -37,6 +45,7 @@
         <action
             android:id="@+id/action_newChatFragment_to_messageFragment"
             app:destination="@id/messageFragment"
+            app:enterAnim="@animator/slide_in_right"
             app:popUpTo="@+id/newChatFragment"
             app:popUpToInclusive="true" />
     </fragment>

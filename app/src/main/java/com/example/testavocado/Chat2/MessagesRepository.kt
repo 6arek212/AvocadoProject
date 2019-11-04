@@ -20,14 +20,18 @@ import com.google.firebase.database.*
 import kotlinx.coroutines.*
 
 class MessagesRepository(
-    val database: mDatabase,
-    val userId: Int,
-    val chat:Chat2,
-    val application: Application
+        val database: mDatabase,
+        val userId: Int,
+        val chat: Chat2,
+        val application: Application
 ) {
+    val TAG = "MessageRepo"
 
-    private val chatId=MutableLiveData<String>()
-    val messages = Transformations.switchMap(chatId){
+    var isConnected: Boolean = false
+
+
+    private val chatId = MutableLiveData<String>()
+    val messages = Transformations.switchMap(chatId) {
         database.messageDao.getMessages(chat.chatId)
     }
 
@@ -45,51 +49,71 @@ class MessagesRepository(
         get() = _error
 
 
-    private val _clearText=MutableLiveData<Boolean>()
-    val clearText:LiveData<Boolean>
-        get()=_clearText
 
 
 
-    fun showErrorComplete(){
-        _error.value=null
+
+    fun checkNetwork() {
+        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val connected = snapshot.getValue(Boolean::class.java) ?: false
+                if (connected) {
+                    Log.d(TAG, "connected")
+                    isConnected = true
+                } else {
+                    Log.d(TAG, "not connected")
+                    isConnected = false
+                    _error.postValue(application.getString(R.string.CHECK_INTERNET))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG, "Listener was cancelled")
+            }
+        })
+
+    }
+
+
+    fun showErrorComplete() {
+        _error.value = null
     }
 
 
     init {
-        _error.value=null
-        if(chat.sender==0){
-            chat.sender=userId
+        checkNetwork()
+        _error.value = null
+        if (chat.sender == 0) {
+            chat.sender = userId
             isTheSender = true
-        }else{
-            isTheSender = chat.sender== userId
+        } else {
+            isTheSender = chat.sender == userId
         }
-        chatId.value=chat.chatId
+        chatId.value = chat.chatId
 
         checkIfTyping()
         refreshMessages()
     }
 
 
-
-
     fun refreshMessages() {
-        if(chat.chatId.isEmpty()){
+        if (chat.chatId.isEmpty()) {
             return
         }
 
         myRef.child(chat.chatId).child("messages")
                 .addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                _error.postValue(application.getString(R.string.CHECK_INTERNET))
+                    override fun onCancelled(p0: DatabaseError) {
+                        _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
-            }
+                    }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                Log.d("MessagesRepository", p0.toString())
-                getData(p0)
-            }
-        })
+                    override fun onDataChange(p0: DataSnapshot) {
+                        Log.d("MessagesRepository", p0.toString())
+                        getData(p0)
+                    }
+                })
 
     }
 
@@ -104,7 +128,7 @@ class MessagesRepository(
             for (ds: DataSnapshot in dss.children) {
                 val message = ds.getValue(Message::class.java)
 
-                Log.d("message",message.toString())
+                Log.d("message", message.toString())
                 message?.let {
                     if (message.senderId != userId) {
                         messageList.add(message)
@@ -118,20 +142,25 @@ class MessagesRepository(
 
 
     fun sendMessage(msg: String) {
+        if (!isConnected) {
+            _error.postValue(application.getString(R.string.CHECK_INTERNET))
+            return
+        }
+
         val key = myRef.child(chat.chatId).child("messages").push().key
 
         key?.let {
-            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId,chat.chatId)
+            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
             myRef.child(chat.chatId).child("messages").child(key).setValue(message)
 
-            val ref=FirebaseDatabase.getInstance().reference
+            val ref = FirebaseDatabase.getInstance().reference
 
-            val chatSend=ChatSend(chat.chatId,userId,chat.with)
+            val chatSend = ChatSend(chat.chatId, userId, chat.with)
 
             ref.child("users").child(userId.toString()).child("chats").child(chat.chatId).setValue(chatSend)
             ref.child("users").child(userId.toString()).child("friends").child(chat.with.toString()).setValue(chatSend)
 
-            chatSend.with=userId
+            chatSend.with = userId
             ref.child("users").child(chat.with.toString()).child("chats").child(chat.chatId).setValue(chatSend)
             ref.child("users").child(chat.with.toString()).child("friends").child(userId.toString()).setValue(chatSend)
 
@@ -148,33 +177,33 @@ class MessagesRepository(
 
 
     fun checkIfTyping() {
-        if(chat.chatId.isEmpty()){
+        if (chat.chatId.isEmpty()) {
             return
         }
 
         myRef.child(chat.chatId).child(
-            when (isTheSender) {
-                true -> "r_typing"
-                false -> "s_typing"
-            }
+                when (isTheSender) {
+                    true -> "r_typing"
+                    false -> "s_typing"
+                }
         )
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    _error.postValue(application.getString(R.string.CHECK_INTERNET))
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    p0.value?.let {
-                        _typing.value = it as Boolean
                     }
-                }
-            })
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        p0.value?.let {
+                            _typing.value = it as Boolean
+                        }
+                    }
+                })
     }
 
 
     fun updateTyping(state: Boolean) {
-        if(chat.chatId.isEmpty()){
+        if (chat.chatId.isEmpty()) {
             return
         }
 
@@ -186,27 +215,29 @@ class MessagesRepository(
     }
 
 
+    data class ChatSend(var chatId: String = "", var sender: Int = 0, var with: Int = 0)
 
 
-    data class ChatSend(var chatId:String="",var sender:Int=0,var with:Int=0)
-
-
-    fun sendAndCreateChat(msg:String) {
-       val key=myRef.push().key
+    fun sendAndCreateChat(msg: String) {
+        if (!isConnected) {
+            _error.postValue(application.getString(R.string.CHECK_INTERNET))
+            return
+        }
+        val key = myRef.push().key
 
         key?.let {
-            val chatA=Chat(it,userId,chat.with,datetime = TimeMethods.getUTCdatetimeAsString())
+            val chatA = Chat(it, userId, chat.with, datetime = TimeMethods.getUTCdatetimeAsString())
             myRef.child(it).setValue(chatA)
-            chat.chatId=key
+            chat.chatId = key
 
-            val ref=FirebaseDatabase.getInstance().reference
+            val ref = FirebaseDatabase.getInstance().reference
 
-            val chatSend=ChatSend(key,userId,chat.with)
+            val chatSend = ChatSend(key, userId, chat.with)
 
             ref.child("users").child(userId.toString()).child("chats").child(key).setValue(chatSend)
             ref.child("users").child(userId.toString()).child("friends").child(chat.with.toString()).setValue(chatSend)
 
-            chatSend.with=userId
+            chatSend.with = userId
             ref.child("users").child(chat.with.toString()).child("chats").child(key).setValue(chatSend)
             ref.child("users").child(chat.with.toString()).child("friends").child(userId.toString()).setValue(chatSend)
 
@@ -215,10 +246,10 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("datetimeLastMsg").setValue(TimeMethods.getUTCdatetimeAsString())
 
 
-            chatId.value=chat.chatId
+            chatId.value = chat.chatId
             val messageKey = myRef.child(chat.chatId).child("messages").push().key
             messageKey?.let {
-                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId,chat.chatId)
+                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
                 myRef.child(chat.chatId).child("messages").child(messageKey).setValue(message)
                 checkIfTyping()
                 refreshMessages()
@@ -227,13 +258,8 @@ class MessagesRepository(
                 }
             }
 
-           // database.chatDao.insertAll(chat)
         }
     }
-
-
-
-
 
 
 }
