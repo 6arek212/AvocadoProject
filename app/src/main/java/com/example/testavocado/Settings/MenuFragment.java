@@ -9,9 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.smartphone.database.mDatabase;
 import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Chat.SQLiteMethods;
+import com.example.testavocado.Chat2.ClearData;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -118,6 +120,10 @@ public class MenuFragment extends Fragment {
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
                                 SQLiteMethods sqLiteMethods=new SQLiteMethods(mContext,"db1",null,SQL_VER);
                                 sqLiteMethods.cleatChatsTable();
+
+                                ClearData cd=new ClearData(getActivity().getApplication());
+                                cd.clearDb();
+
                                 getActivity().finish();
                             }
                         });

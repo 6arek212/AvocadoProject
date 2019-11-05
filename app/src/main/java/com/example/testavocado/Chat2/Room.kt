@@ -36,6 +36,9 @@ interface MessagesDao{
 
     @Query("delete from messages_tbl where chat_id=:chatId")
     fun clearMessages(chatId:String)
+
+    @Query("delete from messages_tbl")
+    fun clear()
 }
 
 

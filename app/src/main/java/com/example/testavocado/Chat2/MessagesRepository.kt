@@ -8,10 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.room.Database
 import androidx.room.Query
-import com.example.smartphone.database.Chat
-import com.example.smartphone.database.Chat2
-import com.example.smartphone.database.Message
-import com.example.smartphone.database.mDatabase
+import com.example.smartphone.database.*
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
 import com.google.android.gms.tasks.OnCompleteListener
@@ -36,7 +33,7 @@ class MessagesRepository(
     }
 
     val firebaseDatabase = FirebaseDatabase.getInstance()
-    val myRef = firebaseDatabase.getReference("chats")
+    val myRef = firebaseDatabase.getReference()
     var isTheSender: Boolean = false
 
     private val _typing = MutableLiveData<Boolean>()
@@ -47,6 +44,7 @@ class MessagesRepository(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
+
 
 
 
@@ -102,7 +100,7 @@ class MessagesRepository(
             return
         }
 
-        myRef.child(chat.chatId).child("messages")
+        myRef.child("chats").child(chat.chatId).child("messages")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                         _error.postValue(application.getString(R.string.CHECK_INTERNET))
@@ -126,13 +124,16 @@ class MessagesRepository(
             val messageList = ArrayList<Message>()
 
             for (ds: DataSnapshot in dss.children) {
+                Log.d("messageCheck", "${ds.value}")
                 val message = ds.getValue(Message::class.java)
+
+
 
                 Log.d("message", message.toString())
                 message?.let {
                     if (message.senderId != userId) {
                         messageList.add(message)
-                        myRef.child(chat.chatId).child("messages").child(message._id).removeValue()
+                        myRef.child("chats").child(chat.chatId).child("messages").child(message._id).removeValue()
                     }
                 }
             }
@@ -147,11 +148,11 @@ class MessagesRepository(
             return
         }
 
-        val key = myRef.child(chat.chatId).child("messages").push().key
+        val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
             val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
-            myRef.child(chat.chatId).child("messages").child(key).setValue(message)
+            myRef.child("chats").child(chat.chatId).child("messages").child(key).setValue(message)
 
             val ref = FirebaseDatabase.getInstance().reference
 
@@ -181,7 +182,7 @@ class MessagesRepository(
             return
         }
 
-        myRef.child(chat.chatId).child(
+        myRef.child("chats").child(chat.chatId).child(
                 when (isTheSender) {
                     true -> "r_typing"
                     false -> "s_typing"
@@ -208,9 +209,9 @@ class MessagesRepository(
         }
 
         if (isTheSender) {
-            myRef.child(chat.chatId).child("s_typing").setValue(state)
+            myRef.child("chats").child(chat.chatId).child("s_typing").setValue(state)
         } else {
-            myRef.child(chat.chatId).child("r_typing").setValue(state)
+            myRef.child("chats").child(chat.chatId).child("r_typing").setValue(state)
         }
     }
 
@@ -223,11 +224,11 @@ class MessagesRepository(
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
         }
-        val key = myRef.push().key
+        val key = myRef.child("chats").push().key
 
         key?.let {
             val chatA = Chat(it, userId, chat.with, datetime = TimeMethods.getUTCdatetimeAsString())
-            myRef.child(it).setValue(chatA)
+            myRef.child("chats").child(it).setValue(chatA)
             chat.chatId = key
 
             val ref = FirebaseDatabase.getInstance().reference
@@ -247,10 +248,10 @@ class MessagesRepository(
 
 
             chatId.value = chat.chatId
-            val messageKey = myRef.child(chat.chatId).child("messages").push().key
+            val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key
             messageKey?.let {
                 val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
-                myRef.child(chat.chatId).child("messages").child(messageKey).setValue(message)
+                myRef.child("chats").child(chat.chatId).child("messages").child(messageKey).setValue(message)
                 checkIfTyping()
                 refreshMessages()
                 jobScope.launch {

@@ -49,6 +49,8 @@ class MessageViewModel (application: Application,val chat:Chat2): ViewModel() {
         repo.showErrorComplete()
     }
 
+
+
     fun messageShowComplete(){
         _showMessageEmptyText.value=false
     }
