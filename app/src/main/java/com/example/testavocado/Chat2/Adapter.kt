@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.smartphone.database.Message
 import com.example.testavocado.databinding.LayoutChatLeft2Binding
 import com.example.testavocado.databinding.LayoutChatRight2Binding
+import com.example.testavocado.databinding.LayoutChatRightWithimageBinding
 import com.example.testavocado.databinding.MessageItemBinding
 
 const val ME_TYPE = 1
@@ -41,6 +42,7 @@ class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
             is MessageViewHolder-> holder.bind(item)
             is MessageRightViewHolder-> holder.bind(item)
             is MessageLeftViewHolder-> holder.bind(item)
+            is MessageRightWithPicViewHolder->holder.bind(item)
         }
     }
 
@@ -74,6 +76,22 @@ class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = LayoutChatRight2Binding.inflate(inflater, parent, false)
                 return MessageRightViewHolder(binding)
+            }
+        }
+    }
+
+    class MessageRightWithPicViewHolder private constructor(val binding: LayoutChatRightWithimageBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message) {
+            binding.message = message
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageRightWithPicViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatRightWithimageBinding.inflate(inflater, parent, false)
+                return MessageRightWithPicViewHolder(binding)
             }
         }
     }

@@ -40,8 +40,8 @@ data class Message( @ColumnInfo(name = "message_id")
                     val text: String="",
                     val datetime: String="",
                     val senderId: Int=0,
-                    val chat_id:String="")
-
+                    val chat_id:String="",
+                    val pic:String?="")
 
 
 

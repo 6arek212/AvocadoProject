@@ -125,17 +125,18 @@ class MessagesRepository(
 
             for (ds: DataSnapshot in dss.children) {
                 Log.d("messageCheck", "${ds.value}")
+
                 val message = ds.getValue(Message::class.java)
-
-
-
                 Log.d("message", message.toString())
                 message?.let {
                     if (message.senderId != userId) {
+
+
                         messageList.add(message)
                         myRef.child("chats").child(chat.chatId).child("messages").child(message._id).removeValue()
                     }
                 }
+
             }
             database.messageDao.insertAll(messageList)
         }
