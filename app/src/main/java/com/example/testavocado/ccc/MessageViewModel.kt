@@ -1,26 +1,23 @@
-package com.example.chat
+package com.example.testavocado.ccc
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.smartphone.database.Chat
-import com.example.smartphone.database.Chat2
-import com.example.smartphone.database.mDatabase
+
 import com.example.testavocado.Utils.HelpMethods
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
-class MessageViewModel (application: Application,val chat:Chat2): ViewModel() {
+class MessageViewModel (application: Application,val chat: Chat3): ViewModel() {
 
     val job= Job()
     val jobScope= CoroutineScope(job+Dispatchers.Main)
 
 
-    val database=mDatabase.getInstance(application.applicationContext)
+    val database= mDatabase.getInstance(application.applicationContext)
     val repo=MessagesRepository(database,HelpMethods.checkSharedPreferencesForUserId(application),chat,application)
 
     val messages=repo.messages
@@ -36,6 +33,8 @@ class MessageViewModel (application: Application,val chat:Chat2): ViewModel() {
     private val _showMessageEmptyText=MutableLiveData<Boolean>()
     val showMessageEmptyText:LiveData<Boolean>
         get()=_showMessageEmptyText
+
+
 
     val typing=repo.typing
 

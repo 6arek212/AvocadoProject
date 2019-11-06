@@ -1,6 +1,9 @@
-package com.example.chat
+package com.example.testavocado.ccc
 
+import android.app.Activity
 import android.app.Application
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -17,11 +19,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartphone.database.Chat
-import com.example.smartphone.database.Chat2
+import com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment
+import com.example.testavocado.GalleryAndPicSnap.GetaPicActivity
 import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
 import com.example.testavocado.databinding.MessageFragmentBinding
+import java.io.File
 
 
 class MessageFragment : Fragment() {
@@ -41,7 +44,7 @@ class MessageFragment : Fragment() {
             false
         )
         val arg= requireNotNull(arguments)
-        val chat=MessageFragmentArgs.fromBundle(arg).chat
+        val chat= MessageFragmentArgs.fromBundle(arg).chat
 
         val application= requireNotNull(activity).application
         val viewModelFactory=ChatViewModelFactory(application,chat)
@@ -56,7 +59,13 @@ class MessageFragment : Fragment() {
 
 
 
-        val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application))
+        val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application)){
+            imageUrl ->
+            imageUrl?.let {
+               findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it))
+            }
+        }
+
         val ln=LinearLayoutManager(context)
         ln.reverseLayout=true
         binding.recyclerView.layoutManager=ln
@@ -136,6 +145,12 @@ class MessageFragment : Fragment() {
             }
         })
 
+        binding.pic.setOnClickListener{
+            val intent = Intent(context, GetaPicActivity::class.java)
+            startActivityForResult(intent, ProfilePhotoUploadFragment.PHOTO_CODE)
+        }
+
+
         return binding.root
     }
 
@@ -156,12 +171,34 @@ class MessageFragment : Fragment() {
 
 
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ProfilePhotoUploadFragment.PHOTO_CODE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+
+                if (data.extras!!.get(getString(R.string.imagePath)) != null) {
+                    viewModel.chat?.let {
+                        val imagePath = data.extras!!.getString(getString(R.string.imagePath))
+                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath,it))
+
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
+
 }
 
 
 class ChatViewModelFactory(
     private val application: Application,
-    private val chat: Chat2
+    private val chat: Chat3
 
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")

@@ -35,7 +35,10 @@
 
 
 
+    <style name="ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:colorAccent">@color/colorPrimary</item>
 
+    </style>
 
     <style name="inputtext_layout_style">
         <item name="android:layout_marginTop">3mm</item>

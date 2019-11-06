@@ -1,37 +1,45 @@
-package com.example.chat
+package com.example.testavocado.ccc
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartphone.database.Message
-import com.example.testavocado.databinding.LayoutChatLeft2Binding
-import com.example.testavocado.databinding.LayoutChatRight2Binding
-import com.example.testavocado.databinding.LayoutChatRightWithimageBinding
-import com.example.testavocado.databinding.MessageItemBinding
+import com.example.testavocado.databinding.*
 
 const val ME_TYPE = 1
-const val OTHER_TYPE = 2
+const val ME_TYPE_WITH_IMAGE = 2
+const val OTHER_TYPE = 3
+const val OTHER_TYPE_WITH_IMAGE = 4
 
-class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
+class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
     DiffCallback
 ) {
 
 
     override fun getItemViewType(position: Int): Int {
-        if(getItem(position).senderId==userId)
+        val item=getItem(position)
+
+        if(item.senderId==userId && item.pic==null)
             return ME_TYPE
-        else
+        else if(item.senderId==userId && item.pic!=null){
+            return ME_TYPE_WITH_IMAGE
+        }
+        else if(item.senderId!=userId && item.pic==null){
             return OTHER_TYPE
+        }
+        else
+            return OTHER_TYPE_WITH_IMAGE
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
             ME_TYPE->MessageRightViewHolder.from(parent)
+            ME_TYPE_WITH_IMAGE->MessageRightWithPicViewHolder.from(parent)
             OTHER_TYPE->MessageLeftViewHolder.from(parent)
-            else->MessageViewHolder.from(parent)
+            OTHER_TYPE_WITH_IMAGE->MessageLeftWithPicViewHolder.from(parent)
+            else->MessageRightViewHolder.from(parent)
         }
     }
 
@@ -39,29 +47,15 @@ class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
         val item = getItem(position)
 
         when(holder){
-            is MessageViewHolder-> holder.bind(item)
             is MessageRightViewHolder-> holder.bind(item)
             is MessageLeftViewHolder-> holder.bind(item)
-            is MessageRightWithPicViewHolder->holder.bind(item)
+            is MessageRightWithPicViewHolder->holder.bind(item,viewImage)
+            is MessageLeftWithPicViewHolder->holder.bind(item,viewImage)
         }
     }
 
 
-    class MessageViewHolder private constructor(val binding: MessageItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message) {
-            binding.message = message
-            binding.executePendingBindings()
-        }
 
-        companion object {
-            fun from(parent: ViewGroup): MessageViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = MessageItemBinding.inflate(inflater, parent, false)
-                return MessageViewHolder(binding)
-            }
-        }
-    }
 
 
     class MessageRightViewHolder private constructor(val binding: LayoutChatRight2Binding) :
@@ -82,9 +76,13 @@ class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
 
     class MessageRightWithPicViewHolder private constructor(val binding: LayoutChatRightWithimageBinding) :
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message) {
+        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit) {
             binding.message = message
             binding.executePendingBindings()
+
+            binding.imageView3.setOnClickListener{
+                viewImage(message.pic)
+            }
         }
 
         companion object {
@@ -97,6 +95,25 @@ class Adapter (val userId:Int) : ListAdapter<Message, RecyclerView.ViewHolder>(
     }
 
 
+    class MessageLeftWithPicViewHolder private constructor(val binding: LayoutChatLeftWithimageBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit) {
+            binding.message = message
+            binding.executePendingBindings()
+
+            binding.imageView4.setOnClickListener{
+                viewImage(message.pic)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageLeftWithPicViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatLeftWithimageBinding.inflate(inflater, parent, false)
+                return MessageLeftWithPicViewHolder(binding)
+            }
+        }
+    }
 
     class MessageLeftViewHolder private constructor(val binding: LayoutChatLeft2Binding) :
         RecyclerView.ViewHolder(binding.root) {

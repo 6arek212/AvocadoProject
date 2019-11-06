@@ -1,19 +1,18 @@
-package com.example.smartphone.database
+package com.example.testavocado.ccc
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.chat.Chats.ChatRepo
 import com.google.gson.Gson
 
 
 @Dao
 interface ChatDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(chats: List<Chat2>)
+    fun insertAll(chats: List<Chat3>)
 
     @Query("select * from chats_tbl")
-    fun getChats():LiveData<List<Chat2>>
+    fun getChats():LiveData<List<Chat3>>
 
 
     @Query("delete from chats_tbl")
@@ -42,7 +41,7 @@ interface MessagesDao{
 }
 
 
-@Database(entities = [Chat2::class,Message::class],version = 10)
+@Database(entities = [Chat3::class,Message::class],version = 13)
 @TypeConverters(Converters::class)
 abstract class mDatabase : RoomDatabase(){
 

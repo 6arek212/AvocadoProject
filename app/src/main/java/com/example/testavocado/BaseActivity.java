@@ -10,9 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import com.example.chat.MainActivity;
-import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Service.BackgroundService;
+import com.example.testavocado.ccc.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.core.app.ActivityCompat;

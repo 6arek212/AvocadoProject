@@ -6,7 +6,7 @@
     <data>
         <variable
             name="Message"
-            type="com.example.smartphone.database.Message" />
+            type="com.example.testavocado.ccc.Message" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,13 +28,14 @@
             <TextView
                 android:id="@+id/time"
                 android:layout_width="0dp"
-                android:layout_height="11dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textSize="13sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3"
                 app:time="@{Message.datetime}"
-                tools:text="20:20" />
+                tools:text="20:20"
+                />
 
 
             <TextView
@@ -57,11 +58,12 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="8dp"
-                app:imageUrl="@{Message.pic}"
                 app:layout_constraintEnd_toStartOf="@id/time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                app:imageUrl="@{Message.pic}"
+                android:scaleType="centerCrop"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

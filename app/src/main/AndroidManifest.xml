@@ -60,7 +60,7 @@
         <activity android:name=".XOGame.XOActivity"/>
         <activity android:name=".DamkaGame.DamkaActivity"/>
         <activity android:name=".Chat.ChatActivity"/>
-        <activity android:name="com.example.chat.MainActivity"/>
+        <activity android:name=".ccc.MainActivity"/>
 
         <activity
             android:screenOrientation="portrait"

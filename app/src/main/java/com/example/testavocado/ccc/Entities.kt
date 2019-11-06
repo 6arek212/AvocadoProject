@@ -1,12 +1,10 @@
-package com.example.smartphone.database
+package com.example.testavocado.ccc
 
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.*
 import com.google.firebase.database.IgnoreExtraProperties
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
 
 @Keep
@@ -25,23 +23,23 @@ data class Chat(
 
 @Entity(tableName = "chats_tbl")
 @Parcelize
-data class Chat2(val name:String?="",
+data class Chat3(val name:String?="",
                  @PrimaryKey(autoGenerate = false)
-                 var chatId:String="",var sender:Int?=0,val with:Int=0,val profileImg:String?="",val lastMsgDatetime:String?="",val lastMsg:String?=""):Parcelable
+                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="", val lastMsgDatetime:String?="", val lastMsg:String?=""):Parcelable
 
 
 
 @Keep
 @IgnoreExtraProperties
 @Entity(tableName = "messages_tbl")
-data class Message( @ColumnInfo(name = "message_id")
+data class Message(@ColumnInfo(name = "message_id")
                     @PrimaryKey(autoGenerate = false)
                     val _id: String="",
-                    val text: String="",
-                    val datetime: String="",
-                    val senderId: Int=0,
-                    val chat_id:String="",
-                    val pic:String?="")
+                   val text: String?="",
+                   val datetime: String="",
+                   val senderId: Int=0,
+                   val chat_id:String="",
+                   val pic:String?=null)
 
 
 

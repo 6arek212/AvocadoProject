@@ -1,14 +1,15 @@
-package com.example.chat.NewChat
+package com.example.testavocado.ccc.chats
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.content.Context
+import android.view.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartphone.database.Chat2
+import com.example.testavocado.ccc.Chat3
 import com.example.testavocado.databinding.ChatItemBinding
 
-class NewChatAdpater (val clickListener:(chat:Chat2)->Unit): ListAdapter<Chat2, NewChatAdpater.ChatViewHolder>(
+
+class ChatsAdapter (val context:Context,val clickListener:(chat: Chat3, state:Boolean)->Unit): ListAdapter<Chat3, ChatsAdapter.ChatViewHolder>(
     DiffCallback
 ){
 
@@ -28,14 +29,26 @@ class NewChatAdpater (val clickListener:(chat:Chat2)->Unit): ListAdapter<Chat2, 
 
 
     class ChatViewHolder private constructor(val binding: ChatItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(chat: Chat2,onClick:(chat:Chat2)->Unit){
+        fun bind(chat: Chat3, onClick:(chat:Chat3, state:Boolean)->Unit){
             binding.chat=chat
             binding.executePendingBindings()
 
-            binding.layout.setOnClickListener{
-                onClick(chat)
+
+
+            binding.layout.setOnLongClickListener{
+                onClick(chat,false)
+                true
             }
+
+            binding.layout.setOnClickListener(){
+                onClick(chat,true)
+            }
+
         }
+
+
+
+
 
         companion object{
             fun from(parent:ViewGroup): ChatViewHolder {
@@ -48,12 +61,12 @@ class NewChatAdpater (val clickListener:(chat:Chat2)->Unit): ListAdapter<Chat2, 
 
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Chat2>(){
-        override fun areItemsTheSame(oldItem: Chat2, newItem: Chat2): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Chat3>(){
+        override fun areItemsTheSame(oldItem: Chat3, newItem: Chat3): Boolean {
             return oldItem.chatId==newItem.chatId
         }
 
-        override fun areContentsTheSame(oldItem: Chat2, newItem: Chat2): Boolean {
+        override fun areContentsTheSame(oldItem: Chat3, newItem: Chat3): Boolean {
             return oldItem==newItem
         }
     }

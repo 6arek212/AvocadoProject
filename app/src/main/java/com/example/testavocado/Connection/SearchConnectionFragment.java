@@ -206,7 +206,6 @@ public class SearchConnectionFragment extends Fragment {
                     public void onScrolled(RecyclerView recyclerView,
                                            int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
-                        HelpMethods.closeKeyboard(getActivity());
                         if (isRecyclerScrollable())
                             if (!mRecyclerView.canScrollVertically(1) && !loading) {
                                 Log.d(TAG, "recyclerViewBottomDetectionListener: bottom");

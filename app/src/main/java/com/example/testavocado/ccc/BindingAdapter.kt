@@ -1,10 +1,10 @@
-package com.example.testavocado.Chat2
+package com.example.testavocado.ccc
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -33,5 +33,16 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 fun time(view: TextView, time: String?) {
     time?.let {
         view.text = TimeMethods.convertDateTimeFormat2(time)
+    }
+}
+
+
+@BindingAdapter("progressBarState")
+fun time(view: ProgressBar, state: Boolean?) {
+    state?.let {
+        when(it){
+            true->view.visibility= View.VISIBLE
+            false->view.visibility=View.GONE
+        }
     }
 }

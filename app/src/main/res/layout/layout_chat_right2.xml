@@ -6,7 +6,7 @@
     <data>
         <variable
             name="Message"
-            type="com.example.smartphone.database.Message" />
+            type="com.example.testavocado.ccc.Message" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

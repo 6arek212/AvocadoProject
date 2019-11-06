@@ -6,11 +6,11 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.chat.MessageViewModel" />
+            type="com.example.testavocado.ccc.MessageViewModel" />
 
         <variable
             name="chat"
-            type="com.example.smartphone.database.Chat2" />
+            type="com.example.testavocado.ccc.Chat3" />
 
 
     </data>
@@ -21,6 +21,8 @@
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:background="@color/colorAccent"
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
@@ -33,19 +35,18 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/layout_chat_right2"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+                tools:listitem="@layout/layout_chat_right2" />
 
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
@@ -62,6 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
+                            android:text="@{chat.name}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
@@ -69,8 +71,7 @@
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toEndOf="@+id/profileImage"
                             app:layout_constraintTop_toTopOf="@+id/close"
-                            tools:text="tarik husin"
-                            android:text="@{chat.name}"/>
+                            tools:text="tarik husin" />
 
                         <TextView
                             android:id="@+id/typing"
@@ -100,11 +101,10 @@
                             android:layout_height="40dp"
                             android:layout_marginStart="16dp"
                             android:src="@drawable/male_icon"
+                            app:imageUrl="@{chat.profileImg}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/close"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:imageUrl="@{chat.profileImg}"
-                            />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,18 +114,27 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/addimage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/send"
-            app:layout_constraintStart_toStartOf="parent"
             android:hint="@string/type_a_message"
             app:hintTextColor="@color/gray"
-            >
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send"
+            app:layout_constraintStart_toEndOf="@+id/pic">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text"

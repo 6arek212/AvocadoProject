@@ -1,4 +1,4 @@
-package com.example.chat
+package com.example.testavocado.ccc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

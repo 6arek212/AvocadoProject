@@ -1,13 +1,11 @@
-package com.example.chat.Chats
+package com.example.testavocado.ccc.chats
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chat.MessagesRepository
-import com.example.smartphone.database.Chat2
-import com.example.smartphone.database.mDatabase
+import com.example.testavocado.ccc.Chat3
+import com.example.testavocado.ccc.mDatabase
 import com.example.testavocado.Utils.HelpMethods
+
 import kotlinx.coroutines.*
 
 class ChatsViewModel (application: Application) : ViewModel() {
@@ -18,13 +16,13 @@ class ChatsViewModel (application: Application) : ViewModel() {
 
     val database= mDatabase.getInstance(application.applicationContext)
 
-    val repo=ChatRepo(database, HelpMethods.checkSharedPreferencesForUserId(application))
+    val repo= ChatRepo(database, HelpMethods.checkSharedPreferencesForUserId(application))
     val chats=repo.chats
 
 
 
 
-    fun removeChat(chat:Chat2){
+    fun removeChat(chat: Chat3){
         repo.removeChat(chat.chatId,chat.with)
     }
 

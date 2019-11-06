@@ -9,11 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.example.smartphone.database.mDatabase;
 import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Chat.SQLiteMethods;
-import com.example.testavocado.Chat2.ClearData;
+import com.example.testavocado.ccc.ClearData;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;

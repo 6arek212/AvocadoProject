@@ -30,25 +30,41 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="20:20"
-                app:time="@{Message.datetime}"
+                android:layout_marginTop="8dp"
                 android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:time="@{Message.datetime}"
+                tools:text="20:20" />
 
 
             <TextView
                 android:id="@+id/messageText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:maxWidth="150dp"
                 android:text="@{Message.text}"
                 android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                tools:text="hello how are you tarik aaaaaaaaaaaaaaaaaaaa " />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/time"
                 app:layout_constraintTop_toTopOf="@+id/time"
-                tools:text="hello how are you tarik aaaaaaaaaaaaaaaaaaaa " />
+                tools:srcCompat="@tools:sample/avatars"
+                app:imageUrl="@{Message.pic}"
+                android:scaleType="centerCrop"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

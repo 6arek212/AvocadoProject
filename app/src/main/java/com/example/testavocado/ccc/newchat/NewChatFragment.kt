@@ -1,4 +1,4 @@
-package com.example.chat.NewChat
+package com.example.testavocado.ccc.newchat
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProviders
@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.chat.Chats.ChatsViewModel
 import com.example.testavocado.R
 import com.example.testavocado.databinding.NewChatFragmentBinding
 

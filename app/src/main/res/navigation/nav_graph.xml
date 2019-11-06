@@ -7,21 +7,31 @@
 
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.example.chat.MessageFragment"
+        android:name="com.example.testavocado.ccc.MessageFragment"
         android:label="message_fragment"
         tools:layout="@layout/message_fragment" >
         <argument
             android:name="chat"
-            app:argType="com.example.smartphone.database.Chat2" />
+            app:argType="com.example.testavocado.ccc.Chat3" />
         <action
             android:id="@+id/action_messageFragment_to_chatsFragment"
             app:destination="@id/chatsFragment"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_messageFragment_to_messageWithPicFragment"
+            app:destination="@id/messageWithPicFragment" />
+        <action
+            android:id="@+id/action_messageFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment"
+            app:enterAnim="@animator/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="com.example.chat.Chats.ChatsFragment"
+        android:name="com.example.testavocado.ccc.chats.ChatsFragment"
         android:label="ChatsFragment" >
         <action
             android:id="@+id/action_chatsFragment_to_messageFragment"
@@ -40,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/newChatFragment"
-        android:name="com.example.chat.NewChat.NewChatFragment"
+        android:name="com.example.testavocado.ccc.newchat.NewChatFragment"
         android:label="NewChatFragment" >
         <action
             android:id="@+id/action_newChatFragment_to_messageFragment"
@@ -48,5 +58,27 @@
             app:enterAnim="@animator/slide_in_right"
             app:popUpTo="@+id/newChatFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageWithPicFragment"
+        android:name="com.example.testavocado.ccc.message.MessageWithPicFragment"
+        android:label="MessageWithPicFragment" >
+        <action
+            android:id="@+id/action_messageWithPicFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+        <argument
+            android:name="chat"
+            app:argType="com.example.testavocado.ccc.Chat3" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.example.testavocado.ccc.image.FullScreenImageFragment"
+        android:label="FullScreenImageFragment" >
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

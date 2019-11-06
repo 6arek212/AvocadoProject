@@ -1,25 +1,26 @@
-package com.example.chat
+package com.example.testavocado.ccc
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.room.Database
-import androidx.room.Query
-import com.example.smartphone.database.*
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.database.*
-import kotlinx.coroutines.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
 
 class MessagesRepository(
         val database: mDatabase,
         val userId: Int,
-        val chat: Chat2,
+        val chat: Chat3,
         val application: Application
 ) {
     val TAG = "MessageRepo"
@@ -143,7 +144,7 @@ class MessagesRepository(
     }
 
 
-    fun sendMessage(msg: String) {
+    fun sendMessage(msg: String?=null,pic:String?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -152,7 +153,7 @@ class MessagesRepository(
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
-            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
+            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId,pic)
             myRef.child("chats").child(chat.chatId).child("messages").child(key).setValue(message)
 
             val ref = FirebaseDatabase.getInstance().reference
@@ -176,6 +177,10 @@ class MessagesRepository(
 
         }
     }
+
+
+
+
 
 
     fun checkIfTyping() {
@@ -220,7 +225,7 @@ class MessagesRepository(
     data class ChatSend(var chatId: String = "", var sender: Int = 0, var with: Int = 0)
 
 
-    fun sendAndCreateChat(msg: String) {
+    fun sendAndCreateChat(msg: String?=null,pic:String?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -251,7 +256,7 @@ class MessagesRepository(
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key
             messageKey?.let {
-                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId)
+                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId,pic)
                 myRef.child("chats").child(chat.chatId).child("messages").child(messageKey).setValue(message)
                 checkIfTyping()
                 refreshMessages()

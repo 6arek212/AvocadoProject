@@ -1,9 +1,9 @@
-package com.example.chat.NewChat
+package com.example.testavocado.ccc.newchat
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
-import com.example.chat.Chats.ChatRepo
-import com.example.smartphone.database.mDatabase
+import com.example.testavocado.ccc.chats.ChatRepo
+import com.example.testavocado.ccc.mDatabase
 import com.example.testavocado.Utils.HelpMethods
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
