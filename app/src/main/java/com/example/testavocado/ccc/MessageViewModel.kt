@@ -74,6 +74,11 @@ class MessageViewModel(application: Application, val chat: Chat3) : ViewModel() 
 
 
 
+    fun sendContact(contact: MessageFragment.Contact){
+        repo.sendMessage(msg = contact.name,number = contact.number)
+    }
+
+
     fun sendMsg() {
         if (textToSend.value.isNullOrEmpty()) {
             _showMessageEmptyText.value = true

@@ -227,7 +227,7 @@ class MessagesRepository(
     }
 
 
-    fun sendMessage(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null) {
+    fun sendMessage(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null,number:String?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -236,7 +236,7 @@ class MessagesRepository(
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
-            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, longitude = long, latitude = latit)
+            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, longitude = long, latitude = latit,number = number)
             myRef.child("chats").child(chat.chatId).child("messages").child(key).setValue(message)
 
             val ref = FirebaseDatabase.getInstance().reference
@@ -410,6 +410,7 @@ class MessagesRepository(
             myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("pic").removeValue()
             myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("latitude").removeValue()
             myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("longitude").removeValue()
+            myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("number").removeValue()
 
             myRef.child("chats").child(chat.chatId).child("lastMsgId").addListenerForSingleValueEvent(object :ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {

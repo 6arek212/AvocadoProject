@@ -66,6 +66,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                         val sender = ds.child("sender").getValue(Int::class.java)
                         val with = ds.child("with").getValue(Int::class.java)
                         val lastMsgDate=ds.child("lastMsgDate").getValue(String::class.java)
+                        val online=p0.child(with.toString()).child("online").getValue(Boolean::class.java)
 
                         val profileImage=p0.child(with.toString()).child("profilePic").getValue(String::class.java)
 
@@ -78,7 +79,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                             val chat2:Chat3
 
                             if (chatId != null) {
-                                chat2 = Chat3(name!!, chatId, sender!!, with,profileImage,lastMsgDate)
+                                chat2 = Chat3(name!!, chatId, sender!!, with,profileImage,lastMsgDate,online = online)
                             } else {
                                 chat2 = Chat3(name!!, with = with,profileImg = profileImage)
                             }

@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.database.Cursor
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,6 +28,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.loader.content.CursorLoader
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +55,8 @@ class MessageFragment : Fragment() {
     private lateinit var userLocationClient: FusedLocationProviderClient
     private lateinit var userLocationCallback: LocationCallback
 
+
+    private val PICK_CONTACT = 11
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -102,6 +107,11 @@ class MessageFragment : Fragment() {
 
             //remove Message
             alertRemoveMessage(messageId)
+        }, { number ->
+            //open dialer
+            number?.let {
+                openDialer(number)
+            }
         })
 
         val ln = LinearLayoutManager(context)
@@ -212,6 +222,10 @@ class MessageFragment : Fragment() {
 
         }
 
+        binding.contact.setOnClickListener {
+            openContact()
+        }
+
 
 
         binding.location.setOnClickListener {
@@ -243,14 +257,14 @@ class MessageFragment : Fragment() {
 
 
         alertDialog.apply {
-            setTitle("location")
-            setMessage("send your location ?")
+            setTitle(getString(R.string.location))
+            setMessage(getString(R.string.send_location))
 
-            setPositiveButton("yes") { dialog, which ->
+            setPositiveButton(getString(R.string.yes)) { dialog, which ->
                 userLocationClient.requestLocationUpdates(userLocationRequest, userLocationCallback, null)
             }
 
-            setNegativeButton("No", null)
+            setNegativeButton(getString(R.string.no), null)
             setIcon(android.R.drawable.ic_dialog_alert)
 
 
@@ -273,11 +287,33 @@ class MessageFragment : Fragment() {
             setTitle("Delete Message")
             setMessage("are you sure to delete the message ?")
 
-            setPositiveButton("yes") { dialog, which ->
+            setPositiveButton(getString(R.string.yes)) { dialog, which ->
                 viewModel.removeMessage(messageId)
             }
 
-            setNegativeButton("No", null)
+            setNegativeButton(getString(R.string.no), null)
+            setIcon(android.R.drawable.ic_dialog_alert)
+
+
+            show()
+        }
+    }
+
+
+    class Contact(val name: String, val number: String)
+
+    fun sendContactAlert(contact: Contact) {
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogStyle)
+
+        alertDialog.apply {
+            setTitle(getString(R.string.send_contact))
+            setMessage("${getString(R.string.are_you_sure_send_contact)} ${contact.name} ?")
+
+            setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                viewModel.sendContact(contact)
+            }
+
+            setNegativeButton(getString(R.string.no), null)
             setIcon(android.R.drawable.ic_dialog_alert)
 
 
@@ -298,6 +334,19 @@ class MessageFragment : Fragment() {
     }
 
 
+    fun openContact() {
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+        intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE)
+        startActivityForResult(intent, PICK_CONTACT)
+    }
+
+    fun openDialer(number: String) {
+        val intent = Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:$number"));
+        startActivity(intent);
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -307,7 +356,7 @@ class MessageFragment : Fragment() {
                     if (data?.extras!!.get(getString(R.string.imagePath)) != null) {
                         val imagePath = data.extras!!.getString(getString(R.string.imagePath))
                         imagePath?.let {
-                            val uri=Uri.parse("file://"+imagePath)
+                            val uri = Uri.parse("file://" + imagePath)
                             Log.d("gotImage", "$uri")
                             launchImageCrop(uri)
                         }
@@ -326,39 +375,48 @@ class MessageFragment : Fragment() {
                     }
                 }
             }
+
+            PICK_CONTACT -> {
+
+                val TAG = "MessageFragment"
+
+                if (resultCode == Activity.RESULT_OK) {
+                    val contactsData = data?.getData()
+                    if (contactsData != null) {
+                        val loader = CursorLoader(requireNotNull(context), contactsData, null, null, null, null);
+                        val c = loader.loadInBackground();
+
+                        c?.let {
+                            if (c.moveToFirst()) {
+                                val contact = Contact(name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)),
+                                        number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
+                                sendContactAlert(contact)
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+
         }
 
 
-//        if (requestCode == ProfilePhotoUploadFragment.PHOTO_CODE) {
-//            if (resultCode == Activity.RESULT_OK && data != null) {
-//
-//                if (data.extras!!.get(getString(R.string.imagePath)) != null) {
-//                    viewModel.chat?.let {
-//                        val imagePath = data.extras!!.getString(getString(R.string.imagePath))
-//                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath,it))
-//
-//                    }
-//
-//                }
-//
-//            }
-//        }
     }
 
 
-}
+    class ChatViewModelFactory(
+            private val application: Application,
+            private val chat: Chat3
 
-
-class ChatViewModelFactory(
-        private val application: Application,
-        private val chat: Chat3
-
-) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MessageViewModel::class.java)) {
-            return MessageViewModel(application, chat) as T
+    ) : ViewModelProvider.Factory {
+        @Suppress("unchecked_cast")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MessageViewModel::class.java)) {
+                return MessageViewModel(application, chat) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

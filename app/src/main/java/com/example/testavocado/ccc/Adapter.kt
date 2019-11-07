@@ -10,13 +10,15 @@ import com.example.testavocado.databinding.*
 const val ME_TYPE = 1
 const val ME_TYPE_WITH_IMAGE = 2
 const val ME_TYPE_WITH_LOCATION = 3
+const val ME_TYPE_WITH_CONTACT = 4
 
-const val OTHER_TYPE = 4
-const val OTHER_TYPE_WITH_IMAGE = 5
-const val OTHER_TYPE_WITH_LOCATION = 6
+const val OTHER_TYPE = 5
+const val OTHER_TYPE_WITH_IMAGE = 6
+const val OTHER_TYPE_WITH_LOCATION = 7
+const val OTHER_TYPE_WITH_CONTACT = 8
 
 class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit,
-               val removeMessage:(messageId:String)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
+               val removeMessage:(messageId:String)->Unit,val openDialer:(number:String?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
     DiffCallback
 ) {
 
@@ -24,7 +26,7 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
     override fun getItemViewType(position: Int): Int {
         val item=getItem(position)
 
-        if(item.senderId==userId && item.pic==null && item.latitude==null&& item.longitude==null)
+        if(item.senderId==userId && item.pic==null && item.latitude==null&& item.longitude==null && item.number==null)
             return ME_TYPE
         else if(item.senderId==userId && item.pic!=null){
             return ME_TYPE_WITH_IMAGE
@@ -32,14 +34,21 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
         else if (item.senderId==userId && item.latitude!=null && item.longitude!=null){
             return ME_TYPE_WITH_LOCATION
         }
+        else if(item.senderId==userId && item.number!=null){
+            return ME_TYPE_WITH_CONTACT
+        }
 
-        else if(item.senderId!=userId && item.pic==null && item.latitude==null&& item.longitude==null){
+        else if(item.senderId!=userId && item.pic==null && item.latitude==null&& item.longitude==null && item.number==null){
             return OTHER_TYPE
         }
         else if(item.senderId!=userId && item.pic!=null)
             return OTHER_TYPE_WITH_IMAGE
-        else{
+
+        else if(item.senderId!=userId && item.latitude!=null && item.longitude!=null){
             return OTHER_TYPE_WITH_LOCATION
+        }
+        else{
+            return OTHER_TYPE_WITH_CONTACT
         }
     }
 
@@ -49,9 +58,11 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
             ME_TYPE->MessageRightViewHolder.from(parent)
             ME_TYPE_WITH_IMAGE->MessageRightWithPicViewHolder.from(parent)
             ME_TYPE_WITH_LOCATION->MessageRightWithLocationViewHolder.from(parent)
+            ME_TYPE_WITH_CONTACT->MessageRightWithContactViewHolder.from(parent)
             OTHER_TYPE->MessageLeftViewHolder.from(parent)
             OTHER_TYPE_WITH_IMAGE->MessageLeftWithPicViewHolder.from(parent)
             OTHER_TYPE_WITH_LOCATION->MessageLeftWithLocationViewHolder.from(parent)
+            OTHER_TYPE_WITH_CONTACT->MessageLeftWithContactViewHolder.from(parent)
             else->MessageRightViewHolder.from(parent)
         }
     }
@@ -66,6 +77,8 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
             is MessageLeftWithPicViewHolder->holder.bind(item,viewImage)
             is MessageRightWithLocationViewHolder->holder.bind(item,viewLocation,removeMessage)
             is MessageLeftWithLocationViewHolder->holder.bind(item,viewLocation)
+            is MessageRightWithContactViewHolder->holder.bind(item,removeMessage,openDialer)
+            is MessageLeftWithContactViewHolder->holder.bind(item,openDialer)
         }
     }
 
@@ -93,6 +106,33 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
             }
         }
     }
+
+
+    class MessageRightWithContactViewHolder private constructor(val binding: LayoutChatRightWithcontactBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message,removeMessage:(messageId:String)->Unit,openDialer:(number:String?)->Unit) {
+            binding.message = message
+            binding.executePendingBindings()
+
+            binding.layout.setOnLongClickListener{
+                removeMessage(message._id)
+                false
+            }
+
+            binding.layout.setOnClickListener{
+                openDialer(message.number)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageRightWithContactViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatRightWithcontactBinding.inflate(inflater, parent, false)
+                return MessageRightWithContactViewHolder(binding)
+            }
+        }
+    }
+
 
     class MessageRightWithPicViewHolder private constructor(val binding: LayoutChatRightWithimageBinding) :
             RecyclerView.ViewHolder(binding.root) {
@@ -188,6 +228,29 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
             }
         }
     }
+
+
+    class MessageLeftWithContactViewHolder private constructor(val binding: LayoutChatLeftWithcontactBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message,openDialer:(number:String?)->Unit) {
+            binding.message = message
+            binding.executePendingBindings()
+
+            binding.layout.setOnClickListener{
+                openDialer(message.number)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageLeftWithContactViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatLeftWithcontactBinding.inflate(inflater, parent, false)
+                return MessageLeftWithContactViewHolder(binding)
+            }
+        }
+    }
+
+
 
     class MessageLeftViewHolder private constructor(val binding: LayoutChatLeft2Binding) :
         RecyclerView.ViewHolder(binding.root) {

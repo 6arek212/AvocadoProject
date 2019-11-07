@@ -404,5 +404,11 @@
     <string name="search_nearby_users">Search Nearby Users</string>
     <string name="seen">Seen</string>
     <string name="online">online</string>
+    <string name="send_contact">Send Contact</string>
+    <string name="are_you_sure_send_contact">are you sure you want to send contact info</string>
+    <string name="yes">yes</string>
+    <string name="no">No</string>
+    <string name="send_location">send your location ?</string>
+    <string name="location">Location</string>
 
 </resources>

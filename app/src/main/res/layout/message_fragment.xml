@@ -129,8 +129,8 @@
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/addimage"
@@ -141,8 +141,8 @@
 
         <ImageView
             android:id="@+id/location"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/location"
             app:layout_constraintStart_toEndOf="@id/pic"
@@ -158,7 +158,7 @@
             app:hintTextColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/send"
-            app:layout_constraintStart_toEndOf="@+id/location">
+            app:layout_constraintStart_toEndOf="@+id/contact">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text"
@@ -203,6 +203,16 @@
             app:layout_constraintStart_toEndOf="@+id/imageView7"
             app:layout_constraintTop_toTopOf="@+id/imageView7"
             app:progressBarState="@{viewModel.seen}"/>
+
+        <ImageView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/location"
+            app:layout_constraintStart_toEndOf="@+id/location"
+            app:layout_constraintTop_toTopOf="@+id/location"
+            app:srcCompat="@drawable/ic_person" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 
 import com.example.testavocado.R
 import com.example.testavocado.ccc.Chat3
-import com.example.testavocado.ccc.ChatViewModelFactory
 import com.example.testavocado.ccc.MessageFragmentArgs
 import com.example.testavocado.ccc.MessageViewModel
 import com.example.testavocado.databinding.FullScreenImageFragmentBinding

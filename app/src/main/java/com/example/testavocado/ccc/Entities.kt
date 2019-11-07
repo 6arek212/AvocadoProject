@@ -41,7 +41,8 @@ data class Message(@ColumnInfo(name = "message_id")
                    val chat_id:String="",
                    val pic:String?=null,
                    val longitude:Double?=null,
-                   val latitude:Double?=null)
+                   val latitude:Double?=null,
+                   val number:String?=null)
 
 
 

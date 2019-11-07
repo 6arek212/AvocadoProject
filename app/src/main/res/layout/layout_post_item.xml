@@ -118,6 +118,8 @@
                         android:maxLines="5"
                         android:text="hello this is my first post here im going to explain alll of the things for myy firend s"
                         android:ellipsize="end"
+                        android:autoLink="web"
+                        android:textColorLink="@color/colorBlue"
                         android:textSize="15sp"
                         android:textColor="@color/colorBlack"
                         app:animation_duration="750"/>
