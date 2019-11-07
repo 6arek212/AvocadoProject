@@ -84,7 +84,8 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                     }
                     chatsToStart.postValue(chatList)
-                }            }
+                }
+            }
         }
         Log.d("CHAT REPO","$getNewChats   $myRef")
 
