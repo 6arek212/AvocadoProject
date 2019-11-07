@@ -32,6 +32,7 @@ import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
 import com.example.testavocado.databinding.MessageFragmentBinding
 import com.google.android.gms.location.*
+import kotlinx.android.synthetic.main.merge_fragment_myprofile_center.*
 import java.io.File
 import java.lang.Exception
 
@@ -93,6 +94,11 @@ class MessageFragment : Fragment() {
             }
 
 
+        },{
+            messageId ->
+
+            //remove Message
+            alertRemoveMessage(messageId)
         })
 
         val ln=LinearLayoutManager(context)
@@ -127,22 +133,22 @@ class MessageFragment : Fragment() {
         //scroll to the top
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
-                binding.recyclerView.scrollToPosition(0)
+                //binding.recyclerView.scrollToPosition(0)
             }
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                binding.recyclerView.scrollToPosition(0)
+                //binding.recyclerView.scrollToPosition(0)
             }
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                binding.recyclerView.scrollToPosition(0)
+                //binding.recyclerView.scrollToPosition(0)
             }
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 binding.recyclerView.scrollToPosition(0)
             }
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                binding.recyclerView.scrollToPosition(0)
+                //binding.recyclerView.scrollToPosition(0)
             }
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                binding.recyclerView.scrollToPosition(0)
+                //binding.recyclerView.scrollToPosition(0)
             }
         })
 
@@ -156,15 +162,7 @@ class MessageFragment : Fragment() {
         })
 
 
-//        viewModel.typing.observe(this, Observer {
-//            Log.d("typingtyping","$it")
-//            if (it){
-//                binding.typing.visibility=View.VISIBLE
-//            }else
-//            {
-//                binding.typing.visibility=View.GONE
-//            }
-//        })
+
 
 
         viewModel.showMessageEmptyText.observe(this, Observer {
@@ -188,7 +186,11 @@ class MessageFragment : Fragment() {
         userLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 Log.i("LocationListener", "$locationResult")
-                locationResult ?: return
+                if(locationResult==null)
+                {
+                    Toast.makeText(context, getString(R.string.GPS_ERROR), Toast.LENGTH_SHORT).show();
+                    return
+                }
 
 
                 val long=locationResult.locations.get(0).longitude
@@ -230,6 +232,33 @@ class MessageFragment : Fragment() {
 
             setPositiveButton("yes"){ dialog, which ->
                 userLocationClient.requestLocationUpdates(userLocationRequest,userLocationCallback,null)
+            }
+
+            setNegativeButton("No", null)
+            setIcon(android.R.drawable.ic_dialog_alert)
+
+
+            show()
+        }
+    }
+
+
+    fun alertRemoveMessage(messageId:String) {
+        val alertDialog = AlertDialog.Builder(context,R.style.AlertDialogStyle)
+
+        val userLocationRequest = LocationRequest().apply {
+            interval = 1000
+            fastestInterval = 1000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+
+        alertDialog.apply {
+            setTitle("Delete Message")
+            setMessage("are you sure to delete the message ?")
+
+            setPositiveButton("yes"){ dialog, which ->
+                viewModel.removeMessage(messageId)
             }
 
             setNegativeButton("No", null)

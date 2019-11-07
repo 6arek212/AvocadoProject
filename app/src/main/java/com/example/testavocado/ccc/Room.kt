@@ -38,6 +38,9 @@ interface MessagesDao{
 
     @Query("delete from messages_tbl")
     fun clear()
+
+    @Query("update messages_tbl set text='deleted message',longitude=null,latitude=null,pic=null where message_id=:messageId")
+    fun deleteMessage(messageId:String)
 }
 
 

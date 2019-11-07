@@ -11,10 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class MessagesRepository(
@@ -93,13 +90,15 @@ class MessagesRepository(
         checkIfTyping()
         refreshMessages()
         seenMessage()
+        removedMessagesListener()
     }
 
-    lateinit var seenLister:ValueEventListener
-    lateinit var refreshMessagesListener:ValueEventListener
-    lateinit var typingEventListener:ValueEventListener
+    lateinit var seenLister: ValueEventListener
+    lateinit var refreshMessagesListener: ValueEventListener
+    lateinit var typingEventListener: ValueEventListener
+    lateinit var removedChatListener:ValueEventListener
 
-    fun removeListeners(){
+    fun removeListeners() {
         myRef.child("chats").child(chat.chatId).child(when (isTheSender) {
             true -> "r_seen"
             false -> "s_seen"
@@ -112,11 +111,8 @@ class MessagesRepository(
                 }
         ).removeEventListener(typingEventListener)
         myRef.child("chats").child(chat.chatId).child("messages").removeEventListener(refreshMessagesListener)
+        myRef.child("chats").child(chat.chatId).child("deleted Messages").removeEventListener(removedChatListener)
     }
-
-
-
-
 
 
     fun seenMessage() {
@@ -124,7 +120,7 @@ class MessagesRepository(
             return
         }
 
-        seenLister=object: ValueEventListener{
+        seenLister = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -132,7 +128,7 @@ class MessagesRepository(
             override fun onDataChange(p0: DataSnapshot) {
                 val state = p0.getValue(Boolean::class.java)
                 _seen.value = state
-                Log.d("seendState","$state")
+                Log.d("seendState", "$state")
             }
         }
 
@@ -150,7 +146,7 @@ class MessagesRepository(
             return
         }
 
-        refreshMessagesListener=object :ValueEventListener{
+        refreshMessagesListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
@@ -158,7 +154,8 @@ class MessagesRepository(
 
             override fun onDataChange(p0: DataSnapshot) {
                 Log.d("MessagesRepository", p0.toString())
-                getData(p0)            }
+                getData(p0)
+            }
         }
 
         myRef.child("chats").child(chat.chatId).child("messages")
@@ -199,7 +196,7 @@ class MessagesRepository(
     }
 
 
-    fun sendMessage(msg: String? = null, pic: String? = null,long:Double?=null,latit:Double?=null) {
+    fun sendMessage(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -208,7 +205,7 @@ class MessagesRepository(
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
-            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic,longitude = long,latitude = latit)
+            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, longitude = long, latitude = latit)
             myRef.child("chats").child(chat.chatId).child("messages").child(key).setValue(message)
 
             val ref = FirebaseDatabase.getInstance().reference
@@ -225,6 +222,7 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("lastMsg").setValue(msg)
             ref.child("chats").child(chat.chatId).child("datetimeLastMsg").setValue(TimeMethods.getUTCdatetimeAsString())
 
+            ref.child("chats").child(chat.chatId).child("lastMsgId").setValue(it)
 
 
             if (isTheSender) {
@@ -246,7 +244,7 @@ class MessagesRepository(
             return
         }
 
-        typingEventListener=object :ValueEventListener{
+        typingEventListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 _error.postValue(application.getString(R.string.CHECK_INTERNET))
 
@@ -255,7 +253,8 @@ class MessagesRepository(
             override fun onDataChange(p0: DataSnapshot) {
                 p0.value?.let {
                     _typing.value = it as Boolean
-                }            }
+                }
+            }
         }
 
 
@@ -285,7 +284,7 @@ class MessagesRepository(
     data class ChatSend(var chatId: String = "", var sender: Int? = 0, var with: Int = 0)
 
 
-    fun sendAndCreateChat(msg: String? = null, pic: String? = null,long:Double?=null,latit:Double?=null) {
+    fun sendAndCreateChat(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -316,17 +315,84 @@ class MessagesRepository(
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key
             messageKey?.let {
-                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic,long,latit)
+                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, long, latit)
+
+                ref.child("chats").child(chat.chatId).child("lastMsgId").setValue(it)
+
                 myRef.child("chats").child(chat.chatId).child("messages").child(messageKey).setValue(message)
                 checkIfTyping()
                 refreshMessages()
                 seenMessage()
-
+                removedMessagesListener()
                 jobScope.launch {
                     database.messageDao.insert(message)
                 }
             }
 
+        }
+    }
+
+
+
+    fun removedMessagesListener() {
+         removedChatListener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+                for (ds: DataSnapshot in p0.children) {
+                    val dMsg = ds.getValue(RemovedMessage::class.java)
+
+                    dMsg?.let {
+                        if (dMsg.sender != userId) {
+                            jobScope.launch {
+                                it.messageId?.let {
+                                    database.messageDao.deleteMessage(it)
+                                    myRef.child("chats").child(chat.chatId).child("deleted Messages").child(it).removeValue()
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        myRef.child("chats").child(chat.chatId).child("deleted Messages").addValueEventListener(removedChatListener)
+    }
+
+
+    data class RemovedMessage(val sender: Int?=null, val messageId: String?=null)
+
+    suspend fun removeMessage(messageId: String) {
+        withContext(Dispatchers.IO) {
+            val rm = RemovedMessage(userId, messageId)
+
+            database.messageDao.deleteMessage(messageId)
+            myRef.child("chats").child(chat.chatId).child("deleted Messages").child(messageId).setValue(rm)
+            myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("text").setValue("deleted message")
+            myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("pic").removeValue()
+            myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("latitude").removeValue()
+            myRef.child("chats").child(chat.chatId).child("messages").child(messageId).child("longitude").removeValue()
+
+            myRef.child("chats").child(chat.chatId).child("lastMsgId").addListenerForSingleValueEvent(object :ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val msgId=p0.getValue(String::class.java)
+                    messageId.let {
+                        if (it==messageId){
+                            myRef.child("chats").child(chat.chatId).child("lastMsg").setValue("deleted message")
+                        }
+                    }
+                }
+            })
         }
     }
 

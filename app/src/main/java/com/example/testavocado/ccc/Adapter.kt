@@ -15,7 +15,8 @@ const val OTHER_TYPE = 4
 const val OTHER_TYPE_WITH_IMAGE = 5
 const val OTHER_TYPE_WITH_LOCATION = 6
 
-class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
+class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit,
+               val removeMessage:(messageId:String)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
     DiffCallback
 ) {
 
@@ -59,11 +60,11 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
         val item = getItem(position)
 
         when(holder){
-            is MessageRightViewHolder-> holder.bind(item)
+            is MessageRightViewHolder-> holder.bind(item,removeMessage)
             is MessageLeftViewHolder-> holder.bind(item)
-            is MessageRightWithPicViewHolder->holder.bind(item,viewImage)
+            is MessageRightWithPicViewHolder->holder.bind(item,viewImage,removeMessage)
             is MessageLeftWithPicViewHolder->holder.bind(item,viewImage)
-            is MessageRightWithLocationViewHolder->holder.bind(item,viewLocation)
+            is MessageRightWithLocationViewHolder->holder.bind(item,viewLocation,removeMessage)
             is MessageLeftWithLocationViewHolder->holder.bind(item,viewLocation)
         }
     }
@@ -74,9 +75,14 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
 
     class MessageRightViewHolder private constructor(val binding: LayoutChatRight2Binding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message) {
+        fun bind(message: Message,removeMessage:(messageId:String)->Unit) {
             binding.message = message
             binding.executePendingBindings()
+
+            binding.layout.setOnLongClickListener{
+                removeMessage(message._id)
+                false
+            }
         }
 
         companion object {
@@ -90,12 +96,17 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
 
     class MessageRightWithPicViewHolder private constructor(val binding: LayoutChatRightWithimageBinding) :
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit) {
+        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit,removeMessage:(messageId:String)->Unit) {
             binding.message = message
             binding.executePendingBindings()
 
             binding.imageView3.setOnClickListener{
                 viewImage(message.pic)
+            }
+
+            binding.layout.setOnLongClickListener{
+                removeMessage(message._id)
+                false
             }
         }
 
@@ -112,12 +123,17 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
 
     class MessageRightWithLocationViewHolder private constructor(val binding: LayoutChatRightWithlocationBinding) :
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message,viewLocation:(longtit:Double?,latit:Double?)->Unit) {
+        fun bind(message: Message,viewLocation:(longtit:Double?,latit:Double?)->Unit,removeMessage:(messageId:String)->Unit) {
             binding.message = message
             binding.executePendingBindings()
 
             binding.location.setOnClickListener{
                 viewLocation(message.longitude,message.latitude)
+            }
+
+            binding.layout.setOnLongClickListener{
+                removeMessage(message._id)
+                false
             }
         }
 
