@@ -12,6 +12,9 @@ import android.location.LocationManager
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Environment
+import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,11 +30,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment
+import com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment.PHOTO_CODE
 import com.example.testavocado.GalleryAndPicSnap.GetaPicActivity
 import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
 import com.example.testavocado.databinding.MessageFragmentBinding
 import com.google.android.gms.location.*
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.merge_fragment_myprofile_center.*
 import java.io.File
 import java.lang.Exception
@@ -40,48 +48,44 @@ import java.lang.Exception
 class MessageFragment : Fragment() {
 
 
-
     private lateinit var viewModel: MessageViewModel
     private lateinit var userLocationClient: FusedLocationProviderClient
     private lateinit var userLocationCallback: LocationCallback
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        val binding: MessageFragmentBinding =DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.message_fragment,
-            container,
-            false
+        val binding: MessageFragmentBinding = DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.message_fragment,
+                container,
+                false
         )
-        val arg= requireNotNull(arguments)
-        val chat= MessageFragmentArgs.fromBundle(arg).chat
+        val arg = requireNotNull(arguments)
+        val chat = MessageFragmentArgs.fromBundle(arg).chat
 
 
-        val application= requireNotNull(activity).application
-        Log.d("chattocheck","$chat  userIDDDDDDD ${HelpMethods.checkSharedPreferencesForUserId(application)}")
+        val application = requireNotNull(activity).application
+        Log.d("chattocheck", "$chat  userIDDDDDDD ${HelpMethods.checkSharedPreferencesForUserId(application)}")
 
-        val viewModelFactory=ChatViewModelFactory(application,chat)
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MessageViewModel::class.java)
-        binding.typing.visibility=View.GONE
+        val viewModelFactory = ChatViewModelFactory(application, chat)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MessageViewModel::class.java)
+        binding.typing.visibility = View.GONE
 
 
 
         binding.setLifecycleOwner(this)
-        binding.viewModel=viewModel
-        binding.chat=chat
+        binding.viewModel = viewModel
+        binding.chat = chat
 
 
-
-        val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application),{
-            imageUrl ->
+        val adapter = Adapter(HelpMethods.checkSharedPreferencesForUserId(application), { imageUrl ->
             imageUrl?.let {
                 findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it))
             }
-        },{
-            longtit, latit ->
+        }, { longtit, latit ->
             //open waze
 
             try {
@@ -94,31 +98,30 @@ class MessageFragment : Fragment() {
             }
 
 
-        },{
-            messageId ->
+        }, { messageId ->
 
             //remove Message
             alertRemoveMessage(messageId)
         })
 
-        val ln=LinearLayoutManager(context)
-        ln.reverseLayout=true
-        binding.recyclerView.layoutManager=ln
-        binding.recyclerView.adapter=adapter
+        val ln = LinearLayoutManager(context)
+        ln.reverseLayout = true
+        binding.recyclerView.layoutManager = ln
+        binding.recyclerView.adapter = adapter
         binding.recyclerView.scrollToPosition(0)
 
 
         viewModel.error.observe(this, Observer {
-            Log.d("errorMeSSAGE","$it")
-                if (!it.isNullOrEmpty()){
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show();
-                    viewModel.showErrorComplete()
-                }
+            Log.d("errorMeSSAGE", "$it")
+            if (!it.isNullOrEmpty()) {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show();
+                viewModel.showErrorComplete()
+            }
         })
 
 
         //close click
-        binding.close.setOnClickListener{
+        binding.close.setOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -129,24 +132,28 @@ class MessageFragment : Fragment() {
         })
 
 
-
         //scroll to the top
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 //binding.recyclerView.scrollToPosition(0)
             }
+
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                 //binding.recyclerView.scrollToPosition(0)
             }
+
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 //binding.recyclerView.scrollToPosition(0)
             }
+
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 binding.recyclerView.scrollToPosition(0)
             }
+
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                 //binding.recyclerView.scrollToPosition(0)
             }
+
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                 //binding.recyclerView.scrollToPosition(0)
             }
@@ -155,7 +162,7 @@ class MessageFragment : Fragment() {
 
 
         viewModel.clearText.observe(this, Observer {
-            if(it){
+            if (it) {
                 binding.text.setText("")
                 viewModel.clearTextComplete()
             }
@@ -166,13 +173,13 @@ class MessageFragment : Fragment() {
 
 
         viewModel.showMessageEmptyText.observe(this, Observer {
-            if(it){
+            if (it) {
                 Toast.makeText(context, getString(R.string.cant_send_empty_message), Toast.LENGTH_SHORT).show()
                 viewModel.messageShowComplete()
             }
         })
 
-        binding.pic.setOnClickListener{
+        binding.pic.setOnClickListener {
             val intent = Intent(context, GetaPicActivity::class.java)
             startActivityForResult(intent, ProfilePhotoUploadFragment.PHOTO_CODE)
         }
@@ -186,20 +193,19 @@ class MessageFragment : Fragment() {
         userLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 Log.i("LocationListener", "$locationResult")
-                if(locationResult==null)
-                {
+                if (locationResult == null) {
                     Toast.makeText(context, getString(R.string.GPS_ERROR), Toast.LENGTH_SHORT).show();
                     return
                 }
 
 
-                val long=locationResult.locations.get(0).longitude
-                val latit=locationResult.locations.get(0).latitude
+                val long = locationResult.locations.get(0).longitude
+                val latit = locationResult.locations.get(0).latitude
 
                 Log.i("LocationListener", long.toString())
                 Log.i("LocationListener", latit.toString())
 
-                viewModel.locationMessage(long,latit)
+                viewModel.locationMessage(long, latit)
 
                 userLocationClient.removeLocationUpdates(userLocationCallback)
             }
@@ -208,7 +214,7 @@ class MessageFragment : Fragment() {
 
 
 
-        binding.location.setOnClickListener{
+        binding.location.setOnClickListener {
             alert()
         }
 
@@ -216,8 +222,18 @@ class MessageFragment : Fragment() {
     }
 
 
+    private fun launchImageCrop(uri: Uri) {
+        context?.let {
+            CropImage.activity(uri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
+                    .start(it, this)
+        }
+    }
+
+
     fun alert() {
-        val alertDialog = AlertDialog.Builder(context,R.style.AlertDialogStyle)
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogStyle)
 
         val userLocationRequest = LocationRequest().apply {
             interval = 1000
@@ -230,8 +246,8 @@ class MessageFragment : Fragment() {
             setTitle("location")
             setMessage("send your location ?")
 
-            setPositiveButton("yes"){ dialog, which ->
-                userLocationClient.requestLocationUpdates(userLocationRequest,userLocationCallback,null)
+            setPositiveButton("yes") { dialog, which ->
+                userLocationClient.requestLocationUpdates(userLocationRequest, userLocationCallback, null)
             }
 
             setNegativeButton("No", null)
@@ -243,8 +259,8 @@ class MessageFragment : Fragment() {
     }
 
 
-    fun alertRemoveMessage(messageId:String) {
-        val alertDialog = AlertDialog.Builder(context,R.style.AlertDialogStyle)
+    fun alertRemoveMessage(messageId: String) {
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogStyle)
 
         val userLocationRequest = LocationRequest().apply {
             interval = 1000
@@ -257,7 +273,7 @@ class MessageFragment : Fragment() {
             setTitle("Delete Message")
             setMessage("are you sure to delete the message ?")
 
-            setPositiveButton("yes"){ dialog, which ->
+            setPositiveButton("yes") { dialog, which ->
                 viewModel.removeMessage(messageId)
             }
 
@@ -270,60 +286,78 @@ class MessageFragment : Fragment() {
     }
 
 
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.textToSend.observe(this, Observer {
-            if(it.isNullOrEmpty()){
+            if (it.isNullOrEmpty()) {
                 viewModel.typing(false)
-            }
-            else{
+            } else {
                 viewModel.typing(true)
             }
         })
     }
 
 
-
-
-
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ProfilePhotoUploadFragment.PHOTO_CODE) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-
-                if (data.extras!!.get(getString(R.string.imagePath)) != null) {
-                    viewModel.chat?.let {
+        when (requestCode) {
+            PHOTO_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data?.extras!!.get(getString(R.string.imagePath)) != null) {
                         val imagePath = data.extras!!.getString(getString(R.string.imagePath))
-                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath,it))
-
+                        imagePath?.let {
+                            val uri=Uri.parse("file://"+imagePath)
+                            Log.d("gotImage", "$uri")
+                            launchImageCrop(uri)
+                        }
                     }
-
                 }
+            }
 
+            CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                val result = CropImage.getActivityResult(data)
+                if (resultCode == Activity.RESULT_OK) {
+                    val imagePath = result.uri
+
+                    Log.d("gotImage", "$imagePath")
+                    viewModel.chat?.let {
+                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath, it))
+                    }
+                }
             }
         }
-    }
 
+
+//        if (requestCode == ProfilePhotoUploadFragment.PHOTO_CODE) {
+//            if (resultCode == Activity.RESULT_OK && data != null) {
+//
+//                if (data.extras!!.get(getString(R.string.imagePath)) != null) {
+//                    viewModel.chat?.let {
+//                        val imagePath = data.extras!!.getString(getString(R.string.imagePath))
+//                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath,it))
+//
+//                    }
+//
+//                }
+//
+//            }
+//        }
+    }
 
 
 }
 
 
 class ChatViewModelFactory(
-    private val application: Application,
-    private val chat: Chat3
+        private val application: Application,
+        private val chat: Chat3
 
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MessageViewModel::class.java)) {
-            return MessageViewModel(application,chat) as T
+            return MessageViewModel(application, chat) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -68,7 +68,7 @@
             app:destination="@id/messageFragment" />
         <argument
             android:name="imageUrl"
-            app:argType="string" />
+            app:argType="android.net.Uri" />
         <argument
             android:name="chat"
             app:argType="com.example.testavocado.ccc.Chat3" />

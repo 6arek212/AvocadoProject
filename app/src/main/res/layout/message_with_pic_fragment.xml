@@ -27,13 +27,13 @@
                 android:id="@+id/imageView5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:imageUrl="@{viewModel.image}"
+                app:imageUri="@{viewModel.image}"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars"
-                android:scaleType="centerCrop"/>
+                android:scaleType="fitXY"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"

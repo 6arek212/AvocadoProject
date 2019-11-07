@@ -12,10 +12,28 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
 import android.R.attr.button
+import android.net.Uri
 import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
 
 
+@BindingAdapter("imageUri")
+fun bindImageUri(imgView: ImageView, imgUrl: Uri?) {
+    Log.d("BindingAdapter", "${imgUrl}")
+
+    Glide.with(imgView.context)
+            .load(imgUrl)
+            .centerCrop()
+            .apply(
+                    RequestOptions()
+                            .placeholder(R.drawable.loading_animation)
+                            .error(R.drawable.profile_ic)
+            )
+            .into(imgView)
+
+
+
+}
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {

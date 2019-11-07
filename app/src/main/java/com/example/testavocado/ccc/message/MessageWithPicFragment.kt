@@ -1,6 +1,7 @@
 package com.example.testavocado.ccc.message
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -76,7 +77,7 @@ class MessageWithPicFragment : Fragment() {
 
     class MessageWithImageViewModelFactory(
             private val application: Application,
-            private val imageUrl: String,
+            private val imageUrl: Uri,
             private val chat:Chat3,
             private val userId:Int
 

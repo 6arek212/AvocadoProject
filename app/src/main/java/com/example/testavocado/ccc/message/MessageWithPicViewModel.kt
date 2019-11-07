@@ -14,10 +14,10 @@ import com.example.testavocado.ccc.MessagesRepository
 import com.example.testavocado.ccc.mDatabase
 import java.io.File
 
-class MessageWithPicViewModel (val application: Application,val userId:Int,val imageUrl:String,val chat: Chat3) : ViewModel() {
+class MessageWithPicViewModel (val application: Application,val userId:Int,val imageUrl:Uri,val chat: Chat3) : ViewModel() {
 
-    private val _image= MutableLiveData<String>()
-    val image: LiveData<String>
+    private val _image= MutableLiveData<Uri>()
+    val image: LiveData<Uri>
         get()=_image
 
     private val _error= MutableLiveData<String>()
@@ -59,7 +59,7 @@ class MessageWithPicViewModel (val application: Application,val userId:Int,val i
 
     fun sendMessage(text:String?){
         _prog.value=true
-        val uri = Uri.fromFile(File(imageUrl))
+        val uri = imageUrl
         PhotoUpload.uploadNewPhotoFirebase(application.getString(R.string.new_photo),TimeMethods.getUTCdatetimeAsString(),uri,userId,application,object : PhotoUpload.OnUploadingPostListener2{
             override fun onSuccessListener(ImageUrl: String?) {
                 if(chat.chatId.isNullOrEmpty()){
