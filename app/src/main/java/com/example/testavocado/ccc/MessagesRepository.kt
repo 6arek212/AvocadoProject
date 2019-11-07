@@ -199,7 +199,7 @@ class MessagesRepository(
     }
 
 
-    fun sendMessage(msg: String? = null, pic: String? = null) {
+    fun sendMessage(msg: String? = null, pic: String? = null,long:Double?=null,latit:Double?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -208,7 +208,7 @@ class MessagesRepository(
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
-            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic)
+            val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic,longitude = long,latitude = latit)
             myRef.child("chats").child(chat.chatId).child("messages").child(key).setValue(message)
 
             val ref = FirebaseDatabase.getInstance().reference
@@ -285,7 +285,7 @@ class MessagesRepository(
     data class ChatSend(var chatId: String = "", var sender: Int? = 0, var with: Int = 0)
 
 
-    fun sendAndCreateChat(msg: String? = null, pic: String? = null) {
+    fun sendAndCreateChat(msg: String? = null, pic: String? = null,long:Double?=null,latit:Double?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -316,7 +316,7 @@ class MessagesRepository(
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key
             messageKey?.let {
-                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic)
+                val message = Message(messageKey, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic,long,latit)
                 myRef.child("chats").child(chat.chatId).child("messages").child(messageKey).setValue(message)
                 checkIfTyping()
                 refreshMessages()

@@ -118,8 +118,8 @@
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/addimage"
@@ -127,16 +127,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout" />
 
+
+        <ImageView
+            android:id="@+id/location"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/location"
+            app:layout_constraintStart_toEndOf="@id/pic"
+            app:layout_constraintTop_toTopOf="@id/pic" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/type_a_message"
             app:hintTextColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/send"
-            app:layout_constraintStart_toEndOf="@+id/pic">
+            app:layout_constraintStart_toEndOf="@+id/location">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text"

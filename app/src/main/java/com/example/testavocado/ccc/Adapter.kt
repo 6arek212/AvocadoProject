@@ -9,10 +9,13 @@ import com.example.testavocado.databinding.*
 
 const val ME_TYPE = 1
 const val ME_TYPE_WITH_IMAGE = 2
-const val OTHER_TYPE = 3
-const val OTHER_TYPE_WITH_IMAGE = 4
+const val ME_TYPE_WITH_LOCATION = 3
 
-class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
+const val OTHER_TYPE = 4
+const val OTHER_TYPE_WITH_IMAGE = 5
+const val OTHER_TYPE_WITH_LOCATION = 6
+
+class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
     DiffCallback
 ) {
 
@@ -20,16 +23,23 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAda
     override fun getItemViewType(position: Int): Int {
         val item=getItem(position)
 
-        if(item.senderId==userId && item.pic==null)
+        if(item.senderId==userId && item.pic==null && item.latitude==null&& item.longitude==null)
             return ME_TYPE
         else if(item.senderId==userId && item.pic!=null){
             return ME_TYPE_WITH_IMAGE
         }
-        else if(item.senderId!=userId && item.pic==null){
+        else if (item.senderId==userId && item.latitude!=null && item.longitude!=null){
+            return ME_TYPE_WITH_LOCATION
+        }
+
+        else if(item.senderId!=userId && item.pic==null && item.latitude==null&& item.longitude==null){
             return OTHER_TYPE
         }
-        else
+        else if(item.senderId!=userId && item.pic!=null)
             return OTHER_TYPE_WITH_IMAGE
+        else{
+            return OTHER_TYPE_WITH_LOCATION
+        }
     }
 
 
@@ -37,8 +47,10 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAda
         return when(viewType){
             ME_TYPE->MessageRightViewHolder.from(parent)
             ME_TYPE_WITH_IMAGE->MessageRightWithPicViewHolder.from(parent)
+            ME_TYPE_WITH_LOCATION->MessageRightWithLocationViewHolder.from(parent)
             OTHER_TYPE->MessageLeftViewHolder.from(parent)
             OTHER_TYPE_WITH_IMAGE->MessageLeftWithPicViewHolder.from(parent)
+            OTHER_TYPE_WITH_LOCATION->MessageLeftWithLocationViewHolder.from(parent)
             else->MessageRightViewHolder.from(parent)
         }
     }
@@ -51,6 +63,8 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAda
             is MessageLeftViewHolder-> holder.bind(item)
             is MessageRightWithPicViewHolder->holder.bind(item,viewImage)
             is MessageLeftWithPicViewHolder->holder.bind(item,viewImage)
+            is MessageRightWithLocationViewHolder->holder.bind(item,viewLocation)
+            is MessageLeftWithLocationViewHolder->holder.bind(item,viewLocation)
         }
     }
 
@@ -90,6 +104,50 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit) : ListAda
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = LayoutChatRightWithimageBinding.inflate(inflater, parent, false)
                 return MessageRightWithPicViewHolder(binding)
+            }
+        }
+    }
+
+
+
+    class MessageRightWithLocationViewHolder private constructor(val binding: LayoutChatRightWithlocationBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message,viewLocation:(longtit:Double?,latit:Double?)->Unit) {
+            binding.message = message
+            binding.executePendingBindings()
+
+            binding.location.setOnClickListener{
+                viewLocation(message.longitude,message.latitude)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageRightWithLocationViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatRightWithlocationBinding.inflate(inflater, parent, false)
+                return MessageRightWithLocationViewHolder(binding)
+            }
+        }
+    }
+
+
+
+    class MessageLeftWithLocationViewHolder private constructor(val binding: LayoutChatLeftWithlocationBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message,viewLocation:(longtit:Double?,latit:Double?)->Unit) {
+            binding.message = message
+            binding.executePendingBindings()
+
+            binding.location.setOnClickListener{
+                viewLocation(message.longitude,message.latitude)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): MessageLeftWithLocationViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LayoutChatLeftWithlocationBinding.inflate(inflater, parent, false)
+                return MessageLeftWithLocationViewHolder(binding)
             }
         }
     }

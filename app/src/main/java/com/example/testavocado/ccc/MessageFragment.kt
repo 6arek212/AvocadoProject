@@ -1,8 +1,14 @@
 package com.example.testavocado.ccc
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
+import android.content.ActivityNotFoundException
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -12,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -24,7 +31,9 @@ import com.example.testavocado.GalleryAndPicSnap.GetaPicActivity
 import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
 import com.example.testavocado.databinding.MessageFragmentBinding
+import com.google.android.gms.location.*
 import java.io.File
+import java.lang.Exception
 
 
 class MessageFragment : Fragment() {
@@ -32,6 +41,9 @@ class MessageFragment : Fragment() {
 
 
     private lateinit var viewModel: MessageViewModel
+    private lateinit var userLocationClient: FusedLocationProviderClient
+    private lateinit var userLocationCallback: LocationCallback
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,12 +74,26 @@ class MessageFragment : Fragment() {
 
 
 
-        val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application)){
+        val adapter=Adapter(HelpMethods.checkSharedPreferencesForUserId(application),{
             imageUrl ->
             imageUrl?.let {
-               findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it))
+                findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it))
             }
-        }
+        },{
+            longtit, latit ->
+            //open waze
+
+            try {
+                val url = "waze://?ll=$latit,$longtit&navigate=yes"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            } catch (ex: ActivityNotFoundException) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"))
+                startActivity(intent)
+            }
+
+
+        })
 
         val ln=LinearLayoutManager(context)
         ln.reverseLayout=true
@@ -87,7 +113,7 @@ class MessageFragment : Fragment() {
 
         //close click
         binding.close.setOnClickListener{
-            findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToChatsFragment())
+            findNavController().popBackStack()
         }
 
 
@@ -154,14 +180,71 @@ class MessageFragment : Fragment() {
         }
 
 
+        userLocationClient = LocationServices.getFusedLocationProviderClient(activity as MainActivity)
+
+
+
+
+        userLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                Log.i("LocationListener", "$locationResult")
+                locationResult ?: return
+
+
+                val long=locationResult.locations.get(0).longitude
+                val latit=locationResult.locations.get(0).latitude
+
+                Log.i("LocationListener", long.toString())
+                Log.i("LocationListener", latit.toString())
+
+                viewModel.locationMessage(long,latit)
+
+                userLocationClient.removeLocationUpdates(userLocationCallback)
+            }
+
+        }
+
+
+
+        binding.location.setOnClickListener{
+            alert()
+        }
+
         return binding.root
     }
 
+
+    fun alert() {
+        val alertDialog = AlertDialog.Builder(context,R.style.AlertDialogStyle)
+
+        val userLocationRequest = LocationRequest().apply {
+            interval = 1000
+            fastestInterval = 1000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+
+        alertDialog.apply {
+            setTitle("location")
+            setMessage("send your location ?")
+
+            setPositiveButton("yes"){ dialog, which ->
+                userLocationClient.requestLocationUpdates(userLocationRequest,userLocationCallback,null)
+            }
+
+            setNegativeButton("No", null)
+            setIcon(android.R.drawable.ic_dialog_alert)
+
+
+            show()
+        }
+    }
+
+
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
-
         viewModel.textToSend.observe(this, Observer {
             if(it.isNullOrEmpty()){
                 viewModel.typing(false)
@@ -171,6 +254,10 @@ class MessageFragment : Fragment() {
             }
         })
     }
+
+
+
+
 
 
 
