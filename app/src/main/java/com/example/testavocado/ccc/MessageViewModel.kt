@@ -24,6 +24,7 @@ class MessageViewModel(application: Application, val chat: Chat3) : ViewModel() 
     val messages = repo.messages
     val error = repo.error
     val seen = repo.seen
+    val online = repo.online
 
     val textToSend = MutableLiveData<String>()
 

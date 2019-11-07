@@ -29,6 +29,7 @@ class ChatsViewModel (application: Application) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         repo.onClear()
+        repo.setUserOnlineState(false)
         job.cancel()
     }
 

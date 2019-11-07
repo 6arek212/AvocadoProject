@@ -47,6 +47,10 @@ class MessagesRepository(
     val seen: LiveData<Boolean>
         get() = _seen
 
+    private val _online = MutableLiveData<Boolean>()
+    val online: LiveData<Boolean>
+        get() = _online
+
 
     fun checkNetwork() {
         val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
@@ -91,12 +95,15 @@ class MessagesRepository(
         refreshMessages()
         seenMessage()
         removedMessagesListener()
+        onlineStateListener()
     }
 
     lateinit var seenLister: ValueEventListener
     lateinit var refreshMessagesListener: ValueEventListener
     lateinit var typingEventListener: ValueEventListener
     lateinit var removedChatListener:ValueEventListener
+    lateinit var onlineStateListener:ValueEventListener
+
 
     fun removeListeners() {
         myRef.child("chats").child(chat.chatId).child(when (isTheSender) {
@@ -112,7 +119,31 @@ class MessagesRepository(
         ).removeEventListener(typingEventListener)
         myRef.child("chats").child(chat.chatId).child("messages").removeEventListener(refreshMessagesListener)
         myRef.child("chats").child(chat.chatId).child("deleted Messages").removeEventListener(removedChatListener)
+        myRef.child("users").child(chat.with.toString()).child("online").removeEventListener(onlineStateListener)
     }
+
+
+
+
+
+    fun onlineStateListener(){
+        onlineStateListener=object :ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val state=p0.getValue(Boolean::class.java)
+                state?.let {
+                    _online.value=state
+                }
+            }
+        }
+        myRef.child("users").child(chat.with.toString()).child("online").addValueEventListener(onlineStateListener)
+    }
+
+
+
 
 
     fun seenMessage() {

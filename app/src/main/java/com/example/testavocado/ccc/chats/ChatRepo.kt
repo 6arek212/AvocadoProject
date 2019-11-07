@@ -28,6 +28,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
     init {
         getUsersAndChats()
         getUsersA()
+        setUserOnlineState(true)
     }
 
 
@@ -40,6 +41,9 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
         myRef.removeEventListener(getChatsMade)
     }
 
+    fun setUserOnlineState(state:Boolean){
+        myRef.child("users").child(userId.toString()).child("online").setValue(state)
+    }
 
 
     //new chat
@@ -114,14 +118,14 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                         val with = ds.child("with").getValue(Int::class.java)
                         val profileImage=p0.child("users").child(with.toString()).child("profilePic").getValue(String::class.java)
 
-
+                        val online=p0.child("users").child(with.toString()).child("online").getValue(Boolean::class.java)
 
                         val lastMsgDate=p0.child("chats").child(chatId.toString()).child("datetimeLastMsg").getValue(String::class.java)
                         val lastMsg=p0.child("chats").child(chatId.toString()).child("lastMsg").getValue(String::class.java)
                         val name = p0.child("users").child(with.toString()).child("name").getValue(String::class.java)
 
                         with?.let {
-                            val chat2 = Chat3(name, chatId!!, sender, with,profileImage,lastMsgDate,lastMsg)
+                            val chat2 = Chat3(name, chatId!!, sender, with,profileImage,lastMsgDate,lastMsg,online)
                             Log.d("ChatRepoooooo22222", " ${ds.toString()}")
 
                             chatList.add(chat2)

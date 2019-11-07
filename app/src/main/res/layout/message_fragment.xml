@@ -72,7 +72,7 @@
                             app:layout_constraintEnd_toStartOf="@+id/typing"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toEndOf="@+id/profileImage"
-                            app:layout_constraintTop_toTopOf="@+id/close"
+                            app:layout_constraintTop_toTopOf="@+id/profileImage"
                             tools:text="tarik husin" />
 
                         <TextView
@@ -108,6 +108,16 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/close"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/online"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/online"
+                            android:textColor="@color/colorAccent"
+                            app:layout_constraintStart_toStartOf="@+id/name"
+                            app:layout_constraintTop_toBottomOf="@+id/name"
+                            app:progressBarState="@{viewModel.online}"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

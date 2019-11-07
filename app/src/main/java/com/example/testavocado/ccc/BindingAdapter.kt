@@ -30,10 +30,20 @@ fun bindImageUri(imgView: ImageView, imgUrl: Uri?) {
                             .error(R.drawable.profile_ic)
             )
             .into(imgView)
-
-
-
 }
+
+
+@BindingAdapter("setOnlineState")
+fun setOnlineState(imgView: ImageView, state: Boolean?) {
+
+    state?.let {
+        when(state){
+            true-> imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.greencircle))
+            false->imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.circle_grey))
+        }
+    }
+}
+
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {

@@ -25,7 +25,7 @@ data class Chat(
 @Parcelize
 data class Chat3(val name:String?="",
                  @PrimaryKey(autoGenerate = false)
-                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="", val lastMsgDatetime:String?="", val lastMsg:String?=""):Parcelable
+                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="", val lastMsgDatetime:String?="", val lastMsg:String?="",val online:Boolean?=false):Parcelable
 
 
 
