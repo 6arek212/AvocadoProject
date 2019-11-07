@@ -22,6 +22,7 @@ class MessageViewModel (application: Application,val chat: Chat3): ViewModel() {
 
     val messages=repo.messages
     val error=repo.error
+    val seen=repo.seen
 
     val textToSend=MutableLiveData<String>()
 
@@ -86,7 +87,9 @@ class MessageViewModel (application: Application,val chat: Chat3): ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        repo.removeListeners()
         job.cancel()
+        Log.d("cleared","cleared")
     }
 
 }

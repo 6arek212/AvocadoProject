@@ -20,4 +20,9 @@ class NewChatViewModel (application: Application) : ViewModel() {
 
     val chats=repo.chatsToStart
 
+    override fun onCleared() {
+        super.onCleared()
+        repo.onClear()
+    }
+
 }

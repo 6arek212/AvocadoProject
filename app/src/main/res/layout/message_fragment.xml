@@ -20,6 +20,8 @@
         android:layout_height="match_parent">
 
 
+
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:background="@color/colorAccent"
             android:id="@+id/coordinatorLayout"
@@ -160,8 +162,25 @@
             app:layout_constraintTop_toTopOf="@+id/textInputLayout" />
 
 
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/seen"
+            app:layout_constraintBottom_toTopOf="@+id/pic"
+            app:layout_constraintStart_toStartOf="@+id/pic"
+            app:progressBarState="@{viewModel.seen}"/>
 
-
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/seen"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/imageView7"
+            app:progressBarState="@{viewModel.seen}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

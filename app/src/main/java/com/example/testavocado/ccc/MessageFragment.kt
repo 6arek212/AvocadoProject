@@ -46,7 +46,10 @@ class MessageFragment : Fragment() {
         val arg= requireNotNull(arguments)
         val chat= MessageFragmentArgs.fromBundle(arg).chat
 
+
         val application= requireNotNull(activity).application
+        Log.d("chattocheck","$chat  userIDDDDDDD ${HelpMethods.checkSharedPreferencesForUserId(application)}")
+
         val viewModelFactory=ChatViewModelFactory(application,chat)
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MessageViewModel::class.java)
         binding.typing.visibility=View.GONE

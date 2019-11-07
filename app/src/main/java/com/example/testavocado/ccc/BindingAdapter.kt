@@ -38,7 +38,7 @@ fun time(view: TextView, time: String?) {
 
 
 @BindingAdapter("progressBarState")
-fun time(view: ProgressBar, state: Boolean?) {
+fun time(view: View, state: Boolean?) {
     state?.let {
         when(it){
             true->view.visibility= View.VISIBLE

@@ -22,6 +22,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
     val jobScope = CoroutineScope(job + Dispatchers.IO)
 
     val chatsToStart = MutableLiveData<List<Chat3>>()
+    val myRef = FirebaseDatabase.getInstance().getReference()
 
 
     init {
@@ -30,14 +31,20 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
     }
 
 
+    lateinit var getChatsMade:ValueEventListener
+    lateinit var getNewChats : ValueEventListener
+
+
+    fun onClear(){
+        myRef.child("users").removeEventListener(getNewChats)
+        myRef.removeEventListener(getChatsMade)
+    }
+
+
+
     //new chat
     fun getUsersA() {
-        val ref = FirebaseDatabase.getInstance().reference
-
-        var i = 0
-
-        ref.child("users").addValueEventListener(object :
-            ValueEventListener {
+        getNewChats=object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -61,15 +68,15 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                         with?.let {
                             val name =
-                                p0.child(with.toString()).child("name").getValue(String::class.java)
+                                    p0.child(with.toString()).child("name").getValue(String::class.java)
                             Log.d("ChatRepo2", "${chatId}  ${sender}  $with $name  profileImage $profileImage")
 
                             val chat2:Chat3
 
                             if (chatId != null) {
-                                 chat2 = Chat3(name!!, chatId, sender!!, with,profileImage,lastMsgDate)
+                                chat2 = Chat3(name!!, chatId, sender!!, with,profileImage,lastMsgDate)
                             } else {
-                                 chat2 = Chat3(name!!, with = with,profileImg = profileImage)
+                                chat2 = Chat3(name!!, with = with,profileImg = profileImage)
                             }
 
                             chatList.add(chat2)
@@ -77,9 +84,11 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                     }
                     chatsToStart.postValue(chatList)
-                }
-            }
-        })
+                }            }
+        }
+        Log.d("CHAT REPO","$getNewChats   $myRef")
+
+        myRef.child("users").addValueEventListener(getNewChats)
 
     }
 
@@ -88,22 +97,13 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
     //chats made
     fun getUsersAndChats() {
-        val ref = FirebaseDatabase.getInstance().reference
-
-        var i = 0
-
-        ref.addValueEventListener(object :
-            ValueEventListener {
+        getChatsMade=object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                Log.d("ChatRepoooooo", p0.toString())
-
                 jobScope.launch {
-                    database.chatDao.clear()
-
                     val chatList = ArrayList<Chat3>()
 
                     for (ds: DataSnapshot in p0.child("users").child(userId.toString()).child("chats").children) {
@@ -121,15 +121,17 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                         with?.let {
                             val chat2 = Chat3(name, chatId!!, sender, with,profileImage,lastMsgDate,lastMsg)
-                            Log.d("ChatRepoooooo22222", ds.toString()+"  $chatId   $sender $with  $chat2")
+                            Log.d("ChatRepoooooo22222", " ${ds.toString()}")
 
                             chatList.add(chat2)
                         }
                     }
                     database.chatDao.insertAll(chatList)
-                }
-            }
-        })
+                }            }
+        }
+
+
+        myRef.addValueEventListener(getChatsMade)
 
     }
 

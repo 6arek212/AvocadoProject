@@ -11,7 +11,7 @@ interface ChatDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(chats: List<Chat3>)
 
-    @Query("select * from chats_tbl")
+    @Query("select * from chats_tbl order by lastMsgDatetime DESC")
     fun getChats():LiveData<List<Chat3>>
 
 

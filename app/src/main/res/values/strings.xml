@@ -402,5 +402,6 @@
     <string name="notification">Notification</string>
     <string name="you_are_friends">you are friends</string>
     <string name="search_nearby_users">Search Nearby Users</string>
+    <string name="seen">Seen</string>
 
 </resources>
