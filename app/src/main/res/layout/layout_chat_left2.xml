@@ -44,6 +44,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:maxWidth="150dp"
+                android:autoLink="web"
+                android:textColorLink="@color/colorBlue"
                 android:text="@{Message.text}"
                 android:textSize="15sp"
                 app:layout_constraintStart_toEndOf="@+id/time"

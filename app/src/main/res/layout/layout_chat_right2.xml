@@ -48,6 +48,8 @@
                 android:maxWidth="150dp"
                 android:text="@{Message.text}"
                 android:textSize="15sp"
+                android:autoLink="web"
+                android:textColorLink="@color/colorBlue"
                 app:layout_constraintEnd_toStartOf="@+id/time"
                 app:layout_constraintTop_toTopOf="@+id/time"
                 tools:text="hello how are you tarik aaaaaaaaaaaaaaaaaaaa " />
