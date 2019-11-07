@@ -156,15 +156,15 @@ class MessageFragment : Fragment() {
         })
 
 
-        viewModel.typing.observe(this, Observer {
-            Log.d("typingtyping","$it")
-            if (it){
-                binding.typing.visibility=View.VISIBLE
-            }else
-            {
-                binding.typing.visibility=View.GONE
-            }
-        })
+//        viewModel.typing.observe(this, Observer {
+//            Log.d("typingtyping","$it")
+//            if (it){
+//                binding.typing.visibility=View.VISIBLE
+//            }else
+//            {
+//                binding.typing.visibility=View.GONE
+//            }
+//        })
 
 
         viewModel.showMessageEmptyText.observe(this, Observer {

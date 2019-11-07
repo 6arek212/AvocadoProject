@@ -21,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.validation.validations;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class change_first_last_name_fragment extends Fragment {
     public static final String TAG = "change_first_last_name_";
@@ -79,6 +81,9 @@ public class change_first_last_name_fragment extends Fragment {
                                 if(result==1) {
                                     Toast.makeText(mcontext, getString(R.string.succuess_updated), Toast.LENGTH_SHORT).show();
                                     HelpMethods.updateName(firstname,lastname,mcontext);
+
+                                    DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                                    fr.child("users").child(String.valueOf(setting1.getUser_id())).child("name").setValue(firstname+" "+lastname);
                                 }
                             }
 

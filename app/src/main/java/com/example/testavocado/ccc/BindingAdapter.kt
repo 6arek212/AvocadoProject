@@ -1,5 +1,6 @@
 package com.example.testavocado.ccc
 
+import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -10,6 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
+import android.R.attr.button
+import android.view.animation.Animation
+import android.view.animation.AlphaAnimation
+
+
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -41,8 +47,25 @@ fun time(view: TextView, time: String?) {
 fun time(view: View, state: Boolean?) {
     state?.let {
         when(it){
-            true->view.visibility= View.VISIBLE
-            false->view.visibility=View.GONE
+            true->{
+                val anim = AlphaAnimation(0.0f, 1.0f)
+                anim.duration = 1000
+                anim.repeatCount = 0
+                anim.repeatMode = Animation.REVERSE
+                view.startAnimation(anim)
+
+                view.visibility= View.VISIBLE
+            }
+            false-> {
+                val anim = AlphaAnimation(1.0f, 0.0f)
+                anim.duration = 1000
+                anim.repeatCount = 0
+                anim.repeatMode = Animation.REVERSE
+                view.startAnimation(anim)
+                view.visibility = View.GONE
+            }
         }
+
+
     }
 }
