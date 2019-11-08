@@ -28,9 +28,9 @@ class FullScreenImageFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+//        }
     }
 
 
@@ -49,7 +49,7 @@ class FullScreenImageFragment : Fragment() {
         val application = requireNotNull(activity).application
         val position=FullScreenImageFragmentArgs.fromBundle(arg).position
 
-        ViewCompat.setTransitionName(binding.imageView6, "Test_$position")
+//        ViewCompat.setTransitionName(binding.imageView6, "Test_$position")
 
 
 

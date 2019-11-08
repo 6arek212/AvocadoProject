@@ -61,12 +61,11 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toStartOf="@id/time"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{Message.pic}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars"
-                app:imageUrl="@{Message.pic}"
-                android:scaleType="centerCrop"/>
+                tools:srcCompat="@tools:sample/avatars" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

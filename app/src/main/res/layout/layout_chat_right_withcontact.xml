@@ -16,70 +16,74 @@
 
         >
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/green_rounded"
             android:padding="9dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="parent">
+
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:textSize="13sp"
-                app:layout_constraintStart_toEndOf="@+id/location"
-                app:layout_constraintTop_toTopOf="@+id/location"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:time="@{Message.datetime}"
-                tools:text="20:20"
-                />
-
+                tools:text="20:20" />
 
             <ImageView
                 android:id="@+id/location"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:src="@drawable/male_icon"
-                app:layout_constraintEnd_toStartOf="@id/time"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/time"
+                app:layout_constraintTop_toTopOf="@+id/time" />
 
             <TextView
                 android:id="@+id/textView19"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/location"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/location"
-                tools:text="taik husin"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{Message.text}"
                 android:textColor="@color/black"
-                android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textView21"
-                app:layout_constraintVertical_chainStyle="spread"
-                android:text="@{Message.text}"/>
+                app:layout_constraintEnd_toStartOf="@+id/location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="taik husin" />
 
             <TextView
                 android:id="@+id/textView21"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/location"
-                app:layout_constraintEnd_toEndOf="@+id/textView19"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19"
-                tools:text="052-5145565"
+                android:layout_marginBottom="8dp"
                 android:autoLink="phone"
-                android:textColorLink="@color/colorBlue"
+                android:text="@{Message.number}"
                 android:textColor="@color/colorBlue"
-                android:text="@{Message.number}"/>
+                android:textColorLink="@color/colorBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView19"
+                app:layout_constraintStart_toStartOf="@+id/textView19"
+                app:layout_constraintTop_toBottomOf="@+id/textView19"
+                tools:text="052-5145565" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
