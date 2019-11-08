@@ -24,11 +24,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.content.CursorLoader
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +60,7 @@ class MessageFragment : Fragment() {
 
 
     private val PICK_CONTACT = 11
+    var stopped:Boolean=false
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -86,9 +90,13 @@ class MessageFragment : Fragment() {
         binding.chat = chat
 
 
-        val adapter = Adapter(HelpMethods.checkSharedPreferencesForUserId(application), { imageUrl ->
+        val adapter = Adapter(HelpMethods.checkSharedPreferencesForUserId(application), { imageUrl, imageView, position ->
             imageUrl?.let {
-                findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it))
+                Log.d("imageViewAnimation", "$imageUrl $imageView")
+                findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToFullScreenImageFragment(it, position),
+                        FragmentNavigator.Extras.Builder()
+                                .addSharedElement(imageView, ViewCompat.getTransitionName(imageView)!!)
+                                .build())
             }
         }, { longtit, latit ->
             //open waze
@@ -119,6 +127,14 @@ class MessageFragment : Fragment() {
         binding.recyclerView.layoutManager = ln
         binding.recyclerView.adapter = adapter
         binding.recyclerView.scrollToPosition(0)
+        binding.recyclerView.apply {
+            postponeEnterTransition()
+            viewTreeObserver
+                    .addOnPreDrawListener {
+                        startPostponedEnterTransition()
+                        true
+                    }
+        }
 
 
         viewModel.error.observe(this, Observer {
@@ -157,7 +173,11 @@ class MessageFragment : Fragment() {
             }
 
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.recyclerView.scrollToPosition(0)
+                if(stopped){
+                    stopped=false
+                }else{
+                    binding.recyclerView.scrollToPosition(0)
+                }
             }
 
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
@@ -404,6 +424,16 @@ class MessageFragment : Fragment() {
 
 
     }
+
+
+
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MessageFragment","onStop")
+        stopped=true
+    }
+
 
 
     class ChatViewModelFactory(

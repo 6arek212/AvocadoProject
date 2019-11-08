@@ -24,10 +24,7 @@
         <action
             android:id="@+id/action_messageFragment_to_fullScreenImageFragment"
             app:destination="@id/fullScreenImageFragment"
-            app:enterAnim="@animator/fade_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
@@ -80,5 +77,8 @@
         <argument
             android:name="imageUrl"
             app:argType="string" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -84,5 +84,21 @@
             tools:srcCompat="@drawable/circle_grey"
             app:setOnlineState="@{chat.online}"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_grey_rounded"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView17"
+            app:layout_constraintEnd_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            tools:text="5"
+            app:numBind="@{chat.notRead}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -16,7 +16,9 @@ data class Chat(
     val receiver: Int,
     val s_typing: Boolean=false,
     val r_typing: Boolean=false,
-    val datetime:String
+    val datetime:String,
+    val r_not_read:Int?=0,
+    val s_not_read:Int?=0
 
 )
 
@@ -25,7 +27,9 @@ data class Chat(
 @Parcelize
 data class Chat3(val name:String?="",
                  @PrimaryKey(autoGenerate = false)
-                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="", val lastMsgDatetime:String?="", val lastMsg:String?="",val online:Boolean?=false):Parcelable
+                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="",
+                 val lastMsgDatetime:String?="", val lastMsg:String?="",val online:Boolean?=false,
+                 var notRead:Int?=0):Parcelable
 
 
 

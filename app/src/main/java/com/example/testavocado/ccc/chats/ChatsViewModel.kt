@@ -1,6 +1,7 @@
 package com.example.testavocado.ccc.chats
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.testavocado.ccc.Chat3
 import com.example.testavocado.ccc.mDatabase
@@ -26,8 +27,19 @@ class ChatsViewModel (application: Application) : ViewModel() {
         repo.removeChat(chat.chatId,chat.with)
     }
 
+
+
+    fun clearListeners(){
+        repo.onClear()
+    }
+
+    fun attachListeners(){
+        repo.attachListeners()
+    }
+
     override fun onCleared() {
         super.onCleared()
+        Log.d("ChatsViewModel","chat cleaed")
         repo.onClear()
         repo.setUserOnlineState(false)
         job.cancel()

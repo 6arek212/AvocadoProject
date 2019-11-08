@@ -2,6 +2,8 @@ package com.example.testavocado.ccc
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +19,7 @@ const val OTHER_TYPE_WITH_IMAGE = 6
 const val OTHER_TYPE_WITH_LOCATION = 7
 const val OTHER_TYPE_WITH_CONTACT = 8
 
-class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit,
+class Adapter (val userId:Int, val viewImage:(imageUrl:String?,imageView:ImageView,position:Int)->Unit, val viewLocation:(longtit:Double?,latit:Double?)->Unit,
                val removeMessage:(messageId:String)->Unit,val openDialer:(number:String?)->Unit) : ListAdapter<Message, RecyclerView.ViewHolder>(
     DiffCallback
 ) {
@@ -73,8 +75,8 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
         when(holder){
             is MessageRightViewHolder-> holder.bind(item,removeMessage)
             is MessageLeftViewHolder-> holder.bind(item)
-            is MessageRightWithPicViewHolder->holder.bind(item,viewImage,removeMessage)
-            is MessageLeftWithPicViewHolder->holder.bind(item,viewImage)
+            is MessageRightWithPicViewHolder->holder.bind(item,position,viewImage,removeMessage)
+            is MessageLeftWithPicViewHolder->holder.bind(item,position,viewImage)
             is MessageRightWithLocationViewHolder->holder.bind(item,viewLocation,removeMessage)
             is MessageLeftWithLocationViewHolder->holder.bind(item,viewLocation)
             is MessageRightWithContactViewHolder->holder.bind(item,removeMessage,openDialer)
@@ -136,12 +138,14 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
 
     class MessageRightWithPicViewHolder private constructor(val binding: LayoutChatRightWithimageBinding) :
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit,removeMessage:(messageId:String)->Unit) {
+        fun bind(message: Message,position: Int,viewImage:(imageUrl:String?,imageView:ImageView,position:Int)->Unit,removeMessage:(messageId:String)->Unit) {
             binding.message = message
             binding.executePendingBindings()
 
+            ViewCompat.setTransitionName(binding.imageView3, "Test_$position")
+
             binding.imageView3.setOnClickListener{
-                viewImage(message.pic)
+                viewImage(message.pic,it as @kotlin.ParameterName(name = "imageView") ImageView,position)
             }
 
             binding.layout.setOnLongClickListener{
@@ -211,12 +215,14 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?)->Unit, val viewL
 
     class MessageLeftWithPicViewHolder private constructor(val binding: LayoutChatLeftWithimageBinding) :
             RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: Message,viewImage:(imageUrl:String?)->Unit) {
+        fun bind(message: Message,position: Int,viewImage:(imageUrl:String?,imageView:ImageView,position:Int)->Unit) {
             binding.message = message
             binding.executePendingBindings()
 
+            ViewCompat.setTransitionName(binding.imageView4, "Test_$position")
+
             binding.imageView4.setOnClickListener{
-                viewImage(message.pic)
+                viewImage(message.pic,it as @kotlin.ParameterName(name = "imageView") ImageView,position)
             }
         }
 

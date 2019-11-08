@@ -90,6 +90,17 @@ class ChatsFragment : Fragment() {
         }
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.attachListeners()
+    }
+
 }
 class ChatModelFactory(
     private val application: Application

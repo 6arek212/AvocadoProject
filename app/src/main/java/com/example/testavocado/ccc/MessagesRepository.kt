@@ -220,9 +220,13 @@ class MessagesRepository(
 
             if (isTheSender) {
                 myRef.child("chats").child(chat.chatId).child("s_seen").setValue(true)
+                myRef.child("chats").child(chat.chatId).child("s_not_read").setValue(0)
+
             } else {
                 myRef.child("chats").child(chat.chatId).child("r_seen").setValue(true)
+                myRef.child("chats").child(chat.chatId).child("r_not_read").setValue(0)
             }
+
         }
     }
 
@@ -256,11 +260,35 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("lastMsgId").setValue(it)
 
 
+
+
             if (isTheSender) {
                 ref.child("chats").child(chat.chatId).child("r_seen").setValue(false)
+
             } else {
                 ref.child("chats").child(chat.chatId).child("s_seen").setValue(false)
             }
+
+
+            ref.child("chats").child(chat.chatId).child(when(isTheSender){
+                true->"r_not_read"
+                false->"s_not_read"
+            }).addListenerForSingleValueEvent(object :ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val numOfNotSeen=p0.getValue(Int::class.java)
+                    numOfNotSeen?.let {
+                        when(isTheSender){
+                            true->ref.child("chats").child(chat.chatId).child("r_not_read").setValue(it+1)
+                            false->ref.child("chats").child(chat.chatId).child("s_not_read").setValue(it+1)
+                        }
+                    }
+                }
+            })
+
+
 
             jobScope.launch {
                 database.messageDao.insert(message)
@@ -323,7 +351,7 @@ class MessagesRepository(
         val key = myRef.child("chats").push().key
 
         key?.let {
-            val chatA = Chat(it, userId, chat.with, datetime = TimeMethods.getUTCdatetimeAsString())
+            val chatA = Chat(it, userId, chat.with, datetime = TimeMethods.getUTCdatetimeAsString(),r_not_read = 1,s_not_read = 0)
             myRef.child("chats").child(it).setValue(chatA)
             chat.chatId = key
 
@@ -341,6 +369,8 @@ class MessagesRepository(
 
             ref.child("chats").child(chat.chatId).child("lastMsg").setValue(msg)
             ref.child("chats").child(chat.chatId).child("datetimeLastMsg").setValue(TimeMethods.getUTCdatetimeAsString())
+
+
 
 
             chatId.value = chat.chatId

@@ -17,6 +17,29 @@ import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
 
 
+@BindingAdapter("numBind")
+fun numBind(view: TextView, number: Int?) {
+    if (number == 0 || number == null) {
+        val anim = AlphaAnimation(1.0f, 0.0f)
+        anim.duration = 1000
+        anim.repeatCount = 0
+        anim.repeatMode = Animation.REVERSE
+        view.startAnimation(anim)
+        view.visibility = View.GONE
+    }
+    else {
+        val anim = AlphaAnimation(0.0f, 1.0f)
+        anim.duration = 1000
+        anim.repeatCount = 0
+        anim.repeatMode = Animation.REVERSE
+        view.startAnimation(anim)
+        view.text = number.toString()
+        view.visibility = View.VISIBLE
+    }
+}
+
+
+
 @BindingAdapter("imageUri")
 fun bindImageUri(imgView: ImageView, imgUrl: Uri?) {
     Log.d("BindingAdapter", "${imgUrl}")
@@ -37,9 +60,9 @@ fun bindImageUri(imgView: ImageView, imgUrl: Uri?) {
 fun setOnlineState(imgView: ImageView, state: Boolean?) {
 
     state?.let {
-        when(state){
-            true-> imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.greencircle))
-            false->imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.circle_grey))
+        when (state) {
+            true -> imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.greencircle))
+            false -> imgView.setImageDrawable(imgView.context.getDrawable(R.drawable.circle_grey))
         }
     }
 }
@@ -49,16 +72,15 @@ fun setOnlineState(imgView: ImageView, state: Boolean?) {
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     Log.d("BindingAdapter", "${imgUrl}")
 
-        Glide.with(imgView.context)
-                .load(imgUrl)
-                .centerCrop()
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.profile_ic)
-                )
-                .into(imgView)
-
+    Glide.with(imgView.context)
+            .load(imgUrl)
+            .centerCrop()
+            .apply(
+                    RequestOptions()
+                            .placeholder(R.drawable.loading_animation)
+                            .error(R.drawable.profile_ic)
+            )
+            .into(imgView)
 
 
 }
@@ -74,17 +96,17 @@ fun time(view: TextView, time: String?) {
 @BindingAdapter("progressBarState")
 fun time(view: View, state: Boolean?) {
     state?.let {
-        when(it){
-            true->{
+        when (it) {
+            true -> {
                 val anim = AlphaAnimation(0.0f, 1.0f)
                 anim.duration = 1000
                 anim.repeatCount = 0
                 anim.repeatMode = Animation.REVERSE
                 view.startAnimation(anim)
 
-                view.visibility= View.VISIBLE
+                view.visibility = View.VISIBLE
             }
-            false-> {
+            false -> {
                 val anim = AlphaAnimation(1.0f, 0.0f)
                 anim.duration = 1000
                 anim.repeatCount = 0

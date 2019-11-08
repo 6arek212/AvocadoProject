@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionInflater
 
 import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
@@ -25,15 +27,19 @@ class MessageWithPicFragment : Fragment() {
 
     private lateinit var viewModel: MessageWithPicViewModel
 
+
+
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         val binding:MessageWithPicFragmentBinding=DataBindingUtil.inflate(
                 layoutInflater,
                 R.layout.message_with_pic_fragment,
                 container,
                 false
         )
+
 
         val arg= requireNotNull(arguments)
         val imageUrl=MessageWithPicFragmentArgs.fromBundle(arg).imageUrl

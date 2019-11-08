@@ -21,7 +21,8 @@
                 android:id="@+id/chatList"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:listitem="@layout/chat_item"/>
 
 
             <com.google.android.material.appbar.AppBarLayout
