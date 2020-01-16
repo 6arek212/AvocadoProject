@@ -15,6 +15,9 @@ interface ChatDao{
     fun getChats():LiveData<List<Chat3>>
 
 
+    @Query("delete from chats_tbl where chatId=:id")
+    fun deleteChatById(id:String)
+
     @Query("delete from chats_tbl")
     fun clear()
 }

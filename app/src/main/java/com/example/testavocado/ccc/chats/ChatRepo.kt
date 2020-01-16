@@ -156,6 +156,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
         ref.child("users").child(userId.toString()).child("friends").child(with.toString()).child(chatId).removeValue()
 
         jobScope.launch {
+            database.chatDao.deleteChatById(chatId)
             database.messageDao.clearMessages(chatId)
         }
     }
