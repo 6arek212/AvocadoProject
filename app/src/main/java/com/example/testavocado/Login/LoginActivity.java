@@ -218,7 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailureListener(String ex) {
                                     progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
                                     mEmail.setText("");
                                     mPassword.setText("");
                                 }

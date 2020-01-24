@@ -362,7 +362,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         PostMethods.removeLike(postsList.get(index).getLike_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnLikeRemoved: ");
+                Log.d(TAG, "OnLikeRemoved: "+postsList.get(index).getLike_id());
                 postsList.get(index).setLike_id(-1);
                 btn.setText("Like");
 
@@ -428,7 +428,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         PostMethods.removeDisLike(postsList.get(index).getDis_like_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnDisLikeRemoved: ");
+                Log.d(TAG, "OnDisLikeRemoved: "+postsList.get(index).getLike_id());
                 postsList.get(index).setDis_like_id(-1);
                 btn.setText("DisLike");
 

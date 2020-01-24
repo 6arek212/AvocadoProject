@@ -163,6 +163,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         int type = viewHolder.getItemViewType();
 
+        Log.d(TAG, "onBindViewHolder: "+postsList.get(i));
+
         if (type == PROFILE_LAYOUT) {
             InfoViewHolder v1 = (InfoViewHolder) viewHolder;
 
@@ -620,7 +622,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         PostMethods.removeLike(postsList.get(index).getLike_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnLikeRemoved: ");
+                Log.d(TAG, "OnLikeRemoved: "+postsList.get(index).getLike_id());
                 postsList.get(index).setLike_id(-1);
                 btn.setText("Like");
 

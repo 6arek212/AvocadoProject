@@ -23,6 +23,7 @@ import com.example.testavocado.Models.User;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -195,7 +196,7 @@ public class ProfileFragment extends Fragment {
 
         adapter.addNull();
 
-        ProfileHandler.getProfilePosts(incoming_user_id, datetime, offset, new ProfileHandler.OnGettingProfilePostsListener() {
+        ProfileHandler.getProfilePosts(current_user_id, datetime,incoming_user_id, offset, new ProfileHandler.OnGettingProfilePostsListener() {
             @Override
             public void successfullyGettingPosts(final String json) {
                 Log.d(TAG, "successfullyGettingPosts: incoming_user_id= " + incoming_user_id + "   " + datetime + "  " + json);
@@ -246,6 +247,8 @@ public class ProfileFragment extends Fragment {
                 mSwipe.setRefreshing(false);
                 adapter.removeProg();
                 loading = false;
+                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+
             }
         });
     }

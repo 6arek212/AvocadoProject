@@ -27,7 +27,7 @@ public class ProfileHandler {
 
 
         @GET("api/Post/getProfilePosts")
-        Call<Status> getProfilePosts(@Query("user_id") int user_id, @Query("datetime") String datetime, @Query("offset") int offset);
+        Call<Status> getProfilePosts(@Query("user_id") int user_id, @Query("datetime") String datetime,@Query("incomingUserId") int incomingUserId, @Query("offset") int offset);
     }
 
 
@@ -97,13 +97,13 @@ public class ProfileHandler {
      * @param user_id current user id
      */
 
-    public static void getProfilePosts(int user_id, String datetime, int offset, final OnGettingProfilePostsListener listener) {
+    public static void getProfilePosts(int user_id, String datetime,int incomingUserId, int offset, final OnGettingProfilePostsListener listener) {
         Log.d(TAG, "getProfilePosts: user_id " + user_id + "   datetime " + datetime + "   offset " + offset);
 
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ProfileMethods friendsPosts = retrofit.create(ProfileMethods.class);
 
-        final Call<Status> ca = friendsPosts.getProfilePosts(user_id, datetime, offset);
+        final Call<Status> ca = friendsPosts.getProfilePosts(user_id, datetime,incomingUserId, offset);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
