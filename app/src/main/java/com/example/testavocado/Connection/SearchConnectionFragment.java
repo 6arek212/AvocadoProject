@@ -345,7 +345,6 @@ public class SearchConnectionFragment extends Fragment {
             public void onServerException(String ex) {
                 Log.d(TAG, "onServerException: " + ex);
                 adapter.removeProg();
-                adapter.clearList();
                 mSwipe.setRefreshing(false);
 
                 if (!adapter.is_endOfPosts) {
@@ -360,6 +359,7 @@ public class SearchConnectionFragment extends Fragment {
                 adapter.removeProg();
                 adapter.clearList();
                 mSwipe.setRefreshing(false);
+                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 if (!adapter.is_endOfPosts) {
                     adapter.is_endOfPosts = true;
@@ -424,7 +424,7 @@ public class SearchConnectionFragment extends Fragment {
             updateLocationInServer(l3.getLatitude(), l3.getLongitude());
         } else {
             mNearByUsers.setChecked(false);
-            Snackbar.make(mainLayout, getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
         }
     }
 

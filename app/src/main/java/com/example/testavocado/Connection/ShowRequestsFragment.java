@@ -167,7 +167,7 @@ public class ShowRequestsFragment extends Fragment {
                     public void OnFailure(String exception) {
                         Log.d(TAG, "OnFailure: failure exception " + exception);
                         adapter.clearList();
-                        Snackbar.make(mRequestLayout, getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
                         adapter.removeProg();
                         mSwipe.setRefreshing(false);
 

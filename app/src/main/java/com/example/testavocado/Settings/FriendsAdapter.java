@@ -147,8 +147,8 @@ public class FriendsAdapter extends RecyclerView.Adapter {
                     .error(R.drawable.error)
                     .into(v1.mProfileImage);
 
-            deleteFriend(v1, i);
-            attachOnClickProfileImage(v1, i);
+            v1.deleteFriend();
+            v1.profile();
 
         } else if (type == 1) {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
@@ -156,59 +156,7 @@ public class FriendsAdapter extends RecyclerView.Adapter {
     }
 
 
-    private void attachOnClickProfileImage(FriendViewHolder v1, final int i) {
-        v1.mProfileLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileFragment fragment = new ProfileFragment();
-                fragment.is_current_user = false;
-                fragment.incoming_user_id = friendList.get(i).getUser_id();
-                FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction tr = fragmentManager.beginTransaction();
-                tr.replace(R.id.friendLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
-            }
-        });
 
-    }
-
-
-    private void deleteFriend(FriendViewHolder v1, final int i) {
-        v1.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.setTitle("are you sure you want to delete " + friendList.get(i).getUser_name());
-                confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
-                    @Override
-                    public void onConfirm() {
-                        ConnectionsHandler.RemoveFriend(friendList.get(i).getRequest_id(), friendList.get(i).getUser_id(), current_user_id
-                                , new ConnectionsHandler.OnRemovingFriendListener() {
-                                    @Override
-                                    public void onSuccessListener() {
-                                        Toast.makeText(mContext, "deleted", Toast.LENGTH_SHORT).show();
-                                        friendList.remove(i);
-                                        notifyItemRemoved(i);
-                                        confirmDialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onServer(String ex) {
-                                        Log.d(TAG, "onServer: " + ex);
-                                        confirmDialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onFailure(String ex) {
-                                        Log.d(TAG, "onFailure: " + ex);
-                                        confirmDialog.dismiss();
-                                    }
-                                });
-                    }
-                });
-                confirmDialog.show(fragmentManager, mContext.getString(R.string.commentsDialog));
-            }
-        });
-    }
 
 
     @Override
@@ -230,10 +178,62 @@ public class FriendsAdapter extends RecyclerView.Adapter {
             mDelete = itemView.findViewById(R.id.btnDelete);
             mProfileLink = itemView.findViewById(R.id.profileLink);
         }
+
+        public void deleteFriend() {
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ConfirmDialog confirmDialog = new ConfirmDialog();
+                    confirmDialog.setTitle("are you sure you want to delete " + friendList.get(getAdapterPosition()).getUser_name());
+                    confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
+                        @Override
+                        public void onConfirm() {
+                            ConnectionsHandler.RemoveFriend(friendList.get(getAdapterPosition()).getRequest_id(), friendList.get(getAdapterPosition()).getUser_id(), current_user_id
+                                    , new ConnectionsHandler.OnRemovingFriendListener() {
+                                        @Override
+                                        public void onSuccessListener() {
+                                            Toast.makeText(mContext, "deleted", Toast.LENGTH_SHORT).show();
+                                            friendList.remove(getAdapterPosition());
+                                            notifyItemRemoved(getAdapterPosition());
+                                            confirmDialog.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onServer(String ex) {
+                                            Log.d(TAG, "onServer: " + ex);
+                                            confirmDialog.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(String ex) {
+                                            Log.d(TAG, "onFailure: " + ex);
+                                            confirmDialog.dismiss();
+                                        }
+                                    });
+                        }
+                    });
+                    confirmDialog.show(fragmentManager, mContext.getString(R.string.commentsDialog));
+                }
+            });
+        }
+
+        public void profile() {
+            mProfileLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileFragment fragment = new ProfileFragment();
+                    fragment.is_current_user = false;
+                    fragment.incoming_user_id = friendList.get(getAdapterPosition()).getUser_id();
+                    FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    tr.replace(R.id.friendLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                }
+            });
+        }
     }
 
 
-    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+    public  class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public ProgressViewHolder(View v) {
@@ -243,7 +243,7 @@ public class FriendsAdapter extends RecyclerView.Adapter {
     }
 
 
-    public static class EndViewHolder extends RecyclerView.ViewHolder {
+    public  class EndViewHolder extends RecyclerView.ViewHolder {
         TextView end;
 
         public EndViewHolder(View v) {

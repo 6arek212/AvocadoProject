@@ -242,7 +242,7 @@ public class MainFeedFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
 
                 if (getContext() != null)
-                    Snackbar.make(mainLayoutPosts, getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
             }
         });

@@ -153,7 +153,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        final int index = i;
 
         if (viewHolder.getItemViewType() == 1) {
             final TopViewHolder v1 = (TopViewHolder) viewHolder;
@@ -210,8 +209,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             if (postsList.get(i).isPost_is_shared()) {
                 v1.mSharedPost.setVisibility(View.VISIBLE);
                 v1.share.setVisibility(View.GONE);
-                attachOriginalPostFragment(v1.mSharedPost, i);
-
+                v1.originalPost();
                 v1.mShareLayout.setVisibility(View.GONE);
 
             } else {
@@ -248,34 +246,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
             }
 
 
-            v1.like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v1.like.getText().equals("Liked")) {
-                        removeLike((TextView) v, v1.mPostLikes, index);
-
-                    } else {
-
-                        addLike((TextView) v, v1.mPostLikes, index);
-
-                    }
-                }
-            });
-
-
-            v1.dislike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v1.dislike.getText().equals("Disliked")) {
-                        removeDisLike((TextView) v, index);
-
-                    } else {
-
-                        addDisLike((TextView) v, index);
-                    }
-                }
-            });
-
 
             if (postsList.get(i).getPost_images_url().isEmpty()) {
                 v1.mImageSlider.setVisibility(View.GONE);
@@ -283,23 +253,17 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 v1.mPhotoLayout.setVisibility(View.GONE);
             } else {
                 Log.d(TAG, "onBindViewHolder:  url " + postsList.get(i).getPost_images_url());
-                initializeViewPage(v1, i);
+                v1.viewPager();
             }
 
 
-            attachOnClickProfileImage(v1.mProfileImage, v1.mPostUserName, i);
-
-            initPostCommentsDialog(v1.commentsLayout, v1.mPostComments, i);
-
-            addComment(v1.mSend, v1.mComment, v1.mPostComments, i);
-
-
-            attachLikeFragment(v1.likeLayout, i);
-
-            attachShareOnClick(v1.share, i);
-
-            attachBottomSheet(v1.mPostOptions, i);
-
+            v1.initLike();
+            v1.profileImage();
+            v1.postCommentDialog();
+            v1.comment();
+            v1.like();
+            v1.share();
+            v1.bottomSheet();
 
         } else if (!is_endOfPosts) {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
@@ -312,200 +276,15 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
 
-    private void initializeViewPage(final PostViewHolder v1, final int position) {
-        v1.mPhotoLayout.setVisibility(View.VISIBLE);
-        v1.mImageSlider.setVisibility(View.VISIBLE);
-        v1.mDots.setVisibility(View.VISIBLE);
-        ImagesViewPagerClick adapter = new ImagesViewPagerClick(mContext, postsList.get(position).getPost_images_url(), fragmentManager);
-        v1.mImageSlider.setAdapter(adapter);
-        v1.mDots.setupWithViewPager(v1.mImageSlider);
-    }
 
 
-    private void attachBottomSheet(ImageView mPostOptions, final int i) {
-        mPostOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-                bottomSheetDialog.post_id = postsList.get(i).getPost_id();
-                bottomSheetDialog.post_saved = postsList.get(i).getSaved_post_id();
-                bottomSheetDialog.post_userId = postsList.get(i).getUser_id();
-
-                bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
-                    @Override
-                    public void onHide() {
-                        postsList.remove(i);
-                        notifyItemRemoved(i);
-                    }
-
-                    @Override
-                    public void onDelete() {
-                        postsList.remove(i);
-                        notifyItemRemoved(i);
-                    }
-
-                    @Override
-                    public void onReport() {
-
-                    }
-
-                    @Override
-                    public void onSave(int saved_id) {
-                        postsList.get(i).setSaved_post_id(saved_id);
-                        Toast.makeText(mContext, mContext.getString(R.string.post_saved), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onDeleteSavedPost() {
-                        postsList.get(i).setSaved_post_id(0);
-                    }
-                });
 
 
-                bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
 
-            }
-        });
-    }
 
 
-    private void attachOriginalPostFragment(TextView mShared, final int i) {
-        mShared.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction frt = fragmentManager.beginTransaction();
-                frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-                PostFragment fragment = new PostFragment();
-                fragment.post_id = postsList.get(i).getOriginal_post_id();
-                frt.replace(R.id.mainLayoutPosts, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
-                        .commit();
-            }
-        });
-    }
 
-
-    private void attachShareOnClick(TextView share, final int i) {
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    final ConfirmDialog confirmDialog = new ConfirmDialog();
-                    confirmDialog.setTitle("Are you sure you want to share " + postsList.get(i).getUser_name() + " " + postsList.get(i).getUser_last_name() + "  ?");
-                    confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
-                        @Override
-                        public void onConfirm() {
-                            final Post post = new Post();
-                            post.setUser_id(user_id);
-                            post.setPost_text(postsList.get(i).getPost_text());
-                            post.setPost_images_url(postsList.get(i).getPost_images_url());
-                            post.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
-                            post.setPost_type(postsList.get(i).getPost_type());
-                            post.setPost_is_shared(true);
-                            post.setOriginal_post_id(postsList.get(i).getPost_id());
-
-
-                            PostMethods.sharePost(post, new PostMethods.OnSharingPostListener() {
-                                @Override
-                                public void onSuccess() {
-                                    Log.d(TAG, "onSuccess: shared a post :D " + post);
-                                    Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-                                }
-
-                                @Override
-                                public void onServerException(String ex) {
-                                    Log.d(TAG, "onServerException: error sharing post " + ex);
-                                    Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-
-                                }
-
-                                @Override
-                                public void onFailure(String ex) {
-                                    Log.d(TAG, "onFailure: error while sharing a post" + ex);
-                                    Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-
-                                }
-                            });
-                        }
-                    });
-                    confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
-
-                } catch (NullPointerException ex) {
-                    Log.e(TAG, "onClick: " + ex);
-                }
-
-            }
-        });
-    }
-
-
-    private void attachLikeFragment(RelativeLayout likeLayout, final int i) {
-        likeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LikesDislikesFragment fragment = new LikesDislikesFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(mContext.getString(R.string.post_id), postsList.get(i).getPost_id());
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction tr = fragmentManager.beginTransaction();
-                tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-                tr.replace(R.id.baseLayout, fragment)
-                        .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
-            }
-        });
-    }
-
-
-    private void addComment(FloatingActionButton send, final EditText text, final TextView commentCount, final int i) {
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String commentText = text.getText().toString();
-
-                if (commentText.trim().isEmpty()) {
-                    Toast.makeText(mContext, "cant add an empty comment", Toast.LENGTH_SHORT).show();
-                } else {
-                    CommentMethodsHandler.addNewComment(postsList.get(i).getPost_id(), user_id, commentText, TimeMethods.getUTCdatetimeAsString(),
-                            new CommentMethodsHandler.OnAddingNewCommentsListener() {
-                                @Override
-                                public void onSuccessListener() {
-                                    Toast.makeText(mContext, "added", Toast.LENGTH_SHORT).show();
-                                    int count = postsList.get(i).getPost_comments_count() + 1;
-                                    commentCount.setText(count + "");
-                                    postsList.get(i).setPost_comments_count(count);
-                                    text.setText("");
-                                    HelpMethods.closeKeyboard((BaseActivity) mContext);
-                                }
-
-                                @Override
-                                public void onServerException(String ex) {
-                                    Log.d(TAG, "onServerException: " + ex);
-
-                                }
-
-                                @Override
-                                public void onFailureListener(String ex) {
-                                    Log.d(TAG, "onFailureListener: " + ex);
-
-                                }
-                            });
-                }
-
-            }
-        });
-    }
-
-
-    private void attachOnClickProfileImage(CircleImageView mProfileImage, TextView name, final int i) {
-        mProfileImage.setOnClickListener(new onClickProfile(i));
-        name.setOnClickListener(new onClickProfile(i));
-    }
 
 
     class onClickProfile implements View.OnClickListener {
@@ -674,22 +453,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
 
-    public void initPostCommentsDialog(final RelativeLayout comments, final TextView commentsCount, final int index) {
-
-        comments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommentsDialog commentsDialog = new CommentsDialog();
-                commentsDialog.index = index;
-                commentsDialog.post_id = postsList.get(index).getPost_id();
-                commentsDialog.post_comments_count = postsList.get(index).getPost_comments_count();
-                commentsDialog.postsAdapter = PostsAdapter.this;
-                commentsDialog.mCommentCount = commentsCount;
-                commentsDialog.post_userId = postsList.get(index).getUser_id();
-                commentsDialog.show(fragmentManager, mContext.getString(R.string.commentsDialog));
-            }
-        });
-    }
 
 
     @Override
@@ -698,7 +461,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
+    public class PostViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
         TextView mPostUserName, mPostTime, mPostLikes, mPostComments, mPostShares, like, share, dislike, mSharedPost, expand;
         ImageView mPostOptions;
@@ -739,6 +502,252 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mPostText.setInterpolator(new OvershootInterpolator());
         }
 
+        public void share(){
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    try {
+                        final ConfirmDialog confirmDialog = new ConfirmDialog();
+                        confirmDialog.setTitle("Are you sure you want to share " + postsList.get(getAdapterPosition()).getUser_name() + " " + postsList.get(getAdapterPosition()).getUser_last_name() + "  ?");
+                        confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                final Post post = new Post();
+                                post.setUser_id(user_id);
+                                post.setPost_text(postsList.get(getAdapterPosition()).getPost_text());
+                                post.setPost_images_url(postsList.get(getAdapterPosition()).getPost_images_url());
+                                post.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
+                                post.setPost_type(postsList.get(getAdapterPosition()).getPost_type());
+                                post.setPost_is_shared(true);
+                                post.setOriginal_post_id(postsList.get(getAdapterPosition()).getPost_id());
+
+
+                                PostMethods.sharePost(post, new PostMethods.OnSharingPostListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.d(TAG, "onSuccess: shared a post :D " + post);
+                                        Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
+                                        confirmDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onServerException(String ex) {
+                                        Log.d(TAG, "onServerException: error sharing post " + ex);
+                                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                                        confirmDialog.dismiss();
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(String ex) {
+                                        Log.d(TAG, "onFailure: error while sharing a post" + ex);
+                                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                                        confirmDialog.dismiss();
+
+                                    }
+                                });
+                            }
+                        });
+                        confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
+
+                    } catch (NullPointerException ex) {
+                        Log.e(TAG, "onClick: " + ex);
+                    }
+                }
+            });
+        }
+
+
+        public void bottomSheet() {
+            mPostOptions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+                    bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
+                    bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
+                    bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
+
+                    Log.d(TAG, "onClick: index " + getAdapterPosition() + "  " + postsList.size());
+
+                    bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
+                        @Override
+                        public void onHide() {
+                            try{
+                                postsList.remove(getAdapterPosition());
+                                notifyItemRemoved(getAdapterPosition());
+                            }catch (Exception e){
+
+                            }
+                        }
+
+                        @Override
+                        public void onDelete() {
+                            try{
+                                postsList.remove(getAdapterPosition());
+                                notifyItemRemoved(getAdapterPosition());
+                            }catch (Exception e){
+
+                            }
+                        }
+
+                        @Override
+                        public void onReport() {
+
+                        }
+
+                        @Override
+                        public void onSave(int saved_id) {
+                            postsList.get(getAdapterPosition()).setSaved_post_id(saved_id);
+                            Toast.makeText(mContext, mContext.getString(R.string.post_saved), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onDeleteSavedPost() {
+                            postsList.get(getAdapterPosition()).setSaved_post_id(0);
+                        }
+                    });
+
+
+                    bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
+                }
+            });
+
+        }
+
+        public void like() {
+            likeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LikesDislikesFragment fragment = new LikesDislikesFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(mContext.getString(R.string.post_id), postsList.get(getAdapterPosition()).getPost_id());
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                    tr.replace(R.id.baseLayout, fragment)
+                            .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                }
+            });
+        }
+
+
+        public void comment() {
+            mSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String commentText = mComment.getText().toString();
+
+                    if (commentText.trim().isEmpty()) {
+                        Toast.makeText(mContext, "cant add an empty comment", Toast.LENGTH_SHORT).show();
+                    } else {
+                        CommentMethodsHandler.addNewComment(postsList.get(getAdapterPosition()).getPost_id(), user_id, commentText, TimeMethods.getUTCdatetimeAsString(),
+                                new CommentMethodsHandler.OnAddingNewCommentsListener() {
+                                    @Override
+                                    public void onSuccessListener() {
+                                        Toast.makeText(mContext, "added", Toast.LENGTH_SHORT).show();
+                                        int count = postsList.get(getAdapterPosition()).getPost_comments_count() + 1;
+                                        mPostComments.setText(count + "");
+                                        postsList.get(getAdapterPosition()).setPost_comments_count(count);
+                                        mComment.setText("");
+                                        HelpMethods.closeKeyboard((BaseActivity) mContext);
+                                    }
+
+                                    @Override
+                                    public void onServerException(String ex) {
+                                        Log.d(TAG, "onServerException: " + ex);
+
+                                    }
+
+                                    @Override
+                                    public void onFailureListener(String ex) {
+                                        Log.d(TAG, "onFailureListener: " + ex);
+
+                                    }
+                                });
+                    }
+
+                }
+            });
+        }
+
+        public void postCommentDialog() {
+            commentsLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommentsDialog commentsDialog = new CommentsDialog();
+                    commentsDialog.index = getAdapterPosition();
+                    commentsDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
+                    commentsDialog.post_comments_count = postsList.get(getAdapterPosition()).getPost_comments_count();
+                    commentsDialog.postsAdapter = PostsAdapter.this;
+                    commentsDialog.mCommentCount = mPostComments;
+                    commentsDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
+                    commentsDialog.show(fragmentManager, mContext.getString(R.string.commentsDialog));
+                }
+            });
+
+        }
+
+        public void profileImage() {
+            mProfileImage.setOnClickListener(new onClickProfile(getAdapterPosition()));
+            mPostUserName.setOnClickListener(new onClickProfile(getAdapterPosition()));
+        }
+
+        public void initLike() {
+            like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (like.getText().equals("Liked")) {
+                        removeLike((TextView) v, mPostLikes, getAdapterPosition());
+
+                    } else {
+
+                        addLike((TextView) v, mPostLikes, getAdapterPosition());
+
+                    }
+                }
+            });
+
+
+            dislike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (dislike.getText().equals("Disliked")) {
+                        removeDisLike((TextView) v, getAdapterPosition());
+
+                    } else {
+
+                        addDisLike((TextView) v, getAdapterPosition());
+                    }
+                }
+            });
+        }
+
+        public void originalPost() {
+
+            mSharedPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction frt = fragmentManager.beginTransaction();
+                    frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                    PostFragment fragment = new PostFragment();
+                    fragment.post_id = postsList.get(getAdapterPosition()).getOriginal_post_id();
+                    frt.replace(R.id.mainLayoutPosts, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                            .commit();
+                }
+            });
+
+        }
+
+        public void viewPager() {
+            mPhotoLayout.setVisibility(View.VISIBLE);
+            mImageSlider.setVisibility(View.VISIBLE);
+            mDots.setVisibility(View.VISIBLE);
+            ImagesViewPagerClick adapter = new ImagesViewPagerClick(mContext, postsList.get(getAdapterPosition()).getPost_images_url(), fragmentManager);
+            mImageSlider.setAdapter(adapter);
+            mDots.setupWithViewPager(mImageSlider);
+        }
     }
 
 

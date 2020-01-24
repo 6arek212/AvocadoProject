@@ -127,10 +127,10 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
             v1.mUserFullName.setText(requestList.get(i).getUser_first_name() + " " + requestList.get(i).getUser_last_name());
             v1.mFriends.setVisibility(View.GONE);
-            acceptOnClick(v1.mAccept, v1, i);
-            denyClick(v1.mDeny, i);
-            attachOnClickProfile(i,v1.profile);
 
+            v1.accept();
+            v1.deny();
+            v1.profile();
 
         } else if (type == 1) {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
@@ -144,80 +144,11 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
 
-    /**
-     *              accepting request
-     *
-     * @param button
-     * @param viewHolder
-     * @param index
-     */
-    private void acceptOnClick(Button button, final RequestsViewHolder viewHolder, final int index) {
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.acceptFriendRequest(requestList.get(index).getRequest_id(),requestList.get(index).getUser_id() ,userId,TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
-                    @Override
-                    public void onSuccessListener() {
-                        viewHolder.mFriends.setVisibility(View.VISIBLE);
-                        viewHolder.requestsLayout.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onServer(String ex) {
-                        Log.d(TAG, "onServer: " + ex);
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: " + ex);
-                    }
-                });
-            }
-        });
-
-
-    }
 
 
 
 
 
-
-    /**
-     *
-     *      denying Request
-     *
-     * @param deny
-     * @param index
-     */
-
-    private void denyClick(ImageButton deny, final int index) {
-        deny.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.RemoveFriendRequest(requestList.get(index).getRequest_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
-                    @Override
-                    public void onSuccessListener() {
-                        requestList.remove(index);
-                        Toast.makeText(mContext, "request removed ", Toast.LENGTH_SHORT).show();
-                        notifyItemRemoved(index);
-                    }
-
-                    @Override
-                    public void onServer(String ex) {
-                        Log.d(TAG, "onServer: " + ex);
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: " + ex);
-                    }
-                });
-            }
-        });
-
-    }
 
 
 
@@ -280,20 +211,6 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
 
-    public void attachOnClickProfile(final int i, RelativeLayout relativeLayout) {
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileFragment fragment = new ProfileFragment();
-                fragment.is_current_user = false;
-                fragment.incoming_user_id = requestList.get(i).getUser_id();
-                FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction tr = fragmentManager.beginTransaction();
-                tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
-            }
-        });
-
-    }
 
 
 
@@ -318,6 +235,79 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
             mFriends = itemView.findViewById(R.id.alredyFriendsLayout);
             requestsLayout=itemView.findViewById(R.id.requestsLayout);
             profile=itemView.findViewById(R.id.profile);
+        }
+
+
+
+
+        //accept friend request
+        public void accept() {
+             mAccept.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     ConnectionsHandler.acceptFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(),requestList.get(getAdapterPosition()).getUser_id() ,userId,TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                         @Override
+                         public void onSuccessListener() {
+                             mFriends.setVisibility(View.VISIBLE);
+                             requestsLayout.setVisibility(View.GONE);
+                         }
+
+                         @Override
+                         public void onServer(String ex) {
+                             Log.d(TAG, "onServer: " + ex);
+                         }
+
+                         @Override
+                         public void onFailure(String ex) {
+                             Log.d(TAG, "onFailure: " + ex);
+                         }
+                     });
+                 }
+             });
+
+        }
+
+
+
+        //deny friend request
+        public void deny() {
+             mDeny.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     ConnectionsHandler.RemoveFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                         @Override
+                         public void onSuccessListener() {
+                             requestList.remove(getAdapterPosition());
+                             Toast.makeText(mContext, "request removed ", Toast.LENGTH_SHORT).show();
+                             notifyItemRemoved(getAdapterPosition());
+                         }
+
+                         @Override
+                         public void onServer(String ex) {
+                             Log.d(TAG, "onServer: " + ex);
+                         }
+
+                         @Override
+                         public void onFailure(String ex) {
+                             Log.d(TAG, "onFailure: " + ex);
+                         }
+                     });
+                 }
+             });
+        }
+
+        public void profile() {
+             profile.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     ProfileFragment fragment = new ProfileFragment();
+                     fragment.is_current_user = false;
+                     fragment.incoming_user_id = requestList.get(getAdapterPosition()).getUser_id();
+                     FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+                     FragmentTransaction tr = fragmentManager.beginTransaction();
+                     tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                 }
+             });
         }
     }
 

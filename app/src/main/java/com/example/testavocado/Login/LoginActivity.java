@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                     Validation validation = new Validation(mContext);
 
                     if (password.isEmpty() || email.isEmpty()) {
-                        Snackbar.make(mLogin, getString(R.string.field_required), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content), getString(R.string.field_required), Snackbar.LENGTH_SHORT).show();
                         //Toast.makeText(mContext, "all field are required !", Toast.LENGTH_SHORT).show();
                     } else {
                         if (validation.Password(password) && validation.Email(email)) {

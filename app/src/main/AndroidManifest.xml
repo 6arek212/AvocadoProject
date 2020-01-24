@@ -37,36 +37,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".Connection.ConnectionsActivity" />
+        <activity android:name=".ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+
+
+        <activity android:name=".Connection.ConnectionsActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
+            android:screenOrientation="portrait"
             android:name=".Home.AddNewPostActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".GalleryAndPicSnap.GetaPicActivity" />
-        <activity android:name=".Profile.add_bio" />
-        <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".user_login_register.registeraccount_page" />
-        <activity android:name=".SplashScreen.SplashActivity">
+
+        <activity android:name=".GalleryAndPicSnap.GetaPicActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Profile.add_bio"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Profile.ProfileActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".user_login_register.registeraccount_page"
+            android:screenOrientation="portrait" />
+
+
+        <activity android:name=".SplashScreen.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".EditeInfo.BaseProfileEditActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".Login.RegisterActivity"
             android:screenOrientation="portrait"/>
+
         <activity android:name=".Login.LoginActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Settings.SettingsActivity" />
-        <activity android:name=".Account_settings1"/>
+
+        <activity android:name=".Settings.SettingsActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name=".Account_settings1" android:screenOrientation="portrait"/>
         <activity android:name=".Personal_information"
             android:screenOrientation="portrait"/>
-        <activity android:name=".XOGame.XOActivity"/>
-        <activity android:name=".DamkaGame.DamkaActivity"/>
-        <activity android:name=".Chat.ChatActivity"/>
-        <activity android:name=".ccc.MainActivity"/>
+        <activity android:name=".XOGame.XOActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".DamkaGame.DamkaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Chat.ChatActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ccc.MainActivity" android:screenOrientation="portrait"/>
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>

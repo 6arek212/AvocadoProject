@@ -125,7 +125,7 @@ public class UserInfoFragment extends Fragment implements CallenderDialog.OnDate
 
                 if (userid != getResources().getInteger(R.integer.defaultValue))
                     if (lastName.isEmpty() || genderNum == 0 || birthDate.isEmpty())
-                        Snackbar.make(mNext, getString(R.string.fields_required_toUpdate), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.fields_required_toUpdate), Snackbar.LENGTH_SHORT).show();
                     else {
                         String gender = ((GenderItem) mGenderSpinner.getSelectedItem()).getmGender();
                         if (gender.equals(R.string.male))

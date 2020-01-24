@@ -124,6 +124,7 @@ public class PostFragment extends Fragment {
         mPostText.setInterpolator(new OvershootInterpolator());
         getPost();
 
+        mPostOptions.setVisibility(View.GONE);
 
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
                     public void serverException(String exception) {
                         Log.d(TAG, "serverException: " + exception);
                         //password incorrect
-                        Toast.makeText(mContext, getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, getString(R.string.WRONG_PASSWORD), Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
 

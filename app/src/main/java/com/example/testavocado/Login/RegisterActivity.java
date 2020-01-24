@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                     name = mFirstName.getText().toString();
 
                     if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
-                        Snackbar.make(mRegister,getString(R.string.field_required),Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content),getString(R.string.field_required),Snackbar.LENGTH_SHORT).show();
                         //Toast.makeText(mContext, getString(R.string.field_required), Toast.LENGTH_SHORT).show();
                     }
                     else if (checkingDataValidation(name, email, password)) {

@@ -108,7 +108,10 @@ public class ProfileFragment extends Fragment {
 
             if (!(adapter.addingLayoutType==FRIENDS_LAYOUT)){
                 adapter.is_privateAccount=user.isUser_is_private();
+            }
 
+            if (user.isUser_is_private() && adapter.addingLayoutType!=FRIENDS_LAYOUT) {
+                adapter.addNull();
             }
 
             if (!user.isUser_is_private() || adapter.addingLayoutType==FRIENDS_LAYOUT) {
@@ -170,7 +173,9 @@ public class ProfileFragment extends Fragment {
                         if (isRecyclerScrollable())
                             if (!mRecyclerView.canScrollVertically(1) && !loading) {
                                 loading = true;
-                                getPosts(adapter.getItemCount() - 1);
+                                if (adapter.is_current_user || adapter.addingLayoutType==FRIENDS_LAYOUT){
+                                    getPosts(adapter.getItemCount() - 1);
+                                }
                             }
                     }
                 });

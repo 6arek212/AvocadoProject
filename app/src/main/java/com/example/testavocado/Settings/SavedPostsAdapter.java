@@ -115,8 +115,9 @@ public class SavedPostsAdapter  extends RecyclerView.Adapter {
 
             vh.mDescription.setText(savedPosts.get(position).getSaved_datetime());
             vh.mDescription.setText(savedPosts.get(position).getDescription());
-            deleteSavedPost(position,vh);
-            openPostFragment(position,vh);
+
+            vh.deletePost();
+            vh.postFragment();
         }
 
     }
@@ -133,52 +134,9 @@ public class SavedPostsAdapter  extends RecyclerView.Adapter {
 
 
 
-    private void deleteSavedPost(final int i,SavedPostViewHolder viewHolder){
-        viewHolder.delete_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostMethods.deleteSavePost(savedPosts.get(i).getSaved_post_id(), new PostMethods.OnDeleteingSavinedPostListener() {
-                    @Override
-                    public void onDeleted() {
-                        Log.d(TAG, "onDeleted:  saved post deleted ");
-                        savedPosts.remove(i);
-                        notifyItemRemoved(i);
-                    }
-
-                    @Override
-                    public void onServerException(String ex) {
-                        Log.d(TAG, "onServerException: "+ex);
-
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: "+ex);
-
-                    }
-                });
-            }
-        });
-
-    }
 
 
 
-
-
-    private  void openPostFragment(final int i ,SavedPostViewHolder vh){
-        vh.frontLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostFragment fragment=new PostFragment();
-                fragment.post_id=savedPosts.get(i).getPost_id();
-                FragmentTransaction ft=fragmentManager.beginTransaction();
-                ft.replace(R.id.baseLayout,fragment).addToBackStack(mContext.getString(R.string.post_fragment))
-                        .commit();
-            }
-        });
-
-    }
 
 
 
@@ -196,6 +154,47 @@ public class SavedPostsAdapter  extends RecyclerView.Adapter {
             mDatetime=itemView.findViewById(R.id.datetime);
             delete_layout=itemView.findViewById(R.id.delete_layout);
             frontLayout=itemView.findViewById(R.id.front_layout);
+        }
+
+        public void deletePost() {
+            delete_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PostMethods.deleteSavePost(savedPosts.get(getAdapterPosition()).getSaved_post_id(), new PostMethods.OnDeleteingSavinedPostListener() {
+                        @Override
+                        public void onDeleted() {
+                            Log.d(TAG, "onDeleted:  saved post deleted ");
+                            savedPosts.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                        }
+
+                        @Override
+                        public void onServerException(String ex) {
+                            Log.d(TAG, "onServerException: "+ex);
+
+                        }
+
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: "+ex);
+
+                        }
+                    });
+                }
+            });
+        }
+
+        public void postFragment() {
+            frontLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PostFragment fragment=new PostFragment();
+                    fragment.post_id=savedPosts.get(getAdapterPosition()).getPost_id();
+                    FragmentTransaction ft=fragmentManager.beginTransaction();
+                    ft.replace(R.id.baseLayout,fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                            .commit();
+                }
+            });
         }
     }
 

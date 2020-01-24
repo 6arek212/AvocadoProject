@@ -183,7 +183,7 @@ public class ProfilePhotoUploadFragment extends Fragment implements FragmentLife
                     startActivityForResult(intent, PHOTO_CODE);
 
                 } else {
-                    Snackbar.make(editProfilePic, getString(R.string.permission), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.permission), Snackbar.LENGTH_SHORT).show();
                     verifyPermission(Permissions.PERMISSIONS);
                 }
             }
@@ -194,7 +194,7 @@ public class ProfilePhotoUploadFragment extends Fragment implements FragmentLife
             @Override
             public void onClick(View v) {
                 if (checkPermissionsArray(Permissions.PERMISSIONS)) {
-                    Snackbar.make(mPermission, getString(R.string.permission), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.permission), Snackbar.LENGTH_SHORT).show();
 
                 } else {
                     verifyPermission(Permissions.PERMISSIONS);

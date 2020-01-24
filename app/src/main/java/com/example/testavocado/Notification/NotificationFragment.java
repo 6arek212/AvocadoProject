@@ -162,7 +162,7 @@ public class NotificationFragment extends Fragment {
             public void OnFailure(String exception) {
                 Log.d(TAG, "OnFailure: " + exception);
                 if (getContext() != null)
-                    Snackbar.make(mainLayoutNotification, getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 adapter.removeProg();
                 mSwipe.setRefreshing(false);

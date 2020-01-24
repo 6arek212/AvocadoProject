@@ -44,6 +44,7 @@
     <string name="PASSWORD_LONG">password is too long</string>
     <string name="PASSWORD_INVALED">password contain special character</string>
 
+    <string name="WRONG_PASSWORD">Wrong password !</string>
 
     <string name="EMAIL_PATTERN">email format is incorrect</string>
 
