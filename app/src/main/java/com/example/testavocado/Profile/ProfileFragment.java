@@ -106,8 +106,12 @@ public class ProfileFragment extends Fragment {
                 adapter.addingLayoutType = FRIENDS_ADDING;
             }
 
-            adapter.is_privateAccount=user.isUser_is_private();
-            if (!user.isUser_is_private()) {
+            if (!(adapter.addingLayoutType==FRIENDS_LAYOUT)){
+                adapter.is_privateAccount=user.isUser_is_private();
+
+            }
+
+            if (!user.isUser_is_private() || adapter.addingLayoutType==FRIENDS_LAYOUT) {
                 adapter.is_current_user = is_current_user;
                 getPosts(0);
             }

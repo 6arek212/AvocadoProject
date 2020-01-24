@@ -53,12 +53,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditeInfo.BaseProfileEditActivity" />
-        <activity android:name=".Login.RegisterActivity" />
-        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".EditeInfo.BaseProfileEditActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login.LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".Account_settings1"/>
-        <activity android:name=".Personal_information"/>
+        <activity android:name=".Personal_information"
+            android:screenOrientation="portrait"/>
         <activity android:name=".XOGame.XOActivity"/>
         <activity android:name=".DamkaGame.DamkaActivity"/>
         <activity android:name=".Chat.ChatActivity"/>

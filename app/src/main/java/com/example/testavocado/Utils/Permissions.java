@@ -25,6 +25,8 @@ public class Permissions {
     public static final String WRITE_STORAGE_PERMISSION= Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final String READ_STORAGE_PERMISSION= Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final String GPS= Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final String GPS2= Manifest.permission.ACCESS_COARSE_LOCATION;
+
 
 
 

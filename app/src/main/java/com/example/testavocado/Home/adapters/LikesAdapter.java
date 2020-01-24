@@ -21,6 +21,7 @@ import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Models.Like;
 import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.TimeMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +122,8 @@ public class LikesAdapter extends RecyclerView.Adapter {
             LikeViewHolder vh = (LikeViewHolder) holder;
 
             vh.mUserName.setText(likes.get(position).getUser_name());
-            vh.mTime.setText(likes.get(position).getTime());
+            vh.mTime.setText(TimeMethods.convertDateTimeFormatDateOnly(likes.get(position).getTime()));
+
 
             Glide.with(mContext)
                     .load(likes.get(position).getProfile_image())

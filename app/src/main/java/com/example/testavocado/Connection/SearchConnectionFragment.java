@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.appyvet.materialrangebar.RangeBar;
 import com.example.testavocado.Utils.HelpMethods;
+import com.example.testavocado.Utils.Permissions;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,8 @@ import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
 import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static com.example.testavocado.Utils.Permissions.GPS;
+import static com.example.testavocado.Utils.Permissions.GPS2;
 
 public class SearchConnectionFragment extends Fragment {
     private static final String TAG = "SearchConnectionFragmen";
@@ -125,6 +128,7 @@ public class SearchConnectionFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 if (isChecked) {
+                    adapter.searchByLocation = true;
                     numberPicker.setVisibility(View.VISIBLE);
                     getLocation();
                     adapter.clearList();
@@ -320,7 +324,8 @@ public class SearchConnectionFragment extends Fragment {
         }
         adapter.addNull();
 
-        ConnectionsHandler.getNearByUsers(user_current_id, latitude, longitude, km, mSearchName.getText().toString(), datetime, offset, new ConnectionsHandler.OnGettingNearByUsersListener() {
+
+        ConnectionsHandler.getNearByUsers(user_current_id, latitude, longitude, km,mSearchName.getText().toString(), datetime, offset, new ConnectionsHandler.OnGettingNearByUsersListener() {
             @Override
             public void onSuccessListener(List<UserAdd> userAddList) {
                 Log.d(TAG, "onSuccessListener: "+userAddList.size());
@@ -383,6 +388,9 @@ public class SearchConnectionFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            String str[] ={GPS,GPS2};
+            Permissions.verifyPermission(str,getActivity());
             return;
         }
         Location l1 = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -432,13 +440,13 @@ public class SearchConnectionFragment extends Fragment {
             @Override
             public void onServerException(String ex) {
                 Log.d(TAG, "onServerException: " + ex);
-                Snackbar.make(mainLayout, getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String ex) {
                 Log.d(TAG, "onFailure: " + ex);
-                Snackbar.make(mainLayout, getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
         });
     }

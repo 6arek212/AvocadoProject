@@ -36,6 +36,27 @@ public class TimeMethods {
         return  dueDateAsNormal;
     }
 
+
+
+    public static String convertDateTimeFormatDateOnly(String datetime){
+
+        Date date = null;
+        String dueDateAsNormal ="";
+
+        try {
+            date = new SimpleDateFormat(DATE_FORMAT).parse(datetime);
+            SimpleDateFormat newFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  dueDateAsNormal;
+    }
+
+
     public static String convertDateTimeFormat2(String date){
         SimpleDateFormat oldFormatter = new SimpleDateFormat(DATE_FORMAT);
         oldFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
