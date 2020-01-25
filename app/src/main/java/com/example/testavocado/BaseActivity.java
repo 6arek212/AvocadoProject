@@ -8,10 +8,14 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.testavocado.Service.BackgroundService;
 import com.example.testavocado.ccc.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.core.app.ActivityCompat;
@@ -39,6 +43,10 @@ import com.example.testavocado.Utils.LocationMethods;
 import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.SectionStatePagerAdapter;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
 
 
 public class BaseActivity extends AppCompatActivity  {
@@ -78,6 +86,8 @@ public class BaseActivity extends AppCompatActivity  {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        getMessageInstance();
 
         if(savedInstanceState==null) {
             user_id = HelpMethods.checkSharedPreferencesForUserId(this);
@@ -119,6 +129,18 @@ public class BaseActivity extends AppCompatActivity  {
 
 
 
+    private void getMessageInstance() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "onComplete: "+task.getResult().getToken());
+                    updateTheToken(task.getResult().getToken(),BaseActivity.this);
+                }
+            }
+        });
+
+    }
 
 
 

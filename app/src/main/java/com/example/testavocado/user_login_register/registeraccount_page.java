@@ -16,11 +16,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Login.RegisterMethods;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
@@ -33,9 +35,15 @@ import com.example.testavocado.methods.emil_methods.on_checking_emil_exists;
 import com.example.testavocado.methods.help_methods.Help_methods;
 import com.example.testavocado.objects.user;
 import com.example.testavocado.validation.validations;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
 
 public class registeraccount_page extends AppCompatActivity {
     public static final String TAG = "registeraccount";
@@ -121,6 +129,9 @@ public class registeraccount_page extends AppCompatActivity {
 
                                         DatabaseReference fr=FirebaseDatabase.getInstance().getReference();
                                         fr.child("users").child(String.valueOf(user_id)).child("name").setValue(newaccount.getUser_firstname()+" "+newaccount.getUser_lastname());
+
+
+                                        updateToken(user_id);
                                     }
 
                                     @Override
@@ -143,6 +154,21 @@ public class registeraccount_page extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void updateToken(final int user_id) {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (task.isSuccessful()){
+                    DatabaseReference fr=FirebaseDatabase.getInstance().getReference();
+                    Log.d(TAG, "onComplete: "+task.getResult().getToken());
+                    fr.child("users").child(String.valueOf(user_id)).child("token").setValue(task.getResult().getToken());
+                    updateTheToken(task.getResult().getToken(),registeraccount_page.this);
+                    HelpMethods.addToken(task.getResult().getToken(),registeraccount_page.this);
+                }
+            }
+        });
     }
 
     // check if all edit text boxes is not empty to make button register enabeld

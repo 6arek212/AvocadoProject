@@ -47,7 +47,7 @@ interface MessagesDao{
 }
 
 
-@Database(entities = [Chat3::class,Message::class],version = 18)
+@Database(entities = [Chat3::class,Message::class],version = 19)
 @TypeConverters(Converters::class)
 abstract class mDatabase : RoomDatabase(){
 

@@ -18,6 +18,7 @@ import com.example.testavocado.Login.LoginActivity;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.AccountSettingMethods;
 import com.example.testavocado.Utils.HelpMethods;
+import com.example.testavocado.ccc.ClearData;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -76,7 +77,8 @@ public class SettingsActivity extends AppCompatActivity {
                         HelpMethods.deleteUserIdSharedPreferences(mContext, SettingsActivity.this);
                         updateUI();
                         progressBar.setVisibility(View.GONE);
-
+                        ClearData cd=new ClearData(getApplication());
+                        cd.clearDb();
                     }
 
                     @Override

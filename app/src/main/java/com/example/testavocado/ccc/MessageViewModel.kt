@@ -87,14 +87,14 @@ class MessageViewModel(application: Application, val chat: Chat3) : ViewModel() 
 
         if (chat.chatId.isEmpty()) {
             textToSend.value?.let {
-                repo.sendAndCreateChat(it)
+                repo.sendAndCreateChat(it,token = chat.token)
             }
             _clearText.value = true
             return
         }
 
         textToSend.value?.let {
-            repo.sendMessage(it)
+            repo.sendMessage(it,token = chat.token)
         }
         _clearText.value = true
     }

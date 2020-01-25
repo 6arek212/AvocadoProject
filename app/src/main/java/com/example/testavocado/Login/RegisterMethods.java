@@ -32,11 +32,110 @@ import retrofit2.http.Query;
 public class RegisterMethods {
     private static final String TAG = "RegisterMethods";
 
+
+    public interface Notification {
+        @GET("api/Notification/SendNotification")
+        Call<Status> sendNotification(@Query("token") String token,@Query("title") String title, @Query("body") String body);
+
+
+        @GET("api/Notification/updateToken")
+        Call<Status> updateToken(@Query("token") String token,@Query("user_id") int user_id);
+    }
+
+
+
+    public interface OnNotificationListener {
+        void onSuccessListener();
+        void onServerException(String ex);
+        void onFailureListener(String ex);
+    }
+
+
+    public static void updateToken(String token,int user_id,final OnNotificationListener listener) {
+
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        Notification a=retrofit.create(Notification.class);
+
+        final Call<Status> ca= a.updateToken(token,user_id);
+        ca.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status=response.body();
+
+                if (response.isSuccessful()){
+                    if(status.getState()==1){
+                        Log.d(TAG, "onResponse: "+status);
+                        listener.onSuccessListener();
+                    }
+                    else if(status.getState()==0)
+                    {
+                        listener.onServerException(status.getException());
+                    }else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }else{
+                    listener.onFailureListener(response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
+            }
+        });
+    }
+
+
+
+
+
+    public static void onSendingNotification(String token, final String title, String body,final OnNotificationListener listener) {
+
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        Notification a=retrofit.create(Notification.class);
+
+        final Call<Status> ca= a.sendNotification(token,title,body);
+        ca.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status=response.body();
+
+                if (response.isSuccessful()){
+                    if(status.getState()==1){
+                        Log.d(TAG, "onResponse: "+status);
+                        listener.onSuccessListener();
+                    }
+                    else if(status.getState()==0)
+                    {
+                        listener.onServerException(status.getException());
+                    }else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }else{
+                    listener.onFailureListener(response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
+            }
+        });
+    }
+
+
+
+
+
+
     public interface onLoginRegister {
         void onSuccessListener(int user_id);
         void onServerException(String ex);
         void onFailureListener(String ex);
     }
+
 
 
     public interface registerNewUser {
@@ -101,10 +200,6 @@ public class RegisterMethods {
                 listener.onFailureListener(t.getMessage());
             }
         });
-
-
-
-
     }
 
 

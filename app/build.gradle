@@ -123,7 +123,7 @@ dependencies {
 
 
     implementation 'com.google.firebase:firebase-database:19.2.0'
-
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"

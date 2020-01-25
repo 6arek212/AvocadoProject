@@ -71,6 +71,8 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                         val profileImage = p0.child(with.toString()).child("profilePic").getValue(String::class.java)
 
+                        val token =p0.child(with.toString()).child("token").getValue(String::class.java)
+                        Log.d("tokentoken2","$token with  $with sender $sender")
 
                         with?.let {
                             val name =
@@ -80,9 +82,9 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                             val chat2: Chat3
 
                             if (chatId != null) {
-                                chat2 = Chat3(name!!, chatId, sender!!, with, profileImage, lastMsgDate, online = online)
+                                chat2 = Chat3(name!!, chatId, sender!!, with, profileImage, lastMsgDate, online = online,token = token)
                             } else {
-                                chat2 = Chat3(name!!, with = with, profileImg = profileImage)
+                                chat2 = Chat3(name!!, with = with, profileImg = profileImage,token = token)
                             }
 
                             chatList.add(chat2)
@@ -124,6 +126,9 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                         val lastMsg = p0.child("chats").child(chatId.toString()).child("lastMsg").getValue(String::class.java)
                         val name = p0.child("users").child(with.toString()).child("name").getValue(String::class.java)
 
+                        val token =p0.child("users").child(with.toString()).child("token").getValue(String::class.java)
+
+                        Log.d("tokentoken","$token with  $with sender $sender")
                         val notRead: Int?
 
                         if (sender == userId) {
@@ -133,7 +138,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
                         }
 
                         with?.let {
-                            val chat2 = Chat3(name, chatId!!, sender, with, profileImage, lastMsgDate, lastMsg, online, notRead = notRead)
+                            val chat2 = Chat3(name, chatId!!, sender, with, profileImage, lastMsgDate, lastMsg, online, notRead = notRead,token = token)
                             Log.d("ChatRepoooooo33333", " ${notRead}   userid $userId  sender $sender")
 
                             chatList.add(chat2)

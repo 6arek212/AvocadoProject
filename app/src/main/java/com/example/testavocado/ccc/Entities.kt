@@ -29,7 +29,8 @@ data class Chat3(val name:String?="",
                  @PrimaryKey(autoGenerate = false)
                  var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="",
                  val lastMsgDatetime:String?="", val lastMsg:String?="",val online:Boolean?=false,
-                 var notRead:Int?=0):Parcelable
+                 var notRead:Int?=0,
+                 var token:String?=null):Parcelable
 
 
 
@@ -38,7 +39,7 @@ data class Chat3(val name:String?="",
 @Entity(tableName = "messages_tbl")
 data class Message(@ColumnInfo(name = "message_id")
                     @PrimaryKey(autoGenerate = false)
-                    val _id: String="",
+                   val _id: String="",
                    val text: String?="",
                    val datetime: String="",
                    val senderId: Int=0,

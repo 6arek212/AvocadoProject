@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.example.testavocado.Login.RegisterMethods
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
 import com.google.firebase.database.DataSnapshot
@@ -231,7 +232,7 @@ class MessagesRepository(
     }
 
 
-    fun sendMessage(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null,number:String?=null) {
+    fun sendMessage(msg: String? = null, pic: String? = null,token:String?=null, long: Double? = null, latit: Double? = null,number:String?=null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -260,6 +261,17 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("lastMsgId").setValue(it)
 
 
+            RegisterMethods.onSendingNotification(token,"New Message",msg,object :RegisterMethods.OnNotificationListener{
+                override fun onSuccessListener() {
+
+                }
+
+                override fun onServerException(ex: String?) {
+                }
+
+                override fun onFailureListener(ex: String?) {
+                }
+            })
 
 
             if (isTheSender) {
@@ -343,7 +355,7 @@ class MessagesRepository(
     data class ChatSend(var chatId: String = "", var sender: Int? = 0, var with: Int = 0)
 
 
-    fun sendAndCreateChat(msg: String? = null, pic: String? = null, long: Double? = null, latit: Double? = null) {
+    fun sendAndCreateChat(msg: String? = null, pic: String? = null,token: String?=null, long: Double? = null, latit: Double? = null) {
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -371,7 +383,17 @@ class MessagesRepository(
             ref.child("chats").child(chat.chatId).child("datetimeLastMsg").setValue(TimeMethods.getUTCdatetimeAsString())
 
 
+            RegisterMethods.onSendingNotification(token,"New Message",msg,object :RegisterMethods.OnNotificationListener{
+                override fun onSuccessListener() {
 
+                }
+
+                override fun onServerException(ex: String?) {
+                }
+
+                override fun onFailureListener(ex: String?) {
+                }
+            })
 
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key

@@ -55,8 +55,7 @@ public class HelpMethods {
     }
 
 
-
-    public static void updateName(String firstName,String lastName, Context context) {
+    public static void updateName(String firstName, String lastName, Context context) {
         SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(context).edit();
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.settings), Context.MODE_PRIVATE);
         ed = preferences.edit();
@@ -64,7 +63,6 @@ public class HelpMethods {
         ed.putString(context.getString(R.string.sharedPref_userlastname), lastName);
         ed.apply();
     }
-
 
 
     /**
@@ -86,6 +84,24 @@ public class HelpMethods {
 
 
         return setting;
+    }
+
+
+    /**
+     * adding shared Preferences
+     */
+    public static void addToken(String token, Context context) {
+        SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        ed.putString("token", token);
+        ed.apply();
+    }
+
+    /**
+     * adding shared Preferences
+     */
+    public static String getToken(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("token", null);
     }
 
 
