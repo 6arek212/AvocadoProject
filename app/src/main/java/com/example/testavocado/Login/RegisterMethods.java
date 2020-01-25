@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public class RegisterMethods {
@@ -34,11 +35,11 @@ public class RegisterMethods {
 
 
     public interface Notification {
-        @GET("api/Notification/SendNotification")
+        @POST("api/Notification/SendNotification")
         Call<Status> sendNotification(@Query("token") String token,@Query("title") String title, @Query("body") String body);
 
 
-        @GET("api/Notification/updateToken")
+        @POST("api/Notification/updateToken")
         Call<Status> updateToken(@Query("token") String token,@Query("user_id") int user_id);
     }
 

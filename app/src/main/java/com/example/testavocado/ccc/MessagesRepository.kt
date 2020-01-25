@@ -263,13 +263,18 @@ class MessagesRepository(
 
             RegisterMethods.onSendingNotification(token,"New Message",msg,object :RegisterMethods.OnNotificationListener{
                 override fun onSuccessListener() {
+                    Log.d("MessageRpo","sent notify")
 
                 }
 
                 override fun onServerException(ex: String?) {
+                    Log.d("MessageRpo","errorrr notify $ex")
+
                 }
 
                 override fun onFailureListener(ex: String?) {
+                    Log.d("MessageRpo","errr notify $ex")
+
                 }
             })
 
@@ -385,13 +390,19 @@ class MessagesRepository(
 
             RegisterMethods.onSendingNotification(token,"New Message",msg,object :RegisterMethods.OnNotificationListener{
                 override fun onSuccessListener() {
+                    Log.d("MessageRpo","sent notify")
 
                 }
 
                 override fun onServerException(ex: String?) {
+                    Log.d("MessageRpo","error notify")
+
+
                 }
 
                 override fun onFailureListener(ex: String?) {
+                    Log.d("MessageRpo","faled notify")
+
                 }
             })
 
