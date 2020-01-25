@@ -6,6 +6,7 @@ import com.example.testavocado.ccc.Chat3
 import com.example.testavocado.ccc.mDatabase
 import com.google.firebase.database.*
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 class ChatRepo(val database: mDatabase, val userId: Int) {
 
@@ -30,8 +31,13 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
 
     fun onClear() {
-        myRef.child("users").removeEventListener(getNewChats)
-        myRef.removeEventListener(getChatsMade)
+        try{
+            myRef.child("users").removeEventListener(getNewChats)
+            myRef.removeEventListener(getChatsMade)
+        }catch (e:Exception){
+
+        }
+
     }
 
 

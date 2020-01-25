@@ -409,6 +409,10 @@ public class SearchConnectionFragment extends Fragment {
         }
     };
 
+
+
+
+
     /***
      *
      *
@@ -417,6 +421,7 @@ public class SearchConnectionFragment extends Fragment {
      */
     private void getLocation() {
         manager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

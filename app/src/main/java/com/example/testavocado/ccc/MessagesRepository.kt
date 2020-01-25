@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 
 class MessagesRepository(
@@ -107,20 +108,25 @@ class MessagesRepository(
 
 
     fun removeListeners() {
-        myRef.child("chats").child(chat.chatId).child(when (isTheSender) {
-            true -> "r_seen"
-            false -> "s_seen"
-        }).removeEventListener(seenLister)
+        try{
+            myRef.child("chats").child(chat.chatId).child(when (isTheSender) {
+                true -> "r_seen"
+                false -> "s_seen"
+            }).removeEventListener(seenLister)
 
-        myRef.child("chats").child(chat.chatId).child(
-                when (isTheSender) {
-                    true -> "r_typing"
-                    false -> "s_typing"
-                }
-        ).removeEventListener(typingEventListener)
-        myRef.child("chats").child(chat.chatId).child("messages").removeEventListener(refreshMessagesListener)
-        myRef.child("chats").child(chat.chatId).child("deleted Messages").removeEventListener(removedChatListener)
-        myRef.child("users").child(chat.with.toString()).child("online").removeEventListener(onlineStateListener)
+            myRef.child("chats").child(chat.chatId).child(
+                    when (isTheSender) {
+                        true -> "r_typing"
+                        false -> "s_typing"
+                    }
+            ).removeEventListener(typingEventListener)
+            myRef.child("chats").child(chat.chatId).child("messages").removeEventListener(refreshMessagesListener)
+            myRef.child("chats").child(chat.chatId).child("deleted Messages").removeEventListener(removedChatListener)
+            myRef.child("users").child(chat.with.toString()).child("online").removeEventListener(onlineStateListener)
+        }catch (e:Exception){
+
+        }
+
     }
 
 
