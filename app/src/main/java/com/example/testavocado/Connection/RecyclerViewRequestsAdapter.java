@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.testavocado.Models.UserAdd;
 import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
@@ -40,6 +41,9 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     private OnLoadMoreItemsListener onLoadMoreItemsListener;
     public boolean is_endOfPosts;
     private int userId;
+    private FragmentManager fragmentManager;
+
+
 
     /**
      *      adding null to the list to show progress bar
@@ -68,9 +72,11 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
 
-    public RecyclerViewRequestsAdapter(Context context) {
+    public RecyclerViewRequestsAdapter(Context context,FragmentManager fragmentManager) {
         mContext = context;
         userId=HelpMethods.checkSharedPreferencesForUserId(mContext);
+        Log.d(TAG, "RecyclerViewRequestsAdapter: "+userId);
+        this.fragmentManager=fragmentManager;
     }
 
 
@@ -128,6 +134,12 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
             v1.mUserFullName.setText(requestList.get(i).getUser_first_name() + " " + requestList.get(i).getUser_last_name());
             v1.mFriends.setVisibility(View.GONE);
 
+            Glide.with(mContext)
+                    .load(requestList.get(i).getUser_profile_photo())
+                    .centerCrop()
+                    .error(R.drawable.error)
+                    .into(v1.mProfileImage);
+
             v1.accept();
             v1.deny();
             v1.profile();
@@ -139,18 +151,6 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -274,7 +274,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
              mDeny.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     ConnectionsHandler.RemoveFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                     ConnectionsHandler.RemoveFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(),userId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                          @Override
                          public void onSuccessListener() {
                              requestList.remove(getAdapterPosition());
@@ -303,9 +303,12 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
                      ProfileFragment fragment = new ProfileFragment();
                      fragment.is_current_user = false;
                      fragment.incoming_user_id = requestList.get(getAdapterPosition()).getUser_id();
-                     FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
                      FragmentTransaction tr = fragmentManager.beginTransaction();
-                     tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                     if (mContext instanceof ConnectionsActivity){
+                         tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                     }else{
+                         tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                     }
                  }
              });
         }

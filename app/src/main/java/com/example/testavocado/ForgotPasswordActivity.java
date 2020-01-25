@@ -88,7 +88,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Validation validation = new Validation(mContext);
-                String email = mEmail.getText().toString();
+                String email = mEmail.getText().toString().toLowerCase();
 
                 if (!email.trim().isEmpty()) {
                     if (validation.Email(email)) {

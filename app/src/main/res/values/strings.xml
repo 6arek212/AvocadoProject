@@ -375,7 +375,7 @@
     <string name="register">REGISTER</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
-    <string name="emil">Emil</string>
+    <string name="emil">E-mail</string>
     <string name="password">Password</string>
     <string name="next">Next</string>
     <string name="myname">myname</string>

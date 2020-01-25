@@ -65,8 +65,7 @@ public class ShowRequestsFragment extends Fragment {
         mSwipe = view.findViewById(R.id.swipe);
         mContext = getContext();
 
-        adapter = new RecyclerViewRequestsAdapter(mContext);
-        //mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter = new RecyclerViewRequestsAdapter(mContext,getFragmentManager());
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                 , false));
 
@@ -139,7 +138,7 @@ public class ShowRequestsFragment extends Fragment {
         adapter.addNull();
 
 
-        ConnectionsHandler.getConnectionsRequest(ConnectionsActivity.user_current_id, offset, datetime,
+        ConnectionsHandler.getConnectionsRequest(HelpMethods.checkSharedPreferencesForUserId(requireContext()), offset, datetime,
                 mContext, new ConnectionsHandler.OnGettingConnectionsRequestsListener() {
                     @Override
                     public void OnSuccessfullyGettingRequests(List<UserAdd> userAddList) {

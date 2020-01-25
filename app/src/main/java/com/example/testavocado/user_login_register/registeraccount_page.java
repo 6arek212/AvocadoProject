@@ -108,6 +108,8 @@ public class registeraccount_page extends AppCompatActivity {
 
                     if(validateinfo(newaccount)==1) {
                         mProgressBar.setVisibility(View.VISIBLE);
+                        if (edtxt_user_firstname.getText().toString().trim().isEmpty() || edtxt_user_lastname.getText().toString().trim().isEmpty() || edtxt_user_emil.getText().toString().trim().isEmpty() || edtxt_user_password.getText().toString().trim().isEmpty())
+                            Toast.makeText(mycontext, getString(R.string.field_required), Toast.LENGTH_SHORT).show();
 
                         RegisterMethods.onRegisteringNewUser(newaccount.getUser_firstname(), newaccount.getUser_lastname(), newaccount.getUser_emil(), newaccount.getUser_password()
                                 , TimeMethods.getUTCdatetimeAsString(), mycontext, new RegisterMethods.onLoginRegister() {

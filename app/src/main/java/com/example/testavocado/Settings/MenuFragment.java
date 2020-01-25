@@ -120,10 +120,10 @@ public class MenuFragment extends Fragment {
                                 SQLiteMethods sqLiteMethods=new SQLiteMethods(mContext,"db1",null,SQL_VER);
                                 sqLiteMethods.cleatChatsTable();
 
-                                ClearData cd=new ClearData(getActivity().getApplication());
+                                ClearData cd=new ClearData(requireActivity().getApplication());
                                 cd.clearDb();
 
-                                getActivity().finish();
+                                requireActivity().finish();
                             }
                         });
                         confirmDialog.show(getFragmentManager(), getString(R.string.confirm_dialog));

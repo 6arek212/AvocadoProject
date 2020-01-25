@@ -2,14 +2,17 @@ package com.example.testavocado.Connection;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.appyvet.materialrangebar.RangeBar;
+import com.example.testavocado.Models.Setting;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.Permissions;
 import com.google.android.material.snackbar.Snackbar;
@@ -18,6 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Looper;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +35,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.testavocado.Models.UserAdd;
 import com.example.testavocado.R;
@@ -37,6 +45,7 @@ import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
 import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPickerListener;
 
 import java.util.List;
+import java.util.Set;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static com.example.testavocado.Utils.Permissions.GPS;
@@ -119,7 +128,7 @@ public class SearchConnectionFragment extends Fragment {
         });
 
 
-
+        getUsers(0);
 
 
 
@@ -128,16 +137,23 @@ public class SearchConnectionFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 if (isChecked) {
-                    adapter.searchByLocation = true;
-                    numberPicker.setVisibility(View.VISIBLE);
-                    getLocation();
-                    adapter.clearList();
+                    SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(mContext);
+                    boolean _switch=sharedPreferences.getBoolean(getString(R.string.location_switch),false);
+
+                    if (_switch){
+                        adapter.searchByLocation = true;
+                        numberPicker.setVisibility(View.VISIBLE);
+                        adapter.clearList();
+                        getLocation();
+                    }else {
+                        Snackbar.make(requireActivity().findViewById(android.R.id.content), "You have to enable the location in settings", Snackbar.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     numberPicker.setVisibility(View.GONE);
                     adapter.searchByLocation = false;
                     getUsers(0);
                 }
-
             }
         });
 
@@ -267,13 +283,7 @@ public class SearchConnectionFragment extends Fragment {
                     public void onSuccessListener(List<UserAdd> list) {
                         Log.d(TAG, "onSuccessListener: " + list.size());
                         adapter.removeProg();
-                        adapter.clearList();
-
                         adapter.addNewSetUserToAdd(list, adapter.getItemCount());
-
-                        if (mSearchName.getText().toString().isEmpty())
-                            adapter.clearList();
-
                         mSwipe.setRefreshing(false);
                         loading = false;
                     }
@@ -359,7 +369,7 @@ public class SearchConnectionFragment extends Fragment {
                 adapter.removeProg();
                 adapter.clearList();
                 mSwipe.setRefreshing(false);
-                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 if (!adapter.is_endOfPosts) {
                     adapter.is_endOfPosts = true;
@@ -370,6 +380,34 @@ public class SearchConnectionFragment extends Fragment {
         });
     }
 
+
+  
+    
+    private final android.location.LocationListener mLocationListener = new LocationListener(){
+        @Override
+        public void onLocationChanged(final Location location) {
+            Log.d(TAG, "onLocationChanged: "+location);
+            Toast.makeText(mContext, "got location", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.d(TAG, "onStatusChanged: ");
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.d(TAG, "onProviderEnabled: ");
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.d(TAG, "onProviderDisabled: ");
+
+        }
+    };
 
     /***
      *
@@ -393,16 +431,20 @@ public class SearchConnectionFragment extends Fragment {
             Permissions.verifyPermission(str,getActivity());
             return;
         }
+
+        LocationManager mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestSingleUpdate( LocationManager.GPS_PROVIDER, mLocationListener, null );
+
+
         Location l1 = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Location l2 = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         Location l3 = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
-
+        Log.d(TAG, "getLocation: get location "+l1+" "+l2+" "+l3+"   ");
         if (l1 != null) {
             Log.d(TAG, "updateLocation12: got it l1");
             lat = l1.getLatitude();
             longi = l1.getLongitude();
-
             adapter.searchByLocation = true;
             getNearbyUsers(0, l1.getLatitude(), l1.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l1.getLatitude(), l1.getLongitude());
@@ -410,7 +452,6 @@ public class SearchConnectionFragment extends Fragment {
             Log.d(TAG, "updateLocation12: got it l2 " + l2);
             lat = l2.getLatitude();
             longi = l2.getLongitude();
-
             adapter.searchByLocation = true;
             getNearbyUsers(0, l2.getLatitude(), l2.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l2.getLatitude(), l2.getLongitude());
@@ -418,14 +459,17 @@ public class SearchConnectionFragment extends Fragment {
             Log.d(TAG, "updateLocation12: got it l3 " + l3);
             lat = l3.getLatitude();
             longi = l3.getLongitude();
-
             adapter.searchByLocation = true;
             getNearbyUsers(0, l3.getLatitude(), l3.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l3.getLatitude(), l3.getLongitude());
         } else {
+            numberPicker.setVisibility(View.GONE);
+            adapter.searchByLocation = false;
+            Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             mNearByUsers.setChecked(false);
-            Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
         }
+
+        getUsers(0);
     }
 
 
@@ -440,13 +484,13 @@ public class SearchConnectionFragment extends Fragment {
             @Override
             public void onServerException(String ex) {
                 Log.d(TAG, "onServerException: " + ex);
-                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String ex) {
                 Log.d(TAG, "onFailure: " + ex);
-                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
         });
     }

@@ -44,7 +44,7 @@ public class ConnectionsHandler {
         Call<Status> searchUserByName(@Query("User_id") int user_id, @Query("Text_cmp") String txt_name, @Query("datetime") String datetime, @Query("offset") int offset);
 
         @GET("api/Connections/deleteFriendRequest")
-        Call<Status> deleteRequest(@Query("Request_id") int request_id);
+        Call<Status> deleteRequest(@Query("Request_id") int request_id,@Query("user_id") int user_id);
 
 
         @POST("api/Connections/deleteFriend")
@@ -250,12 +250,12 @@ public class ConnectionsHandler {
     }
 
 
-    public static void RemoveFriendRequest(int request_id, final OnRemovingFriendRequestListener listener) {
-        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request ");
+    public static void RemoveFriendRequest(int request_id,int user_id, final OnRemovingFriendRequestListener listener) {
+        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request request_id "+request_id+"   user id "+user_id);
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ConnectionsInterface interface1 = retrofit.create(ConnectionsInterface.class);
 
-        final Call<Status> ca = interface1.deleteRequest(request_id);
+        final Call<Status> ca = interface1.deleteRequest(request_id,user_id);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {

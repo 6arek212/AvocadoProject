@@ -3,9 +3,12 @@ package com.example.testavocado.Notification;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +20,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsActivity;
+import com.example.testavocado.Connection.ShowRequestsFragment;
 import com.example.testavocado.Models.Notification;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.PostFragment;
+import com.example.testavocado.ccc.Chat3;
+import com.example.testavocado.ccc.MessageFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,35 +133,15 @@ public class NotificationAdapter extends RecyclerView.Adapter {
                     .into(v1.mProfileImage);
 
 
-            attachLinkOnClick(v1.link, i);
+            v1.link();
+
         } else if (viewHolder.getItemViewType() == PROGRESS_BAR && !is_endOfPosts) {
             ((ProgressViewHolder)viewHolder).progressBar.setIndeterminate(true);
         }
     }
 
 
-    private void attachLinkOnClick(RelativeLayout relativeLayout, final int i) {
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // go to Post fragment
 
-                if (notifications.get(i).getNotification_type() < 5) {
-                    Log.d(TAG, "onClick: " + notifications.get(i));
-                    frt = fragmentManager.beginTransaction();
-                    PostFragment fragment = new PostFragment();
-                    fragment.post_id = notifications.get(i).getPost_id();
-                    frt.replace(R.id.mainLayoutNotification, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
-                            .commit();
-                } else if (notifications.get(i).getNotification_type() == 5) {
-                    // GO to connectionRequest
-                    mContext.startActivity(new Intent(mContext, ConnectionsActivity.class));
-                } else {
-                    mContext.startActivity(new Intent(mContext, ChatActivity.class));
-                }
-            }
-        });
-    }
 
 
     @Override
@@ -163,7 +150,7 @@ public class NotificationAdapter extends RecyclerView.Adapter {
     }
 
 
-    static class NotificationViewHolder extends RecyclerView.ViewHolder {
+     class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView mName, mTime, mNotificationType;
         CircleImageView mProfileImage;
         RelativeLayout link;
@@ -177,9 +164,51 @@ public class NotificationAdapter extends RecyclerView.Adapter {
             mTime = itemView.findViewById(R.id.time);
             link = itemView.findViewById(R.id.notification_layout);
         }
+
+        public void link() {
+            link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // go to Post fragment
+
+                    if (notifications.get(getAdapterPosition()).getNotification_type() < 5) {
+                        Log.d(TAG, "onClick: " + notifications.get(getAdapterPosition()));
+                        frt = fragmentManager.beginTransaction();
+                        PostFragment fragment = new PostFragment();
+                        fragment.post_id = notifications.get(getAdapterPosition()).getPost_id();
+                        frt.replace(R.id.mainLayoutNotification, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                                .commit();
+                    } else if (notifications.get(getAdapterPosition()).getNotification_type() == 5) {
+                        // GO to connectionRequest
+                        Fragment fragment= new ShowRequestsFragment();
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.baseLayout,fragment)
+                                .addToBackStack(mContext.getString(R.string.showRequests_fragment))
+                                .commit();
+
+                      //  mContext.startActivity(new Intent(mContext, ConnectionsActivity.class));
+
+                    } else {
+                        mContext.startActivity(new Intent(mContext, ChatActivity.class));
+
+                        MessageFragment fragment=new MessageFragment();
+                        Bundle bundle=new Bundle();
+
+
+                        //fragment.setArguments();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.baseLayout,fragment)
+                                .addToBackStack(mContext.getString(R.string.notification_fragment))
+                                .commit();
+
+                    }
+                }
+            });
+        }
     }
 
-    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+    public  class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public ProgressViewHolder(View v) {
@@ -189,7 +218,7 @@ public class NotificationAdapter extends RecyclerView.Adapter {
     }
 
 
-    public static class EndViewHolder extends RecyclerView.ViewHolder {
+    public  class EndViewHolder extends RecyclerView.ViewHolder {
         TextView end;
 
         public EndViewHolder(View v) {

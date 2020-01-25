@@ -247,7 +247,7 @@ public class ProfileFragment extends Fragment {
                 mSwipe.setRefreshing(false);
                 adapter.removeProg();
                 loading = false;
-                Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
             }
         });

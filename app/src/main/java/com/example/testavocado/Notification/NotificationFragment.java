@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.testavocado.Models.Notification;
@@ -42,7 +43,6 @@ public class NotificationFragment extends Fragment {
     //widgets
     public RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipe;
-    private RelativeLayout mainLayoutNotification;
 
 
     //vars
@@ -82,7 +82,6 @@ public class NotificationFragment extends Fragment {
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                 , false));
         mRecyclerView.setAdapter(adapter);
-        mainLayoutNotification = view.findViewById(R.id.mainLayoutNotification);
 
 
         recyclerViewBottomDetectionListener();
@@ -162,7 +161,7 @@ public class NotificationFragment extends Fragment {
             public void OnFailure(String exception) {
                 Log.d(TAG, "OnFailure: " + exception);
                 if (getContext() != null)
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 adapter.removeProg();
                 mSwipe.setRefreshing(false);

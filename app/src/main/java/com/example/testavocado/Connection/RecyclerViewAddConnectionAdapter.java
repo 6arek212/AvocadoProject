@@ -2,10 +2,12 @@ package com.example.testavocado.Connection;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -220,23 +222,6 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public int getItemCount() {
         return userAddList.size();
@@ -273,7 +258,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             Log.d(TAG, "onSuccessListener: ");
@@ -294,6 +279,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
                             Log.d(TAG, "onFailure: " + ex);
                         }
                     });
+
                 }
             });
         }
@@ -311,7 +297,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
                                     mAdd.setVisibility(View.GONE);
                                     mDelete.setVisibility(View.VISIBLE);
                                     deleteClick();
-                                    userAddList.get(getAdapterPosition()).setRequest_id(request_id);
+                                    userAddList.get(getAdapterPosition()).setSender_id(current_user_id);
                                 }
 
                                 @Override
@@ -340,7 +326,11 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
                     FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
                     FragmentTransaction tr = fragmentManager.beginTransaction();
                     HelpMethods.closeKeyboard(activity);
-                    tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    if (mContext instanceof ConnectionsActivity){
+                        tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }else {
+                        tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }
                 }
             });
         }
@@ -349,7 +339,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             mAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.acceptFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(),userAddList.get(getAdapterPosition()).getUser_id(),current_user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                    ConnectionsHandler.acceptFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), userAddList.get(getAdapterPosition()).getUser_id(), current_user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             Log.d(TAG, "onSuccessListener: friend request accepted ");
@@ -378,7 +368,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             mDeny.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             Log.d(TAG, "onSuccessListener: friend request denied ");

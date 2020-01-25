@@ -75,7 +75,7 @@ public class Validation {
 
 
     public boolean Password(String password) {
-        if (password.length() < 8) {
+        if (password.length() < 6) {
             Log.d(TAG, "Password: " + mContext.getString(R.string.PASSWORD_SHORT));
             Toast.makeText(mContext, mContext.getString(R.string.PASSWORD_SHORT), Toast.LENGTH_SHORT).show();
             return false;
