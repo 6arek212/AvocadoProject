@@ -48,6 +48,8 @@ import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.ImagesViewPagerClick;
 import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -522,6 +524,13 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         v1.mMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = firebaseDatabase.getReference();
+
+
+               // myRef.child("users").child(user.get)    ;
+
                 mContext.startActivity(new Intent(mContext, ChatActivity.class));
             }
         });

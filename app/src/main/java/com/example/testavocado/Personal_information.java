@@ -77,7 +77,10 @@ public class Personal_information extends AppCompatActivity {
                             .addToBackStack("done").commit();
                     break;
                 case R.id.linear_layout_account_Changepassword :
-                    Toast.makeText(mcontext, "Hello", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.constrainlayout1, new Change_password_fragment())
+                            .addToBackStack("done").commit();
                     break;
             }
         }
