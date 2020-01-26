@@ -44,15 +44,20 @@ public class NotificationMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if (status.getState() == 1) {
-                   listener.successfullyGettingNotification(status.getJson_data());
+                if (response.isSuccessful()&&status!=null){
+                    if (status.getState() == 1) {
+                        listener.successfullyGettingNotification(status.getJson_data());
 
-                } else if (status.getState() == 0) {
-                    listener.serverException(0 + "  " + status.getException());
+                    } else if (status.getState() == 0) {
+                        listener.serverException(0 + "  " + status.getException());
 
-                } else {
-                    listener.serverException(-1 + "  " + status.getException());
+                    } else {
+                        listener.serverException(-1 + "  " + status.getException());
+                    }
+                }else{
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -80,7 +85,7 @@ public class NotificationMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if(response.isSuccessful()){
+                if(response.isSuccessful()&&status!=null){
                 if (status.getState() == 1) {
                     listener.successfullyGettingNotification(status.getJson_data());
 

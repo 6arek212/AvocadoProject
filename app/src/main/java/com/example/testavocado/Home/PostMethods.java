@@ -99,48 +99,43 @@ public class PostMethods {
 
 
         @GET("api/Post/getSavedPosts")
-        Call<Status> getSavedPosts(@Query("user_id") int user_id,@Query("datetime") String datetime,@Query("offset") int offset);
+        Call<Status> getSavedPosts(@Query("user_id") int user_id, @Query("datetime") String datetime, @Query("offset") int offset);
 
     }
-
-
-
-
-
-
-
 
 
     public interface OnGettingSavedPostListener {
         void onSuccess(List<SavedPost> savedPosts);
+
         void onServerException(String ex);
+
         void onFailure(String ex);
     }
 
 
-    public static void getSavedPosts(int user_id,String datetime,int offset, final OnGettingSavedPostListener listener) {
+    public static void getSavedPosts(int user_id, String datetime, int offset, final OnGettingSavedPostListener listener) {
 
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         final PostsMethods save = retrofit.create(PostsMethods.class);
 
-        final Call<Status> ca = save.getSavedPosts(user_id,datetime,offset);
+        final Call<Status> ca = save.getSavedPosts(user_id, datetime, offset);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && status != null) {
                     if (status.getState() == 1) {
-                        try{
-                            Log.d(TAG, "onResponse: getting saved posts "+status.getJson_data());
-                            JSONArray jsonArray=new JSONArray(status.getJson_data());
-                            List<SavedPost> savedPosts=new ArrayList<>();
+                        try {
+                            Log.d(TAG, "onResponse: getting saved posts " + status.getJson_data());
+                            JSONArray jsonArray = new JSONArray(status.getJson_data());
+                            List<SavedPost> savedPosts = new ArrayList<>();
 
-                            for(int i=0;i<jsonArray.length();i++){
-                                savedPosts.add(new Gson().fromJson(jsonArray.get(i).toString(),SavedPost.class));
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                savedPosts.add(new Gson().fromJson(jsonArray.get(i).toString(), SavedPost.class));
                             }
                             listener.onSuccess(savedPosts);
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             listener.onFailure(e.getMessage());
                         }
 
@@ -165,10 +160,6 @@ public class PostMethods {
     }
 
 
-
-
-
-
     public interface OnDeleteingSavinedPostListener {
         void onDeleted();
 
@@ -188,7 +179,7 @@ public class PostMethods {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && status != null) {
                     if (status.getState() == 1) {
                         listener.onDeleted();
                     } else if (status.getState() == 0) {
@@ -233,16 +224,16 @@ public class PostMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful() && status != null) {
                     if (status.getState() == 1) {
 
-                        try{
-                            Log.d(TAG, "onResponse: savepost "+status.getJson_data());
+                        try {
+                            Log.d(TAG, "onResponse: savepost " + status.getJson_data());
                             JSONObject json = new JSONObject(status.getJson_data());
                             int saved_post_id = json.getInt("saved_post_id");
                             listener.onSaved(saved_post_id);
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             listener.onServerException(e.getMessage());
                         }
                     } else if (status.getState() == 0) {
@@ -251,7 +242,7 @@ public class PostMethods {
                     } else {
                         listener.onServerException(status.getException());
                     }
-                }else {
+                } else {
                     listener.onFailure(response.message());
                 }
 
@@ -347,7 +338,7 @@ public class PostMethods {
         Log.d(TAG, "likeAPost: user_id " + user_id + "   post_id " + post_id + " datetime " + datetime);
 
         Retrofit retrofit = NetworkClient.getRetrofitClient();
-        PostsMethods like = retrofit.create(PostsMethods.class);
+        final PostsMethods like = retrofit.create(PostsMethods.class);
 
         final Call<Status> ca = like.addLike(user_id, post_id, datetime);
         ca.enqueue(new Callback<Status>() {
@@ -355,22 +346,27 @@ public class PostMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if (status.getState() == 1) {
-                    try {
-                        Log.d(TAG, "onResponse: " + status);
-                        JSONObject json = new JSONObject(status.getJson_data());
-                        listener.OnLiked(json.getInt("like_id"));
+                if (response.isSuccessful() && status != null) {
+                    if (status.getState() == 1) {
+                        try {
+                            Log.d(TAG, "onResponse: " + status);
+                            JSONObject json = new JSONObject(status.getJson_data());
+                            listener.OnLiked(json.getInt("like_id"));
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        listener.OnServerException(e.getMessage());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            listener.OnServerException(e.getMessage());
+                        }
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
+
+                    } else {
+                        listener.OnServerException(status.getException());
                     }
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-
                 } else {
-                    listener.OnServerException(status.getException());
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -401,8 +397,9 @@ public class PostMethods {
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
-                if (response.isSuccessful()) {
-                    Status status = response.body();
+                Status status = response.body();
+
+                if (response.isSuccessful() && status != null) {
 
                     if (status.getState() == 1) {
                         listener.OnDeleted();
@@ -437,7 +434,7 @@ public class PostMethods {
     }
 
 
-    public static void reportPost(int post_id, int user_id, int reportType, String datetime, final OnReportingPostListener listener) {
+    public static void reportPost(int post_id, int user_id, final int reportType, String datetime, final OnReportingPostListener listener) {
 
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         final PostsMethods methods = retrofit.create(PostsMethods.class);
@@ -446,10 +443,10 @@ public class PostMethods {
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
-                if (response.isSuccessful()) {
-                    Status status = response.body();
-                    Log.d(TAG, "onResponse: report "+status);
+                Status status = response.body();
 
+                if (response.isSuccessful() && status != null) {
+                    Log.d(TAG, "onResponse: report " + status);
                     if (status.getState() == 1) {
                         listener.OnPostReported();
                     } else if (status.getState() == 0) {
@@ -491,8 +488,9 @@ public class PostMethods {
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
-                if (response.isSuccessful()) {
-                    Status status = response.body();
+                Status status = response.body();
+
+                if (response.isSuccessful() && status != null) {
 
                     if (status.getState() == 1) {
                         listener.OnPostHide();
@@ -537,16 +535,20 @@ public class PostMethods {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
+                if (response.isSuccessful() && status != null) {
+                    if (status.getState() == 1) {
+                        listener.OnLikeRemoved();
 
-                if (status.getState() == 1) {
-                    listener.OnLikeRemoved();
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
 
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-
+                    } else {
+                        listener.OnServerException(status.getException());
+                    }
                 } else {
-                    listener.OnServerException(status.getException());
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -579,23 +581,27 @@ public class PostMethods {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
+                if (response.isSuccessful() && status != null) {
+                    if (status.getState() == 1) {
+                        try {
+                            Log.d(TAG, "onResponse: " + status);
+                            JSONObject json = new JSONObject(status.getJson_data());
+                            listener.OnDisLiked(json.getInt("like_id"));
 
-                if (status.getState() == 1) {
-                    try {
-                        Log.d(TAG, "onResponse: " + status);
-                        JSONObject json = new JSONObject(status.getJson_data());
-                        listener.OnDisLiked(json.getInt("like_id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            listener.OnServerException(e.getMessage());
+                        }
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        listener.OnServerException(e.getMessage());
+                    } else {
+                        listener.OnServerException(status.getException());
                     }
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-
                 } else {
-                    listener.OnServerException(status.getException());
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -621,15 +627,20 @@ public class PostMethods {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: " + status);
 
-                if (status.getState() == 1) {
-                    listener.OnLikeRemoved();
+                if (response.isSuccessful() && status != null) {
+                    if (status.getState() == 1) {
+                        listener.OnLikeRemoved();
 
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
 
+                    } else {
+                        listener.OnServerException(status.getException());
+                    }
                 } else {
-                    listener.OnServerException(status.getException());
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -664,28 +675,34 @@ public class PostMethods {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: " + status);
 
-                if (status.getState() == 1) {
-                    try {
-                        JSONArray array = new JSONArray(status.getJson_data());
-                        List<Like> likes = new ArrayList<>();
+                if (response.isSuccessful() && status != null) {
+                    if (status.getState() == 1) {
+                        try {
+                            JSONArray array = new JSONArray(status.getJson_data());
+                            List<Like> likes = new ArrayList<>();
 
-                        for (int i = 0; i < array.length(); i++) {
-                            likes.add(new Gson().fromJson(array.get(i).toString(), Like.class));
+                            for (int i = 0; i < array.length(); i++) {
+                                likes.add(new Gson().fromJson(array.get(i).toString(), Like.class));
+                            }
+                            listener.OnGettingLikes(likes);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            listener.OnServerException(e.getMessage());
                         }
-                        listener.OnGettingLikes(likes);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        listener.OnServerException(e.getMessage());
+
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
+
+                    } else {
+                        listener.OnServerException(status.getException());
                     }
-
-
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-
                 } else {
-                    listener.OnServerException(status.getException());
+
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -720,7 +737,7 @@ public class PostMethods {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: " + status);
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
 
 
                     if (status.getState() == 1) {
@@ -782,7 +799,7 @@ public class PostMethods {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: " + status);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         try {
                             JSONArray array = new JSONArray(status.getJson_data());
@@ -841,7 +858,7 @@ public class PostMethods {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: adding post  " + status + "  " + response);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         Log.d(TAG, "onResponse: " + status);
                         listener.onSuccess();
@@ -851,7 +868,7 @@ public class PostMethods {
                         listener.onFailure(status.getException());
                     }
                 } else {
-                    listener.onFailure(response.errorBody().toString());
+                    listener.onFailure(response.message());
                 }
             }
 
@@ -881,8 +898,9 @@ public class PostMethods {
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
-                if (response.isSuccessful()) {
-                    Status status = response.body();
+                Status status = response.body();
+
+                if (response.isSuccessful()&&status!=null) {
                     Log.d(TAG, "onResponse: adding post  " + status);
 
                     if (status.getState() == 1) {
@@ -926,12 +944,18 @@ public class PostMethods {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: adding post  " + status);
 
-                if (status.getState() == 1) {
-                    listener.onSuccess(status.getJson_data());
-                } else if (status.getState() == 0) {
-                    listener.onServerException(status.getException());
-                } else {
-                    listener.onServerException(status.getException());
+                if (response.isSuccessful()&&status!=null) {
+
+                    if (status.getState() == 1) {
+                        listener.onSuccess(status.getJson_data());
+                    } else if (status.getState() == 0) {
+                        listener.onServerException(status.getException());
+                    } else {
+                        listener.onServerException(status.getException());
+                    }
+                }
+                else{
+                    listener.onFailure(response.message());
                 }
             }
 

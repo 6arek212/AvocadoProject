@@ -75,7 +75,7 @@ public class LoginMethods {
                     Status status = response.body();
                     Log.d(TAG, "onResponse: " + status);
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful()&&status!=null) {
                         if (status.getState() == 1) {
                             Log.d(TAG, "onResponse: " + status);
 
@@ -123,7 +123,7 @@ public class LoginMethods {
                 public void onResponse(Call<Status> call, Response<Status> response) {
                     Status status = response.body();
                     Log.d(TAG, "onResponse: " + status);
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful()&&status!=null) {
 
                         if (status.getState() == 1) {
                             listener.onSuccess();

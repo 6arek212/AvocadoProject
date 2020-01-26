@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -16,6 +17,7 @@ import com.example.testavocado.Models.Setting;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.Permissions;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -111,9 +113,9 @@ public class SearchConnectionFragment extends Fragment {
         numberPicker.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
             @Override
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
-                Log.d(TAG, "onRangeChangeListener: "+rightPinIndex);
+                Log.d(TAG, "onRangeChangeListener: " + rightPinIndex);
                 if (mNearByUsers.isChecked())
-                    getNearbyUsers(0, lat, longi,rightPinIndex);
+                    getNearbyUsers(0, lat, longi, rightPinIndex);
             }
 
             @Override
@@ -131,21 +133,20 @@ public class SearchConnectionFragment extends Fragment {
         getUsers(0);
 
 
-
         mNearByUsers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 if (isChecked) {
-                    SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(mContext);
-                    boolean _switch=sharedPreferences.getBoolean(getString(R.string.location_switch),false);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    boolean _switch = sharedPreferences.getBoolean(getString(R.string.location_switch), false);
 
-                    if (_switch){
+                    if (_switch) {
                         adapter.searchByLocation = true;
                         numberPicker.setVisibility(View.VISIBLE);
                         adapter.clearList();
                         getLocation();
-                    }else {
+                    } else {
                         Snackbar.make(requireActivity().findViewById(android.R.id.content), "You have to enable the location in settings", Snackbar.LENGTH_SHORT).show();
                     }
 
@@ -162,7 +163,7 @@ public class SearchConnectionFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (mNearByUsers.isChecked()) {
-                    getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
+                    getNearbyUsers(0, lat, longi, numberPicker.getRightIndex());
 
                 } else {
                     getUsers(0);
@@ -194,26 +195,29 @@ public class SearchConnectionFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mSearchName.getText().toString().trim().isEmpty()) {
-                    Log.d(TAG, "afterTextChanged: if " + mSearchName.getText().toString().length());
-                    adapter.clearList();
-
+//                if (mSearchName.getText().toString().trim().isEmpty()) {
+//                    Log.d(TAG, "afterTextChanged: if " + mSearchName.getText().toString().length());
+//                    adapter.clearList();
+//                    getUsers(0);
+//
+//                } else {
+//                    Log.d(TAG, "afterTextChanged: else " + mSearchName.getText().toString().length());
+//                    if (mNearByUsers.isChecked()) {
+//                        getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
+//
+//                    } else {
+//                        getUsers(0);
+//                    }
+//                }
+                if (mNearByUsers.isChecked()) {
+                    getNearbyUsers(0, lat, longi, numberPicker.getRightIndex());
 
                 } else {
-                    Log.d(TAG, "afterTextChanged: else " + mSearchName.getText().toString().length());
-                    if (mNearByUsers.isChecked()) {
-                        getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
-
-                    } else {
-                        getUsers(0);
-                    }
+                    getUsers(0);
                 }
             }
         });
     }
-
-
-
 
 
     /**
@@ -233,8 +237,8 @@ public class SearchConnectionFragment extends Fragment {
                                 loading = true;
 
                                 if (mNearByUsers.isChecked())
-                                    getNearbyUsers(adapter.getItemCount(), lat, longi,numberPicker.getRightIndex());
-                                 else
+                                    getNearbyUsers(adapter.getItemCount(), lat, longi, numberPicker.getRightIndex());
+                                else
                                     getUsers(adapter.getItemCount());
 
                             }
@@ -257,9 +261,6 @@ public class SearchConnectionFragment extends Fragment {
     }
 
 
-
-
-
     /***
      *
      *              getting users by name
@@ -267,7 +268,7 @@ public class SearchConnectionFragment extends Fragment {
      * @param offset
      */
 
-    private void getUsers(int offset) {
+    private void getUsers(final int offset) {
         if (offset == 0) {
             datetime = TimeMethods.getUTCdatetimeAsString();
             adapter.is_endOfPosts = false;
@@ -283,6 +284,8 @@ public class SearchConnectionFragment extends Fragment {
                     public void onSuccessListener(List<UserAdd> list) {
                         Log.d(TAG, "onSuccessListener: " + list.size());
                         adapter.removeProg();
+                        if (offset == 0)
+                            adapter.clearList();
                         adapter.addNewSetUserToAdd(list, adapter.getItemCount());
                         mSwipe.setRefreshing(false);
                         loading = false;
@@ -325,7 +328,7 @@ public class SearchConnectionFragment extends Fragment {
      * @param latitude
      * @param longitude
      */
-    private void getNearbyUsers(int offset, double latitude, double longitude,final int km) {
+    private void getNearbyUsers(int offset, double latitude, double longitude, final int km) {
         if (offset == 0) {
             adapter.clearList();
             datetime = TimeMethods.getUTCdatetimeAsString();
@@ -335,16 +338,14 @@ public class SearchConnectionFragment extends Fragment {
         adapter.addNull();
 
 
-        ConnectionsHandler.getNearByUsers(user_current_id, latitude, longitude, km,mSearchName.getText().toString(), datetime, offset, new ConnectionsHandler.OnGettingNearByUsersListener() {
+        ConnectionsHandler.getNearByUsers(user_current_id, latitude, longitude, km, mSearchName.getText().toString(), datetime, offset, new ConnectionsHandler.OnGettingNearByUsersListener() {
             @Override
             public void onSuccessListener(List<UserAdd> userAddList) {
-                Log.d(TAG, "onSuccessListener: "+userAddList.size());
+                Log.d(TAG, "onSuccessListener: " + userAddList.size());
                 adapter.removeProg();
 
                 if (km == numberPicker.getRightIndex())
                     adapter.addNewSetUserToAdd(userAddList, adapter.getItemCount());
-
-
 
 
                 mSwipe.setRefreshing(false);
@@ -381,12 +382,10 @@ public class SearchConnectionFragment extends Fragment {
     }
 
 
-  
-    
-    private final android.location.LocationListener mLocationListener = new LocationListener(){
+    private final android.location.LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            Log.d(TAG, "onLocationChanged: "+location);
+            Log.d(TAG, "onLocationChanged: " + location);
             Toast.makeText(mContext, "got location", Toast.LENGTH_SHORT).show();
         }
 
@@ -410,9 +409,6 @@ public class SearchConnectionFragment extends Fragment {
     };
 
 
-
-
-
     /***
      *
      *
@@ -432,20 +428,20 @@ public class SearchConnectionFragment extends Fragment {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
 
-            String str[] ={GPS,GPS2};
-            Permissions.verifyPermission(str,getActivity());
+            String str[] = {GPS, GPS2};
+            Permissions.verifyPermission(str, getActivity());
             return;
         }
 
         LocationManager mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestSingleUpdate( LocationManager.GPS_PROVIDER, mLocationListener, null );
+        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null);
 
 
         Location l1 = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Location l2 = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         Location l3 = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
-        Log.d(TAG, "getLocation: get location "+l1+" "+l2+" "+l3+"   ");
+        Log.d(TAG, "getLocation: get location " + l1 + " " + l2 + " " + l3 + "   ");
         if (l1 != null) {
             Log.d(TAG, "updateLocation12: got it l1");
             lat = l1.getLatitude();
@@ -471,7 +467,7 @@ public class SearchConnectionFragment extends Fragment {
             mNearByUsers.setChecked(false);
         }
 
-        getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
+        getNearbyUsers(0, lat, longi, numberPicker.getRightIndex());
     }
 
 
@@ -496,7 +492,6 @@ public class SearchConnectionFragment extends Fragment {
             }
         });
     }
-
 
 
 }
