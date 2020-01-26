@@ -39,7 +39,7 @@ public class RegisterMethods {
         Call<Status> sendNotification(@Query("token") String token,@Query("title") String title, @Query("body") String body);
 
 
-        @POST("api/Notification/updateToken")
+        @GET("api/Notification/updateToken")
         Call<Status> updateToken(@Query("token") String token,@Query("user_id") int user_id);
     }
 

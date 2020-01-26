@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class User {
+
     @SerializedName("User_first_name")
     private String user_first_name;
 

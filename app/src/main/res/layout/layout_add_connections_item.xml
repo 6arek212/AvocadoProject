@@ -32,8 +32,9 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:id="@+id/profileConnection">
 
                         <de.hdodenhof.circleimageview.CircleImageView

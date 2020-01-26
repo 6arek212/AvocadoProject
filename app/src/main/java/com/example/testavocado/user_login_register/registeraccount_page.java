@@ -105,11 +105,14 @@ public class registeraccount_page extends AppCompatActivity {
                   //  Validation validation=new Validation(mycontext);
 
                    // validation.Email(newaccount.getUser_emil());
+                    if (edtxt_user_firstname.getText().toString().trim().isEmpty() || edtxt_user_lastname.getText().toString().trim().isEmpty() || edtxt_user_emil.getText().toString().trim().isEmpty() || edtxt_user_password.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(mycontext, getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     if(validateinfo(newaccount)==1) {
                         mProgressBar.setVisibility(View.VISIBLE);
-                        if (edtxt_user_firstname.getText().toString().trim().isEmpty() || edtxt_user_lastname.getText().toString().trim().isEmpty() || edtxt_user_emil.getText().toString().trim().isEmpty() || edtxt_user_password.getText().toString().trim().isEmpty())
-                            Toast.makeText(mycontext, getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+
 
                         RegisterMethods.onRegisteringNewUser(newaccount.getUser_firstname(), newaccount.getUser_lastname(), newaccount.getUser_emil(), newaccount.getUser_password()
                                 , TimeMethods.getUTCdatetimeAsString(), mycontext, new RegisterMethods.onLoginRegister() {
@@ -186,8 +189,6 @@ public class registeraccount_page extends AppCompatActivity {
             String lastname2 = edtxt_user_lastname.getText().toString().trim();
             String emil = edtxt_user_emil.getText().toString().trim();
             String password = edtxt_user_password.getText().toString().trim();
-
-            registerbtn.setEnabled(!firstname2.isEmpty() && !lastname2.isEmpty() && !emil.isEmpty() && !password.isEmpty());
         }
 
         @Override
@@ -204,7 +205,6 @@ public class registeraccount_page extends AppCompatActivity {
         arrow_image = (ImageView) findViewById(R.id.imgv_merge_register_arrow);
         parentreltive = (RelativeLayout) findViewById(R.id.realtive_registeraccountboss_page);
         registerbtn = (Button) findViewById(R.id.btn_register_merge_registeraccount);
-        registerbtn.setEnabled(false);
         // register widgets
         edtxt_user_firstname = (EditText) findViewById(R.id.edtxt_firstname_merge_registeraccount);
         edtxt_user_lastname = (EditText) findViewById(R.id.edtxt_lastname_merge_registeraccount);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -124,7 +125,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder vh;
 
         if (i == 0) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_add_connections_item, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_add_connections_item_test, viewGroup, false);
             vh = new UserViewHolder(v);
         } else if (i == 1) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(
@@ -233,10 +234,11 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
      */
     public class UserViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mUserFullName, mDistance;
+        TextView mUserFullName, mDistance,mAlredyFriendsLayout;
         Button mAdd, mDelete, mAccept;
         ImageButton mDeny;
-        RelativeLayout mainRowLayout, requestsLayout, addingRemovingFriendsLayout, profileConnection, mAlredyFriendsLayout;
+        //RelativeLayout mainRowLayout, requestsLayout, addingRemovingFriendsLayout, profileConnection, mAlredyFriendsLayout;
+        ConstraintLayout requestsLayout,addingRemovingFriendsLayout,mainRowLayout,profileConnection;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -317,7 +319,24 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
         }
 
         public void profile() {
-            profileConnection.setOnClickListener(new View.OnClickListener() {
+            mProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileFragment fragment = new ProfileFragment();
+                    fragment.is_current_user = false;
+                    fragment.incoming_user_id = userAddList.get(getAdapterPosition()).getUser_id();
+                    FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    HelpMethods.closeKeyboard(activity);
+                    if (mContext instanceof ConnectionsActivity){
+                        tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }else {
+                        tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }
+                }
+            });
+
+            mUserFullName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ProfileFragment fragment = new ProfileFragment();

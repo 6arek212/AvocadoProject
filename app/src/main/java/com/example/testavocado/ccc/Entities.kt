@@ -25,10 +25,15 @@ data class Chat(
 
 @Entity(tableName = "chats_tbl")
 @Parcelize
-data class Chat3(val name:String?="",
+data class Chat3(var name:String?="",
                  @PrimaryKey(autoGenerate = false)
-                 var chatId:String="", var sender:Int?=0, val with:Int=0, val profileImg:String?="",
-                 val lastMsgDatetime:String?="", val lastMsg:String?="",val online:Boolean?=false,
+                 var chatId:String="",
+                 var sender:Int?=0,
+                 var with:Int=0,
+                 var profileImg:String?="",
+                 val lastMsgDatetime:String?="",
+                 val lastMsg:String?="",
+                 val online:Boolean?=false,
                  var notRead:Int?=0,
                  var token:String?=null):Parcelable
 

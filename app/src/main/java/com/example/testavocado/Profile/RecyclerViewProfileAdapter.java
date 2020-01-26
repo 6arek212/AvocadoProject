@@ -9,6 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.example.testavocado.Chat.ChatActivity;
+import com.example.testavocado.ccc.Chat3;
+import com.example.testavocado.ccc.MainActivity;
+import com.example.testavocado.ccc.MessageFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -48,8 +51,11 @@ import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.ImagesViewPagerClick;
 import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,7 +171,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         int type = viewHolder.getItemViewType();
 
-        Log.d(TAG, "onBindViewHolder: "+postsList.get(i));
+        Log.d(TAG, "onBindViewHolder: " + postsList.get(i));
 
         if (type == PROFILE_LAYOUT) {
             InfoViewHolder v1 = (InfoViewHolder) viewHolder;
@@ -200,14 +206,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     v1.friendRequestSentLayout.setVisibility(View.GONE);
                     v1.AddFriendLayout.setVisibility(View.GONE);
 
-                    setFriendsLayout(v1);
+                    v1.setFriendsLayout();
                 } else if (addingLayoutType == FRIENDS_REQUEST_SENT) {
                     v1.friendsLayout.setVisibility(View.GONE);
                     v1.friendRequestRecivedLayout.setVisibility(View.GONE);
                     v1.friendRequestSentLayout.setVisibility(View.VISIBLE);
                     v1.AddFriendLayout.setVisibility(View.GONE);
 
-                    setFriendsRequestSendLayout(v1);
+                    v1.setFriendsRequestSendLayout();
 
                 } else if (addingLayoutType == FRIENDS_REQUEST_RECEIVED) {
                     v1.friendsLayout.setVisibility(View.GONE);
@@ -215,7 +221,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     v1.friendRequestSentLayout.setVisibility(View.GONE);
                     v1.AddFriendLayout.setVisibility(View.GONE);
 
-                    setFriendsRequestReceived(v1);
+                    v1.setFriendsRequestReceived();
 
                 } else {
                     v1.friendsLayout.setVisibility(View.GONE);
@@ -223,8 +229,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     v1.friendRequestSentLayout.setVisibility(View.GONE);
                     v1.AddFriendLayout.setVisibility(View.VISIBLE);
 
-                    setAddFriendLayout(v1);
-
+                    v1.setAddFriendLayout();
                 }
             }
 
@@ -313,9 +318,6 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             }
 
 
-
-
-
             if (postsList.get(i).getPost_images_url().isEmpty()) {
                 v1.mImageSlider.setVisibility(View.GONE);
                 v1.mDots.setVisibility(View.GONE);
@@ -332,11 +334,10 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.likeFragment();
             v1.share();
 
-            if (is_current_user){
+            if (is_current_user) {
                 v1.mPostOptions.setVisibility(View.VISIBLE);
                 v1.bottomSheet();
-            }
-            else{
+            } else {
                 v1.mPostOptions.setVisibility(View.GONE);
             }
 
@@ -374,211 +375,6 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
 
     }
-
-
-    private void setAddFriendLayout(final InfoViewHolder v1) {
-        v1.btnAddFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.onSendingNewFriendRequest(user_id, incomingUserId, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnStatusRegisterListener() {
-                    @Override
-                    public void onSuccessListener(int request_id) {
-                        user.setFriend_request_id(request_id);
-
-
-                        v1.friendsLayout.setVisibility(View.GONE);
-                        v1.friendRequestRecivedLayout.setVisibility(View.GONE);
-                        v1.friendRequestSentLayout.setVisibility(View.VISIBLE);
-                        v1.AddFriendLayout.setVisibility(View.GONE);
-
-                        setFriendsRequestSendLayout(v1);
-                    }
-
-                    @Override
-                    public void onServerException(String ex) {
-                        Log.d(TAG, "onServerException: " + ex);
-
-                    }
-
-                    @Override
-                    public void onFailureListener(String ex) {
-                        Log.d(TAG, "onFailureListener: " + ex);
-
-                    }
-                });
-            }
-        });
-    }
-
-
-    private void setFriendsRequestReceived(final InfoViewHolder v1) {
-        v1.btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.acceptFriendRequest(user.getFriend_request_id(),incomingUserId,user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
-                    @Override
-                    public void onSuccessListener() {
-                        v1.friendsLayout.setVisibility(View.VISIBLE);
-                        v1.friendRequestRecivedLayout.setVisibility(View.GONE);
-                        v1.friendRequestSentLayout.setVisibility(View.GONE);
-                        v1.AddFriendLayout.setVisibility(View.GONE);
-
-                        setFriendsLayout(v1);
-
-                    }
-
-                    @Override
-                    public void onServer(String ex) {
-                        Log.d(TAG, "onServer: " + ex);
-
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: " + ex);
-
-                    }
-                });
-            }
-        });
-
-
-        v1.btnDeleteConnection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
-                    @Override
-                    public void onSuccessListener() {
-                        v1.friendsLayout.setVisibility(View.GONE);
-                        v1.friendRequestRecivedLayout.setVisibility(View.GONE);
-                        v1.friendRequestSentLayout.setVisibility(View.GONE);
-                        v1.AddFriendLayout.setVisibility(View.VISIBLE);
-
-                        setAddFriendLayout(v1);
-                    }
-
-                    @Override
-                    public void onServer(String ex) {
-                        Log.d(TAG, "onServer: " + ex);
-
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: " + ex);
-
-                    }
-                });
-
-            }
-        });
-    }
-
-
-    private void setFriendsLayout(final InfoViewHolder v1) {
-
-        v1.mFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.setTitle("are you sure you want to remove connection ? ");
-
-                confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
-                    @Override
-                    public void onConfirm() {
-                        ConnectionsHandler.RemoveFriend(user.getFriend_request_id(), user_id, incomingUserId, new ConnectionsHandler.OnRemovingFriendListener() {
-                            @Override
-                            public void onSuccessListener() {
-                                v1.friendsLayout.setVisibility(View.GONE);
-                                v1.friendRequestRecivedLayout.setVisibility(View.GONE);
-                                v1.friendRequestSentLayout.setVisibility(View.GONE);
-                                v1.AddFriendLayout.setVisibility(View.VISIBLE);
-
-                                setAddFriendLayout(v1);
-
-                                confirmDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onServer(String ex) {
-                                Log.d(TAG, "onServer: " + ex);
-
-                            }
-
-                            @Override
-                            public void onFailure(String ex) {
-                                Log.d(TAG, "onFailure: " + ex);
-
-                            }
-                        });
-                    }
-                });
-
-
-                confirmDialog.setCancelable(true);
-                confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
-            }
-        });
-
-
-        v1.mMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = firebaseDatabase.getReference();
-
-
-               // myRef.child("users").child(user.get)    ;
-
-                mContext.startActivity(new Intent(mContext, ChatActivity.class));
-            }
-        });
-
-    }
-
-
-    private void setFriendsRequestSendLayout(final InfoViewHolder v1) {
-
-        v1.btnRemoveRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
-                    @Override
-                    public void onSuccessListener() {
-                        v1.friendsLayout.setVisibility(View.GONE);
-                        v1.friendRequestRecivedLayout.setVisibility(View.GONE);
-                        v1.friendRequestSentLayout.setVisibility(View.GONE);
-                        v1.AddFriendLayout.setVisibility(View.VISIBLE);
-
-                        setAddFriendLayout(v1);
-                    }
-
-                    @Override
-                    public void onServer(String ex) {
-                        Log.d(TAG, "onServer: " + ex);
-
-                    }
-
-                    @Override
-                    public void onFailure(String ex) {
-                        Log.d(TAG, "onFailure: " + ex);
-
-                    }
-                });
-
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -631,7 +427,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         PostMethods.removeLike(postsList.get(index).getLike_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnLikeRemoved: "+postsList.get(index).getLike_id());
+                Log.d(TAG, "OnLikeRemoved: " + postsList.get(index).getLike_id());
                 postsList.get(index).setLike_id(-1);
                 btn.setText("Like");
 
@@ -722,9 +518,6 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
     @Override
     public int getItemCount() {
         return postsList.size();
@@ -768,7 +561,6 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             expand = itemView.findViewById(R.id.button_toggle);
             mPostText.setInterpolator(new OvershootInterpolator());
         }
-
 
 
         public void like() {
@@ -930,17 +722,17 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                     bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
-                    bottomSheetDialog.post_saved=postsList.get(getAdapterPosition()).getSaved_post_id();
+                    bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
                     bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
 
                     bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
                         @Override
                         public void onHide() {
-                            try{
+                            try {
                                 postsList.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition());
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
 
@@ -948,10 +740,10 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
                         @Override
                         public void onDelete() {
-                            try{
+                            try {
                                 postsList.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition());
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
                         }
@@ -1045,6 +837,239 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     ((Activity) mContext).startActivityForResult(myintent, 2);
                     break;
             }
+        }
+
+        public void setFriendsLayout() {
+            mFriends.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ConfirmDialog confirmDialog = new ConfirmDialog();
+                    confirmDialog.setTitle("are you sure you want to remove connection ? ");
+
+                    confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
+                        @Override
+                        public void onConfirm() {
+                            ConnectionsHandler.RemoveFriend(user.getFriend_request_id(), user_id, incomingUserId, new ConnectionsHandler.OnRemovingFriendListener() {
+                                @Override
+                                public void onSuccessListener() {
+                                    friendsLayout.setVisibility(View.GONE);
+                                    friendRequestRecivedLayout.setVisibility(View.GONE);
+                                    friendRequestSentLayout.setVisibility(View.GONE);
+                                    AddFriendLayout.setVisibility(View.VISIBLE);
+
+                                    setAddFriendLayout();
+
+                                    confirmDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onServer(String ex) {
+                                    Log.d(TAG, "onServer: " + ex);
+
+                                }
+
+                                @Override
+                                public void onFailure(String ex) {
+                                    Log.d(TAG, "onFailure: " + ex);
+
+                                }
+                            });
+                        }
+                    });
+
+
+                    confirmDialog.setCancelable(true);
+                    confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
+                }
+            });
+
+
+            mMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = firebaseDatabase.getReference();
+
+
+                    myRef.child("users").child(String.valueOf(user_id))
+                            .child("friends")
+                            .child(String.valueOf(incomingUserId))
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    String chatId, name, profileImage;
+                                    Integer sender, with;
+
+                                    chatId = dataSnapshot.child("chatId").getValue(String.class);
+                                    sender = dataSnapshot.child("sender").getValue(Integer.class);
+                                    with = dataSnapshot.child("with").getValue(Integer.class);
+
+                                    name = user.getUser_first_name() + " " + user.getUser_last_name();
+                                    profileImage = user.getUser_profile_photo();
+
+                                    Chat3 chat3 = new Chat3();
+                                    if (chatId != null)
+                                        chat3.setChatId(chatId);
+                                    if (sender == null)
+                                        chat3.setSender(0);
+                                    else
+                                        chat3.setSender(sender);
+
+                                    chat3.setWith(with);
+                                    chat3.setName(name);
+                                    chat3.setProfileImg(profileImage);
+
+
+                                    Log.d(TAG, "onDataChange: check if they have chat : " + dataSnapshot + "  with " + with + "   sender " + sender + "  chatId " + chatId);
+
+                                    Intent intent = new Intent(mContext, MainActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelable("chat", chat3);
+                                    intent.putExtra("chat", bundle);
+                                    mContext.startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                    //mContext.startActivity(new Intent(mContext, ChatActivity.class));
+                }
+            });
+
+        }
+
+        public void setFriendsRequestSendLayout() {
+            btnRemoveRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                        @Override
+                        public void onSuccessListener() {
+                            friendsLayout.setVisibility(View.GONE);
+                            friendRequestRecivedLayout.setVisibility(View.GONE);
+                            friendRequestSentLayout.setVisibility(View.GONE);
+                            AddFriendLayout.setVisibility(View.VISIBLE);
+
+                            setAddFriendLayout();
+                        }
+
+                        @Override
+                        public void onServer(String ex) {
+                            Log.d(TAG, "onServer: " + ex);
+
+                        }
+
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: " + ex);
+
+                        }
+                    });
+
+                }
+            });
+        }
+
+        public void setFriendsRequestReceived() {
+            btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.acceptFriendRequest(user.getFriend_request_id(), incomingUserId, user_id, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                        @Override
+                        public void onSuccessListener() {
+                            friendsLayout.setVisibility(View.VISIBLE);
+                            friendRequestRecivedLayout.setVisibility(View.GONE);
+                            friendRequestSentLayout.setVisibility(View.GONE);
+                            AddFriendLayout.setVisibility(View.GONE);
+
+                            setFriendsLayout();
+
+                        }
+
+                        @Override
+                        public void onServer(String ex) {
+                            Log.d(TAG, "onServer: " + ex);
+
+                        }
+
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: " + ex);
+
+                        }
+                    });
+                }
+            });
+
+
+            btnDeleteConnection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                        @Override
+                        public void onSuccessListener() {
+                            friendsLayout.setVisibility(View.GONE);
+                            friendRequestRecivedLayout.setVisibility(View.GONE);
+                            friendRequestSentLayout.setVisibility(View.GONE);
+                            AddFriendLayout.setVisibility(View.VISIBLE);
+
+                            setAddFriendLayout();
+                        }
+
+                        @Override
+                        public void onServer(String ex) {
+                            Log.d(TAG, "onServer: " + ex);
+
+                        }
+
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: " + ex);
+
+                        }
+                    });
+
+                }
+            });
+        }
+
+        public void setAddFriendLayout() {
+            btnAddFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.onSendingNewFriendRequest(user_id, incomingUserId, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnStatusRegisterListener() {
+                        @Override
+                        public void onSuccessListener(int request_id) {
+                            user.setFriend_request_id(request_id);
+
+
+                            friendsLayout.setVisibility(View.GONE);
+                            friendRequestRecivedLayout.setVisibility(View.GONE);
+                            friendRequestSentLayout.setVisibility(View.VISIBLE);
+                            AddFriendLayout.setVisibility(View.GONE);
+
+                            setFriendsRequestSendLayout();
+                        }
+
+                        @Override
+                        public void onServerException(String ex) {
+                            Log.d(TAG, "onServerException: " + ex);
+
+                        }
+
+                        @Override
+                        public void onFailureListener(String ex) {
+                            Log.d(TAG, "onFailureListener: " + ex);
+
+                        }
+                    });
+                }
+            });
         }
     }
 

@@ -85,6 +85,8 @@ class MessagesRepository(
     init {
         checkNetwork()
         _error.value = null
+        Log.d("checkSender","$chat")
+
         if (chat.sender == 0) {
             chat.sender = userId
             isTheSender = true
@@ -411,6 +413,8 @@ class MessagesRepository(
 
                 }
             })
+
+
 
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key

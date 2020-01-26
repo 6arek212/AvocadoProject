@@ -150,6 +150,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public boolean Show;
     public int post_type;
 
+    public static int POST_CODE=55;
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
@@ -159,7 +160,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mAddPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity) mContext).startActivity(new Intent(mContext, AddNewPostActivity.class));
+                    ((BaseActivity) mContext).startActivityForResult(new Intent(mContext, AddNewPostActivity.class),POST_CODE);
                 }
             });
 
