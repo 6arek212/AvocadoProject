@@ -451,21 +451,18 @@ public class SearchConnectionFragment extends Fragment {
             lat = l1.getLatitude();
             longi = l1.getLongitude();
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l1.getLatitude(), l1.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l1.getLatitude(), l1.getLongitude());
         } else if (l2 != null) {
             Log.d(TAG, "updateLocation12: got it l2 " + l2);
             lat = l2.getLatitude();
             longi = l2.getLongitude();
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l2.getLatitude(), l2.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l2.getLatitude(), l2.getLongitude());
         } else if (l3 != null) {
             Log.d(TAG, "updateLocation12: got it l3 " + l3);
             lat = l3.getLatitude();
             longi = l3.getLongitude();
             adapter.searchByLocation = true;
-            getNearbyUsers(0, l3.getLatitude(), l3.getLongitude(),numberPicker.getRightIndex());
             updateLocationInServer(l3.getLatitude(), l3.getLongitude());
         } else {
             numberPicker.setVisibility(View.GONE);
@@ -474,7 +471,7 @@ public class SearchConnectionFragment extends Fragment {
             mNearByUsers.setChecked(false);
         }
 
-        getUsers(0);
+        getNearbyUsers(0, lat, longi,numberPicker.getRightIndex());
     }
 
 
