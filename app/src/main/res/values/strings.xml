@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Avocado</string>
-
+    <string name="changepassword">Change password</string>
     <string name="personalinformation">Personal Information</string>
     <string name="emailaddress">Email Address</string>
     <string name="name">Name</string>
