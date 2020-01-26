@@ -19,7 +19,7 @@ public class Personal_information extends AppCompatActivity {
 
     private Context mcontext=Personal_information.this;
     private TextView txtv_name,txtv_emailaddress,txtv_phonenumber;
-    private LinearLayout linearLayout_name,linearLayout_email,linearLayout_phonenumber;
+    private LinearLayout linearLayout_name,linearLayout_email,linearLayout_phonenumber,linearLayout_changepassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,16 @@ public class Personal_information extends AppCompatActivity {
         linearLayout_name=(LinearLayout)findViewById(R.id.linear_layout_account_name);
         linearLayout_email=(LinearLayout)findViewById(R.id.linear_layout_account_emailaddress);
         linearLayout_phonenumber=(LinearLayout)findViewById(R.id.linear_layout_account_phonenumber);
+        linearLayout_changepassword=(LinearLayout)findViewById(R.id.linear_layout_account_Changepassword);
         //set on click
         linearLayout_name.setOnClickListener(new onclick());
         linearLayout_email.setOnClickListener(new onclick());
         linearLayout_phonenumber.setOnClickListener(new onclick());
+        linearLayout_changepassword.setOnClickListener(new onclick());
         // set widgets values
         Setting setting1= HelpMethods.getSharedPreferences(mcontext);
         txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
+
     }
 
 
@@ -72,6 +75,9 @@ public class Personal_information extends AppCompatActivity {
                             .beginTransaction()
                             .replace(R.id.constrainlayout1, new phonenumber_edit_fragment())
                             .addToBackStack("done").commit();
+                    break;
+                case R.id.linear_layout_account_Changepassword :
+                    Toast.makeText(mcontext, "Hello", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

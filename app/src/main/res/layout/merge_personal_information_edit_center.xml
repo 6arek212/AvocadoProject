@@ -97,6 +97,34 @@
                 android:text="@string/myphonenumber" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="2mm"
+            >
+        </TextView>
+
+        <LinearLayout
+            style="@style/linearlayout_style1"
+            android:id="@+id/linear_layout_account_Changepassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/changepassword" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtv_account_changepassword"
+                android:text="It's a good idea to use a string password that you're not using else where" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
