@@ -81,5 +81,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtv_selectdate_merge_ceneter_profile_register" />
 
+    <Button
+        android:id="@+id/btn_save_birthdate_update"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fingerprint_icon_size"
+        android:background="@drawable/btn_style4"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="@+id/txtv_selectdate_merge_ceneter_profile_register"
+        app:layout_constraintStart_toStartOf="@+id/txtv_selectdate_merge_ceneter_profile_register"
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        android:textAllCaps="false"
+        />
+
+    <Button
+        android:id="@+id/btn_cancel_birthdate_update"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn_style4"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/txtv_selectdate_merge_ceneter_profile_register"
+        app:layout_constraintStart_toStartOf="@+id/txtv_selectdate_merge_ceneter_profile_register"
+        app:layout_constraintTop_toBottomOf="@+id/btn_save_birthdate_update" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
