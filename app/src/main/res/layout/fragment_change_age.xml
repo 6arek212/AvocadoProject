@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/userlogin_style"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/linearlayout_full_changeage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="-50dp">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/merge_topbar_back_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/txtv_selectdate_merge_ceneter_profile_register"
+        android:layout_marginTop="32dp"
+        android:background="@color/light0"
+        android:textSize="3mm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/what_s_your_birthday"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+
+    <TextView
+        android:id="@+id/txtv_selectdate_merge_ceneter_profile_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/select_date"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+        app:layout_constraintStart_toStartOf="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_whatsyourbirthday_merge_ceneter_profile_register" />
+
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+
+        android:layout_marginTop="32dp"
+        android:background="@color/light0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_selectdate_merge_ceneter_profile_register" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,50 +7,46 @@
         android:orientation="vertical"
 
         >
+
         <TextView
+            style="@style/txtv_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/General"
-            android:layout_marginTop="4mm"
             android:layout_marginLeft="2mm"
-            style="@style/txtv_title1"
-            />
+            android:layout_marginTop="4mm"
+            android:text="@string/General" />
 
 
         <LinearLayout
-            style="@style/linearlayout_style1"
             android:id="@+id/linear_layout_account_name"
+            style="@style/linearlayout_style1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4mm"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 style="@style/txtv_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name"
-                />
+                android:text="@string/name" />
 
             <TextView
+                android:id="@+id/txtv_account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtv_account_name"
                 android:text="@string/myname" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"
             android:layout_marginTop="2mm"
-            >
-        </TextView>
+            android:background="@color/gray"></TextView>
 
         <LinearLayout
-            style="@style/linearlayout_style1"
             android:id="@+id/linear_layout_account_emailaddress"
+            style="@style/linearlayout_style1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -62,9 +58,9 @@
                 android:text="@string/emailaddress" />
 
             <TextView
+                android:id="@+id/txtv_account_emailaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtv_account_emailaddress"
                 android:text="@string/myemail" />
         </LinearLayout>
 
@@ -72,10 +68,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"
             android:layout_marginTop="2mm"
-            >
-        </TextView>
+            android:background="@color/gray"></TextView>
 
         <LinearLayout
             android:id="@+id/linear_layout_account_phonenumber"
@@ -91,23 +85,21 @@
                 android:text="@string/phonenumber" />
 
             <TextView
+                android:id="@+id/txtv_account_phonenumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtv_account_phonenumber"
                 android:text="@string/myphonenumber" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"
             android:layout_marginTop="2mm"
-            >
-        </TextView>
+            android:background="@color/gray"></TextView>
 
         <LinearLayout
-            style="@style/linearlayout_style1"
             android:id="@+id/linear_layout_account_Changepassword"
+            style="@style/linearlayout_style1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -119,9 +111,9 @@
                 android:text="@string/changepassword" />
 
             <TextView
+                android:id="@+id/txtv_account_changepassword"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtv_account_changepassword"
                 android:text="It's a good idea to use a string password that you're not using else where" />
         </LinearLayout>
 
@@ -129,9 +121,35 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"
             android:layout_marginTop="2mm"
-            >
-        </TextView>
+            android:background="@color/gray"></TextView>
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_account_Changebirthdate"
+            style="@style/linearlayout_style1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/birthdate_change_title" />
+
+            <TextView
+                android:id="@+id/txtv_birthdate_modify"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="test"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2mm"
+            android:background="@color/gray"></TextView>
     </LinearLayout>
 </merge>

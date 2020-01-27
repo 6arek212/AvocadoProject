@@ -20,6 +20,7 @@ public class Personal_information extends AppCompatActivity {
     private Context mcontext=Personal_information.this;
     private TextView txtv_name,txtv_emailaddress,txtv_phonenumber;
     private LinearLayout linearLayout_name,linearLayout_email,linearLayout_phonenumber,linearLayout_changepassword;
+    private LinearLayout linearLayout_birthdate_change;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,13 @@ public class Personal_information extends AppCompatActivity {
         linearLayout_email=(LinearLayout)findViewById(R.id.linear_layout_account_emailaddress);
         linearLayout_phonenumber=(LinearLayout)findViewById(R.id.linear_layout_account_phonenumber);
         linearLayout_changepassword=(LinearLayout)findViewById(R.id.linear_layout_account_Changepassword);
+        linearLayout_birthdate_change=(LinearLayout)findViewById(R.id.linear_layout_account_Changebirthdate);
         //set on click
         linearLayout_name.setOnClickListener(new onclick());
         linearLayout_email.setOnClickListener(new onclick());
         linearLayout_phonenumber.setOnClickListener(new onclick());
         linearLayout_changepassword.setOnClickListener(new onclick());
+        linearLayout_birthdate_change.setOnClickListener(new onclick());
         // set widgets values
         Setting setting1= HelpMethods.getSharedPreferences(mcontext);
         txtv_name.setText(setting1.getUser_first_name()+" "+setting1.getUser_last_name());
@@ -80,6 +83,14 @@ public class Personal_information extends AppCompatActivity {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.constrainlayout1, new Change_password_fragment())
+                            .addToBackStack("done").commit();
+                    break;
+
+                    //birthdate change
+                case R.id.linear_layout_account_Changebirthdate :
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.constrainlayout1, new change_age_fragment())
                             .addToBackStack("done").commit();
                     break;
             }
