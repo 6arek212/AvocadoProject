@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.example.testavocado.Chat.ChatActivity;
+import com.example.testavocado.Connection.ConnectionsActivity;
 import com.example.testavocado.ccc.Chat3;
 import com.example.testavocado.ccc.MainActivity;
 import com.example.testavocado.ccc.MessageFragment;
@@ -263,6 +264,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
             v1.mPostUserName.setText(postsList.get(i).getUser_name() + " " + postsList.get(i).getUser_last_name());
             v1.mPostText.setText(postsList.get(i).getPost_text());
+            v1.mPostTime.setText(postsList.get(i).getPost_date_time());
 
 
             v1.expand.setOnClickListener(new View.OnClickListener() {
@@ -655,7 +657,12 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     Bundle bundle = new Bundle();
                     bundle.putInt(mContext.getString(R.string.post_id), postsList.get(getAdapterPosition()).getPost_id());
                     fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
+                    FragmentManager fragmentManager;
+                    if (mContext instanceof BaseActivity)
+                         fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
+                    else
+                        fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+
                     FragmentTransaction tr = fragmentManager.beginTransaction();
                     tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                     tr.replace(R.id.baseLayout, fragment)
@@ -948,7 +955,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             btnRemoveRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id,incomingUserId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, incomingUserId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             friendsLayout.setVisibility(View.GONE);
@@ -1011,7 +1018,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             btnDeleteConnection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id,incomingUserId ,new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, incomingUserId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             friendsLayout.setVisibility(View.GONE);

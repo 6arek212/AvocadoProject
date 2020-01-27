@@ -96,6 +96,40 @@ public class HelpMethods {
         ed.apply();
     }
 
+
+    /**
+     * adding shared Preferences
+     */
+    public static void addChatNum(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor ed = preferences.edit();
+
+        int num=preferences.getInt("chatCount",0);
+        num++;
+        ed.putInt("chatCount", num);
+        ed.apply();
+    }
+
+    public static void clearChatNum(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor ed = preferences.edit();
+        ed.remove("chatCount");
+        ed.apply();
+    }
+
+    public static Integer getChatNum(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int num=preferences.getInt("chatCount",0);
+
+        if (num==0)
+            return null;
+        else
+            return num;
+    }
+
+
+
+
     /**
      * adding shared Preferences
      */

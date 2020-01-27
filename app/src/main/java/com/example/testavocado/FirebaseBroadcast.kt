@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.media.RingtoneManager
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.testavocado.Login.RegisterMethods
@@ -27,14 +28,22 @@ class FirebaseBroadcast : FirebaseMessagingService() {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
-
+        Log.d(TAG, "chat num count ${(HelpMethods.getChatNum(this)).toString()}")
 
         Log.d(TAG, "From: ${p0.from}   $index   isAppForground(this")
-        if (isAppForground(this))
+        if (isAppForground(this)){
             return
+        }
+
+
+        HelpMethods.addChatNum(this)
+
+
         // Check if message contains a notification payload.
         p0.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
+
+
 
             val notification = NotificationCompat.Builder(applicationContext,CHANNEL_1_ID)
                     .setContentTitle("New Message")

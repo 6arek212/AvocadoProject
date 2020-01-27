@@ -210,6 +210,8 @@ public class ProfileFragment extends Fragment {
                             posts = new ArrayList<>();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 posts.add(new Gson().fromJson(jsonArray.get(i).toString(), Post.class));
+                                posts.get(i).setPost_date_time(TimeMethods.getTimestampDifference(posts.get(i).getPost_date_time()));
+
                             }
 
 
