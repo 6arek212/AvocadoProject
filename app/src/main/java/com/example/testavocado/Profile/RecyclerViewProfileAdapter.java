@@ -666,19 +666,16 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     Bundle bundle = new Bundle();
                     bundle.putInt(mContext.getString(R.string.post_id), postsList.get(getAdapterPosition()).getPost_id());
                     fragment.setArguments(bundle);
-                    FragmentManager fragmentManager;
-                    try {
-                        if (mContext instanceof BaseActivity)
-                            fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
-                        else
-                            fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
-                        FragmentTransaction tr = fragmentManager.beginTransaction();
-                        tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                    Log.d(TAG, "onClick: likeFragment link " + (mContext instanceof BaseActivity));
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+
+                    if (mContext instanceof BaseActivity)
                         tr.replace(R.id.baseLayout, fragment)
                                 .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
-                    } catch (Exception e) {
-
-                    }
+                    else
+                        tr.replace(R.id.mainLayoutConnection, fragment)
+                                .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
 
                 }
             });
