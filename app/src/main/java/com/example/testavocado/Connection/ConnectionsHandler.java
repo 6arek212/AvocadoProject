@@ -255,12 +255,12 @@ public class ConnectionsHandler {
     }
 
 
-    public static void RemoveFriendRequest(int request_id,int user_id, final OnRemovingFriendRequestListener listener) {
-        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request request_id "+request_id+"   user id "+user_id);
+    public static void RemoveFriendRequest(int request_id,final int u1,final int u2, final OnRemovingFriendRequestListener listener) {
+        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request request_id "+request_id+"   user id current  "+u1);
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ConnectionsInterface interface1 = retrofit.create(ConnectionsInterface.class);
 
-        final Call<Status> ca = interface1.deleteRequest(request_id,user_id);
+        final Call<Status> ca = interface1.deleteRequest(request_id,u1);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
@@ -269,6 +269,34 @@ public class ConnectionsHandler {
 
                 if(response.isSuccessful() && status!=null){
                     if (status.getState() == 1) {
+
+
+                        final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                        fr.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String chatId=dataSnapshot.child(String.valueOf(u1)).child("friends").child(String.valueOf(u2))
+                                        .child("chatId").getValue(String.class);
+
+                                fr.child("users").child(String.valueOf(u1)).child("friends").child(String.valueOf(u2)).removeValue();
+                                fr.child("users").child(String.valueOf(u2)).child("friends").child(String.valueOf(u1)).removeValue();
+
+
+                                if(chatId!=null){
+                                    fr.child("users").child(String.valueOf(u1)).child("chats").child(chatId).removeValue();
+                                    fr.child("users").child(String.valueOf(u2)).child("chats").child(chatId).removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                            }
+                        });
+
+
+
                         listener.onSuccessListener();
                     } else if (status.getState() == 0) {
                         listener.onServer(status.getException());

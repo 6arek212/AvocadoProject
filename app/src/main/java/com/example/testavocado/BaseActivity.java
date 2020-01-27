@@ -315,13 +315,15 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(Build.VERSION.SDK_INT>=26){
-            startForegroundService(new Intent(mContext, BackgroundService.class));
-        }else{
-            startService(new Intent(mContext, BackgroundService.class));
+        try{
+            if(Build.VERSION.SDK_INT>=26){
+                startForegroundService(new Intent(mContext, BackgroundService.class));
+            }else{
+                startService(new Intent(mContext, BackgroundService.class));
+            }
+        }catch (Exception e){
+
         }
-
-
     }
 
 

@@ -947,7 +947,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             btnRemoveRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id,incomingUserId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             friendsLayout.setVisibility(View.GONE);
@@ -1010,7 +1010,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             btnDeleteConnection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(user.getFriend_request_id(), user_id,incomingUserId ,new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             friendsLayout.setVisibility(View.GONE);

@@ -1,17 +1,20 @@
 package com.example.testavocado.Utils;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.testavocado.BaseActivity;
 import com.example.testavocado.R;
 
 
@@ -27,7 +30,7 @@ public class ImagesViewPagerClick extends PagerAdapter {
 
     public ImagesViewPagerClick(Context context, List<String> imageUrls, FragmentManager fragmentManager) {
         this.context = context;
-        this.fragmentManager=fragmentManager;
+        this.fragmentManager = fragmentManager;
         this.imageUrls = imageUrls;
     }
 
@@ -51,10 +54,7 @@ public class ImagesViewPagerClick extends PagerAdapter {
         Log.d(TAG, "instantiateItem: " + position);
 
 
-
-            Log.d(TAG, "instantiateItem: adding image "+position+"   "+imageUrls.get(position));
-
-
+        Log.d(TAG, "instantiateItem: adding image " + position + "   " + imageUrls.get(position));
 
 
         Glide.with(context)
@@ -65,20 +65,23 @@ public class ImagesViewPagerClick extends PagerAdapter {
                 .into(imageView);
 
 
-
-
         imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentTransaction frt = fragmentManager.beginTransaction();
-                    frt.setCustomAnimations(R.animator.fade_in,R.animator.fade_out);
-                    ImageListFragment fragment = new ImageListFragment();
-                    fragment.imageUrls=imageUrls;
-                    fragment.index=position;
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction frt = fragmentManager.beginTransaction();
+                frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                ImageListFragment fragment = new ImageListFragment();
+                fragment.imageUrls = imageUrls;
+                fragment.index = position;
+                if (context instanceof BaseActivity)
                     frt.replace(R.id.baseLayout, fragment).addToBackStack(context.getString(R.string.image_list_fragment))
                             .commit();
+                else{
+                    frt.replace(R.id.mainLayoutConnection, fragment).addToBackStack(context.getString(R.string.image_list_fragment))
+                            .commit();
                 }
-            });
+            }
+        });
 
 
         container.addView(imageView);

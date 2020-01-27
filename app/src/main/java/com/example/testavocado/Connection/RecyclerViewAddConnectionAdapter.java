@@ -260,7 +260,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id,userAddList.get(getAdapterPosition()).getUser_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             Log.d(TAG, "onSuccessListener: ");
@@ -387,7 +387,7 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             mDeny.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id, new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                    ConnectionsHandler.RemoveFriendRequest(userAddList.get(getAdapterPosition()).getRequest_id(), current_user_id,userAddList.get(getAdapterPosition()).getUser_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
                         @Override
                         public void onSuccessListener() {
                             Log.d(TAG, "onSuccessListener: friend request denied ");
