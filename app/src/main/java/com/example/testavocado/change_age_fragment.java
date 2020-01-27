@@ -91,7 +91,16 @@ public class change_age_fragment extends Fragment {
             switch (view.getId())
             {
                 case R.id.btn_save_birthdate_update:
-                    Toast.makeText(mcontext, "Save", Toast.LENGTH_SHORT).show();
+
+                    //asking if the client selected a date if not will get toast message
+                    if (txtv_selectdate.getText().equals("Select Date")) {
+                        Toast.makeText(mcontext, getString(R.string.select_your_birthdate), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                    {
+
+                    }
                     break;
 
                 case R.id.btn_cancel_birthdate_update:
