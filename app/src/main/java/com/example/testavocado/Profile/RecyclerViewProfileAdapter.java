@@ -628,7 +628,16 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                                         mPostComments.setText(count + "");
                                         postsList.get(getAdapterPosition()).setPost_comments_count(count);
                                         mComment.setText("");
-                                        HelpMethods.closeKeyboard((BaseActivity) mContext);
+                                        try {
+                                            if (mContext instanceof BaseActivity)
+                                                HelpMethods.closeKeyboard((BaseActivity) mContext);
+                                            else {
+                                                HelpMethods.closeKeyboard((ConnectionsActivity) mContext);
+                                            }
+                                        } catch (Exception e) {
+
+                                        }
+
                                     }
 
                                     @Override
@@ -658,15 +667,19 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     bundle.putInt(mContext.getString(R.string.post_id), postsList.get(getAdapterPosition()).getPost_id());
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager;
-                    if (mContext instanceof BaseActivity)
-                         fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
-                    else
-                        fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+                    try {
+                        if (mContext instanceof BaseActivity)
+                            fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
+                        else
+                            fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
+                        FragmentTransaction tr = fragmentManager.beginTransaction();
+                        tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                        tr.replace(R.id.baseLayout, fragment)
+                                .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                    } catch (Exception e) {
 
-                    FragmentTransaction tr = fragmentManager.beginTransaction();
-                    tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-                    tr.replace(R.id.baseLayout, fragment)
-                            .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
+                    }
+
                 }
             });
         }
