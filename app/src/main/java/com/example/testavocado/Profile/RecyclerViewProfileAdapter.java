@@ -15,6 +15,7 @@ import com.example.testavocado.ccc.MessageFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
@@ -148,7 +149,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             vh = new InfoViewHolder(view);
 
         } else if (i == PROFILE_POSTS) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_post_item, viewGroup, false);
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_post_item_test, viewGroup, false);
             vh = new PostViewHolder(view);
         } else if (i == PROGRESS_BAR) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(
@@ -497,8 +498,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 postsList.get(index).setDis_like_id(-1);
                 btn.setText("DisLike");
 
-                int likeCount = postsList.get(index).getPost_likes_count() - 1;
-                postsList.get(index).setPost_likes_count(likeCount);
+                int likeCount = postsList.get(index).getPost_dislike_count() - 1;
+                postsList.get(index).setPost_dislike_count(likeCount);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     btn.setTextColor(mContext.getColor(android.R.color.tab_indicator_text));
@@ -530,7 +531,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
-        RelativeLayout commentsLayout, likeLayout, mPhotoLayout;
+        ConstraintLayout commentsLayout, likeLayout, mPhotoLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
         ExpandableTextView mPostText;
@@ -556,7 +557,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             mSharedPost = itemView.findViewById(R.id.sharedPost);
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
-            mPhotoLayout = itemView.findViewById(R.id.relLayout4);
+            mPhotoLayout = itemView.findViewById(R.id.mPhotoLayout);
 
             expand = itemView.findViewById(R.id.button_toggle);
             mPostText.setInterpolator(new OvershootInterpolator());

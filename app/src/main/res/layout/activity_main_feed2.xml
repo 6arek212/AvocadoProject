@@ -28,7 +28,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                tools:listitem="@layout/layout_post_item"
+                                tools:listitem="@layout/layout_post_item_test"
                                 >
 
                             </androidx.recyclerview.widget.RecyclerView>
