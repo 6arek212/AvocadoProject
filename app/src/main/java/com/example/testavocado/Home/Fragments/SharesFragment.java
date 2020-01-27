@@ -55,7 +55,7 @@ public class SharesFragment extends Fragment {
         mContext=getContext();
         user_id= HelpMethods.checkSharedPreferencesForUserId(mContext);
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new LikesAdapter(getContext(),user_id);
+        adapter = new LikesAdapter(getContext(),user_id,getFragmentManager());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         getShares();

@@ -321,11 +321,11 @@
         android:text="@string/dislike"
         android:textAlignment="center"
         android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/share"
+        app:layout_constraintBottom_toBottomOf="@+id/like"
         app:layout_constraintEnd_toEndOf="@+id/expandableTextView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/share"
-        app:layout_constraintTop_toTopOf="@+id/share"
+        app:layout_constraintTop_toTopOf="@+id/like"
         app:layout_constraintVertical_bias="1.0" />
 
 

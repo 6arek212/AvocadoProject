@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ import com.example.testavocado.Utils.SectionStatePagerAdapter;
 import com.example.testavocado.Utils.TimeMethods;
 
 public class LikesDislikesFragment extends Fragment {
-
+    private static final String TAG = "LikesDislikesFragment";
     private TabLayout mtab;
     private ViewPager pager;
     public static int post_id;
@@ -28,10 +30,8 @@ public class LikesDislikesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_like_dislike,container,false);
 
+        Log.d(TAG, "onCreateView: post_id "+post_id+"  "+datetime);
         initWidgets(view);
-
-
-
         return view;
     }
 
@@ -43,7 +43,7 @@ public class LikesDislikesFragment extends Fragment {
         mtab.setupWithViewPager(pager);
         datetime= TimeMethods.getUTCdatetimeAsString();
 
-        SectionStatePagerAdapter adapter=new SectionStatePagerAdapter(getFragmentManager());
+        SectionStatePagerAdapter adapter=new SectionStatePagerAdapter(getChildFragmentManager());
         adapter.addFragment(new LikesFragment());
         adapter.addFragment(new DisLikesFragment());
 
@@ -60,8 +60,12 @@ public class LikesDislikesFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        Bundle bundle=getArguments();
-        post_id=bundle.getInt(context.getString(R.string.post_id));
+        try{
+            Bundle bundle=getArguments();
+            post_id=bundle.getInt(context.getString(R.string.post_id));
+
+        }catch (Exception e){}
+
 
     }
 }

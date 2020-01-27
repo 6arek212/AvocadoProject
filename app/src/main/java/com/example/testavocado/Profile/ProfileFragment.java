@@ -83,9 +83,8 @@ public class ProfileFragment extends Fragment {
 
 
     private void initRecyclerView(User user) {
-        adapter = new RecyclerViewProfileAdapter(mContext, current_user_id, incoming_user_id, user, getFragmentManager());
+        adapter = new RecyclerViewProfileAdapter(mContext, current_user_id, incoming_user_id, user, requireActivity().getSupportFragmentManager());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
 
 
         if (!is_current_user) {
@@ -107,22 +106,19 @@ public class ProfileFragment extends Fragment {
                 adapter.addingLayoutType = FRIENDS_ADDING;
             }
 
-            if (!(adapter.addingLayoutType==FRIENDS_LAYOUT)){
-                adapter.is_privateAccount=user.isUser_is_private();
+            if (!(adapter.addingLayoutType == FRIENDS_LAYOUT)) {
+                adapter.is_privateAccount = user.isUser_is_private();
             }
 
-            if (user.isUser_is_private() && adapter.addingLayoutType!=FRIENDS_LAYOUT) {
+            if (user.isUser_is_private() && adapter.addingLayoutType != FRIENDS_LAYOUT) {
                 adapter.addNull();
             }
 
-            if (!user.isUser_is_private() || adapter.addingLayoutType==FRIENDS_LAYOUT) {
+            if (!user.isUser_is_private() || adapter.addingLayoutType == FRIENDS_LAYOUT) {
                 adapter.is_current_user = is_current_user;
                 getPosts(0);
             }
-        }
-
-
-        else {
+        } else {
             adapter.is_current_user = is_current_user;
             getPosts(0);
         }
@@ -174,7 +170,7 @@ public class ProfileFragment extends Fragment {
                         if (isRecyclerScrollable())
                             if (!mRecyclerView.canScrollVertically(1) && !loading) {
                                 loading = true;
-                                if (adapter.is_current_user || adapter.addingLayoutType==FRIENDS_LAYOUT){
+                                if (adapter.is_current_user || adapter.addingLayoutType == FRIENDS_LAYOUT) {
                                     getPosts(adapter.getItemCount() - 1);
                                 }
                             }
@@ -196,7 +192,7 @@ public class ProfileFragment extends Fragment {
 
         adapter.addNull();
 
-        ProfileHandler.getProfilePosts(current_user_id, datetime,incoming_user_id, offset, new ProfileHandler.OnGettingProfilePostsListener() {
+        ProfileHandler.getProfilePosts(current_user_id, datetime, incoming_user_id, offset, new ProfileHandler.OnGettingProfilePostsListener() {
             @Override
             public void successfullyGettingPosts(final String json) {
                 Log.d(TAG, "successfullyGettingPosts: incoming_user_id= " + incoming_user_id + "   " + datetime + "  " + json);
