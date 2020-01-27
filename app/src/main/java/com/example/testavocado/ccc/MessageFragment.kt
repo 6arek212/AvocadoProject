@@ -264,7 +264,9 @@ class MessageFragment : Fragment() {
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Toast.makeText(context, "got location", Toast.LENGTH_SHORT).show()
+            activity?.let {
+                Toast.makeText(it, "got location", Toast.LENGTH_SHORT).show()
+            }
 
             val long = location.longitude
             val latit = location.latitude
