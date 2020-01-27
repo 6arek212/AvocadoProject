@@ -111,13 +111,15 @@ public class validations {
 
             return -1;
         }
-        if(firstName.matches( "[a-zA-Z]*" ))
-            return 1;
 
-        else {
-            Toast.makeText(mcontext, mcontext.getString(R.string.first_last_charcter_numbers_only)+"", Toast.LENGTH_SHORT).show();
-            return -1;
-        }
+        return 1;
+//        if(firstName.matches( "[a-zA-Z]*" ))
+//            return 1;
+//
+//        else {
+//            Toast.makeText(mcontext, mcontext.getString(R.string.first_last_charcter_numbers_only)+"", Toast.LENGTH_SHORT).show();
+//            return -1;
+//        }
     }
 
     // validate last name
@@ -149,10 +151,11 @@ public class validations {
         if(lastname.matches( "[a-zA-Z]*" ))
             return 1;
 
-        else {
-            Toast.makeText(mcontext, mcontext.getString(R.string.first_last_charcter_numbers_only)+"", Toast.LENGTH_SHORT).show();
-            return -1;
-        }
+        return 1;
+//        else {
+//            Toast.makeText(mcontext, mcontext.getString(R.string.first_last_charcter_numbers_only)+"", Toast.LENGTH_SHORT).show();
+//            return -1;
+//        }
     }
    // public  boolean validateLastName( String lastName)
    // {

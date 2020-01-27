@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.bumptech.glide.Glide;
 import com.example.testavocado.Models.Setting;
+import com.example.testavocado.Models.Status;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -229,6 +230,7 @@ public class AddNewPostActivity extends AppCompatActivity {
             public void onSuccess() {
                 Toast.makeText(mContext, "post published", Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.GONE);
+                setResult(RESULT_OK);
                 finish();
             }
 

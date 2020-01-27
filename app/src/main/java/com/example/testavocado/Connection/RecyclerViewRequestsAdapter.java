@@ -1,10 +1,13 @@
 package com.example.testavocado.Connection;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +47,8 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     private FragmentManager fragmentManager;
 
 
-
     /**
-     *      adding null to the list to show progress bar
-     *
+     * adding null to the list to show progress bar
      */
     public void addNull() {
         Log.d(TAG, "addNull: adding null ");
@@ -57,11 +58,10 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
     /**
-     *      removing progressbar
-     *
+     * removing progressbar
      */
     public void removeProg() {
-        Log.d(TAG, "removeProg: list size "+requestList.size());
+        Log.d(TAG, "removeProg: list size " + requestList.size());
         if (requestList.get(requestList.size() - 1) == null) {
             requestList.remove(requestList.size() - 1);
             notifyItemRemoved(requestList.size());
@@ -69,19 +69,12 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
-    public RecyclerViewRequestsAdapter(Context context,FragmentManager fragmentManager) {
+    public RecyclerViewRequestsAdapter(Context context, FragmentManager fragmentManager) {
         mContext = context;
-        userId=HelpMethods.checkSharedPreferencesForUserId(mContext);
-        Log.d(TAG, "RecyclerViewRequestsAdapter: "+userId);
-        this.fragmentManager=fragmentManager;
+        userId = HelpMethods.checkSharedPreferencesForUserId(mContext);
+        Log.d(TAG, "RecyclerViewRequestsAdapter: " + userId);
+        this.fragmentManager = fragmentManager;
     }
-
-
-
-
 
 
     public int getItemViewType(int position) {
@@ -98,8 +91,6 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -107,7 +98,7 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder vh;
 
         if (i == 0) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_connection_request_item, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_connection_request_item_test, viewGroup, false);
             vh = new RequestsViewHolder(v);
         } else if (i == 1) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(
@@ -121,10 +112,6 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         int type = viewHolder.getItemViewType();
@@ -132,7 +119,16 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
             RequestsViewHolder v1 = (RequestsViewHolder) viewHolder;
 
             v1.mUserFullName.setText(requestList.get(i).getUser_first_name() + " " + requestList.get(i).getUser_last_name());
-            v1.mFriends.setVisibility(View.GONE);
+
+
+            if (!requestList.get(i).isIs_accepted()){
+                v1.requestsLayout.setVisibility(View.VISIBLE);
+                v1.mFriends.setVisibility(View.GONE);
+            }else{
+                v1.requestsLayout.setVisibility(View.INVISIBLE);
+                v1.mFriends.setVisibility(View.VISIBLE);
+            }
+
 
             Glide.with(mContext)
                     .load(requestList.get(i).getUser_profile_photo())
@@ -153,9 +149,8 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
     /**
-     *      checking if bottom reached
+     * checking if bottom reached
      *
      * @param position
      * @return
@@ -165,12 +160,8 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
     /**
-     *
-     *      loading more requests
+     * loading more requests
      */
 
     private void loadMoreData() {
@@ -179,23 +170,19 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
     /**
-     *      adding requests
+     * adding requests
      *
      * @param userAdd
      * @param s
      */
     public void addNewRequestList(List<UserAdd> userAdd, int s) {
-        requestList .addAll(userAdd);
+        requestList.addAll(userAdd);
         notifyItemRangeInserted(s, userAdd.size());
     }
 
 
-
-
     /**
-     *
-     *  clearing requests list
-     *
+     * clearing requests list
      */
     public void clearList() {
         requestList.clear();
@@ -209,108 +196,114 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
-
-
     /**
-     *      ViewHolders
-     *
+     * ViewHolders
      */
 
     public class RequestsViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
-        TextView mUserFullName;
-        RelativeLayout mFriends,requestsLayout,profile;
+        TextView mUserFullName, mFriends;
+        // RelativeLayout ,requestsLayout,profile;
+        ConstraintLayout requestsLayout;
         Button mAccept;
         ImageButton mDeny;
 
-         RequestsViewHolder(@NonNull View itemView) {
+        RequestsViewHolder(@NonNull View itemView) {
             super(itemView);
             mProfileImage = itemView.findViewById(R.id.profileImage);
             mUserFullName = itemView.findViewById(R.id.userName);
             mAccept = itemView.findViewById(R.id.btnAcceptRequest);
             mDeny = itemView.findViewById(R.id.btnDeny);
-            mFriends = itemView.findViewById(R.id.alredyFriendsLayout);
-            requestsLayout=itemView.findViewById(R.id.requestsLayout);
-            profile=itemView.findViewById(R.id.profile);
+            mFriends = itemView.findViewById(R.id.mFriends);
+            requestsLayout = itemView.findViewById(R.id.requestsLayout);
         }
-
-
 
 
         //accept friend request
         public void accept() {
-             mAccept.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     ConnectionsHandler.acceptFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(),requestList.get(getAdapterPosition()).getUser_id() ,userId,TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
-                         @Override
-                         public void onSuccessListener() {
-                             mFriends.setVisibility(View.VISIBLE);
-                             requestsLayout.setVisibility(View.GONE);
-                         }
+            mAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.acceptFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(), requestList.get(getAdapterPosition()).getUser_id(), userId, TimeMethods.getUTCdatetimeAsString(), new ConnectionsHandler.OnAcceptingFriendRequestListener() {
+                        @Override
+                        public void onSuccessListener() {
+                            mFriends.setVisibility(View.VISIBLE);
+                            requestsLayout.setVisibility(View.INVISIBLE);
+                        }
 
-                         @Override
-                         public void onServer(String ex) {
-                             Log.d(TAG, "onServer: " + ex);
-                         }
+                        @Override
+                        public void onServer(String ex) {
+                            Log.d(TAG, "onServer: " + ex);
+                        }
 
-                         @Override
-                         public void onFailure(String ex) {
-                             Log.d(TAG, "onFailure: " + ex);
-                         }
-                     });
-                 }
-             });
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: " + ex);
+                        }
+                    });
+                }
+            });
 
         }
-
 
 
         //deny friend request
         public void deny() {
-             mDeny.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     ConnectionsHandler.RemoveFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(),userId, new ConnectionsHandler.OnRemovingFriendRequestListener() {
-                         @Override
-                         public void onSuccessListener() {
-                             requestList.remove(getAdapterPosition());
-                             Toast.makeText(mContext, "request removed ", Toast.LENGTH_SHORT).show();
-                             notifyItemRemoved(getAdapterPosition());
-                         }
+            mDeny.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectionsHandler.RemoveFriendRequest(requestList.get(getAdapterPosition()).getRequest_id(), userId,requestList.get(getAdapterPosition()).getUser_id(), new ConnectionsHandler.OnRemovingFriendRequestListener() {
+                        @Override
+                        public void onSuccessListener() {
+                            requestList.remove(getAdapterPosition());
+                            Toast.makeText(mContext, "request removed ", Toast.LENGTH_SHORT).show();
+                            notifyItemRemoved(getAdapterPosition());
+                        }
 
-                         @Override
-                         public void onServer(String ex) {
-                             Log.d(TAG, "onServer: " + ex);
-                         }
+                        @Override
+                        public void onServer(String ex) {
+                            Log.d(TAG, "onServer: " + ex);
+                        }
 
-                         @Override
-                         public void onFailure(String ex) {
-                             Log.d(TAG, "onFailure: " + ex);
-                         }
-                     });
-                 }
-             });
+                        @Override
+                        public void onFailure(String ex) {
+                            Log.d(TAG, "onFailure: " + ex);
+                        }
+                    });
+                }
+            });
         }
 
         public void profile() {
-             profile.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     ProfileFragment fragment = new ProfileFragment();
-                     fragment.is_current_user = false;
-                     fragment.incoming_user_id = requestList.get(getAdapterPosition()).getUser_id();
-                     FragmentTransaction tr = fragmentManager.beginTransaction();
-                     if (mContext instanceof ConnectionsActivity){
-                         tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
-                     }else{
-                         tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
-                     }
-                 }
-             });
+            mProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileFragment fragment = new ProfileFragment();
+                    fragment.is_current_user = false;
+                    fragment.incoming_user_id = requestList.get(getAdapterPosition()).getUser_id();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    if (mContext instanceof ConnectionsActivity) {
+                        tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    } else {
+                        tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }
+                }
+            });
+
+            mUserFullName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileFragment fragment = new ProfileFragment();
+                    fragment.is_current_user = false;
+                    fragment.incoming_user_id = requestList.get(getAdapterPosition()).getUser_id();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    if (mContext instanceof ConnectionsActivity) {
+                        tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    } else {
+                        tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
+                    }
+                }
+            });
         }
     }
 

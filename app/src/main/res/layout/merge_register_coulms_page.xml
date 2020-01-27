@@ -1,106 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/realtive1_registeraccount_page"
-        style="@style/Realtive_style1"
-        >
-        <com.google.android.material.textfield.TextInputLayout
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <RelativeLayout
+            android:id="@+id/realtive1_registeraccount_page"
+            style="@style/Realtive_style1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textinput_layout1_registeraccount"
-            style="@style/inputtext_layout_style"
-            app:counterEnabled="true"
-            app:counterMaxLength="19"
-            >
-            <EditText
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinput_layout1_registeraccount"
+                style="@style/inputtext_layout_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtxt_firstname_merge_registeraccount"
-                android:hint="@string/first_name"
-                style="@style/edtxt_accountrgister_style"
-                android:inputType="text"
-                android:background="@null"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:counterEnabled="true"
+                app:counterMaxLength="19">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textinput_layout2_registeraccount"
-            android:layout_below="@id/textinput_layout1_registeraccount"
-            style="@style/inputtext_layout_style"
-            app:counterEnabled="true"
-            app:counterMaxLength="19"
-            >
-            <EditText
+                <EditText
+                    android:id="@+id/edtxt_firstname_merge_registeraccount"
+                    style="@style/edtxt_accountrgister_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/first_name"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinput_layout2_registeraccount"
+                style="@style/inputtext_layout_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtxt_lastname_merge_registeraccount"
-                android:hint="@string/last_name"
-                style="@style/edtxt_accountrgister_style"
-                android:inputType="text"
-                android:background="@null"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_below="@id/textinput_layout1_registeraccount"
+                app:counterEnabled="true"
+                app:counterMaxLength="19">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textinput_layout3_registeraccount"
-            android:layout_below="@+id/textinput_layout2_registeraccount"
-            style="@style/inputtext_layout_style"
-            >
-            <EditText
+                <EditText
+                    android:id="@+id/edtxt_lastname_merge_registeraccount"
+                    style="@style/edtxt_accountrgister_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/last_name"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinput_layout3_registeraccount"
+                style="@style/inputtext_layout_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtxt_emil_merge_registeraccount"
-                android:hint="@string/emil"
-                style="@style/edtxt_accountrgister_style"
-                android:inputType="textEmailAddress"
-                android:background="@null"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_below="@+id/textinput_layout2_registeraccount">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textinput_layout4_registeraccount"
-            android:layout_below="@id/textinput_layout3_registeraccount"
-            style="@style/inputtext_layout_style"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTintMode="src_in"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true"
-            app:counterEnabled="true"
-            app:counterMaxLength="16"
-            >
-            <EditText
+                <EditText
+                    android:id="@+id/edtxt_emil_merge_registeraccount"
+                    style="@style/edtxt_accountrgister_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/emil"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinput_layout4_registeraccount"
+                style="@style/inputtext_layout_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtxt_password_merge_registeraccount"
-                android:hint="@string/password"
-                style="@style/edtxt_accountrgister_style"
-                android:inputType="textPassword"
-                android:background="@null"
+                android:layout_below="@id/textinput_layout3_registeraccount"
+                app:counterEnabled="true"
+                app:counterMaxLength="16"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTintMode="src_in">
+
+                <EditText
+                    android:id="@+id/edtxt_password_merge_registeraccount"
+                    style="@style/edtxt_accountrgister_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/btn_register_merge_registeraccount"
+                style="@style/button_style1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textinput_layout4_registeraccount"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/button_register_activity"
+                android:text="@string/next"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="24dp"
+
                 />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_register_merge_registeraccount"
-            android:text="@string/next"
-            style="@style/button_style1"
-            android:background="@drawable/button_register_activity"
-            android:textColor="@color/colorAccent"
-            android:layout_below="@id/textinput_layout4_registeraccount"
-            android:layout_centerHorizontal="true"
-
-            />
-    </RelativeLayout>
+        </RelativeLayout>
 </merge>

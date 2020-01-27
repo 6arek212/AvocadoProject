@@ -11,6 +11,7 @@ import com.example.testavocado.Home.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
@@ -135,7 +136,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
             vh = new ProgressViewHolder(v);
         } else if (i == 0) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_post_item, viewGroup, false);
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_post_item_test, viewGroup, false);
             vh = new PostViewHolder(view);
         } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_end_item, viewGroup, false);
@@ -150,6 +151,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public boolean Show;
     public int post_type;
 
+    public static int POST_CODE=55;
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
@@ -159,7 +161,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mAddPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity) mContext).startActivity(new Intent(mContext, AddNewPostActivity.class));
+                    ((BaseActivity) mContext).startActivityForResult(new Intent(mContext, AddNewPostActivity.class),POST_CODE);
                 }
             });
 
@@ -432,8 +434,8 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 postsList.get(index).setDis_like_id(-1);
                 btn.setText("DisLike");
 
-                int likeCount = postsList.get(index).getPost_likes_count() - 1;
-                postsList.get(index).setPost_likes_count(likeCount);
+                int likeCount = postsList.get(index).getPost_dislike_count() - 1;
+                postsList.get(index).setPost_dislike_count(likeCount);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     btn.setTextColor(mContext.getColor(android.R.color.tab_indicator_text));
@@ -467,7 +469,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         ImageView mPostOptions;
         FloatingActionButton mSend;
         EditText mComment;
-        RelativeLayout commentsLayout, likeLayout, mPhotoLayout, mShareLayout;
+        ConstraintLayout commentsLayout, likeLayout, mPhotoLayout, mShareLayout;
         ViewPager mImageSlider;
         TabLayout mDots;
         ExpandableTextView mPostText;
@@ -492,9 +494,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
             commentsLayout = itemView.findViewById(R.id.commentsLayout);
             likeLayout = itemView.findViewById(R.id.likeLayout);
             mSharedPost = itemView.findViewById(R.id.sharedPost);
+            mPhotoLayout=itemView.findViewById(R.id.mPhotoLayout);
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
-            mPhotoLayout = itemView.findViewById(R.id.relLayout4);
             mShareLayout = itemView.findViewById(R.id.shareLayout);
             expand = itemView.findViewById(R.id.button_toggle);
 

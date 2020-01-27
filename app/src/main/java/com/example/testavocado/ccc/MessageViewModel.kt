@@ -41,6 +41,9 @@ class MessageViewModel(application: Application, val chat: Chat3) : ViewModel() 
     val typing = repo.typing
 
     init {
+        jobScope.launch {
+            repo.checkIfStillFriends()
+        }
         _showMessageEmptyText.value = false
         Log.d("ididid", "${HelpMethods.checkSharedPreferencesForUserId(application)}")
     }

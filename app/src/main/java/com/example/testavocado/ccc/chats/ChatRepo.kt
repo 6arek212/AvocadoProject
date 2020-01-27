@@ -87,8 +87,10 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
                             val chat2: Chat3
 
+                            Log.d("ChatRepo23123", " $name  ${chatId}  ${sender}  $with  $profileImage  $lastMsgDate $online $token")
+
                             if (chatId != null) {
-                                chat2 = Chat3(name!!, chatId, sender!!, with, profileImage, lastMsgDate, online = online,token = token)
+                                chat2 = Chat3(name, chatId, sender, with, profileImage, lastMsgDate, online = online,token = token)
                             } else {
                                 chat2 = Chat3(name!!, with = with, profileImg = profileImage,token = token)
                             }
@@ -161,7 +163,7 @@ class ChatRepo(val database: mDatabase, val userId: Int) {
 
 
 
-    fun removeChat(chatId: String, with: Int) {
+    fun removeChat(chatId: String, with: Int?) {
         val ref = FirebaseDatabase.getInstance().reference
         ref.child("users").child(userId.toString()).child("chats").child(chatId).removeValue()
         ref.child("users").child(userId.toString()).child("friends").child(with.toString()).child(chatId).removeValue()

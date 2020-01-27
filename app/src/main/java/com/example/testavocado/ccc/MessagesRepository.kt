@@ -29,12 +29,16 @@ class MessagesRepository(
 
     private val chatId = MutableLiveData<String>()
     val messages = Transformations.switchMap(chatId) {
+        Log.d(TAG,"getting messages ${chatId.value}   $chat")
         database.messageDao.getMessages(chat.chatId)
     }
 
     val firebaseDatabase = FirebaseDatabase.getInstance()
     val myRef = firebaseDatabase.getReference()
     var isTheSender: Boolean = false
+
+    private var _isFriends = false
+
 
     private val _typing = MutableLiveData<Boolean>()
     val typing: LiveData<Boolean>
@@ -85,6 +89,8 @@ class MessagesRepository(
     init {
         checkNetwork()
         _error.value = null
+        Log.d("checkSender","$chat")
+
         if (chat.sender == 0) {
             chat.sender = userId
             isTheSender = true
@@ -243,7 +249,10 @@ class MessagesRepository(
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
         }
-
+        if (!_isFriends){
+            _error.postValue("You are not friends with this user any more")
+            return
+        }
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
@@ -371,6 +380,12 @@ class MessagesRepository(
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
         }
+
+        if (!_isFriends){
+            _error.postValue("You are not friends with this user any more")
+            return
+        }
+
         val key = myRef.child("chats").push().key
 
         key?.let {
@@ -411,6 +426,8 @@ class MessagesRepository(
 
                 }
             })
+
+
 
             chatId.value = chat.chatId
             val messageKey = myRef.child("chats").child(chat.chatId).child("messages").push().key
@@ -497,6 +514,25 @@ class MessagesRepository(
         }
     }
 
+
+
+
+
+    suspend fun checkIfStillFriends(){
+        withContext(Dispatchers.IO){
+            myRef.child("users").child(userId.toString()).child("friends").child(chat.with.toString()).addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    _error.postValue(application.getString(R.string.CHECK_INTERNET))
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    _isFriends=p0.exists()
+                }
+            })
+        }
+
+    }
 
 }
 

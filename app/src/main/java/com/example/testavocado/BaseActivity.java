@@ -1,6 +1,7 @@
 package com.example.testavocado;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,6 +48,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
+import static com.example.testavocado.Home.adapters.PostsAdapter.POST_CODE;
 
 
 public class BaseActivity extends AppCompatActivity  {
@@ -303,19 +305,25 @@ public class BaseActivity extends AppCompatActivity  {
         stopService();
         getLocation();
         updateOnlineState(ONLINE_STATE);
+
+        NotificationManager mNotificationManager;
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(Build.VERSION.SDK_INT>=26){
-            startForegroundService(new Intent(mContext, BackgroundService.class));
-        }else{
-            startService(new Intent(mContext, BackgroundService.class));
+        try{
+            if(Build.VERSION.SDK_INT>=26){
+                startForegroundService(new Intent(mContext, BackgroundService.class));
+            }else{
+                startService(new Intent(mContext, BackgroundService.class));
+            }
+        }catch (Exception e){
+
         }
-
-
     }
 
 
@@ -443,6 +451,19 @@ public class BaseActivity extends AppCompatActivity  {
             {
                 String bio_text = data.getStringExtra("bio");
                 txtv_bio.setText(bio_text);
+            }
+            else
+            {
+
+            }
+        }
+
+        if(requestCode==POST_CODE)
+        {
+            if(resultCode==RESULT_OK)
+            {
+                Log.d(TAG, "activity onActivityResult: post published");
+                mainFeedFragment.updatePosts();
             }
             else
             {

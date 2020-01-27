@@ -90,7 +90,7 @@ public class ConnectionsHandler {
                 final Status status = response.body();
                 Log.d(TAG, "onResponse:  friend request sent  " + status);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         Log.d(TAG, "onResponse: " + status);
 
@@ -152,25 +152,30 @@ public class ConnectionsHandler {
                 Status status = response.body();
                 Log.d(TAG, "onResponse:  friend request sent  " + status);
 
-                if (status.getState() == 1) {
-                    Log.d(TAG, "onResponse: " + status);
+                if(response.isSuccessful() && status!=null){
+                    if (status.getState() == 1) {
+                        Log.d(TAG, "onResponse: " + status);
 
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(status.getJson_data());
-                        int request_id = json.getInt("request_id");
-                        //   RecyclerViewAddConnectionAdapter.userAddList.get(index).setRequest_id(request_id);
-                        listener.onSuccessListener(request_id);
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(status.getJson_data());
+                            int request_id = json.getInt("request_id");
+                            //   RecyclerViewAddConnectionAdapter.userAddList.get(index).setRequest_id(request_id);
+                            listener.onSuccessListener(request_id);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else if (status.getState() == 0) {
+                        listener.onServerException(status.getException());
+                    } else {
+                        listener.onServerException(status.getException());
                     }
-
-                } else if (status.getState() == 0) {
-                    listener.onServerException(status.getException());
-                } else {
-                    listener.onServerException(status.getException());
+                }else{
+                    listener.onFailureListener(response.message());
                 }
+
             }
 
             @Override
@@ -204,7 +209,7 @@ public class ConnectionsHandler {
                 final Status status = response.body();
                 Log.d(TAG, "onResponse: got users by name   " + status);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         Log.d(TAG, "onResponse: " + status);
                         final List<UserAdd> list = new ArrayList<>();
@@ -250,25 +255,59 @@ public class ConnectionsHandler {
     }
 
 
-    public static void RemoveFriendRequest(int request_id,int user_id, final OnRemovingFriendRequestListener listener) {
-        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request request_id "+request_id+"   user id "+user_id);
+    public static void RemoveFriendRequest(int request_id,final int u1,final int u2, final OnRemovingFriendRequestListener listener) {
+        Log.d(TAG, "RemoveFriendRequest:  attempting to remove friend request request_id "+request_id+"   user id current  "+u1);
         Retrofit retrofit = NetworkClient.getRetrofitClient();
         ConnectionsInterface interface1 = retrofit.create(ConnectionsInterface.class);
 
-        final Call<Status> ca = interface1.deleteRequest(request_id,user_id);
+        final Call<Status> ca = interface1.deleteRequest(request_id,u1);
         ca.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: removed frined request   " + status);
 
-                if (status.getState() == 1) {
-                    listener.onSuccessListener();
-                } else if (status.getState() == 0) {
-                    listener.onServer(status.getException());
-                } else {
-                    listener.onServer(status.getException());
+                if(response.isSuccessful() && status!=null){
+                    if (status.getState() == 1) {
+
+
+                        final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                        fr.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String chatId=dataSnapshot.child(String.valueOf(u1)).child("friends").child(String.valueOf(u2))
+                                        .child("chatId").getValue(String.class);
+
+                                fr.child("users").child(String.valueOf(u1)).child("friends").child(String.valueOf(u2)).removeValue();
+                                fr.child("users").child(String.valueOf(u2)).child("friends").child(String.valueOf(u1)).removeValue();
+
+
+                                if(chatId!=null){
+                                    fr.child("users").child(String.valueOf(u1)).child("chats").child(chatId).removeValue();
+                                    fr.child("users").child(String.valueOf(u2)).child("chats").child(chatId).removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                            }
+                        });
+
+
+
+                        listener.onSuccessListener();
+                    } else if (status.getState() == 0) {
+                        listener.onServer(status.getException());
+                    } else {
+                        listener.onServer(status.getException());
+                    }
+                }else
+                {
+                    listener.onFailure(response.message());
                 }
+
             }
 
             @Override
@@ -302,7 +341,7 @@ public class ConnectionsHandler {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: removed frined request   " + status);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         listener.onSuccessListener();
 
@@ -377,24 +416,31 @@ public class ConnectionsHandler {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: accpted frined request   " + status);
 
-                if (status.getState() == 1) {
-                    listener.onSuccessListener();
+                if(response.isSuccessful() && status!=null){
+
+                    if (status.getState() == 1) {
+                        listener.onSuccessListener();
 
 
 
-                    final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
-                    fr.child("users").child(String.valueOf(userId)).child("friends").child(String.valueOf(otherId))
-                            .child("with").setValue(otherId);
-                    fr.child("users").child(String.valueOf(otherId)).child("friends").child(String.valueOf(userId))
-                            .child("with").setValue(userId);
+                        final DatabaseReference fr= FirebaseDatabase.getInstance().getReference();
+                        fr.child("users").child(String.valueOf(userId)).child("friends").child(String.valueOf(otherId))
+                                .child("with").setValue(otherId);
+                        fr.child("users").child(String.valueOf(otherId)).child("friends").child(String.valueOf(userId))
+                                .child("with").setValue(userId);
 
 
 
-                } else if (status.getState() == 0) {
-                    listener.onServer(status.getException());
-                } else {
-                    listener.onServer(status.getException());
+                    } else if (status.getState() == 0) {
+                        listener.onServer(status.getException());
+                    } else {
+                        listener.onServer(status.getException());
+                    }
+                }else{
+                    listener.onFailure(response.message());
                 }
+
+
             }
 
             @Override
@@ -428,32 +474,37 @@ public class ConnectionsHandler {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: getting friends  requests   " + status);
+                if(response.isSuccessful() && status!=null) {
 
-                if (status.getState() == 1) {
-                    JSONArray jsonArray = null;
-                    try {
-                        jsonArray = new JSONArray(status.getJson_data());
-                        Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
+                    if (status.getState() == 1) {
+                        JSONArray jsonArray = null;
+                        try {
+                            jsonArray = new JSONArray(status.getJson_data());
+                            Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
 
 
-                        List<UserAdd> userAddList = new ArrayList<>();
+                            List<UserAdd> userAddList = new ArrayList<>();
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            String json = String.valueOf(jsonArray.getJSONObject(i));
-                            userAddList.add(new Gson().fromJson(String.valueOf(json), UserAdd.class));
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String json = String.valueOf(jsonArray.getJSONObject(i));
+                                userAddList.add(new Gson().fromJson(String.valueOf(json), UserAdd.class));
+                            }
+
+                            listener.OnSuccessfullyGettingRequests(userAddList);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
-                        listener.OnSuccessfullyGettingRequests(userAddList);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
+                    } else {
+                        listener.OnServerException(status.getException());
                     }
-
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-                } else {
-                    listener.OnServerException(status.getException());
+                }else{
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -486,31 +537,38 @@ public class ConnectionsHandler {
                 Status status = response.body();
                 Log.d(TAG, "onResponse: getting friends  requests   " + status);
 
-                if (status.getState() == 1) {
-                    JSONArray jsonArray = null;
-                    try {
-                        jsonArray = new JSONArray(status.getJson_data());
-                        Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
+                if(response.isSuccessful() && status!=null) {
+                    if (status.getState() == 1) {
+                        JSONArray jsonArray = null;
+                        try {
+                            jsonArray = new JSONArray(status.getJson_data());
+                            Log.d(TAG, "onSuccess: json array size " + jsonArray.length());
 
 
-                        List<Friend> friends = new ArrayList<>();
+                            List<Friend> friends = new ArrayList<>();
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            String json = String.valueOf(jsonArray.getJSONObject(i));
-                            friends.add(new Gson().fromJson(String.valueOf(json), Friend.class));
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String json = String.valueOf(jsonArray.getJSONObject(i));
+                                friends.add(new Gson().fromJson(String.valueOf(json), Friend.class));
+                            }
+
+                            listener.OnSuccessfullyGettingFriends(friends);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
-                        listener.OnSuccessfullyGettingFriends(friends);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else if (status.getState() == 0) {
+                        listener.OnServerException(status.getException());
+                    } else {
+                        listener.OnServerException(status.getException());
                     }
-
-                } else if (status.getState() == 0) {
-                    listener.OnServerException(status.getException());
-                } else {
-                    listener.OnServerException(status.getException());
                 }
+                else{
+                    listener.OnFailure(response.message());
+                }
+
+
             }
 
             @Override

@@ -17,14 +17,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray1"
+        >
 
 
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:background="@color/colorAccent"
             android:id="@+id/coordinatorLayout"
+            android:background="@drawable/chat_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"

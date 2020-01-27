@@ -44,6 +44,7 @@ public class ImagesViewPagerNoClick extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         ImageView imageView = new ImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
         Log.d(TAG, "instantiateItem: " + position);
 

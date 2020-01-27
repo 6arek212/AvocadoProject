@@ -52,24 +52,29 @@ public class ProfileHandler {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if (status.getState() == 1) {
-                    try {
-                        Log.d(TAG, "onResponse: " + status);
-                        JSONArray json = new JSONArray(status.getJson_data());
+                if (response.isSuccessful() && status!=null){
+                    if (status.getState() == 1) {
+                        try {
+                            Log.d(TAG, "onResponse: " + status);
+                            JSONArray json = new JSONArray(status.getJson_data());
 
-                        User user = new Gson().fromJson(json.get(0).toString().toString(), User.class);
-                        listener.successfullyGettingInfo(user);
+                            User user = new Gson().fromJson(json.get(0).toString().toString(), User.class);
+                            listener.successfullyGettingInfo(user);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        listener.OnFailure(e.getMessage());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            listener.OnFailure(e.getMessage());
+                        }
+                    } else if (status.getState() == 0) {
+                        listener.serverException(0 + "  " + status.getException());
+
+                    } else {
+                        listener.serverException(-1 + "  " + status.getException());
                     }
-                } else if (status.getState() == 0) {
-                    listener.serverException(0 + "  " + status.getException());
-
-                } else {
-                    listener.serverException(-1 + "  " + status.getException());
+                }else{
+                    listener.OnFailure(response.message());
                 }
+
             }
 
             @Override
@@ -109,7 +114,7 @@ public class ProfileHandler {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 Status status = response.body();
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()&&status!=null) {
                     if (status.getState() == 1) {
                         listener.successfullyGettingPosts(status.getJson_data());
 

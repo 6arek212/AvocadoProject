@@ -1,6 +1,7 @@
 package com.example.testavocado.Home.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,13 +43,20 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.testavocado.Home.PostMethods.FRIENDS_POSTS;
 import static com.example.testavocado.Home.PostMethods.PUBLIC_FRIENDS_POSTS;
 import static com.example.testavocado.Home.PostMethods.PUBLIC_POSTS;
+import static com.example.testavocado.Home.adapters.PostsAdapter.POST_CODE;
 
 
 public class MainFeedFragment extends Fragment {
     private static final String TAG = "MainFeedFragment";
+
+
+    public void updatePosts(){
+        getPosts(0,0);
+    }
 
 
     public void handleCheckBOx(final CheckBox publicPosts,final CheckBox friends){
@@ -311,6 +319,24 @@ public class MainFeedFragment extends Fragment {
             setLoaded();
         }
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==POST_CODE)
+        {
+            if(resultCode==RESULT_OK)
+            {
+                Log.d(TAG, "fragment onActivityResult: post published");
+            }
+            else
+            {
+
+            }
+        }
+    }
+
 
 
     /**

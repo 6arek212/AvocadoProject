@@ -1,5 +1,6 @@
 package com.example.testavocado.ccc
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -261,6 +262,7 @@ class Adapter (val userId:Int, val viewImage:(imageUrl:String?,imageView:ImageVi
     class MessageLeftViewHolder private constructor(val binding: LayoutChatLeft2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: Message) {
+            Log.d("messagemessage","$message")
             binding.message = message
             binding.executePendingBindings()
         }

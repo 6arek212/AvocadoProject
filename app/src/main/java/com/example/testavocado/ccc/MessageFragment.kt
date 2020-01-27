@@ -1,54 +1,51 @@
 package com.example.testavocado.ccc
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.ActivityNotFoundException
-import android.content.Context.LOCATION_SERVICE
+import android.content.Context
 import android.content.Intent
-import android.database.Cursor
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Environment
-import android.os.Parcelable
 import android.provider.ContactsContract
-import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.loader.content.CursorLoader
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testavocado.BaseActivity
 import com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment
 import com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment.PHOTO_CODE
 import com.example.testavocado.GalleryAndPicSnap.GetaPicActivity
 import com.example.testavocado.R
 import com.example.testavocado.Utils.HelpMethods
+import com.example.testavocado.Utils.Permissions
 import com.example.testavocado.databinding.MessageFragmentBinding
 import com.google.android.gms.location.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
 import com.theartofdev.edmodo.cropper.CropImageView
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.synthetic.main.merge_fragment_myprofile_center.*
-import java.io.File
-import java.lang.Exception
 
 
 class MessageFragment : Fragment() {
@@ -60,7 +57,7 @@ class MessageFragment : Fragment() {
 
 
     private val PICK_CONTACT = 11
-    var stopped:Boolean=false
+    var stopped: Boolean = false
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -148,7 +145,10 @@ class MessageFragment : Fragment() {
 
         //close click
         binding.close.setOnClickListener {
-            findNavController().popBackStack()
+            if (activity?.intent?.extras != null)
+                activity?.finish()
+            else
+                findNavController().popBackStack()
         }
 
 
@@ -173,9 +173,9 @@ class MessageFragment : Fragment() {
             }
 
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if(stopped){
-                    stopped=false
-                }else{
+                if (stopped) {
+                    stopped = false
+                } else {
                     binding.recyclerView.scrollToPosition(0)
                 }
             }
@@ -215,7 +215,10 @@ class MessageFragment : Fragment() {
         }
 
 
-        userLocationClient = LocationServices.getFusedLocationProviderClient(activity as MainActivity)
+        when (activity) {
+            is MainActivity -> userLocationClient = LocationServices.getFusedLocationProviderClient(activity as MainActivity)
+            is BaseActivity -> userLocationClient = LocationServices.getFusedLocationProviderClient(activity as BaseActivity)
+        }
 
 
 
@@ -252,7 +255,61 @@ class MessageFragment : Fragment() {
             alert()
         }
 
+
+
+
         return binding.root
+    }
+
+
+    private val mLocationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            activity?.let {
+                Toast.makeText(it, "got location", Toast.LENGTH_SHORT).show()
+            }
+
+            val long = location.longitude
+            val latit = location.latitude
+
+            Log.i("LocationListener", long.toString())
+            Log.i("LocationListener", latit.toString())
+
+            viewModel.locationMessage(long, latit)
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
+            Log.d("LocationListener", "onStatusChanged $status  $provider")
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            Log.d("LocationListener", "onProviderEnabled   $provider")
+
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            Log.d("LocationListener", "onProviderDisabled   $provider")
+        }
+    }
+
+
+    fun location() {
+        context?.let {
+            if (ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { // TODO: Consider calling
+//    ActivityCompat#requestPermissions
+// here to request the missing permissions, and then overriding
+//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                          int[] grantResults)
+// to handle the case where the user grants the permission. See the documentation
+// for ActivityCompat#requestPermissions for more details.
+                val str = arrayOf(Permissions.GPS, Permissions.GPS2)
+                Permissions.verifyPermission(str, activity)
+                return
+            }
+            val mLocationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null)
+            Toast.makeText(context, "We are getting location it may take few seconds", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -281,7 +338,8 @@ class MessageFragment : Fragment() {
             setMessage(getString(R.string.send_location))
 
             setPositiveButton(getString(R.string.yes)) { dialog, which ->
-                userLocationClient.requestLocationUpdates(userLocationRequest, userLocationCallback, null)
+                //userLocationClient.requestLocationUpdates(userLocationRequest, userLocationCallback, null)
+                location()
             }
 
             setNegativeButton(getString(R.string.no), null)
@@ -391,7 +449,14 @@ class MessageFragment : Fragment() {
 
                     Log.d("gotImage", "$imagePath")
                     viewModel.chat?.let {
-                        findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath, it))
+                        if (activity?.intent?.extras != null) {
+                            val bundle=Bundle()
+                            bundle.putParcelable("imageUrl",imagePath)
+                            bundle.putParcelable("chat",it)
+                            findNavController().navigate(R.id.action_messageFragment2_to_messageWithPicFragment2,bundle)
+
+                        } else
+                            findNavController().navigate(MessageFragmentDirections.actionMessageFragmentToMessageWithPicFragment(imagePath, it))
                     }
                 }
             }
@@ -426,14 +491,11 @@ class MessageFragment : Fragment() {
     }
 
 
-
-
     override fun onStop() {
         super.onStop()
-        Log.d("MessageFragment","onStop")
-        stopped=true
+        Log.d("MessageFragment", "onStop")
+        stopped = true
     }
-
 
 
     class ChatViewModelFactory(
