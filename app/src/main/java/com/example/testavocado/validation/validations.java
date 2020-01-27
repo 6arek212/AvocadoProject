@@ -158,4 +158,15 @@ public class validations {
    // {
      //   return lastName.matches( "[a-z]+[A-Z]+[0-9]*" );
    // }
+
+    //number validetions
+    public boolean isValidMobile(String phone) {
+
+        if(!Pattern.matches("[a-zA-Z]+", phone)) {
+            return phone.length() > 6 && phone.length() <= 13;
+        }
+        return false;
+    }
+
+
 }

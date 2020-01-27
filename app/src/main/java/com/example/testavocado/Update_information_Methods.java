@@ -121,7 +121,7 @@ public class Update_information_Methods {
     }
 
 
-    //update email address
+    //update phone number
     public interface update_phonenumber {
         @GET("api/Update/update_phonenumber")
             // rout path method in c#
@@ -167,4 +167,52 @@ public class Update_information_Methods {
             }
         });
     }
+
+
+    //update password
+    public interface update_password {
+        @GET("api/Update/update_password")
+            // rout path method in c#
+        Call<Status> update_password(@Query("userid") int userid, @Query("current_password") String current_password, @Query("new_password") String new_password);
+    }
+
+
+    public static void Update_password(final Context mcontext, int userid, String current_password,String new_password,final Update_information_Methods.on_first_last_name_updated listener) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        update_password bi = retrofit.create(update_password.class);
+
+        final Call<Status> sa = bi.update_password(userid,current_password,new_password);
+
+        sa.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.isSuccessful())
+                {
+                    if (status.getState() == 1)
+                    {
+                        Log.d(TAG, "onResponse: " + status);
+                        listener.onSuccessListener(status.getState());
+                    }
+                    else if (status.getState() == 0)
+                    {
+                        listener.onServerException(status.getException());
+                    }
+                    else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }
+                else
+                    listener.onFailureListener(response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
+            }
+        });
+    }
+
 }

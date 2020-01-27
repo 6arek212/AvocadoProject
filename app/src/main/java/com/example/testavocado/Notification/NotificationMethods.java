@@ -32,6 +32,7 @@ public class NotificationMethods {
     }
 
 
+
     public static void getNotification(int user_id, String datetime,int offest, final OnGettingNotification listener) {
         Log.d(TAG, "getProfileInfo: current_user_id " + user_id + "   datetime " + datetime);
 

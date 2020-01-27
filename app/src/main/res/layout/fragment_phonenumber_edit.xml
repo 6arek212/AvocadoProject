@@ -9,6 +9,14 @@
     >
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linear_layout_fullphonenumber"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -55,7 +63,7 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edtxt_phonenumber"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -72,7 +80,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_continue"
         android:layout_width="0dp"
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
@@ -81,10 +89,24 @@
         android:background="@drawable/btn_style1"
         android:text="@string/continue_text"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/edtxt_phonenumber"
         app:layout_constraintStart_toStartOf="@+id/coutrycodepicker1"
         app:layout_constraintTop_toBottomOf="@+id/coutrycodepicker1"
         />
+
+    <Button
+        android:id="@+id/btn_cancel11"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn_style1"
+        android:hint="Cancel"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/btn_continue"
+        app:layout_constraintStart_toStartOf="@+id/btn_continue"
+        app:layout_constraintTop_toBottomOf="@+id/btn_continue">
+
+    </Button>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
