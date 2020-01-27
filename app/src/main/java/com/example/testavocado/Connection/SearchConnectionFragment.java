@@ -174,7 +174,7 @@ public class SearchConnectionFragment extends Fragment {
 
 
     private void initRecyclerView() {
-        adapter = new RecyclerViewAddConnectionAdapter(mContext, user_current_id, getActivity());
+        adapter = new RecyclerViewAddConnectionAdapter(mContext, user_current_id, getActivity(),requireActivity().getSupportFragmentManager());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         recyclerViewBottomDetectionListener();

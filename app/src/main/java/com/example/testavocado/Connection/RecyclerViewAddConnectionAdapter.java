@@ -45,13 +45,15 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private int current_user_id;
     private Activity activity;
+    private FragmentManager fragmentManager;
 
 
-    public RecyclerViewAddConnectionAdapter(Context mContext, int current_user_id, Activity activity) {
+    public RecyclerViewAddConnectionAdapter(Context mContext, int current_user_id, Activity activity,FragmentManager manager) {
         this.mContext = mContext;
         this.current_user_id = current_user_id;
         userAddList = new ArrayList<>();
         this.activity = activity;
+        this.fragmentManager=manager;
         searchByLocation = false;
         is_endOfPosts = false;
     }
@@ -342,7 +344,6 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
                     ProfileFragment fragment = new ProfileFragment();
                     fragment.is_current_user = false;
                     fragment.incoming_user_id = userAddList.get(getAdapterPosition()).getUser_id();
-                    FragmentManager fragmentManager = ((ConnectionsActivity) mContext).getSupportFragmentManager();
                     FragmentTransaction tr = fragmentManager.beginTransaction();
                     HelpMethods.closeKeyboard(activity);
                     if (mContext instanceof ConnectionsActivity){

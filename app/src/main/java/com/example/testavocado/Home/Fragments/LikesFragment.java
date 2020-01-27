@@ -57,7 +57,7 @@ public class LikesFragment extends Fragment {
         mContext=getContext();
         user_id=HelpMethods.checkSharedPreferencesForUserId(mContext);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new LikesAdapter(getContext(),user_id);
+        adapter = new LikesAdapter(getContext(),user_id,getFragmentManager());
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                 , false));
         mLayout=view.findViewById(R.id.likeLayout);
@@ -145,7 +145,7 @@ public class LikesFragment extends Fragment {
                 adapter.removeProg();
                 mSwipe.setRefreshing(false);
 
-                if (getContext() != null)
+                if (getActivity() != null)
                     Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
             }

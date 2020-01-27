@@ -420,8 +420,7 @@ public class PostFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt(mContext.getString(R.string.post_id), post.getPost_id());
                 fragment.setArguments(bundle);
-                FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction tr = fragmentManager.beginTransaction();
+                FragmentTransaction tr = getFragmentManager().beginTransaction();
                 if(getActivity() instanceof BaseActivity){
                     tr.replace(R.id.baseLayout, fragment) .addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
                 }

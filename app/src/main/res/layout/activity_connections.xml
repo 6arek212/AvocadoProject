@@ -5,20 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Connection.ConnectionsActivity"
-    android:id="@+id/mainLayoutConnection">
+    >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relLayout1"
-        android:layout_above="@+id/relLayout2">
 
         <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/viewPager"
-            android:fitsSystemWindows="true"
             />
+
 
 
         <com.google.android.material.tabs.TabLayout
@@ -35,6 +30,11 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-    </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mainLayoutConnection"/>
+
 
 </RelativeLayout>

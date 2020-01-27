@@ -40,11 +40,13 @@ public class LikesAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private int user_id;
     public boolean is_end;
+    private FragmentManager fragmentManager;
 
 
-    public LikesAdapter(Context mContext, int user_id) {
+    public LikesAdapter(Context mContext, int user_id,FragmentManager fragmentManager) {
         this.mContext = mContext;
         this.user_id = user_id;
+        this.fragmentManager=fragmentManager;
     }
 
     public void clear() {
@@ -152,8 +154,6 @@ public class LikesAdapter extends RecyclerView.Adapter {
                     fragment.is_current_user = false;
 
                 fragment.incoming_user_id = likes.get(i).getUser_id();
-
-                FragmentManager fragmentManager = ((BaseActivity) mContext).getSupportFragmentManager();
                 FragmentTransaction tr = fragmentManager.beginTransaction();
                 tr.replace(R.id.likeDislikeLayout, fragment).addToBackStack(mContext.getString(R.string.profile_fragment)).commit();
 

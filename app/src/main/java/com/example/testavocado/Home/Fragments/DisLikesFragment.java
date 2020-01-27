@@ -63,7 +63,7 @@ public class DisLikesFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mSwipe = view.findViewById(R.id.swipe);
         mLayout=view.findViewById(R.id.likeLayout);
-        adapter = new LikesAdapter(getContext(),user_id);
+        adapter = new LikesAdapter(getContext(),user_id,getChildFragmentManager());
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                 , false));
 
