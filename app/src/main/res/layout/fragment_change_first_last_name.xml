@@ -116,7 +116,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/btnlogin_shape1"
         android:text="@string/cancel"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="@+id/btn_save_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_save_edit">
