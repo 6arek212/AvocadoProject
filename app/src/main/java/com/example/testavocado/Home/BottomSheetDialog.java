@@ -10,12 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.testavocado.Dialogs.ConfirmDialogEditeText;
+import com.example.testavocado.ccc.MainActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +51,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     OnActionListener onActionListener;
 
     //widgets
-    ConstraintLayout mDeleteLayout,mHideLayout,mSaveLayout;
+    ConstraintLayout mDeleteLayout, mHideLayout, mSaveLayout;
     TextView mDeletePost, mReport, mHidePost, mSavedPost;
     //vars
     private Context mContext;
@@ -95,9 +98,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         mReport = view.findViewById(R.id.reportPost);
         mHidePost = view.findViewById(R.id.hidePost);
         mSavedPost = view.findViewById(R.id.savePost);
-        mDeleteLayout=view.findViewById(R.id.deletePostLayout);
-        mSaveLayout=view.findViewById(R.id.savePostLayout);
-        mHideLayout=view.findViewById(R.id.hidePostLayout);
+        mDeleteLayout = view.findViewById(R.id.deletePostLayout);
+        mSaveLayout = view.findViewById(R.id.savePostLayout);
+        mHideLayout = view.findViewById(R.id.hidePostLayout);
         mContext = getContext();
 
 
@@ -107,7 +110,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                 int id = v.getId();
 
                 switch (id) {
-                    case R.id.deletePost:
+                    case R.id.deletePostLayout:
                         showAlert("Are you sure for deleting this post ?", new OnClickDialog() {
                             @Override
                             public void onClick() {
@@ -122,7 +125,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                         break;
 
 
-                    case R.id.hidePost:
+                    case R.id.hidePostLayout:
                         showAlert("Are you sure for hiding this post ?", new OnClickDialog() {
                             @Override
                             public void onClick() {
@@ -131,7 +134,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                         });
                         break;
 
-                    case R.id.savePost:
+                    case R.id.savePostLayout:
 
                         if (post_saved != 0) {
                             deleteSavedPost();
@@ -147,29 +150,27 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                 }
                             });
-                            confirmDialogEditeText.show(getFragmentManager(),"cc");
+                            if (getFragmentManager() != null)
+                                confirmDialogEditeText.show(getFragmentManager(), "cc");
                         }
-
-
                         break;
-
                 }
             }
         };
 
 
-        mDeletePost.setOnClickListener(clickListener);
+        mDeleteLayout.setOnClickListener(clickListener);
         mReport.setOnClickListener(clickListener);
-        mHidePost.setOnClickListener(clickListener);
-        mSavedPost.setOnClickListener(clickListener);
+        mHideLayout.setOnClickListener(clickListener);
+        mSaveLayout.setOnClickListener(clickListener);
     }
 
     interface OnClickDialog {
         void onClick();
     }
 
-    private void showAlert(String title,final OnClickDialog click){
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
+    private void showAlert(String title, final OnClickDialog click) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.AlertDialogStyle2);
         builder.setTitle(title);
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -179,7 +180,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
-        builder.setNegativeButton("Cancel",null);
+        builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

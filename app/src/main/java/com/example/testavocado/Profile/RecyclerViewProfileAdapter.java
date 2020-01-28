@@ -825,7 +825,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     final ConfirmDialog confirmDialog = new ConfirmDialog();
-                    confirmDialog.setTitle("are you sure you want to remove connection ? ");
+                    confirmDialog.setTitle("Are you sure you want to remove connection with "+user.getUser_first_name()+" "+user.getUser_last_name()+" ?");
 
                     confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
                         @Override
