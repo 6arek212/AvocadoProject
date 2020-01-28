@@ -216,4 +216,52 @@ public class Update_information_Methods {
         });
     }
 
+
+
+    //update bithdate
+    public interface update_bithdate{
+        @POST("api/Update/updateBirthDate")
+            // rout path method in c#
+        Call<Status> update_birthdate(@Query("user_id") int user_id, @Query("birthDate") String birthDate);
+    }
+
+
+    public static void Update_Birth_date(final Context mcontext, int user_id, String birthDate,final Update_information_Methods.on_first_last_name_updated listener) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        update_bithdate bi = retrofit.create(update_bithdate.class);
+
+        final Call<Status> sa = bi.update_birthdate(user_id,birthDate);
+
+        sa.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.isSuccessful())
+                {
+                    if (status.getState() == 1)
+                    {
+                        Log.d(TAG, "onResponse: " + status);
+                        listener.onSuccessListener(status.getState());
+                    }
+                    else if (status.getState() == 0)
+                    {
+                        listener.onServerException(status.getException());
+                    }
+                    else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }
+                else
+                    listener.onFailureListener(response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
+            }
+        });
+    }
+
 }

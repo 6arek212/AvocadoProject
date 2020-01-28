@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.Utils.HelpMethods;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -99,12 +101,31 @@ public class change_age_fragment extends Fragment {
                     }
                     else
                     {
+                        String birthdate1=txtv_selectdate.getText().toString().trim();
+                        Update_information_Methods.Update_Birth_date(mcontext, HelpMethods.get_userid_sharedp(mcontext), birthdate1, new Update_information_Methods.on_first_last_name_updated() {
+                            @Override
+                            public void onSuccessListener(int result) {
+                                Log.d(TAG, "onSuccessListener: ");
+                                Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
+                            }
 
+                            @Override
+                            public void onServerException(String ex) {
+                                Log.d(TAG, "onServerException: ");
+                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailureListener(String ex) {
+                                Log.d(TAG, "onFailureListener: ");
+                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     break;
 
                 case R.id.btn_cancel_birthdate_update:
-                    Toast.makeText(mcontext, "Cancel", Toast.LENGTH_SHORT).show();
+                    close_all_fragments();
                     break;
 
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:
