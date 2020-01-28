@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Avocado</string>
     <string name="birthdate_change_title">birth date modify</string>
+    <string name="Gender_change_title">Gender</string>
     <string name="changepassword">Change password</string>
     <string name="personalinformation">Personal Information</string>
     <string name="emailaddress">Email Address</string>

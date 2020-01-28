@@ -18,6 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.Utils.HelpMethods;
+import com.example.testavocado.Utils.Validation;
+import com.example.testavocado.validation.validations;
+
 public class Change_password_fragment extends Fragment {
     private static final String TAG = "Change_password_fragmen";
     private Context mcontext;
@@ -62,7 +66,56 @@ public class Change_password_fragment extends Fragment {
             switch (view.getId())
             {
                 case R.id.btn_save_newpassword:
-                    Toast.makeText(mcontext, btn_save.getText()+"", Toast.LENGTH_SHORT).show();
+                    validations validation1=new validations(mcontext);
+                    String current_password,new_password,retype_new_password;
+                    //------------------------------------------------------------------------->
+                    current_password=edtxt_current_password.getText().toString().trim();
+                    new_password=edtxt_new_password.getText().toString().trim();
+                    retype_new_password=edtxt_retype_newpassword.getText().toString();
+                    //------------------------------------------------------------------------->
+                    Boolean current_password_validation=false,new_retype_isequals=false,new_password_validtion=false;
+
+                    if(!current_password.isEmpty()&&!new_password.isEmpty()&&!retype_new_password.isEmpty())
+                    {
+                        current_password_validation=validation1.PasswordValidation(current_password);
+
+                        if (!current_password_validation)
+                            Toast.makeText(mcontext, "Wrong password Type", Toast.LENGTH_SHORT).show();
+
+                        else if (new_password.equals(retype_new_password)) {
+                            new_retype_isequals = true;
+                            new_password_validtion = validation1.PasswordValidation(new_password);
+
+                            if (current_password_validation == true && new_password_validtion == true) {
+                                Update_information_Methods.Update_password(mcontext, HelpMethods.get_userid_sharedp(mcontext), current_password, new_password,
+                                        new Update_information_Methods.on_first_last_name_updated() {
+                                            @Override
+                                            public void onSuccessListener(int result) {
+                                                Toast.makeText(mcontext, getString(R.string.UPDATED), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void onServerException(String ex) {
+                                                if(ex.equals("0"))
+                                                    Toast.makeText(mcontext, "The current password is invalid", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                                                Log.d(TAG, "onServerException: "+ex);
+                                            }
+
+                                            @Override
+                                            public void onFailureListener(String ex) {
+                                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                                                Log.d(TAG, "onFailureListener: "+ex);
+                                            }
+                                        });
+
+                            }
+                        } else
+                            Toast.makeText(mcontext, " password not match ", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    else Toast.makeText(mcontext, "U need to fill all of the rows", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.btn_cancel_newpassword:

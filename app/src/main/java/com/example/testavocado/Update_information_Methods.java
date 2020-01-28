@@ -13,6 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public class Update_information_Methods {
@@ -171,7 +172,7 @@ public class Update_information_Methods {
 
     //update password
     public interface update_password {
-        @GET("api/Update/update_password")
+        @POST("api/Update/update_password")
             // rout path method in c#
         Call<Status> update_password(@Query("userid") int userid, @Query("current_password") String current_password, @Query("new_password") String new_password);
     }
