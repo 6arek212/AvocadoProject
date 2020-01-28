@@ -689,50 +689,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    final ConfirmDialog confirmDialog = new ConfirmDialog();
-                    confirmDialog.setTitle("Are you sure you want to share this post ?");
-                    confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
-                        @Override
-                        public void onConfirm() {
-                            final Post post = new Post();
-                            post.setUser_id(user_id);
-                            post.setPost_text(postsList.get(getAdapterPosition()).getPost_text());
-                            post.setPost_images_url(postsList.get(getAdapterPosition()).getPost_images_url());
-                            post.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
-                            post.setPost_type(postsList.get(getAdapterPosition()).getPost_type());
-                            post.setPost_is_shared(true);
-                            post.setOriginal_post_id(postsList.get(getAdapterPosition()).getPost_id());
-
-
-                            PostMethods.sharePost(post, new PostMethods.OnSharingPostListener() {
-                                @Override
-                                public void onSuccess() {
-                                    Log.d(TAG, "onSuccess: shared a post :D " + post);
-                                    Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-                                }
-
-                                @Override
-                                public void onServerException(String ex) {
-                                    Log.d(TAG, "onServerException: error sharing post " + ex);
-                                    Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-                                }
-
-                                @Override
-                                public void onFailure(String ex) {
-                                    Log.d(TAG, "onFailure: error while sharing a post" + ex);
-                                    Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                    confirmDialog.dismiss();
-
-                                }
-                            });
-                        }
-                    });
-
-                    confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
-
+                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()),user_id,mContext);
                 }
             });
         }

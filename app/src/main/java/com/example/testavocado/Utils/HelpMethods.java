@@ -1,7 +1,9 @@
 package com.example.testavocado.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
 import androidx.core.app.ActivityCompat;
@@ -11,7 +13,10 @@ import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.example.testavocado.Home.PostMethods;
+import com.example.testavocado.Models.Post;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
 
@@ -20,6 +25,79 @@ import q.rorbin.badgeview.QBadgeView;
 
 public class HelpMethods {
     private static final String TAG = "HelpMethods";
+
+
+
+    public static void alertDialog(final Post post,final int user_id,final Context mContext) {
+        // Set up the alert builder
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
+        builder.setTitle("Are you sure you want to share " + post.getUser_name() + " " + post.getUser_last_name() + " post ?");
+        //builder.setMessage("Choose sharing option");
+
+        final int[] type = new int[1];
+// Add a checkbox list
+
+        final String[][] choices = {{"friends only", "public"}};
+        builder.setSingleChoiceItems(choices[0], 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: ooo "+which);
+                type[0] =which;
+            }
+        });
+
+
+
+// Add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                // The user clicked OK
+                Log.d(TAG, "onClick: onshare wich "+type[0]);
+
+                post.setUser_id(user_id);
+                post.setPost_text(post.getPost_text());
+                post.setPost_images_url(post.getPost_images_url());
+                post.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
+                post.setPost_type(type[0]);
+                post.setPost_is_shared(true);
+                post.setOriginal_post_id(post.getPost_id());
+
+
+                PostMethods.sharePost(post, new PostMethods.OnSharingPostListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "onSuccess: shared a post :D " + post);
+                        Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onServerException(String ex) {
+                        Log.d(TAG, "onServerException: error sharing post " + ex);
+                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(String ex) {
+                        Log.d(TAG, "onFailure: error while sharing a post" + ex);
+                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
 
     /**

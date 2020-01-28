@@ -1,6 +1,8 @@
 package com.example.testavocado.Home.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -151,7 +153,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public boolean Show;
     public int post_type;
 
-    public static int POST_CODE=55;
+    public static int POST_CODE = 55;
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
@@ -161,7 +163,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mAddPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity) mContext).startActivityForResult(new Intent(mContext, AddNewPostActivity.class),POST_CODE);
+                    ((BaseActivity) mContext).startActivityForResult(new Intent(mContext, AddNewPostActivity.class), POST_CODE);
                 }
             });
 
@@ -248,7 +250,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
             }
 
 
-
             if (postsList.get(i).getPost_images_url().isEmpty()) {
                 v1.mImageSlider.setVisibility(View.GONE);
                 v1.mDots.setVisibility(View.GONE);
@@ -276,11 +277,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
         }
 
     }
-
-
-
-
-
 
 
 
@@ -356,7 +352,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
-        }else{
+        } else {
             Toast.makeText(mContext, "You already disliked the post", Toast.LENGTH_SHORT).show();
 
         }
@@ -368,7 +364,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         PostMethods.removeLike(postsList.get(index).getLike_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnLikeRemoved: "+postsList.get(index).getLike_id());
+                Log.d(TAG, "OnLikeRemoved: " + postsList.get(index).getLike_id());
                 postsList.get(index).setLike_id(-1);
                 btn.setText("Like");
 
@@ -427,7 +423,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
-        }else {
+        } else {
             Toast.makeText(mContext, "You already liked the post", Toast.LENGTH_SHORT).show();
 
         }
@@ -439,7 +435,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         PostMethods.removeDisLike(postsList.get(index).getDis_like_id(), postsList.get(index).getPost_id(), new PostMethods.OnRemovingLikingPostListener() {
             @Override
             public void OnLikeRemoved() {
-                Log.d(TAG, "OnDisLikeRemoved: "+postsList.get(index).getLike_id());
+                Log.d(TAG, "OnDisLikeRemoved: " + postsList.get(index).getLike_id());
                 postsList.get(index).setDis_like_id(-1);
                 btn.setText("DisLike");
 
@@ -462,8 +458,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
             }
         });
     }
-
-
 
 
     @Override
@@ -503,7 +497,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             commentsLayout = itemView.findViewById(R.id.commentsLayout);
             likeLayout = itemView.findViewById(R.id.likeLayout);
             mSharedPost = itemView.findViewById(R.id.sharedPost);
-            mPhotoLayout=itemView.findViewById(R.id.mPhotoLayout);
+            mPhotoLayout = itemView.findViewById(R.id.mPhotoLayout);
             mImageSlider = itemView.findViewById(R.id.viewPagerImages);
             mDots = itemView.findViewById(R.id.tablayoutDots);
             mShareLayout = itemView.findViewById(R.id.shareLayout);
@@ -513,58 +507,15 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mPostText.setInterpolator(new OvershootInterpolator());
         }
 
-        public void share(){
+
+
+
+
+        public void share() {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    try {
-                        final ConfirmDialog confirmDialog = new ConfirmDialog();
-                        confirmDialog.setTitle("Are you sure you want to share " + postsList.get(getAdapterPosition()).getUser_name() + " " + postsList.get(getAdapterPosition()).getUser_last_name() + "  ?");
-                        confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                final Post post = new Post();
-                                post.setUser_id(user_id);
-                                post.setPost_text(postsList.get(getAdapterPosition()).getPost_text());
-                                post.setPost_images_url(postsList.get(getAdapterPosition()).getPost_images_url());
-                                post.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
-                                post.setPost_type(postsList.get(getAdapterPosition()).getPost_type());
-                                post.setPost_is_shared(true);
-                                post.setOriginal_post_id(postsList.get(getAdapterPosition()).getPost_id());
-
-
-                                PostMethods.sharePost(post, new PostMethods.OnSharingPostListener() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Log.d(TAG, "onSuccess: shared a post :D " + post);
-                                        Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
-                                        confirmDialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onServerException(String ex) {
-                                        Log.d(TAG, "onServerException: error sharing post " + ex);
-                                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                        confirmDialog.dismiss();
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(String ex) {
-                                        Log.d(TAG, "onFailure: error while sharing a post" + ex);
-                                        Toast.makeText(mContext, mContext.getString(R.string.ERROR_TOAST), Toast.LENGTH_SHORT).show();
-                                        confirmDialog.dismiss();
-
-                                    }
-                                });
-                            }
-                        });
-                        confirmDialog.show(fragmentManager, mContext.getString(R.string.confirm_dialog));
-
-                    } catch (NullPointerException ex) {
-                        Log.e(TAG, "onClick: " + ex);
-                    }
+                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()),user_id,mContext);
                 }
             });
         }
@@ -584,20 +535,20 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
                         @Override
                         public void onHide() {
-                            try{
+                            try {
                                 postsList.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition());
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
                         }
 
                         @Override
                         public void onDelete() {
-                            try{
+                            try {
                                 postsList.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition());
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
                         }

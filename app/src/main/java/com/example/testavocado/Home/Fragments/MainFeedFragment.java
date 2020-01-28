@@ -54,18 +54,18 @@ public class MainFeedFragment extends Fragment {
     private static final String TAG = "MainFeedFragment";
 
 
-    public void updatePosts(){
-        getPosts(0,0);
+    public void updatePosts() {
+        getPosts(0, 0);
     }
 
 
-    public void handleCheckBOx(final CheckBox publicPosts,final CheckBox friends){
+    public void handleCheckBOx(final CheckBox publicPosts, final CheckBox friends) {
 
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapter.Show=true;
+                adapter.Show = true;
                 if (friends.isChecked() && publicPosts.isChecked()) {
                     //get friend and public posts
                     getPosts(0, PUBLIC_FRIENDS_POSTS);
@@ -73,18 +73,21 @@ public class MainFeedFragment extends Fragment {
 
                 } else if (friends.isChecked() && !publicPosts.isChecked()) {
                     getPosts(0, FRIENDS_POSTS);
-                    adapter.post_type = FRIENDS_POSTS;;
+                    adapter.post_type = FRIENDS_POSTS;
+                    ;
 
                 } else if (!friends.isChecked() && publicPosts.isChecked()) {
                     //get public posts
                     getPosts(0, PUBLIC_POSTS);
-                    adapter.post_type = PUBLIC_POSTS;;
+                    adapter.post_type = PUBLIC_POSTS;
+                    ;
                 } else {
                     Log.d(TAG, "handlingCheckBox: delete posts" + adapter.getItemCount());
                     adapter.clear();
                     adapter.notifyDataSetChanged();
-                    adapter.Show=false;
-                }}
+                    adapter.Show = false;
+                }
+            }
         };
 
         publicPosts.setOnCheckedChangeListener(onCheckedChangeListener);
@@ -92,14 +95,13 @@ public class MainFeedFragment extends Fragment {
     }
 
 
-    public void setProfileImage(CircleImageView image){
+    public void setProfileImage(CircleImageView image) {
         Glide.with(mContext)
                 .load(HelpMethods.getSharedPreferences(mContext).getProfilePic())
                 .centerCrop()
                 .error(R.drawable.person_icon)
                 .into(image);
     }
-
 
 
     //widgets
@@ -248,8 +250,9 @@ public class MainFeedFragment extends Fragment {
                 adapter.removeProg();
                 setLoaded();
                 swipeRefreshLayout.setRefreshing(false);
-                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
+                if (getActivity() != null)
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -324,19 +327,14 @@ public class MainFeedFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==POST_CODE)
-        {
-            if(resultCode==RESULT_OK)
-            {
+        if (requestCode == POST_CODE) {
+            if (resultCode == RESULT_OK) {
                 Log.d(TAG, "fragment onActivityResult: post published");
-            }
-            else
-            {
+            } else {
 
             }
         }
     }
-
 
 
     /**

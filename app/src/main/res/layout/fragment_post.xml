@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include layout="@layout/layout_post_item" />
+            <include layout="@layout/layout_post_item_test" />
         </ScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.testavocado.Home.BottomSheetDialog;
@@ -60,7 +61,7 @@ public class PostFragment extends Fragment {
     private ViewPager mImageSlider;
     private FloatingActionButton mSend;
     private EditText mComment;
-    private RelativeLayout commentsLayout, likeLayout, mPhotoLayout;
+    private ConstraintLayout commentsLayout, likeLayout, mPhotoLayout;
     private ScrollView mPostLayout;
     private SwipeRefreshLayout mSwipe;
     private CoordinatorLayout mainLayout;
@@ -106,7 +107,7 @@ public class PostFragment extends Fragment {
         mImageSlider = view.findViewById(R.id.viewPagerImages);
         mDots = view.findViewById(R.id.tablayoutDots);
         mSwipe = view.findViewById(R.id.swipe);
-        mPhotoLayout = view.findViewById(R.id.relLayout4);
+        mPhotoLayout = view.findViewById(R.id.mPhotoLayout);
         like = view.findViewById(R.id.like);
         share = view.findViewById(R.id.share);
         mainLayout=view.findViewById(R.id.mainLayout);
@@ -315,36 +316,7 @@ public class PostFragment extends Fragment {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    final Post postShare = new Post();
-                    postShare.setUser_id(user_id);
-                    postShare.setPost_text(post.getPost_text());
-                    postShare.setPost_images_url(post.getPost_images_url());
-                    postShare.setPost_date_time(TimeMethods.getUTCdatetimeAsString());
-                    postShare.setPost_type(post.getPost_type());
-                    postShare.setPost_is_shared(true);
-                    postShare.setOriginal_post_id(post.getPost_id());
-
-                    Log.d(TAG, "onClick: sharing " + postShare);
-
-                    PostMethods.addPost(postShare, new PostMethods.OnAddingNewPostListener() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d(TAG, "onSuccess: shared a post :D " + postShare);
-                            Toast.makeText(mContext, "Post Shared", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onServerException(String ex) {
-                            Log.d(TAG, "onServerException: error sharing post " + ex);
-
-                        }
-
-                        @Override
-                        public void onFailure(String ex) {
-                            Log.d(TAG, "onFailure: error while sharing a post" + ex);
-                        }
-                    });
+                    HelpMethods.alertDialog(post,user_id,mContext);
                 }
             });
         }
@@ -563,6 +535,7 @@ public class PostFragment extends Fragment {
                     @Override
                     public void OnServerException(String ex) {
                         Log.d(TAG, "OnServerException: " + ex);
+                        Toast.makeText(mContext, "You already liked or disliked the post", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -574,6 +547,8 @@ public class PostFragment extends Fragment {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else{
+            Toast.makeText(mContext, "You already disliked the post", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -628,6 +603,7 @@ public class PostFragment extends Fragment {
                     @Override
                     public void OnServerException(String ex) {
                         Log.d(TAG, "OnServerException: " + ex);
+                        Toast.makeText(mContext, "You already liked or disliked the post", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -638,6 +614,9 @@ public class PostFragment extends Fragment {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else{
+            Toast.makeText(mContext, "You already liked the post", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -650,7 +629,7 @@ public class PostFragment extends Fragment {
                 post.setDis_like_id(-1);
                 dislike.setText("DisLike");
 
-                int likeCount = post.getPost_likes_count() - 1;
+                int likeCount = post.getPost_dislike_count() - 1;
                 post.setPost_likes_count(likeCount);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

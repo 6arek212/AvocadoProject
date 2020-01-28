@@ -160,7 +160,7 @@ public class NotificationFragment extends Fragment {
             @Override
             public void OnFailure(String exception) {
                 Log.d(TAG, "OnFailure: " + exception);
-                if (getContext() != null)
+                if (getActivity() != null)
                     Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 adapter.removeProg();
