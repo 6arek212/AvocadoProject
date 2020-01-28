@@ -344,6 +344,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     @Override
                     public void OnServerException(String ex) {
                         Log.d(TAG, "OnServerException: " + ex);
+                        Toast.makeText(mContext, "You already liked or disliked the post", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -355,6 +356,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else{
+            Toast.makeText(mContext, "You already disliked the post", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -411,6 +415,8 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     @Override
                     public void OnServerException(String ex) {
                         Log.d(TAG, "OnServerException: " + ex);
+                        Toast.makeText(mContext, "You already liked or disliked the post", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
@@ -421,6 +427,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else {
+            Toast.makeText(mContext, "You already liked the post", Toast.LENGTH_SHORT).show();
+
         }
 
     }

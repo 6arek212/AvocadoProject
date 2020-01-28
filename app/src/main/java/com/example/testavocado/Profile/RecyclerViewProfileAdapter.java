@@ -307,6 +307,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             }
 
 
+            Log.d(TAG, "onBindViewHolder: profile adapter dislikeid "+postsList.get(i).getDis_like_id()+"   current user_id "+user_id);
             if (postsList.get(i).getDis_like_id() != -1) {
                 v1.dislike.setText("Disliked");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -421,6 +422,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else{
+            Toast.makeText(mContext, "You already disliked the post", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -487,6 +490,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
+        }else{
+            Toast.makeText(mContext, "You already liked the post", Toast.LENGTH_SHORT).show();
         }
 
     }
