@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class change_age_fragment extends Fragment {
     private boolean first_date_select = true;
     private DatePickerDialog.OnDateSetListener mdateSetListener;
     private int year1, month1, day1;
-
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
