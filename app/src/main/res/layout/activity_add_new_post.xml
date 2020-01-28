@@ -105,11 +105,12 @@
                 android:id="@+id/postText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorEditTextGrey"
+                android:background="@color/colorLiteBlue"
+                android:backgroundTint="@color/colorLiteBlue"
                 android:drawableStart="@drawable/ic_last_name"
                 android:drawableLeft="@drawable/ic_last_name"
                 android:drawablePadding="16dp"
-                android:inputType="textNoSuggestions"
+                android:textCursorDrawable="@null"
                 android:maxLines="10"
                 android:paddingLeft="9dp"
                 android:paddingTop="16dp"
@@ -174,6 +175,7 @@
             android:id="@+id/sharePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded"
@@ -185,7 +187,9 @@
             android:text="Upload"
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

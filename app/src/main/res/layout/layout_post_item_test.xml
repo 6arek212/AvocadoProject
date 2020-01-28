@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/postUserName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
@@ -36,6 +36,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/profileImage"
         app:layout_constraintEnd_toStartOf="@+id/sharedPost"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profileImage"
         app:layout_constraintTop_toTopOf="@+id/profileImage" />
 
@@ -110,7 +111,7 @@
         android:ellipsize="end"
         android:maxLines="5"
         android:text="hello this is my first post here im going to explain alll of the things for myy firend s"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/textColor"
         android:textColorLink="@color/colorBlue"
         android:textSize="15sp"
         app:animation_duration="750"

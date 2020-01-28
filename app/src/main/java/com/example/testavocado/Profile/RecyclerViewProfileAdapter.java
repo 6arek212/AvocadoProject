@@ -194,6 +194,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     .error(R.drawable.profile_ic)
                     .into(v1.mProfileImage);
 
+
             if (is_current_user) {
                 v1.addingLayout.setVisibility(View.GONE);
                 v1.btn_add_bio.setVisibility(View.VISIBLE);
@@ -307,7 +308,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             }
 
 
-            Log.d(TAG, "onBindViewHolder: profile adapter dislikeid "+postsList.get(i).getDis_like_id()+"   current user_id "+user_id);
+            Log.d(TAG, "onBindViewHolder: profile adapter dislikeid " + postsList.get(i).getDis_like_id() + "   current user_id " + user_id);
             if (postsList.get(i).getDis_like_id() != -1) {
                 v1.dislike.setText("Disliked");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -422,7 +423,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
-        }else{
+        } else {
             Toast.makeText(mContext, "You already disliked the post", Toast.LENGTH_SHORT).show();
         }
 
@@ -490,7 +491,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             } catch (IndexOutOfBoundsException ex) {
 
             }
-        }else{
+        } else {
             Toast.makeText(mContext, "You already liked the post", Toast.LENGTH_SHORT).show();
         }
 
@@ -675,9 +676,9 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     FragmentTransaction tr = fragmentManager.beginTransaction();
                     tr.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
 
-                    if (mContext instanceof ConnectionsActivity){
+                    if (mContext instanceof ConnectionsActivity) {
                         tr.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
-                    }else {
+                    } else {
                         tr.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.LikesDislikesFragment)).commit();
                     }
 
@@ -689,7 +690,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()),user_id,mContext);
+                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()), user_id, mContext);
                 }
             });
         }
@@ -773,7 +774,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
 
     public class InfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mUserName, mbio, mCountryCity, mConnectionCount, mPostsCount,mBirthDate;
+        private TextView mUserName, mbio, mCountryCity, mConnectionCount, mPostsCount, mBirthDate;
         private CircleImageView mProfileImage;
         private LinearLayout friendsLayout, friendRequestSentLayout, friendRequestRecivedLayout, addingLayout, AddFriendLayout;
         private RelativeLayout mAddPost;
@@ -790,7 +791,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             mConnectionCount = itemView.findViewById(R.id.connectionsCount);
             mPostsCount = itemView.findViewById(R.id.postsCount);
             mProfileImage = itemView.findViewById(R.id.profileImage);
-            mBirthDate=itemView.findViewById(R.id.birthDate);
+            mBirthDate = itemView.findViewById(R.id.birthDate);
             friendsLayout = itemView.findViewById(R.id.friendsLayoutProfile);
             friendRequestSentLayout = itemView.findViewById(R.id.friendRequestSentLayout);
             friendRequestRecivedLayout = itemView.findViewById(R.id.friendRequestRecivedLayout);
