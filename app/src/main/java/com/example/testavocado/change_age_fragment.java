@@ -1,6 +1,7 @@
 package com.example.testavocado;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -101,26 +102,56 @@ public class change_age_fragment extends Fragment {
                     }
                     else
                     {
-                        String birthdate1=txtv_selectdate.getText().toString().trim();
-                        Update_information_Methods.Update_Birth_date(mcontext, HelpMethods.get_userid_sharedp(mcontext), birthdate1, new Update_information_Methods.on_first_last_name_updated() {
-                            @Override
-                            public void onSuccessListener(int result) {
-                                Log.d(TAG, "onSuccessListener: ");
-                                Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
-                            }
+                        final String birthdate1=txtv_selectdate.getText().toString().trim();
 
-                            @Override
-                            public void onServerException(String ex) {
-                                Log.d(TAG, "onServerException: ");
-                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
-                            }
 
+                        //aler dialog
+                        final AlertDialog dialog=new AlertDialog.Builder(mcontext)
+                                .setTitle("Change Email")
+                                .setMessage("Are you sure about that?")
+                                .setPositiveButton("Yes",null)
+                                .setNegativeButton("Cancel",null)
+                                .show();
+                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+
+                        Button positivebutton=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        positivebutton.setOnClickListener(new View.OnClickListener()
+                        {
                             @Override
-                            public void onFailureListener(String ex) {
-                                Log.d(TAG, "onFailureListener: ");
-                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                            public void onClick(View view) {
+
+                                Update_information_Methods.Update_Birth_date(mcontext, HelpMethods.get_userid_sharedp(mcontext), birthdate1, new Update_information_Methods.on_first_last_name_updated() {
+                                    @Override
+                                    public void onSuccessListener(int result) {
+                                        Log.d(TAG, "onSuccessListener: ");
+                                        Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
+                                        txtv_selectdate.setText("Select Date");
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onServerException(String ex) {
+                                        Log.d(TAG, "onServerException: ");
+                                        Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailureListener(String ex) {
+                                        Log.d(TAG, "onFailureListener: ");
+                                        Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    }
+                                });
+
                             }
                         });
+
+
+
+
+
                     }
                     break;
 

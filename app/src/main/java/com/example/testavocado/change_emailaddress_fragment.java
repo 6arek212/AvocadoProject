@@ -89,7 +89,7 @@ public class change_emailaddress_fragment extends Fragment {
                         //aler dialog
                         final AlertDialog dialog=new AlertDialog.Builder(mcontext)
                                 .setTitle("Change Email")
-                                .setMessage("Are you sure about this?")
+                                .setMessage("Are you sure about that?")
                                 .setPositiveButton("Yes",null)
                                 .setNegativeButton("Cancel",null)
                                 .show();
@@ -97,7 +97,8 @@ public class change_emailaddress_fragment extends Fragment {
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
 
                         Button positivebutton=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        positivebutton.setOnClickListener(new View.OnClickListener() {
+                        positivebutton.setOnClickListener(new View.OnClickListener()
+                        {
                             @Override
                             public void onClick(View view) {
 
