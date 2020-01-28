@@ -150,23 +150,6 @@
                     android:layout_below="@id/relLayout4"
                     android:layout_marginBottom="22dp"
                     >
-<!--
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/postImage"/>
-
-                    <ImageView
-                        android:elevation="15dp"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_black_x"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:id="@+id/deleteImage"/>
--->
 
 
                    <androidx.recyclerview.widget.RecyclerView
@@ -196,11 +179,7 @@
         </ScrollView>
 
 
-        <ProgressBar
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:id="@+id/progressBar"
-            android:layout_centerInParent="true"/>
+
 
     </RelativeLayout>
 </merge>

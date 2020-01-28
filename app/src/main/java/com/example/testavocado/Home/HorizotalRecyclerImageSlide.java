@@ -59,24 +59,10 @@ public class HorizotalRecyclerImageSlide extends RecyclerView.Adapter<HorizotalR
                 .into(viewHolder.mImage);
 
 
-
-        deleteImage(viewHolder,i);
+        viewHolder.deleteImage();
     }
 
-    private void deleteImage(ViewHolder viewHolder, final int i) {
-        viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    images.remove(i);
-                    notifyItemRemoved(i);
-                }
-                catch (IndexOutOfBoundsException e){
-                    Log.e(TAG, "onClick: "+e.getMessage() );
-                }
-            }
-        });
-    }
+
 
 
     @Override
@@ -91,6 +77,21 @@ public class HorizotalRecyclerImageSlide extends RecyclerView.Adapter<HorizotalR
             super(itemView);
             mDelete=itemView.findViewById(R.id.deleteImage);
             mImage=itemView.findViewById(R.id.postImage);
+        }
+
+        public void deleteImage() {
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        images.remove(getAdapterPosition());
+                        notifyItemRemoved(getAdapterPosition());
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        Log.e(TAG, "onClick: "+e.getMessage() );
+                    }
+                }
+            });
         }
     }
 }
