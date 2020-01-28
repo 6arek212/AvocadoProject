@@ -15,9 +15,13 @@
     </style>
 
 
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
 
-
-
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 
     <style name="font">
         <item name="android:fontFamily">@font/font1</item>
@@ -45,7 +49,6 @@
     </style>
 
 
-
     <style name="radioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:colorAccent">@color/colorPrimary</item>
         <item name="android:textColor">@color/black</item>
@@ -60,12 +63,10 @@
     </style>
 
 
-
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:colorAccent">@color/colorBlue</item>
 
     </style>
-
 
 
     <style name="ProgressBar" parent="Widget.AppCompat.ProgressBar">
@@ -93,8 +94,6 @@
         <item name="android:layout_marginRight">5mm</item>-->
         <item name="android:background">@drawable/edtxt_shape1_userlogin</item>
     </style>
-
-
 
 
     <!-- Buttons style -->
@@ -147,7 +146,7 @@
         <item name="android:textSize">3mm</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
-<!--textview title-->
+    <!--textview title-->
     <style name="txtv_title">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>

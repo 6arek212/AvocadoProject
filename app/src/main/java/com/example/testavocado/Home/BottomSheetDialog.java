@@ -1,10 +1,13 @@
 package com.example.testavocado.Home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.testavocado.Dialogs.ConfirmDialogEditeText;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -45,12 +48,18 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     OnActionListener onActionListener;
 
     //widgets
+    ConstraintLayout mDeleteLayout,mHideLayout,mSaveLayout;
     TextView mDeletePost, mReport, mHidePost, mSavedPost;
     //vars
     private Context mContext;
     public int post_userId, post_id, post_saved;
     private int current_user_id;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+    }
 
     @Nullable
     @Override
@@ -62,17 +71,17 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
 
         if (current_user_id == post_userId) {
-            mDeletePost.setVisibility(View.VISIBLE);
+            mDeleteLayout.setVisibility(View.VISIBLE);
             mReport.setVisibility(View.GONE);
-            mHidePost.setVisibility(View.GONE);
-            mSavedPost.setVisibility(View.GONE);
+            mHideLayout.setVisibility(View.GONE);
+            mSaveLayout.setVisibility(View.GONE);
         } else {
-            mDeletePost.setVisibility(View.GONE);
+            mDeleteLayout.setVisibility(View.GONE);
             mReport.setVisibility(View.VISIBLE);
-            mHidePost.setVisibility(View.VISIBLE);
-            mSavedPost.setVisibility(View.VISIBLE);
+            mHideLayout.setVisibility(View.VISIBLE);
+            mSaveLayout.setVisibility(View.VISIBLE);
             if (post_saved != 0) {
-                mSavedPost.setVisibility(View.VISIBLE);
+                mSaveLayout.setVisibility(View.VISIBLE);
                 mSavedPost.setText(mContext.getString(R.string.delete_from_savedposts));
             }
         }
@@ -86,6 +95,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         mReport = view.findViewById(R.id.reportPost);
         mHidePost = view.findViewById(R.id.hidePost);
         mSavedPost = view.findViewById(R.id.savePost);
+        mDeleteLayout=view.findViewById(R.id.deletePostLayout);
+        mSaveLayout=view.findViewById(R.id.savePostLayout);
+        mHideLayout=view.findViewById(R.id.hidePostLayout);
         mContext = getContext();
 
 
@@ -96,7 +108,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                 switch (id) {
                     case R.id.deletePost:
-                        deletePost();
+                        showAlert("Are you sure for deleting this post ?", new OnClickDialog() {
+                            @Override
+                            public void onClick() {
+                                deletePost();
+                            }
+                        });
                         break;
 
 
@@ -106,7 +123,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
 
                     case R.id.hidePost:
-                        hidePost();
+                        showAlert("Are you sure for hiding this post ?", new OnClickDialog() {
+                            @Override
+                            public void onClick() {
+                                hidePost();
+                            }
+                        });
                         break;
 
                     case R.id.savePost:
@@ -142,6 +164,25 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         mSavedPost.setOnClickListener(clickListener);
     }
 
+    interface OnClickDialog {
+        void onClick();
+    }
+
+    private void showAlert(String title,final OnClickDialog click){
+        AlertDialog.Builder builder=new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
+        builder.setTitle(title);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                click.onClick();
+            }
+        });
+
+        builder.setNegativeButton("Cancel",null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void deleteSavedPost() {
         PostMethods.deleteSavePost(post_saved, new PostMethods.OnDeleteingSavinedPostListener() {

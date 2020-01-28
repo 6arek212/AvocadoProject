@@ -19,12 +19,34 @@ import com.example.testavocado.Home.PostMethods;
 import com.example.testavocado.Models.Post;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
+import com.example.testavocado.Settings.MenuFragment;
 
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
 public class HelpMethods {
     private static final String TAG = "HelpMethods";
+
+
+   public interface OnClickDialog {
+        void onClick();
+    }
+
+
+    public static void showAlert(String title,Context context,final OnClickDialog click){
+        AlertDialog.Builder builder=new AlertDialog.Builder(context,R.style.AlertDialogStyle2);
+        builder.setTitle(title);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                click.onClick();
+            }
+        });
+
+        builder.setNegativeButton("Cancel",null);
+        builder.show();
+    }
 
 
 

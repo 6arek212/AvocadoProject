@@ -1,6 +1,8 @@
 package com.example.testavocado.Settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Chat.SQLiteMethods;
+import com.example.testavocado.Home.BottomSheetDialog;
 import com.example.testavocado.ccc.ClearData;
 import com.google.android.material.navigation.NavigationView;
 
@@ -109,17 +112,13 @@ public class MenuFragment extends Fragment {
 
 
                     case R.id.logout:
-                        ConfirmDialog confirmDialog = new ConfirmDialog();
-                        confirmDialog.setTitle("Are you sure you want to logout ?");
 
-
-                        confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
+                        HelpMethods.showAlert("Are you sure you want to logout ?", mContext,new HelpMethods.OnClickDialog() {
                             @Override
-                            public void onConfirm() {
+                            public void onClick() {
                                 HelpMethods.deleteUserIdSharedPreferences(mContext,getActivity());
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
-                                SQLiteMethods sqLiteMethods=new SQLiteMethods(mContext,"db1",null,SQL_VER);
-                                sqLiteMethods.cleatChatsTable();
+
 
                                 ClearData cd=new ClearData(requireActivity().getApplication());
                                 cd.clearDb();
@@ -127,8 +126,6 @@ public class MenuFragment extends Fragment {
                                 requireActivity().finish();
                             }
                         });
-                        confirmDialog.show(getFragmentManager(), getString(R.string.confirm_dialog));
-
                         break;
 
 
@@ -147,6 +144,7 @@ public class MenuFragment extends Fragment {
         });
 
 
+
         viewProfileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +155,10 @@ public class MenuFragment extends Fragment {
 
         return view;
     }
+
+
+
+
 
     public static Bitmap getBitmapFromURL(String src) {
         try {

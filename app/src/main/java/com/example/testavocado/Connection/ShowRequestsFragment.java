@@ -2,15 +2,18 @@ package com.example.testavocado.Connection;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.testavocado.Utils.HelpMethods;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +68,7 @@ public class ShowRequestsFragment extends Fragment {
         mSwipe = view.findViewById(R.id.swipe);
         mContext = getContext();
 
-        adapter = new RecyclerViewRequestsAdapter(mContext,getFragmentManager());
+        adapter = new RecyclerViewRequestsAdapter(mContext, getFragmentManager());
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                 , false));
 
@@ -81,9 +84,6 @@ public class ShowRequestsFragment extends Fragment {
             }
         });
     }
-
-
-
 
 
     /**
@@ -115,11 +115,9 @@ public class ShowRequestsFragment extends Fragment {
      */
 
 
-
     public boolean isRecyclerScrollable() {
         return mRecyclerView.computeVerticalScrollRange() > mRecyclerView.getHeight();
     }
-
 
 
     /**
@@ -166,7 +164,8 @@ public class ShowRequestsFragment extends Fragment {
                     public void OnFailure(String exception) {
                         Log.d(TAG, "OnFailure: failure exception " + exception);
                         adapter.clearList();
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                        if (getActivity() != null)
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
                         adapter.removeProg();
                         mSwipe.setRefreshing(false);
 

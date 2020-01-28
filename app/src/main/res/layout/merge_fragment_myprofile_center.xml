@@ -50,7 +50,21 @@
                     android:text="Mahalaxmi MNC, Lalitpur"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorBlack" />
+
+
+
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/birthDate"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10/06/1998"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorBlack" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"

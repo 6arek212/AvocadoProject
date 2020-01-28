@@ -27,6 +27,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -529,6 +530,8 @@ public class PostsAdapter extends RecyclerView.Adapter {
             mPostOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
                     bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
