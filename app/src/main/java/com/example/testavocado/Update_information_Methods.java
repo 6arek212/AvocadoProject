@@ -264,4 +264,50 @@ public class Update_information_Methods {
         });
     }
 
+
+    //update gender
+    public interface update_gender{
+        @POST("api/Update/updateGender")
+            // rout path method in c#
+        Call<Status> update_gender(@Query("user_id") int user_id, @Query("gender") int gender);
+    }
+
+
+    public static void Update_gender(final Context mcontext, int user_id, int gender,final Update_information_Methods.on_first_last_name_updated listener) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient();
+        update_gender bi = retrofit.create(update_gender.class);
+
+        final Call<Status> sa = bi.update_gender(user_id,gender);
+
+        sa.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.isSuccessful())
+                {
+                    if (status.getState() == 1)
+                    {
+                        Log.d(TAG, "onResponse: " + status);
+                        listener.onSuccessListener(status.getState());
+                    }
+                    else if (status.getState() == 0)
+                    {
+                        listener.onServerException(status.getException());
+                    }
+                    else
+                    {
+                        listener.onFailureListener(status.getException());
+                    }
+                }
+                else
+                    listener.onFailureListener(response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + call + "  " + t.getMessage());
+                listener.onFailureListener(t.getMessage());
+            }
+        });
+    }
 }
