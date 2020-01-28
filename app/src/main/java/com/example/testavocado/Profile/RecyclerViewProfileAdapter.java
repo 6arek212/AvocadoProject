@@ -179,11 +179,11 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             InfoViewHolder v1 = (InfoViewHolder) viewHolder;
 
             v1.mUserName.setText(user.getUser_first_name() + " " + user.getUser_last_name());
-            v1.mCountryCity.setText(user.getUser_country() + "," + user.getUser_city());
+            v1.mCountryCity.setText(user.getUser_country());
             v1.mConnectionCount.setText(user.getUser_connection_count() + "");
             v1.mPostsCount.setText(user.getUser_posts_count() + "");
             v1.mbio.setText(user.getUser_bio());
-
+            v1.mBirthDate.setText(TimeMethods.convertDateTimeFormatDateOnly(user.getUser_birth_date()));
             if (is_current_user)
                 changeProfilePic(v1);
 
@@ -773,7 +773,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
 
     public class InfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mUserName, mbio, mCountryCity, mConnectionCount, mPostsCount;
+        private TextView mUserName, mbio, mCountryCity, mConnectionCount, mPostsCount,mBirthDate;
         private CircleImageView mProfileImage;
         private LinearLayout friendsLayout, friendRequestSentLayout, friendRequestRecivedLayout, addingLayout, AddFriendLayout;
         private RelativeLayout mAddPost;
@@ -790,6 +790,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             mConnectionCount = itemView.findViewById(R.id.connectionsCount);
             mPostsCount = itemView.findViewById(R.id.postsCount);
             mProfileImage = itemView.findViewById(R.id.profileImage);
+            mBirthDate=itemView.findViewById(R.id.birthDate);
             friendsLayout = itemView.findViewById(R.id.friendsLayoutProfile);
             friendRequestSentLayout = itemView.findViewById(R.id.friendRequestSentLayout);
             friendRequestRecivedLayout = itemView.findViewById(R.id.friendRequestRecivedLayout);

@@ -16,6 +16,7 @@ public class TimeMethods {
 
     static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
+    static final String DATE_FORMAT3 = "dd/MM/yyyy HH:mm:ss";
 
 
     public static String convertDateTimeFormat(String datetime){
@@ -36,6 +37,24 @@ public class TimeMethods {
         return  dueDateAsNormal;
     }
 
+    public static String convertDateTimeFormatDateOnly2(String datetime){
+
+        Date date = null;
+        String dueDateAsNormal ="";
+
+        try {
+            date = new SimpleDateFormat(DATE_FORMAT3).parse(datetime);
+            SimpleDateFormat newFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  dueDateAsNormal;
+    }
+
 
 
     public static String convertDateTimeFormatDateOnly(String datetime){
@@ -45,7 +64,7 @@ public class TimeMethods {
 
         try {
             date = new SimpleDateFormat(DATE_FORMAT).parse(datetime);
-            SimpleDateFormat newFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat newFormatter = new SimpleDateFormat("dd-MM-yyyy");
             newFormatter.setTimeZone(TimeZone.getDefault());
             dueDateAsNormal = newFormatter.format(date);
 

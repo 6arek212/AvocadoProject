@@ -68,6 +68,7 @@ public class register_page1_Fragment extends Fragment {
     private String[] permission;
     private Uri selectedImage;
     private TextView selectCountry;
+    private String mDate;
 
     @Nullable
     @Override
@@ -109,6 +110,7 @@ public class register_page1_Fragment extends Fragment {
 
                 first_date_select = false;
                 Log.d(TAG, "onDateSet: ");
+                mDate=year + "/" + month+1 + "/" + dayOfMonth;
                 month = month + 1;
                 String date = dayOfMonth + "/" + month + "/" + year;
                 txtv_selectdate.setText(date);
@@ -198,8 +200,10 @@ public class register_page1_Fragment extends Fragment {
                         return;
                     }
 
-                    String birthday = txtv_selectdate.getText().toString();
-                    myuser.setUser_birthday(birthday);
+                    //TODO
+                    Log.d(TAG, "onClick: date "+mDate+"   date2 "+ TimeMethods.convertDateTimeFormatDateOnly2(txtv_selectdate.getText().toString()));
+                    String birthday = TimeMethods.convertDateTimeFormatDateOnly2(txtv_selectdate.getText().toString());
+                    myuser.setUser_birthday(mDate);
                     // if selected was female the value will be true else will be false
 
                     if (btn.getId() == R.id.radio_btn_female_merge_center_profile_register)
