@@ -39,8 +39,17 @@ public class Personal_information extends AppCompatActivity {
             public void successfullyGettingInfo(user_information user) {
                 txtv_emailaddress.setText(""+user.getUser_email());
                 txtv_phonenumber.setText(""+user.getUser_phonenumber());
-                txtv_birthdate.setText(""+user.getUser_birth_date());
-                txtv_gender.setText(""+user.getUser_gender());
+                if(user.getUser_gender()==1)
+                txtv_gender.setText("Male");
+                else if(user.getUser_gender()==0)
+                    txtv_gender.setText("Female");
+
+                String date1[]=user.getUser_birth_date().split("T");
+                String date2[]=date1[0].split("-");
+                String date_fix=date2[2]+"/"+date2[1]+"/"+date2[0]+"";
+
+                txtv_birthdate.setText(""+date_fix);
+
             }
 
             @Override
