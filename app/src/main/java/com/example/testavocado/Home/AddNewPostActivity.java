@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.Models.Status;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -60,9 +63,8 @@ public class AddNewPostActivity extends AppCompatActivity {
     private TextView mWhatOnYourMind, mAddPic;
     private EditText mPostText;
     private Spinner mPostType;
-    private ImageButton mPost;
+    private Button mPost;
     private ViewPager mViewPager;
-    private TabLayout tablayout;
     private TextInputLayout input_counter;
 
 
@@ -106,7 +108,6 @@ public class AddNewPostActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.viewPager);
         mContext = AddNewPostActivity.this;
         mPost = findViewById(R.id.sharePost);
-        tablayout = findViewById(R.id.tablayout);
         mProgressBar.setVisibility(View.GONE);
         input_counter=findViewById(R.id.input_counter);
 
@@ -209,7 +210,7 @@ public class AddNewPostActivity extends AppCompatActivity {
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
         adap = new HorizotalRecyclerImageSlide(mContext);
         recyclerView.setAdapter(adap);
 

@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
-    >
-
-    <RelativeLayout
-        android:layout_marginTop="16dp"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/relLayout4">
+        android:layout_margin="8dp">
+
 
         <ImageView
-            android:scaleType="centerCrop"
+            android:id="@+id/postImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/postImage"/>
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/deleteImage"
+            app:layout_constraintTop_toBottomOf="@+id/deleteImage" />
 
-        <ImageView
-            android:elevation="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_black_x"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:id="@+id/deleteImage"/>
+    <ImageView
+        android:id="@+id/deleteImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:elevation="15dp"
+        android:src="@drawable/ic_black_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-</RelativeLayout>

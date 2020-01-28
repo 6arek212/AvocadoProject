@@ -10,10 +10,12 @@
             @style/PreferenceThemeOverlay.v14.Material
         </item>
         <item name="android:windowContentTransitions">true</item>
-
         <item name="android:progressBarStyle">@style/progressBar</item>
         <item name="android:fontFamily">@font/font1</item>
     </style>
+
+
+
 
 
 
