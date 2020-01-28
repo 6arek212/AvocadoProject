@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +28,8 @@ public class Change_Gender_fragment extends Fragment {
     private Button btn_save,btn_cancel;
     private ImageView imgv_arrow_back;
     private TextView txtv_title,txtv_title_gender_text;
+    private RadioGroup mradioGroup;
+    private RadioButton radio_btn_male, radio_btn_female,checked_btn;
 
     @Nullable
     @Override
@@ -43,7 +48,9 @@ public class Change_Gender_fragment extends Fragment {
         imgv_arrow_back=(ImageView)myview.findViewById(R.id.imgv_arrow_back_merge_topbar_back_arrow) ;
         txtv_title=(TextView)myview.findViewById(R.id.txtv_post_created_firstname_merge_topbar_back_arrow) ;
         txtv_title_gender_text=(TextView)myview.findViewById(R.id.txtv__merge_gender_change);
-
+        radio_btn_male=(RadioButton)myview.findViewById(R.id.radio_btn_male_merge_gender_change);
+        radio_btn_female=(RadioButton)myview.findViewById(R.id.radio_btn_female_merge_gender_change);
+        mradioGroup=(RadioGroup)myview.findViewById(R.id.radiogrup_merge_gender_change);
         //set values
         txtv_title.setText("Gender Changer");
         txtv_title_gender_text.setText("Your Gender");
@@ -53,6 +60,13 @@ public class Change_Gender_fragment extends Fragment {
         btn_save.setOnClickListener(new onclick());
         btn_cancel.setOnClickListener(new onclick());
         imgv_arrow_back.setOnClickListener(new onclick());
+        //radio group------------------------------------------------------------------------------------>
+        mradioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                checked_btn = (RadioButton) myview.findViewById(checkedId);
+            }
+        });
     }
 
     class onclick implements View.OnClickListener
@@ -65,8 +79,16 @@ public class Change_Gender_fragment extends Fragment {
                 case R.id.imgv_arrow_back_merge_topbar_back_arrow:
                     close_all_fragments();
                     break;
-                case R.id.btn_save_gender_update:
 
+                case R.id.btn_save_gender_update:
+                    if(checked_btn==null)
+                    {
+                        Log.d(TAG, "not selection ");
+                        Toast.makeText(mcontext,  getString(R.string.select_your_gender)+"", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                        Toast.makeText(mcontext, checked_btn.getText()+"", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.btn_cancel_gender_update:

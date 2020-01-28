@@ -64,8 +64,6 @@ public class register_page1_Fragment extends Fragment {
     private boolean first_date_select = true;
     public Setting setting;
     private ProgressBar progressBar;
-
-
     private boolean is_image_seclected = false;
     private String[] permission;
     private Uri selectedImage;
