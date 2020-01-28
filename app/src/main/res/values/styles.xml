@@ -28,6 +28,14 @@
     </style>
 
 
+
+    <style name="radioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+    </style>
+
+
     <style name="AlertDialogStyle2" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:colorAccent">@color/colorPrimary</item>
         <item name="android:textColor">@color/black</item>

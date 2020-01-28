@@ -15,6 +15,7 @@
     </RelativeLayout>
 
 
+    <!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +44,29 @@
 
 
     </RelativeLayout>
+-->
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/addPost">
+
+        <RadioButton android:id="@+id/publicPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/public_post"
+            android:buttonTint="@color/blue_normal"/>
+
+        <RadioButton android:id="@+id/friendPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/friends_only"
+            android:buttonTint="@color/blue_normal"/>
+    </RadioGroup>
+
+
 
 
 </RelativeLayout>

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.testavocado.Home.PostMethods;
@@ -59,33 +60,20 @@ public class MainFeedFragment extends Fragment {
     }
 
 
-    public void handleCheckBOx(final CheckBox publicPosts, final CheckBox friends) {
+    public void handleCheckBOx(RadioButton publicPosts,RadioButton friends) {
 
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 adapter.Show = true;
-                if (friends.isChecked() && publicPosts.isChecked()) {
-                    //get friend and public posts
-                    getPosts(0, PUBLIC_FRIENDS_POSTS);
-                    adapter.post_type = PUBLIC_FRIENDS_POSTS;
-
-                } else if (friends.isChecked() && !publicPosts.isChecked()) {
-                    getPosts(0, FRIENDS_POSTS);
-                    adapter.post_type = FRIENDS_POSTS;
-                    ;
-
-                } else if (!friends.isChecked() && publicPosts.isChecked()) {
+                if (buttonView.getId()==R.id.publicPosts && isChecked) {
                     //get public posts
                     getPosts(0, PUBLIC_POSTS);
                     adapter.post_type = PUBLIC_POSTS;
-                    ;
-                } else {
-                    Log.d(TAG, "handlingCheckBox: delete posts" + adapter.getItemCount());
-                    adapter.clear();
-                    adapter.notifyDataSetChanged();
-                    adapter.Show = false;
+                } else if (buttonView.getId()==R.id.friendPosts && isChecked){
+                    getPosts(0, FRIENDS_POSTS);
+                    adapter.post_type = FRIENDS_POSTS;
                 }
             }
         };
@@ -213,8 +201,7 @@ public class MainFeedFragment extends Fragment {
      * @param offset
      */
 
-    Handler handle12r = new Handler();
-    List<Post> posts;
+
 
     public void getPosts(final int offset, int type) {
         Log.d(TAG, "getPosts: type " + type);
@@ -307,12 +294,7 @@ public class MainFeedFragment extends Fragment {
             if (fragment == null || fragment.isRemoving())
                 return;
 
-
-            Log.d(TAG, "onPostExecute: " + offset);
-            for (int i = 0; i < posts.size(); i++) {
-                Log.d(TAG, "onPostExecute: posts " + posts.get(i));
-            }
-
+            Log.d(TAG, "onPostExecute: get item count "+fragment.adapter.getItemCount());
 
             fragment.adapter.removeProg();
             fragment.adapter.addSetOfPosts(posts, fragment.adapter.getItemCount());

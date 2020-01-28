@@ -28,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,8 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public void addNull() {
         postsList.add(null);
         notifyItemInserted(postsList.size());
+        Log.d(TAG, "addNull: post size "+postsList.size() +"   posts "+postsList);
+
     }
 
     public void removeProg() {
@@ -102,6 +105,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
 
     public void addSetOfPosts(List<Post> posts, int s) {
+        Log.d(TAG, "addSetOfPosts: post size "+postsList.size() +"   posts "+postsList);
         postsList.addAll(posts);
         notifyItemRangeInserted(s, posts.size());
     }
@@ -716,7 +720,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public class TopViewHolder extends RecyclerView.ViewHolder {
         CircleImageView mProfileImage;
         RelativeLayout mAddPost;
-        CheckBox mFriendsPosts, mPublicPosts;
+        RadioButton mFriendsPosts, mPublicPosts;
 
 
         public TopViewHolder(@NonNull View itemView) {
