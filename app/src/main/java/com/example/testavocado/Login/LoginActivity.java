@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(findViewById(android.R.id.content), getString(R.string.field_required), Snackbar.LENGTH_SHORT).show();
                         //Toast.makeText(mContext, "all field are required !", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (validation.Password(password) && validation.Email(email)) {
+                        if (validation.Password(password) && validation.EmailAndPhoneNumber(email)) {
                             progressBar.setVisibility(View.VISIBLE);
                             HelpMethods.closeKeyboard(LoginActivity.this);
                             // loginWithEmailAndPassword(email, password);

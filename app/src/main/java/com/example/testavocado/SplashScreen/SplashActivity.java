@@ -6,12 +6,16 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 
 
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -124,7 +128,6 @@ public class SplashActivity extends AppCompatActivity {
                     e.printStackTrace();
                 } finally {
                     updateUI();
-                    finish();
                 }
 
             }
@@ -140,15 +143,29 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void updateUI() {
-        int user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
-        Log.d(TAG, "updateUI: updating the ui id:  " + user_id);
 
-        if (user_id != getResources().getInteger(R.integer.defaultValue)) {
-            startActivity(new Intent(mContext, BaseActivity.class));
-        } else {
-            startActivity(new Intent(mContext, LoginActivity.class));
-        }
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int user_id = HelpMethods.checkSharedPreferencesForUserId(mContext);
+                Log.d(TAG, "updateUI: updating the ui id:  " + user_id);
+                if (user_id != getResources().getInteger(R.integer.defaultValue)) {
+                    startActivity(new Intent(mContext, BaseActivity.class));
+                } else {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        // Apply activity transition
+                        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashActivity.this, mAvocadoLogo, "imageMain");
+                        Intent in = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(in, activityOptionsCompat.toBundle());
+
+                    } else {
+                        startActivity(new Intent(mContext, LoginActivity.class));
+                    }
+                }
+                finish();
+            }
+        });
     }
 
 

@@ -40,6 +40,44 @@ public class Validation {
     }
 
 
+
+    /**
+     * 0- EMAIL IS VALID :D
+     * <p>
+     * 1-email format !!
+     *
+     * @param email
+     * @return
+     */
+    public boolean EmailAndPhoneNumber(String email) {
+        if (!TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return true;
+        }
+
+        if (email.contains(" ")){
+            Toast.makeText(mContext, "The email or phone number must not have spaces", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        boolean isNumber=true;
+
+        for (int i=0;i<email.length()&&isNumber;i++){
+            if (email.charAt(i)>'9' || email.charAt(i)<'0'){
+                isNumber=false;
+            }
+        }
+
+        if (!isNumber){
+            Log.d(TAG, "Email: " + mContext.getString(R.string.EMAIL_PATTERN));
+            Toast.makeText(mContext, mContext.getString(R.string.EMAIL_PATTERN), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+
+
     /*
             0- nmae is valid :D
 
