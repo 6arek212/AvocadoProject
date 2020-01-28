@@ -51,11 +51,11 @@ import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
 import static com.example.testavocado.Home.adapters.PostsAdapter.POST_CODE;
 
 
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
-    public static final boolean ONLINE_STATE=true;
-    public static final boolean OFFLINE_STATE=false;
+    public static final boolean ONLINE_STATE = true;
+    public static final boolean OFFLINE_STATE = false;
 
 
     //widgets
@@ -82,30 +82,23 @@ public class BaseActivity extends AppCompatActivity  {
     public static int offset;
 
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
         getMessageInstance();
+        user_id = HelpMethods.checkSharedPreferencesForUserId(this);
+        mContext = this;
+        initWidgets();
+        setViewpager();
+        serviceIntents();
 
-        if(savedInstanceState==null) {
-            user_id = HelpMethods.checkSharedPreferencesForUserId(this);
-            mContext = this;
-            initWidgets();
-            setViewpager();
-            serviceIntents();
-        }
     }
 
 
-
-
-
     //handling service intents
-    private void serviceIntents(){
+    private void serviceIntents() {
         Intent intent = getIntent();
         FragmentTransaction frt = getSupportFragmentManager().beginTransaction();
 
@@ -129,15 +122,13 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
-
     private void getMessageInstance() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if (task.isSuccessful()){
-                    Log.d(TAG, "onComplete: "+task.getResult().getToken());
-                    updateTheToken(task.getResult().getToken(),BaseActivity.this);
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: " + task.getResult().getToken());
+                    updateTheToken(task.getResult().getToken(), BaseActivity.this);
                 }
             }
         });
@@ -145,16 +136,15 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
     /**
-     *          init all widgets
-     *ا
+     * init all widgets
+     * ا
      */
-    private void initWidgets(){
-        mChat=findViewById(R.id.chat);
+    private void initWidgets() {
+        mChat = findViewById(R.id.chat);
         mViewPager = findViewById(R.id.mainViewPager);
         mtab = findViewById(R.id.tablayout);
-        mSearch=findViewById(R.id.search);
+        mSearch = findViewById(R.id.search);
 
 
         mSearch.setOnClickListener(new View.OnClickListener() {
@@ -174,9 +164,6 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
-
-
     /**
      * set viewpager and tablayout
      */
@@ -189,8 +176,8 @@ public class BaseActivity extends AppCompatActivity  {
         notificationFragment = new NotificationFragment();
         menuFragment = new MenuFragment();
         profileFragment = new ProfileFragment();
-        profileFragment.incoming_user_id=user_id;
-        profileFragment.is_current_user=true;
+        profileFragment.incoming_user_id = user_id;
+        profileFragment.is_current_user = true;
 
         adapter.addFragment(mainFeedFragment);
         adapter.addFragment(profileFragment);
@@ -209,7 +196,7 @@ public class BaseActivity extends AppCompatActivity  {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d(TAG, "onPageScrolled: "+position+"  "+mtab.getSelectedTabPosition());
+                Log.d(TAG, "onPageScrolled: " + position + "  " + mtab.getSelectedTabPosition());
 
             }
 
@@ -225,11 +212,9 @@ public class BaseActivity extends AppCompatActivity  {
         });
 
 
-
         mtab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
 
 
             }
@@ -242,22 +227,19 @@ public class BaseActivity extends AppCompatActivity  {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                int i=tab.getPosition();
-                Log.d(TAG, "onTabReselected: "+i+"  "+mViewPager.getCurrentItem());
+                int i = tab.getPosition();
+                Log.d(TAG, "onTabReselected: " + i + "  " + mViewPager.getCurrentItem());
 
 
-                if(getSupportFragmentManager().getBackStackEntryCount()>0){
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                }
-                else{
-                    if(i==0&&mViewPager.getCurrentItem()==0){
+                } else {
+                    if (i == 0 && mViewPager.getCurrentItem() == 0) {
                         scrollToTheTop(mainFeedFragment.mRecyclerView);
-                    }
-                    else if(i==1&&mViewPager.getCurrentItem()==1){
+                    } else if (i == 1 && mViewPager.getCurrentItem() == 1) {
 
                         scrollToTheTop(profileFragment.mRecyclerView);
-                    }
-                    else if(i==2&&mViewPager.getCurrentItem()==2){
+                    } else if (i == 2 && mViewPager.getCurrentItem() == 2) {
 
                         scrollToTheTop(notificationFragment.mRecyclerView);
                     }
@@ -269,34 +251,21 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
-
-
-    private void scrollToTheTop(RecyclerView recyclerView){
+    private void scrollToTheTop(RecyclerView recyclerView) {
         recyclerView.smoothScrollToPosition(0);
     }
 
 
-
-
-
-
-
-
-
-
     public void stopService() {
         BackgroundService.stopThis();
-        stopService(new Intent(this,BackgroundService.class));
+        stopService(new Intent(this, BackgroundService.class));
     }
 
     /**
-     *
-     *          lifecycle  aware
-     *
-     *          starting background service
-     *          handling user online state
-     *
+     * lifecycle  aware
+     * <p>
+     * starting background service
+     * handling user online state
      */
 
     @Override
@@ -315,18 +284,16 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try{
-            if(Build.VERSION.SDK_INT>=26){
+        try {
+            if (Build.VERSION.SDK_INT >= 26) {
                 startForegroundService(new Intent(mContext, BackgroundService.class));
-            }else{
+            } else {
                 startService(new Intent(mContext, BackgroundService.class));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
-
-
 
 
     @Override
@@ -338,16 +305,12 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
-
-
-
     /**
-     *              updating user online state
+     * updating user online state
      *
      * @param state
      */
-    private void updateOnlineState(boolean state){
+    private void updateOnlineState(boolean state) {
         LoginMethods.updateOnlineState(user_id, state, new LoginMethods.OnUpdateUserOnlineListener() {
             @Override
             public void onSuccess() {
@@ -356,26 +319,19 @@ public class BaseActivity extends AppCompatActivity  {
 
             @Override
             public void onServerException(String ex) {
-                Log.d(TAG, "onServerException: "+ex);
+                Log.d(TAG, "onServerException: " + ex);
             }
 
             @Override
             public void onFailure(String ex) {
-                Log.d(TAG, "onFailure: "+ex);
+                Log.d(TAG, "onFailure: " + ex);
             }
         });
     }
 
 
-
-
-
-
-
-
     /**
-     *          getting current location
-     *
+     * getting current location
      */
     private void getLocation() {
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -409,14 +365,8 @@ public class BaseActivity extends AppCompatActivity  {
     }
 
 
-
-
-
-
-
     /**
-     *
-     *          updating the user current location
+     * updating the user current location
      *
      * @param lat
      * @param longitude
@@ -444,29 +394,21 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TextView txtv_bio=(TextView)findViewById(R.id.textv_aboutme_merge_fragment_myprofile_center);
-        if(requestCode==2)
-        {
-            if(resultCode==RESULT_OK)
-            {
+        TextView txtv_bio = (TextView) findViewById(R.id.textv_aboutme_merge_fragment_myprofile_center);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
                 String bio_text = data.getStringExtra("bio");
                 txtv_bio.setText(bio_text);
-            }
-            else
-            {
+            } else {
 
             }
         }
 
-        if(requestCode==POST_CODE)
-        {
-            if(resultCode==RESULT_OK)
-            {
+        if (requestCode == POST_CODE) {
+            if (resultCode == RESULT_OK) {
                 Log.d(TAG, "activity onActivityResult: post published");
                 mainFeedFragment.updatePosts();
-            }
-            else
-            {
+            } else {
 
             }
         }

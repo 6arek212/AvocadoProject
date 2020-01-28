@@ -44,9 +44,20 @@ class MessageViewModel(application: Application, val chat: Chat3) : ViewModel() 
         jobScope.launch {
             repo.checkIfStillFriends()
         }
+        checkChatId()
         _showMessageEmptyText.value = false
         Log.d("ididid", "${HelpMethods.checkSharedPreferencesForUserId(application)}")
     }
+
+
+    fun checkChatId(){
+        if(chat.chatId.isEmpty()){
+            jobScope.launch {
+                repo.checkChatId()
+            }
+        }
+    }
+
 
 
     fun showErrorComplete() {

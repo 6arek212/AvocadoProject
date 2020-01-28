@@ -18,6 +18,10 @@ interface ChatDao{
     @Query("delete from chats_tbl where chatId=:id")
     fun deleteChatById(id:String)
 
+    @Query("select chatId from chats_tbl where (sender=:sender and `with`=:with) or (sender=:with and `with`=:sender)")
+    fun getChatId(sender:Int,with:Int):Int
+
+
     @Query("delete from chats_tbl")
     fun clear()
 }

@@ -342,7 +342,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 v1.mPostOptions.setVisibility(View.VISIBLE);
                 v1.bottomSheet();
             } else {
-                v1.mPostOptions.setVisibility(View.GONE);
+                v1.mPostOptions.setVisibility(View.INVISIBLE);
             }
 
         } else if (!is_endOfPosts && type == PROGRESS_BAR) {

@@ -113,6 +113,8 @@ dependencies {
     // Coroutines for getting off the UI thread
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1'
+
 
     // navigation
     def nav_version = "2.1.0"

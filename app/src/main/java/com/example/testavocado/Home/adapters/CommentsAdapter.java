@@ -1,8 +1,11 @@
 package com.example.testavocado.Home.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,27 +90,36 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         mDeleteComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentMethodsHandler.deleteComment(commentList.get(i).getComment_id(),post_id, new CommentMethodsHandler.OnDeletingCommentListener() {
+                AlertDialog.Builder alert=new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
+                alert.setTitle("Are you sure for deleting the comment for "+commentList.get(i).getComment_user_name());
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
-                    public void OnDeleted() {
-                        commentList.remove(i);
-                        notifyItemRemoved(i);
-                        onDeletingCommentListener.OnDeleteComment();
-                    }
+                    public void onClick(DialogInterface dialog, int which) {
+                        CommentMethodsHandler.deleteComment(commentList.get(i).getComment_id(),post_id, new CommentMethodsHandler.OnDeletingCommentListener() {
+                            @Override
+                            public void OnDeleted() {
+                                commentList.remove(i);
+                                notifyItemRemoved(i);
+                                onDeletingCommentListener.OnDeleteComment();
+                            }
 
-                    @Override
-                    public void onServerException(String ex) {
-                        Log.d(TAG, "onServerException: "+ex);
+                            @Override
+                            public void onServerException(String ex) {
+                                Log.d(TAG, "onServerException: "+ex);
 
-                    }
+                            }
 
-                    @Override
-                    public void onFailureListener(String ex) {
-                        Log.d(TAG, "onFailureListener: "+ex);
+                            @Override
+                            public void onFailureListener(String ex) {
+                                Log.d(TAG, "onFailureListener: "+ex);
 
+                            }
+                        });
                     }
                 });
 
+                alert.setNegativeButton("Cancel",null);
+                alert.show();
             }
         });
 

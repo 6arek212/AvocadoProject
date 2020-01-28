@@ -10,10 +10,24 @@
             @style/PreferenceThemeOverlay.v14.Material
         </item>
 
+        <item name="android:progressBarStyle">@style/progressBar</item>
+        <item name="android:fontFamily">@font/font1</item>
     </style>
 
 
 
+    <style name="font">
+        <item name="android:fontFamily">@font/font1</item>
+    </style>
+
+
+    <style name="progressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:backgroundTint">@color/red_error</item>
+        <item name="android:indeterminateTint">@color/red_error</item>
+    </style>
 
 
     <style name="darkTheme" parent="Theme.AppCompat.Light.NoActionBar">

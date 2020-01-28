@@ -112,7 +112,7 @@ public class register_page1_Fragment extends Fragment {
                 first_date_select = false;
                 Log.d(TAG, "onDateSet: ");
                 month = month + 1;
-                String date = year + "/" + month + "/" + dayOfMonth;
+                String date = dayOfMonth + "/" + month + "/" + year;
                 txtv_selectdate.setText(date);
 
             }

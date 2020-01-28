@@ -8,10 +8,7 @@ import androidx.lifecycle.Transformations
 import com.example.testavocado.Login.RegisterMethods
 import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.*
 import java.lang.Exception
 
@@ -26,6 +23,7 @@ class MessagesRepository(
 
     var isConnected: Boolean = false
 
+    var isCheckingForChatId=false
 
     private val chatId = MutableLiveData<String>()
     val messages = Transformations.switchMap(chatId) {
@@ -56,6 +54,47 @@ class MessagesRepository(
     private val _online = MutableLiveData<Boolean>()
     val online: LiveData<Boolean>
         get() = _online
+
+
+
+    suspend fun checkChatId(){
+        withContext(Dispatchers.IO){
+            chat.sender?.let {
+                isCheckingForChatId=true
+                val chatIdDb=database.chatDao.getChatId(it,chat.with)
+                if (chatIdDb==0)
+                {
+
+                val query:Query=myRef.child("users")
+                        .child(userId.toString())
+                        .child("nodes")
+                        .equalTo(chat.with.toDouble())
+                        .orderByChild("with")
+
+                    query.addListenerForSingleValueEvent(object :ValueEventListener{
+                        override fun onCancelled(p0: DatabaseError) {
+
+                        }
+
+                        override fun onDataChange(p0: DataSnapshot) {
+                            Log.d("gotchats","id ${p0.value}  ${chat.with}")
+                            chat.chatId=p0.child("with").toString()
+                            chatId.postValue(chat.chatId)
+                            isCheckingForChatId=false
+                        }
+                    })
+
+
+
+                }else{
+                    chat.chatId=chatIdDb.toString()
+                    chatId.postValue(chat.chatId)
+                    isCheckingForChatId=false
+                }
+
+            }
+        }
+    }
 
 
     fun checkNetwork() {
@@ -253,6 +292,12 @@ class MessagesRepository(
             _error.postValue("You are not friends with this user any more")
             return
         }
+
+        if (isCheckingForChatId)
+        {
+            _error.postValue("Error try again")
+            return
+        }
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
 
         key?.let {
@@ -386,6 +431,10 @@ class MessagesRepository(
             return
         }
 
+        if (!isCheckingForChatId){
+
+        }
+
         val key = myRef.child("chats").push().key
 
         key?.let {
@@ -400,7 +449,13 @@ class MessagesRepository(
             ref.child("users").child(userId.toString()).child("chats").child(key).setValue(chatSend)
             ref.child("users").child(userId.toString()).child("friends").child(chat.with.toString()).setValue(chatSend)
 
+
+            ref.child("users").child(userId.toString()).child("nodes").child(key).setValue(chatSend)
+
+
             chatSend.with = userId
+            ref.child("users").child(chat.with.toString()).child("nodes").setValue(chatSend)
+
             ref.child("users").child(chat.with.toString()).child("chats").child(key).setValue(chatSend)
             ref.child("users").child(chat.with.toString()).child("friends").child(userId.toString()).setValue(chatSend)
 

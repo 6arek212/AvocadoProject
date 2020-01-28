@@ -5,7 +5,7 @@
     android:id="@+id/requestLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray1">
+    android:background="@color/colorEditTextGrey">
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,7 +22,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/layout_connection_request_item" />
+                tools:listitem="@layout/layout_connection_request_item_test" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include layout="@layout/toolbar_connections_requests" />
