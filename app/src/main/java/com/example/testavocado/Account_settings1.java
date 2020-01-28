@@ -24,6 +24,7 @@ public class Account_settings1 extends AppCompatActivity {
 
     public void load_widgets()
     {
+
         linearLayout_personal_iformation=(LinearLayout)findViewById(R.id.linearlayout_personal_information);
         linearLayout_privacy_settings=(LinearLayout)findViewById(R.id.linearlayout_privacy_settings);
         //set on click

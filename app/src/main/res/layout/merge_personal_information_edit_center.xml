@@ -35,7 +35,7 @@
                 android:id="@+id/txtv_account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/myname" />
+                android:text="" />
         </LinearLayout>
 
         <TextView
@@ -61,7 +61,7 @@
                 android:id="@+id/txtv_account_emailaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/myemail" />
+                android:text="" />
         </LinearLayout>
 
 
@@ -88,7 +88,7 @@
                 android:id="@+id/txtv_account_phonenumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/myphonenumber" />
+                android:text="" />
         </LinearLayout>
 
         <TextView
@@ -142,7 +142,34 @@
                 android:id="@+id/txtv_birthdate_modify"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="test"
+                android:text=""
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2mm"
+            android:background="@color/gray"></TextView>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_account_ChangeGender"
+            style="@style/linearlayout_style1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtv_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Gender_change_title" />
+
+            <TextView
+                android:id="@+id/txtv_Gender_modify"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text=""
                 />
         </LinearLayout>
 
