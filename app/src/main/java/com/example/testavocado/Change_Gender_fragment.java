@@ -1,7 +1,9 @@
 package com.example.testavocado;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,25 +98,54 @@ public class Change_Gender_fragment extends Fragment {
                         else
                           user_type=1;
 
-                        Update_information_Methods.Update_gender(mcontext, HelpMethods.get_userid_sharedp(mcontext), user_type, new Update_information_Methods.on_first_last_name_updated() {
-                            @Override
-                            public void onSuccessListener(int result) {
-                                Log.d(TAG, "onSuccessListener: ");
-                                Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
-                            }
+                        //aler dialog
+                        final AlertDialog dialog=new AlertDialog.Builder(mcontext)
+                                .setTitle("Change Email")
+                                .setMessage("Are you sure about that?")
+                                .setPositiveButton("Yes",null)
+                                .setNegativeButton("Cancel",null)
+                                .show();
+                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
 
-                            @Override
-                            public void onServerException(String ex) {
-                                Log.d(TAG, "onServerException: ");
-                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
-                            }
+                        Button positivebutton=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
+                        final int finalUser_type = user_type;
+                        positivebutton.setOnClickListener(new View.OnClickListener()
+                        {
                             @Override
-                            public void onFailureListener(String ex) {
-                                Log.d(TAG, "onFailureListener: ");
-                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                            public void onClick(View view) {
+
+                                Update_information_Methods.Update_gender(mcontext, HelpMethods.get_userid_sharedp(mcontext), finalUser_type, new Update_information_Methods.on_first_last_name_updated() {
+                                    @Override
+                                    public void onSuccessListener(int result) {
+                                        Log.d(TAG, "onSuccessListener: ");
+                                        Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
+                                        radio_btn_clear();
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onServerException(String ex) {
+                                        Log.d(TAG, "onServerException: ");
+                                        Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                                        radio_btn_clear();
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailureListener(String ex) {
+                                        Log.d(TAG, "onFailureListener: ");
+                                        Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                                        radio_btn_clear();
+                                        dialog.dismiss();
+                                    }
+                                });
+
                             }
                         });
+
+
 
                     }
                     break;
@@ -124,6 +155,15 @@ public class Change_Gender_fragment extends Fragment {
                     break;
             }
         }
+    }
+
+
+    //checked remove and checked button = null
+    public void  radio_btn_clear()
+    {
+        radio_btn_female.setChecked(false);
+        radio_btn_male.setChecked(false);
+        checked_btn=null;
     }
     //closeing all of the fragment in backstack
     public void close_all_fragments() {
