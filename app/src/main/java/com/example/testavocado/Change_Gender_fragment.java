@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.testavocado.Utils.HelpMethods;
+
 public class Change_Gender_fragment extends Fragment {
     public static final String TAG = "Change_Gender_fragment";
     private Context mcontext;
@@ -87,8 +89,34 @@ public class Change_Gender_fragment extends Fragment {
                         Toast.makeText(mcontext,  getString(R.string.select_your_gender)+"", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    else
-                        Toast.makeText(mcontext, checked_btn.getText()+"", Toast.LENGTH_SHORT).show();
+                    else {
+                        int user_type=0;
+                        if (checked_btn.getId() == R.id.radio_btn_female_merge_gender_change)
+                        user_type=0;
+                        else
+                          user_type=1;
+
+                        Update_information_Methods.Update_gender(mcontext, HelpMethods.get_userid_sharedp(mcontext), user_type, new Update_information_Methods.on_first_last_name_updated() {
+                            @Override
+                            public void onSuccessListener(int result) {
+                                Log.d(TAG, "onSuccessListener: ");
+                                Toast.makeText(mcontext, "Success,Data has been changed", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onServerException(String ex) {
+                                Log.d(TAG, "onServerException: ");
+                                Toast.makeText(mcontext, ex, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailureListener(String ex) {
+                                Log.d(TAG, "onFailureListener: ");
+                                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
                     break;
 
                 case R.id.btn_cancel_gender_update:
