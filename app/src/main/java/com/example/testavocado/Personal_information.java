@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class Personal_information extends AppCompatActivity {
         Get_user_information_Methods.getuser_info(HelpMethods.get_userid_sharedp(mcontext), new Get_user_information_Methods.OnGettinguser_information() {
             @Override
             public void successfullyGettingInfo(user_information user) {
+                Log.d(TAG, "successfullyGettingInfo: ");
                 txtv_emailaddress.setText(""+user.getUser_email());
                 txtv_phonenumber.setText(""+user.getUser_phonenumber());
                 if(user.getUser_gender()==1)
@@ -54,12 +56,14 @@ public class Personal_information extends AppCompatActivity {
 
             @Override
             public void serverException(String exception) {
-
+                Log.d(TAG, "serverException: ");
+                Toast.makeText(mcontext, exception+"", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void OnFailure(String exception) {
-
+                Log.d(TAG, "OnFailure: ");
+                Toast.makeText(mcontext, getString(R.string.CHECK_INTERNET), Toast.LENGTH_SHORT).show();
             }
         });
     }
