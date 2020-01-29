@@ -26,6 +26,7 @@ import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Login.RegisterMethods;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.R;
+import com.example.testavocado.Service.BackgroundService;
 import com.example.testavocado.Utils.HelpMethods;
 import com.example.testavocado.Utils.TimeMethods;
 import com.example.testavocado.Utils.Validation;
@@ -63,8 +64,20 @@ public class registeraccount_page extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            stopService();
 
+        }catch (Exception e){
 
+        }
+    }
+    public void stopService() {
+        BackgroundService.stopThis();
+        stopService(new Intent(this, BackgroundService.class));
+    }
 
     /**
      * setting up the status bar color so it match the primary color of this activity

@@ -2,11 +2,13 @@ package com.example.testavocado.ccc
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.testavocado.R
+import com.example.testavocado.Service.BackgroundService
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +35,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        try {
+            stopService()
+        } catch (e: Exception) {
+        }
         val mNotificationManager: NotificationManager
         mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotificationManager.cancelAll()
+    }
+
+    fun stopService() {
+        BackgroundService.stopThis()
+        stopService(Intent(this, BackgroundService::class.java))
     }
 }

@@ -291,8 +291,8 @@ public class BaseActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         try {
             if (Build.VERSION.SDK_INT >= 26) {
                 startForegroundService(new Intent(mContext, BackgroundService.class));
@@ -302,6 +302,12 @@ public class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
 

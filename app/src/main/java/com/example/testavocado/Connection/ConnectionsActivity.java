@@ -1,9 +1,13 @@
 package com.example.testavocado.Connection;
 
 import android.content.Context;
+
+import com.example.testavocado.Service.BackgroundService;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.testavocado.R;
@@ -44,4 +48,19 @@ public class ConnectionsActivity extends AppCompatActivity {
         tableLayout.setupWithViewPager(viewPager);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            stopService();
+
+        }catch (Exception e){
+
+        }    }
+
+    public void stopService() {
+        BackgroundService.stopThis();
+        stopService(new Intent(this, BackgroundService.class));
+    }
 }
