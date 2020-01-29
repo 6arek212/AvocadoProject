@@ -62,9 +62,13 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
      */
     public void removeProg() {
         Log.d(TAG, "removeProg: list size " + requestList.size());
-        if (requestList.get(requestList.size() - 1) == null) {
-            requestList.remove(requestList.size() - 1);
-            notifyItemRemoved(requestList.size());
+        try{
+            if (requestList.get(requestList.size() - 1) == null) {
+                requestList.remove(requestList.size() - 1);
+                notifyItemRemoved(requestList.size());
+            }
+        }catch (Exception e){
+
         }
     }
 

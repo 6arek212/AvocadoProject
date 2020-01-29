@@ -28,7 +28,7 @@ class FirebaseBroadcast : FirebaseMessagingService() {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
-        Log.d(TAG, "chat num count ${(HelpMethods.getChatNum(this)).toString()}")
+        Log.d(TAG, "chat num count ${(HelpMethods.getChatNum(this))}")
 
         Log.d(TAG, "From: ${p0.from}   $index   isAppForground(this")
         if (isAppForground(this)){
@@ -65,6 +65,7 @@ class FirebaseBroadcast : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         HelpMethods.addToken(token, this)
         val fr = FirebaseDatabase.getInstance().reference
+        Log.d("onNewToken","token $token    ${HelpMethods.checkSharedPreferencesForUserId(this)}")
         fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(this).toString()).child("token").setValue(token)
         updateTheToken(token,this)
     }

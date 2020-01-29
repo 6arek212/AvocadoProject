@@ -1,7 +1,9 @@
 package com.example.testavocado.GalleryAndPicSnap;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +35,7 @@ import com.example.testavocado.R;
 import com.example.testavocado.Utils.FilePaths;
 import com.example.testavocado.Utils.FileSearch;
 import com.example.testavocado.Utils.GridImageAdapter;
+import com.example.testavocado.Utils.Permissions;
 
 
 import java.util.ArrayList;
@@ -126,6 +130,10 @@ public class GalleryFragment extends Fragment {
      */
 
     private void init() {
+        if (!isPermissonGranted()){
+            return;
+        }
+
         FilePaths filePaths = new FilePaths();
 
 
@@ -170,6 +178,23 @@ public class GalleryFragment extends Fragment {
 
 
 
+    private boolean isPermissonGranted(){
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { // TODO: Consider calling
+//    ActivityCompat#requestPermissions
+// here to request the missing permissions, and then overriding
+//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                          int[] grantResults)
+// to handle the case where the user grants the permission. See the documentation
+// for ActivityCompat#requestPermissions for more details.
+            String str[] = new String[]{Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
+            Permissions.verifyPermission(str, getActivity());
+            return false;
+        }else
+        {
+            return true;
+        }
+    }
 
 
     /**

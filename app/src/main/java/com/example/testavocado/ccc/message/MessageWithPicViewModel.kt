@@ -2,6 +2,7 @@ package com.example.testavocado.ccc.message
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,10 @@ import com.example.testavocado.Utils.TimeMethods
 import com.example.testavocado.ccc.Chat3
 import com.example.testavocado.ccc.MessagesRepository
 import com.example.testavocado.ccc.mDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MessageWithPicViewModel (val application: Application,val userId:Int,val imageUrl:Uri,val chat: Chat3) : ViewModel() {
@@ -38,9 +43,14 @@ class MessageWithPicViewModel (val application: Application,val userId:Int,val i
     val database= mDatabase.getInstance(application.applicationContext)
     val repo= MessagesRepository(database, HelpMethods.checkSharedPreferencesForUserId(application),chat,application)
 
+    val job = Job()
+    val jobScope = CoroutineScope(job + Dispatchers.Main)
 
 
     init {
+        jobScope.launch {
+            repo.checkIfStillFriends()
+        }
         _prog.value=false
         _error.value=null
         _image.value=imageUrl
@@ -62,6 +72,7 @@ class MessageWithPicViewModel (val application: Application,val userId:Int,val i
         val uri = imageUrl
         PhotoUpload.uploadNewPhotoFirebase(application.getString(R.string.new_photo),TimeMethods.getUTCdatetimeAsString(),uri,userId,application,object : PhotoUpload.OnUploadingPostListener2{
             override fun onSuccessListener(ImageUrl: String?) {
+                Log.d("MessageWithPicViewModel","$ImageUrl   $text  ${chat.chatId}")
                 if(chat.chatId.isNullOrEmpty()){
                     repo.sendAndCreateChat(text,ImageUrl)
                     _navigateBack.value=true

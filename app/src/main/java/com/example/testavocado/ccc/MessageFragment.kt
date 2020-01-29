@@ -46,6 +46,7 @@ import com.google.android.gms.location.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.security.Permission
 
 
 class MessageFragment : Fragment() {
@@ -210,6 +211,7 @@ class MessageFragment : Fragment() {
         })
 
         binding.pic.setOnClickListener {
+            Permissions.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,context)
             val intent = Intent(context, GetaPicActivity::class.java)
             startActivityForResult(intent, ProfilePhotoUploadFragment.PHOTO_CODE)
         }

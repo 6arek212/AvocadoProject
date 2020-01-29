@@ -134,8 +134,6 @@ public class ShowRequestsFragment extends Fragment {
             loading = true;
         }
         adapter.addNull();
-
-
         ConnectionsHandler.getConnectionsRequest(HelpMethods.checkSharedPreferencesForUserId(requireContext()), offset, datetime,
                 mContext, new ConnectionsHandler.OnGettingConnectionsRequestsListener() {
                     @Override

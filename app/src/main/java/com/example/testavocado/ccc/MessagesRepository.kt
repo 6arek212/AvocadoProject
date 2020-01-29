@@ -78,8 +78,10 @@ class MessagesRepository(
 
                         override fun onDataChange(p0: DataSnapshot) {
                             Log.d("gotchats","id ${p0.value}  ${chat.with}")
-                            chat.chatId=p0.child("with").toString()
-                            chatId.postValue(chat.chatId)
+                            if (p0.value!=null){
+                                chat.chatId=p0.value.toString()
+                                chatId.postValue(chat.chatId)
+                            }
                             isCheckingForChatId=false
                         }
                     })
@@ -284,6 +286,9 @@ class MessagesRepository(
 
 
     fun sendMessage(msg: String? = null, pic: String? = null,token:String?=null, long: Double? = null, latit: Double? = null,number:String?=null) {
+        Log.d("isCheckingForChatId","isCheckingForChatId $isCheckingForChatId  isConnected $isConnected  _isFriends $_isFriends")
+
+
         if (!isConnected) {
             _error.postValue(application.getString(R.string.CHECK_INTERNET))
             return
@@ -293,12 +298,14 @@ class MessagesRepository(
             return
         }
 
-        if (isCheckingForChatId)
+        if (isCheckingForChatId )
         {
             _error.postValue("Error try again")
             return
         }
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
+        Log.d("chatIdiD","$chat")
+        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg ")
 
         key?.let {
             val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, longitude = long, latitude = latit,number = number)
@@ -431,9 +438,12 @@ class MessagesRepository(
             return
         }
 
-        if (!isCheckingForChatId){
-
+        if (isCheckingForChatId )
+        {
+            _error.postValue("Error try again")
+            return
         }
+        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg ")
 
         val key = myRef.child("chats").push().key
 
@@ -441,6 +451,8 @@ class MessagesRepository(
             val chatA = Chat(it, userId, chat.with, datetime = TimeMethods.getUTCdatetimeAsString(),r_not_read = 1,s_not_read = 0)
             myRef.child("chats").child(it).setValue(chatA)
             chat.chatId = key
+
+            Log.d("chatIdiD","$chat")
 
             val ref = FirebaseDatabase.getInstance().reference
 
