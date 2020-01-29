@@ -179,21 +179,12 @@ public class GalleryFragment extends Fragment {
 
 
     private boolean isPermissonGranted(){
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { // TODO: Consider calling
-//    ActivityCompat#requestPermissions
-// here to request the missing permissions, and then overriding
-//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                          int[] grantResults)
-// to handle the case where the user grants the permission. See the documentation
-// for ActivityCompat#requestPermissions for more details.
-            String str[] = new String[]{Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
-            Permissions.verifyPermission(str, getActivity());
+        String[] permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
+        if (!Permissions.checkPermissionsArray(permission, mContext)) {
+            Permissions.verifyPermission(permission, getActivity());
             return false;
-        }else
-        {
-            return true;
         }
+        return true;
     }
 
 
