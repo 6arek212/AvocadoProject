@@ -62,6 +62,8 @@ public class MenuFragment extends Fragment {
 
         mContext = getContext();
         navigationView = view.findViewById(R.id.navigationView);
+        //navigation set color to icons
+        navigationView.setItemIconTintList(null);
         viewProfileLayout = view.findViewById(R.id.viewProfileLayout);
         txtv_first_lastn_name=(TextView)view.findViewById(R.id.userName);
         profile_pic=(CircleImageView)view.findViewById(R.id.profileImage) ;
