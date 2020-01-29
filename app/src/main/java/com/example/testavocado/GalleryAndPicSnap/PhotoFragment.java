@@ -124,10 +124,10 @@ public class PhotoFragment extends Fragment {
 
 
     private void openCameraIntent() {
-        String st[]= new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
+         String[] permission= new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
 
         ;
-        if (!Permissions.checkPermissionsArray(st,mContext)){
+        if (!Permissions.checkPermissionsArray(permission,mContext)){
             return;
         }
         Intent pictureIntent = new Intent(
