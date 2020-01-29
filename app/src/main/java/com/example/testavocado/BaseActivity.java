@@ -271,7 +271,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        stopService();
+        try{
+            stopService();
+        }catch (Exception e){
+
+            Log.d(TAG, "onResume: error stop sevice ");
+        }
         getLocation();
         updateOnlineState(ONLINE_STATE);
 

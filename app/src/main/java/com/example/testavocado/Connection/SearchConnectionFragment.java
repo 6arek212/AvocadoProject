@@ -1,9 +1,13 @@
 package com.example.testavocado.Connection;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,6 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -72,6 +77,7 @@ public class SearchConnectionFragment extends Fragment {
     private LocationManager manager;
     private RelativeLayout mainLayout;
     private SwipeRefreshLayout mSwipe;
+    private boolean isGotLocation;
 
 
     private static boolean loading;
@@ -174,7 +180,7 @@ public class SearchConnectionFragment extends Fragment {
 
 
     private void initRecyclerView() {
-        adapter = new RecyclerViewAddConnectionAdapter(mContext, user_current_id, getActivity(),requireActivity().getSupportFragmentManager());
+        adapter = new RecyclerViewAddConnectionAdapter(mContext, user_current_id, getActivity(), requireActivity().getSupportFragmentManager());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         recyclerViewBottomDetectionListener();
@@ -386,7 +392,13 @@ public class SearchConnectionFragment extends Fragment {
         @Override
         public void onLocationChanged(final Location location) {
             Log.d(TAG, "onLocationChanged: " + location);
+            isGotLocation=true;
             Toast.makeText(mContext, "got location", Toast.LENGTH_SHORT).show();
+            adapter.searchByLocation = true;
+            lat = location.getLatitude();
+            longi = location.getLongitude();
+            getNearbyUsers(0, location.getLatitude(), location.getLongitude(), numberPicker.getRightIndex());
+            updateLocationInServer(location.getLatitude(), location.getLongitude());
         }
 
         @Override
@@ -409,15 +421,50 @@ public class SearchConnectionFragment extends Fragment {
     };
 
 
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    private boolean hasGPSDevice() {
+        PackageManager packageManager = mContext.getPackageManager();
+        return packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+    }
+
+
+    private void normalSearch() {
+        numberPicker.setVisibility(View.GONE);
+        adapter.searchByLocation = false;
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+        mNearByUsers.setChecked(false);
+    }
+
+
     /***
      *
      *
      *              updating location
      *
      */
+    Handler handler = new Handler();
+
     private void getLocation() {
         manager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
-
+        isGotLocation = false;
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -430,44 +477,86 @@ public class SearchConnectionFragment extends Fragment {
 
             String str[] = {GPS, GPS2};
             Permissions.verifyPermission(str, getActivity());
+            normalSearch();
             return;
         }
 
-        LocationManager mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null);
-
-
-        Location l1 = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location l2 = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        Location l3 = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
-        Log.d(TAG, "getLocation: get location " + l1 + " " + l2 + " " + l3 + "   ");
-        if (l1 != null) {
-            Log.d(TAG, "updateLocation12: got it l1");
-            lat = l1.getLatitude();
-            longi = l1.getLongitude();
-            adapter.searchByLocation = true;
-            updateLocationInServer(l1.getLatitude(), l1.getLongitude());
-        } else if (l2 != null) {
-            Log.d(TAG, "updateLocation12: got it l2 " + l2);
-            lat = l2.getLatitude();
-            longi = l2.getLongitude();
-            adapter.searchByLocation = true;
-            updateLocationInServer(l2.getLatitude(), l2.getLongitude());
-        } else if (l3 != null) {
-            Log.d(TAG, "updateLocation12: got it l3 " + l3);
-            lat = l3.getLatitude();
-            longi = l3.getLongitude();
-            adapter.searchByLocation = true;
-            updateLocationInServer(l3.getLatitude(), l3.getLongitude());
-        } else {
-            numberPicker.setVisibility(View.GONE);
-            adapter.searchByLocation = false;
-            Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
-            mNearByUsers.setChecked(false);
+        if (!hasGPSDevice()) {
+            HelpMethods.showAlert("You'r device dosent has gps", mContext, new HelpMethods.OnClickDialog() {
+                @Override
+                public void onClick() {
+                }
+            });
+            normalSearch();
+            return;
         }
 
-        getNearbyUsers(0, lat, longi, numberPicker.getRightIndex());
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+            normalSearch();
+            return;
+        }
+
+        Toast.makeText(mContext, "We are getting location it may take few seconds", Toast.LENGTH_SHORT).show();
+
+        final LocationManager mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, Looper.myLooper());
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(40000);
+                    mLocationManager.removeUpdates(mLocationListener);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!isGotLocation && mNearByUsers.isChecked()) {
+                                normalSearch();
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+
+                }
+            }
+        }).start();
+
+
+//        Location l1 = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        Location l2 = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//        Location l3 = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+//        Log.d(TAG, "getLocation: get location " + l1 + " " + l2 + " " + l3 + "   ");
+//        if (l1 != null) {
+//            Log.d(TAG, "updateLocation12: got it l1");
+//            lat = l1.getLatitude();
+//            longi = l1.getLongitude();
+//            adapter.searchByLocation = true;
+//            updateLocationInServer(l1.getLatitude(), l1.getLongitude());
+//        } else if (l2 != null) {
+//            Log.d(TAG, "updateLocation12: got it l2 " + l2);
+//            lat = l2.getLatitude();
+//            longi = l2.getLongitude();
+//            adapter.searchByLocation = true;
+//            updateLocationInServer(l2.getLatitude(), l2.getLongitude());
+//        } else if (l3 != null) {
+//            Log.d(TAG, "updateLocation12: got it l3 " + l3);
+//            lat = l3.getLatitude();
+//            longi = l3.getLongitude();
+//            adapter.searchByLocation = true;
+//            updateLocationInServer(l3.getLatitude(), l3.getLongitude());
+//        } else {
+//            numberPicker.setVisibility(View.GONE);
+//            adapter.searchByLocation = false;
+//            Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+//            mNearByUsers.setChecked(false);
+//        }
+
+//        getNearbyUsers(0, lat, longi, numberPicker.getRightIndex());
     }
 
 

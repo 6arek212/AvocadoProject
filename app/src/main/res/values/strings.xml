@@ -75,7 +75,7 @@
 
     <string name="CHECK_INTERNET">error check your internet connection !</string>
 
-    <string name="GPS_ERROR">no GPS signal !</string>
+    <string name="GPS_ERROR">There is no gps signal !</string>
 
 
 

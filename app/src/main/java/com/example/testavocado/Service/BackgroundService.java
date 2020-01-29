@@ -53,13 +53,14 @@ public class BackgroundService extends Service {
   static   Runnable runnable;
 
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         if (Build.VERSION.SDK_INT >= 26) {
             String CHANNEL_ID = "my_channel_01";
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Channel human readable title",
+                    "Avocado",
                     NotificationManager.IMPORTANCE_DEFAULT);
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
@@ -71,6 +72,7 @@ public class BackgroundService extends Service {
             startForeground(1, notification);
         }
         initVars();
+
         startService();
     }
 
@@ -114,7 +116,9 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-     //   handler.removeCallbacks(runnable);
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 
 

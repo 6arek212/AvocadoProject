@@ -14,13 +14,13 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -30,7 +30,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.loader.content.CursorLoader
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -292,6 +291,18 @@ class MessageFragment : Fragment() {
     }
 
 
+
+    private fun buildAlertMessageNoGps() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
+                .setNegativeButton("No") { dialog, id -> dialog.cancel() }
+        val alert = builder.create()
+        alert.show()
+    }
+
+
     fun location() {
         context?.let {
             if (ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -307,6 +318,11 @@ class MessageFragment : Fragment() {
                 return
             }
             val mLocationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+            if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps()
+            }
+
             mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null)
             Toast.makeText(context, "We are getting location it may take few seconds", Toast.LENGTH_SHORT).show();
         }
