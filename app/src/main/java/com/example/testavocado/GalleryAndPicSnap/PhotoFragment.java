@@ -123,7 +123,7 @@ public class PhotoFragment extends Fragment {
 
         ;
         if (!Permissions.checkPermissionsArray(permission, mContext)) {
-            Permissions.verifyPermission(permission, (BaseActivity) mContext);
+            Permissions.verifyPermission(permission,getActivity());
         }
 
         Intent pictureIntent = new Intent(

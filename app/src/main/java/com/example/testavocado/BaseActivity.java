@@ -131,9 +131,7 @@ public class BaseActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: " + task.getResult().getToken());
                     DatabaseReference fr = FirebaseDatabase.getInstance().getReference();
-
-                    //fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(mContext).toString()).child("token").setValue(token)
-
+                    fr.child("users").child(String.valueOf(HelpMethods.checkSharedPreferencesForUserId(mContext))).child("token").setValue(task.getResult().getToken());
                     updateTheToken(task.getResult().getToken(), BaseActivity.this);
                 }
             }
