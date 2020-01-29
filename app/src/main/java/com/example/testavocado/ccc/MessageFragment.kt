@@ -13,6 +13,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.provider.ContactsContract
 import android.provider.Settings
 import android.util.Log
@@ -325,8 +326,20 @@ class MessageFragment : Fragment() {
 
             mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null)
             Toast.makeText(context, "We are getting location it may take few seconds", Toast.LENGTH_SHORT).show();
+
+            val timer=object : CountDownTimer(40000,1){
+                override fun onFinish() {
+                    mLocationManager.removeUpdates(mLocationListener)
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
+                }
+            }
+            timer.start()
+
         }
     }
+
 
 
     private fun launchImageCrop(uri: Uri) {
