@@ -15,10 +15,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.testavocado.BaseActivity;
 import com.example.testavocado.BuildConfig;
 import com.example.testavocado.R;
 import com.example.testavocado.Utils.Permissions;
@@ -43,21 +46,21 @@ import java.util.Locale;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.os.Environment.DIRECTORY_PICTURES;
+import static com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment.PHOTO_CODE;
 
 
 public class PhotoFragment extends Fragment {
     private static final String TAG = "PhotoFragment";
 
     //activity result codes
-    public static final int PHOTO_FRAGMENT_NUM=1;
-    public static final int CAMERA_REQUEST_CODE=5;
+    public static final int PHOTO_FRAGMENT_NUM = 1;
+    public static final int CAMERA_REQUEST_CODE = 5;
     private static final int REQUEST_CAPTURE_IMAGE = 100;
-
 
 
     //widgets
     private ImageView close;
-    private  Button btnLaunchCamera;
+    private Button btnLaunchCamera;
 
 
     //vars
@@ -69,15 +72,14 @@ public class PhotoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_photo,container,false);
+        View view = inflater.inflate(R.layout.fragment_photo, container, false);
         initWidgets(view);
         return view;
     }
 
 
     /**
-     *
-     *              initializing all the widgets + attaching onClicks
+     * initializing all the widgets + attaching onClicks
      *
      * @param view
      */
@@ -85,9 +87,9 @@ public class PhotoFragment extends Fragment {
 
     private void initWidgets(View view) {
         Log.d(TAG, "initWidgets: inistializing the widgets");
-        close=view.findViewById(R.id.close);
-        btnLaunchCamera =view.findViewById(R.id.btnOpenCamera);
-        mContext=getContext();
+        close = view.findViewById(R.id.close);
+        btnLaunchCamera = view.findViewById(R.id.btnOpenCamera);
+        mContext = getContext();
 
         btnLaunchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +98,6 @@ public class PhotoFragment extends Fragment {
             }
         });
     }
-
-
 
 
     private File createImageFile() throws IOException {
@@ -118,21 +118,17 @@ public class PhotoFragment extends Fragment {
     }
 
 
-
-
-
-
-
     private void openCameraIntent() {
-         String[] permission= new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
+        String[] permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
 
         ;
-        if (!Permissions.checkPermissionsArray(permission,mContext)){
-            return;
+        if (!Permissions.checkPermissionsArray(permission, mContext)) {
+            Permissions.verifyPermission(permission, (BaseActivity) mContext);
         }
+
         Intent pictureIntent = new Intent(
                 MediaStore.ACTION_IMAGE_CAPTURE);
-        if(pictureIntent.resolveActivity(mContext.getPackageManager()) != null){
+        if (pictureIntent.resolveActivity(mContext.getPackageManager()) != null) {
             //Create a file to store the image
             File photoFile = null;
             try {
@@ -143,7 +139,7 @@ public class PhotoFragment extends Fragment {
             }
             if (photoFile != null) {
 
-               Uri photoURI = FileProvider.getUriForFile(mContext,mContext.getPackageName(), photoFile);
+                Uri photoURI = FileProvider.getUriForFile(mContext, mContext.getPackageName(), photoFile);
                 pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         photoURI);
                 startActivityForResult(pictureIntent,
@@ -158,17 +154,15 @@ public class PhotoFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            Log.d(TAG, "onActivityResult: "+imageFilePath);
+            Log.d(TAG, "onActivityResult: " + imageFilePath);
             onSelectedImageListener.onSelectedPathImage(imageFilePath);
-        }
-        else if(resultCode == Activity.RESULT_CANCELED) {
+        } else if (resultCode == Activity.RESULT_CANCELED) {
             // User Cancelled the action
         }
     }
 
     /**
-     *
-     *              getting a reference to getaPic activity
+     * getting a reference to getaPic activity
      *
      * @param context
      */
@@ -176,9 +170,8 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        onSelectedImageListener=(GetaPicActivity)context;
+        onSelectedImageListener = (GetaPicActivity) context;
     }
-
 
 
 }

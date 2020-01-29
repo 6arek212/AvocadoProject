@@ -44,6 +44,8 @@ import com.example.testavocado.Utils.LocationMethods;
 import com.example.testavocado.Utils.PostFragment;
 import com.example.testavocado.Utils.SectionStatePagerAdapter;
 import com.example.testavocado.Utils.TimeMethods;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -128,10 +130,15 @@ public class BaseActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: " + task.getResult().getToken());
+                    DatabaseReference fr = FirebaseDatabase.getInstance().getReference();
+
+                    //fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(mContext).toString()).child("token").setValue(token)
+
                     updateTheToken(task.getResult().getToken(), BaseActivity.this);
                 }
             }
         });
+
 
     }
 
