@@ -153,7 +153,8 @@ public class SearchConnectionFragment extends Fragment {
                         adapter.clearList();
                         getLocation();
                     } else {
-                        Snackbar.make(requireActivity().findViewById(android.R.id.content), "You have to enable the location in settings", Snackbar.LENGTH_SHORT).show();
+                        if (getActivity() != null)
+                            Snackbar.make(requireActivity().findViewById(android.R.id.content), "You have to enable the location in settings", Snackbar.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -375,7 +376,8 @@ public class SearchConnectionFragment extends Fragment {
                 Log.d(TAG, "onFailureListener: " + ex);
                 adapter.removeProg();
                 mSwipe.setRefreshing(false);
-                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                if (getActivity() != null)
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
                 if (!adapter.is_endOfPosts) {
                     adapter.is_endOfPosts = true;
@@ -391,7 +393,7 @@ public class SearchConnectionFragment extends Fragment {
         @Override
         public void onLocationChanged(final Location location) {
             Log.d(TAG, "onLocationChanged: " + location);
-            isGotLocation=true;
+            isGotLocation = true;
             Toast.makeText(mContext, "got location", Toast.LENGTH_SHORT).show();
             adapter.searchByLocation = true;
             lat = location.getLatitude();
@@ -448,7 +450,8 @@ public class SearchConnectionFragment extends Fragment {
     private void normalSearch() {
         numberPicker.setVisibility(View.GONE);
         adapter.searchByLocation = false;
-        Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
         mNearByUsers.setChecked(false);
     }
 
@@ -570,13 +573,15 @@ public class SearchConnectionFragment extends Fragment {
             @Override
             public void onServerException(String ex) {
                 Log.d(TAG, "onServerException: " + ex);
-                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                if (getActivity() != null)
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String ex) {
                 Log.d(TAG, "onFailure: " + ex);
-                Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
+                if (getActivity() != null)
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.GPS_ERROR), Snackbar.LENGTH_SHORT).show();
             }
         });
     }

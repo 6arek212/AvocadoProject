@@ -145,7 +145,7 @@ public class DisLikesFragment extends Fragment {
                 adapter.removeProg();
                 mSwipe.setRefreshing(false);
 
-                if (getContext() != null)
+                if (getActivity() != null)
                     Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 
             }

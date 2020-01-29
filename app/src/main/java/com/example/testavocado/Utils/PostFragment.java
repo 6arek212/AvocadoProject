@@ -241,8 +241,8 @@ public class PostFragment extends Fragment {
                 mSwipe.setRefreshing(false);
                 mPostRemoved.setVisibility(View.GONE);
                 mPostLayout.setVisibility(View.GONE);
-                if (mainLayout != null)
-                    Snackbar.make(mainLayout, getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
+                if (getActivity()!=null)
+                    Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
             }
         });
     }
