@@ -296,7 +296,7 @@ class MessageFragment : Fragment() {
 
 
     private fun buildAlertMessageNoGps() {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(activity,R.style.AlertDialogStyle)
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
