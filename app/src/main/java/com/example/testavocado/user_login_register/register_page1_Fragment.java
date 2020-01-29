@@ -291,7 +291,7 @@ public class register_page1_Fragment extends Fragment {
 
                     Uri uri = Uri.fromFile(new File(imagePath));
                     //circleImageViewprofilepicture.setImageURI(uri);
-                    //TODO
+
                     Glide.with(mContext)
                             .asBitmap()
                             .load(uri)

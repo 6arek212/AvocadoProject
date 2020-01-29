@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
-    >
+    android:background="@color/colorAccent">
 
 
     <TextView
@@ -35,20 +34,26 @@
         app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 
 
-    <EditText
-        android:id="@+id/ed"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/colorLiteBlue"
-        android:inputType="textPassword"
-        android:padding="9dp"
-        android:textColor="@color/textColor"
-        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/dialogTitle"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/dialogTitle"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorLiteBlue"
+            android:inputType="textPassword"
+            android:padding="9dp"
+            android:textColor="@color/textColor" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <TextView
@@ -65,8 +70,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialogConfirm"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="@+id/ed"
-        app:layout_constraintTop_toBottomOf="@+id/ed" />
+        app:layout_constraintStart_toStartOf="@+id/layoutEd"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEd" />
 
     <TextView
         android:id="@+id/dialogConfirm"
@@ -77,11 +82,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/dialogCancel"
-        app:layout_constraintEnd_toEndOf="@+id/ed"
+        app:layout_constraintEnd_toEndOf="@+id/layoutEd"
         app:layout_constraintStart_toEndOf="@+id/dialogCancel"
         app:layout_constraintTop_toTopOf="@+id/dialogCancel" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

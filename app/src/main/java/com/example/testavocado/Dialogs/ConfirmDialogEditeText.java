@@ -1,6 +1,7 @@
 package com.example.testavocado.Dialogs;
 
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.testavocado.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import static com.google.android.material.textfield.TextInputLayout.END_ICON_PASSWORD_TOGGLE;
 
 public class ConfirmDialogEditeText extends DialogFragment {
     private static final String TAG = "CallenderDialog";
@@ -28,7 +33,8 @@ public class ConfirmDialogEditeText extends DialogFragment {
 
     private OnConfirmListener OnConfirmListener;
     private String title, hint;
-    private EditText mEd;
+    private TextInputEditText mEd;
+    private TextInputLayout mInput;
     private boolean type;
 
 
@@ -53,10 +59,12 @@ public class ConfirmDialogEditeText extends DialogFragment {
         cancelDialog = view.findViewById(R.id.dialogCancel);
         mTitle = view.findViewById(R.id.dialogTitle);
         mEd = view.findViewById(R.id.ed);
+        mInput=view.findViewById(R.id.layoutEd);
 
-        if (type)
+        if (type) {
             mEd.setInputType(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
-
+            mInput.setEndIconMode(END_ICON_PASSWORD_TOGGLE);
+        }
         else
             mEd.setInputType(EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
