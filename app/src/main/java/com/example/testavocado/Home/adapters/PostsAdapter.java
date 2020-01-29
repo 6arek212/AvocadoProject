@@ -69,7 +69,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public void addNull() {
         postsList.add(null);
         notifyItemInserted(postsList.size());
-        Log.d(TAG, "addNull: post size "+postsList.size() +"   posts "+postsList);
+        Log.d(TAG, "addNull: post size " + postsList.size() + "   posts " + postsList);
 
     }
 
@@ -107,7 +107,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
 
     public void addSetOfPosts(List<Post> posts, int s) {
-        Log.d(TAG, "addSetOfPosts: post size "+postsList.size() +"   posts "+postsList);
+        Log.d(TAG, "addSetOfPosts: post size " + postsList.size() + "   posts " + postsList);
         postsList.addAll(posts);
         notifyItemRangeInserted(s, posts.size());
     }
@@ -288,12 +288,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
         }
 
     }
-
-
-
-
-
-
 
 
     class onClickProfile implements View.OnClickListener {
@@ -519,14 +513,11 @@ public class PostsAdapter extends RecyclerView.Adapter {
         }
 
 
-
-
-
         public void share() {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()),user_id,mContext);
+                    HelpMethods.alertDialog(postsList.get(getAdapterPosition()), user_id, mContext);
                 }
             });
         }
@@ -542,7 +533,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
                     bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
                     bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
-                    bottomSheetDialog.post=postsList.get(getAdapterPosition());
+                    bottomSheetDialog.post = postsList.get(getAdapterPosition());
 
                     Log.d(TAG, "onClick: index " + getAdapterPosition() + "  " + postsList.size());
 
@@ -709,8 +700,13 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                     PostFragment fragment = new PostFragment();
                     fragment.post_id = postsList.get(getAdapterPosition()).getOriginal_post_id();
-                    frt.replace(R.id.mainLayoutPosts, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
-                            .commit();
+
+                    if (mContext instanceof BaseActivity)
+                        frt.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                                .commit();
+                    else
+                        frt.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                                .commit();
                 }
             });
 

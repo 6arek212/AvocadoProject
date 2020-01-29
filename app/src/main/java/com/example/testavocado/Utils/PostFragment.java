@@ -64,7 +64,7 @@ public class PostFragment extends Fragment {
     private ConstraintLayout commentsLayout, likeLayout, mPhotoLayout;
     private ScrollView mPostLayout;
     private SwipeRefreshLayout mSwipe;
-    private CoordinatorLayout mainLayout;
+    private ConstraintLayout mainLayout;
     private ExpandableTextView mPostText;
 
 
@@ -125,7 +125,6 @@ public class PostFragment extends Fragment {
         mPostText.setInterpolator(new OvershootInterpolator());
         getPost();
 
-        mPostOptions.setVisibility(View.GONE);
 
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -336,6 +335,8 @@ public class PostFragment extends Fragment {
                 bottomSheetDialog.post_id =post_id;
                 bottomSheetDialog.post_saved = post.getSaved_post_id();
                 bottomSheetDialog.post_userId = post.getUser_id();
+                bottomSheetDialog.post=post;
+
 
                 bottomSheetDialog.setOnActionListener(new BottomSheetDialog.OnActionListener() {
                     @Override
@@ -630,7 +631,7 @@ public class PostFragment extends Fragment {
                 dislike.setText("DisLike");
 
                 int likeCount = post.getPost_dislike_count() - 1;
-                post.setPost_likes_count(likeCount);
+                post.setPost_dislike_count(likeCount);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     dislike.setTextColor(mContext.getColor(android.R.color.tab_indicator_text));

@@ -362,9 +362,6 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
-
     /**
      * Likes Methods
      *
@@ -686,7 +683,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
                     bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
-                    bottomSheetDialog.post=postsList.get(getAdapterPosition());
+                    bottomSheetDialog.post = postsList.get(getAdapterPosition());
 
                     bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
@@ -750,8 +747,12 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     frt.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                     PostFragment fragment = new PostFragment();
                     fragment.post_id = postsList.get(getAdapterPosition()).getOriginal_post_id();
-                    frt.replace(R.id.realtive_person_profile, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
-                            .commit();
+                    if (mContext instanceof BaseActivity)
+                        frt.replace(R.id.baseLayout, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                                .commit();
+                    else
+                        frt.replace(R.id.mainLayoutConnection, fragment).addToBackStack(mContext.getString(R.string.post_fragment))
+                                .commit();
                 }
             });
         }
@@ -810,7 +811,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     final ConfirmDialog confirmDialog = new ConfirmDialog();
-                    confirmDialog.setTitle("Are you sure you want to remove connection with "+user.getUser_first_name()+" "+user.getUser_last_name()+" ?");
+                    confirmDialog.setTitle("Are you sure you want to remove connection with " + user.getUser_first_name() + " " + user.getUser_last_name() + " ?");
 
                     confirmDialog.setOnConfirm(new ConfirmDialog.OnConfirmListener() {
                         @Override
@@ -1044,8 +1045,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     BottomSheetDialogPic bottomSheetDialogPic = new BottomSheetDialogPic();
                     bottomSheetDialogPic.show(fragmentManager, "pic");
-                    bottomSheetDialogPic.isCurrentUser=is_current_user;
-                    bottomSheetDialogPic.profileImage=user.getUser_profile_photo();
+                    bottomSheetDialogPic.isCurrentUser = is_current_user;
+                    bottomSheetDialogPic.profileImage = user.getUser_profile_photo();
 
                     bottomSheetDialogPic.setOnChangeProfilePicListner(new BottomSheetDialogPic.OnChangeProfilePicListener() {
                         @Override
