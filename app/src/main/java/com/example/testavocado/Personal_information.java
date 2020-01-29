@@ -40,7 +40,10 @@ public class Personal_information extends AppCompatActivity {
             public void successfullyGettingInfo(user_information user) {
                 Log.d(TAG, "successfullyGettingInfo: ");
                 txtv_emailaddress.setText(""+user.getUser_email());
+                if(!(user.getUser_phonenumber()==null))
                 txtv_phonenumber.setText(""+user.getUser_phonenumber());
+                else
+                    txtv_phonenumber.setText("Add a Phone number");
                 if(user.getUser_gender()==1)
                 txtv_gender.setText("Male");
                 else if(user.getUser_gender()==0)

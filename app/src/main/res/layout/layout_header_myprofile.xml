@@ -4,7 +4,7 @@
     android:id="@+id/viewProfileLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/grey_border_bottom2"
+    android:background="#66BFF02F"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="16dp"

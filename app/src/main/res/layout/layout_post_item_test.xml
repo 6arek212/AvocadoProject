@@ -224,7 +224,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:src="@drawable/like"
+            android:src="@drawable/like_ic_shape"
             app:layout_constraintBottom_toBottomOf="@+id/postLikesCount"
             app:layout_constraintStart_toEndOf="@+id/postLikesCount"
             app:layout_constraintTop_toTopOf="@+id/postLikesCount" />
