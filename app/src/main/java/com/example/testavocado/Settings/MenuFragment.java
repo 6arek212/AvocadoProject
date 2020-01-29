@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -56,8 +57,7 @@ public class MenuFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
@@ -66,12 +66,12 @@ public class MenuFragment extends Fragment {
         //navigation set color to icons
         navigationView.setItemIconTintList(null);
         viewProfileLayout = view.findViewById(R.id.viewProfileLayout);
-        txtv_first_lastn_name=(TextView)view.findViewById(R.id.userName);
-        profile_pic=(CircleImageView)view.findViewById(R.id.profileImage) ;
+        txtv_first_lastn_name = (TextView) view.findViewById(R.id.userName);
+        profile_pic = (CircleImageView) view.findViewById(R.id.profileImage);
         //getting name from sharedprefernces
         txtv_first_lastn_name.setText(HelpMethods.get_user_name_sharedprefernces(mContext));
         //setting profile pic in menu
-        String profile_pic_path=HelpMethods.get_user_profile_pic_sharedprefernces(mContext);
+        String profile_pic_path = HelpMethods.get_user_profile_pic_sharedprefernces(mContext);
         Glide.with(mContext)
                 .asBitmap()
                 .load(profile_pic_path)
@@ -83,11 +83,14 @@ public class MenuFragment extends Fragment {
                 )
                 .into(profile_pic);
 
-        Log.d(TAG, "onCreateView:path= "+profile_pic_path);
+        Log.d(TAG, "onCreateView:path= " + profile_pic_path);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                if (getFragmentManager() == null)
+                    return false;
+
                 int id = menuItem.getItemId();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
@@ -101,7 +104,6 @@ public class MenuFragment extends Fragment {
                         transaction.replace(R.id.settingsLayout, fragment)
                                 .addToBackStack(getString(R.string.profile_fragment)).commit();
                         break;
-
 
 
                     case R.id.settings:
@@ -120,21 +122,20 @@ public class MenuFragment extends Fragment {
 
                     case R.id.logout:
 
-                        HelpMethods.showAlert("Are you sure you want to logout ?", mContext,new HelpMethods.OnClickDialog() {
+                        HelpMethods.showAlert("Are you sure you want to logout ?", mContext, new HelpMethods.OnClickDialog() {
                             @Override
                             public void onClick() {
-                                HelpMethods.deleteUserIdSharedPreferences(mContext,getActivity());
+                                HelpMethods.deleteUserIdSharedPreferences(mContext, getActivity());
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
 
 
-                                ClearData cd=new ClearData(requireActivity().getApplication());
+                                ClearData cd = new ClearData(requireActivity().getApplication());
                                 cd.clearDb();
 
                                 requireActivity().finish();
                             }
                         });
                         break;
-
 
 
                     case R.id.savedPosts:
@@ -151,7 +152,6 @@ public class MenuFragment extends Fragment {
         });
 
 
-
         viewProfileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,9 +162,6 @@ public class MenuFragment extends Fragment {
 
         return view;
     }
-
-
-
 
 
     public static Bitmap getBitmapFromURL(String src) {

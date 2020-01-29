@@ -88,7 +88,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        getMessageInstance();
+
         user_id = HelpMethods.checkSharedPreferencesForUserId(this);
         mContext = this;
         initWidgets();
@@ -127,7 +127,7 @@ public class BaseActivity extends AppCompatActivity {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful()&&HelpMethods.checkSharedPreferencesForUserId(mContext)!=-1) {
                     Log.d(TAG, "onComplete: " + task.getResult().getToken());
                     DatabaseReference fr = FirebaseDatabase.getInstance().getReference();
                     fr.child("users").child(String.valueOf(HelpMethods.checkSharedPreferencesForUserId(mContext))).child("token").setValue(task.getResult().getToken());
@@ -281,6 +281,7 @@ public class BaseActivity extends AppCompatActivity {
 
             Log.d(TAG, "onResume: error stop sevice ");
         }
+        getMessageInstance();
         getLocation();
         updateOnlineState(ONLINE_STATE);
 
