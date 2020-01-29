@@ -1,5 +1,6 @@
 package com.example.testavocado.GalleryAndPicSnap;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.testavocado.BuildConfig;
 import com.example.testavocado.R;
+import com.example.testavocado.Utils.Permissions;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,6 +124,9 @@ public class PhotoFragment extends Fragment {
 
 
     private void openCameraIntent() {
+        if (Permissions.checkPermission(Manifest.permission.CAMERA,mContext)){
+            return;
+        }
         Intent pictureIntent = new Intent(
                 MediaStore.ACTION_IMAGE_CAPTURE);
         if(pictureIntent.resolveActivity(mContext.getPackageManager()) != null){

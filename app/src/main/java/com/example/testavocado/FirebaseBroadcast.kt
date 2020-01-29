@@ -20,10 +20,11 @@ val TAG = "BROADCAST"
 class FirebaseBroadcast : FirebaseMessagingService() {
 
 
+    companion object
 
-    companion object var index=0;
+    var index = 0;
 
-    val CHANEL_ID="1"
+    val CHANEL_ID = "1"
 
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
@@ -31,7 +32,7 @@ class FirebaseBroadcast : FirebaseMessagingService() {
         Log.d(TAG, "chat num count ${(HelpMethods.getChatNum(this))}")
 
         Log.d(TAG, "From: ${p0.from}   $index   isAppForground(this")
-        if (isAppForground(this)){
+        if (isAppForground(this)) {
             return
         }
 
@@ -44,8 +45,7 @@ class FirebaseBroadcast : FirebaseMessagingService() {
             Log.d(TAG, "Message Notification Body: ${it.body}")
 
 
-
-            val notification = NotificationCompat.Builder(applicationContext,CHANNEL_1_ID)
+            val notification = NotificationCompat.Builder(applicationContext, CHANNEL_1_ID)
                     .setContentTitle("New Message")
                     .setSmallIcon(R.drawable.avocado_logo)
                     .setContentText(it.body)
@@ -65,9 +65,13 @@ class FirebaseBroadcast : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         HelpMethods.addToken(token, this)
         val fr = FirebaseDatabase.getInstance().reference
-        Log.d("onNewToken","token $token    ${HelpMethods.checkSharedPreferencesForUserId(this)}")
-        fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(this).toString()).child("token").setValue(token)
-        updateTheToken(token,this)
+        if (HelpMethods.checkSharedPreferencesForUserId(this) != -1) {
+            Log.d("onNewToken", "token $token    ${HelpMethods.checkSharedPreferencesForUserId(this)}")
+            fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(this).toString()).child("token").setValue(token)
+            updateTheToken(token, this)
+
+        }
+
     }
 
 
@@ -87,9 +91,8 @@ class FirebaseBroadcast : FirebaseMessagingService() {
 }
 
 
-
-fun updateTheToken(token: String,context: Context){
-    RegisterMethods.updateToken(token,HelpMethods.checkSharedPreferencesForUserId(context),object : RegisterMethods.OnNotificationListener{
+fun updateTheToken(token: String, context: Context) {
+    RegisterMethods.updateToken(token, HelpMethods.checkSharedPreferencesForUserId(context), object : RegisterMethods.OnNotificationListener {
         override fun onSuccessListener() {
             Log.d(TAG, "token updated")
         }
