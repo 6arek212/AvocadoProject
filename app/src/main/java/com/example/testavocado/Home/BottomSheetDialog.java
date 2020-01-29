@@ -77,13 +77,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         if (current_user_id == post_userId) {
             mDeleteLayout.setVisibility(View.VISIBLE);
-            mReport.setVisibility(View.GONE);
             mHideLayout.setVisibility(View.GONE);
             mSaveLayout.setVisibility(View.GONE);
             mEdit.setVisibility(View.VISIBLE);
         } else {
             mDeleteLayout.setVisibility(View.GONE);
-            mReport.setVisibility(View.VISIBLE);
             mHideLayout.setVisibility(View.VISIBLE);
             mSaveLayout.setVisibility(View.VISIBLE);
             mEdit.setVisibility(View.GONE);
@@ -181,7 +179,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
 
         mDeleteLayout.setOnClickListener(clickListener);
-        mReport.setOnClickListener(clickListener);
+        //mReport.setOnClickListener(clickListener);
         mHideLayout.setOnClickListener(clickListener);
         mSaveLayout.setOnClickListener(clickListener);
         mEdit.setOnClickListener(clickListener);
