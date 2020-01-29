@@ -1,10 +1,16 @@
 package com.example.testavocado.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Post {
+import kotlinx.android.parcel.Parcelize;
+
+@Parcelize
+public class Post  implements Parcelable  {
 
 
 
@@ -258,5 +264,15 @@ public class Post {
                 ", like_id=" + like_id +
                 ", dis_like_id=" + dis_like_id +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

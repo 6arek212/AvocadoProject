@@ -542,6 +542,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
                     bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
                     bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
+                    bottomSheetDialog.post=postsList.get(getAdapterPosition());
 
                     Log.d(TAG, "onClick: index " + getAdapterPosition() + "  " + postsList.size());
 

@@ -8,17 +8,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Dialogs.ConfirmDialogEditeText;
-import com.example.testavocado.ccc.MainActivity;
+import com.example.testavocado.Models.Post;
+import com.example.testavocado.post.UpdatePostFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,12 +52,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     OnActionListener onActionListener;
 
     //widgets
-    ConstraintLayout mDeleteLayout, mHideLayout, mSaveLayout;
+    ConstraintLayout mDeleteLayout, mHideLayout, mSaveLayout, mEdit;
     TextView mDeletePost, mReport, mHidePost, mSavedPost;
     //vars
     private Context mContext;
     public int post_userId, post_id, post_saved;
     private int current_user_id;
+    public Post post;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,11 +80,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             mReport.setVisibility(View.GONE);
             mHideLayout.setVisibility(View.GONE);
             mSaveLayout.setVisibility(View.GONE);
+            mEdit.setVisibility(View.VISIBLE);
         } else {
             mDeleteLayout.setVisibility(View.GONE);
             mReport.setVisibility(View.VISIBLE);
             mHideLayout.setVisibility(View.VISIBLE);
             mSaveLayout.setVisibility(View.VISIBLE);
+            mEdit.setVisibility(View.GONE);
+
             if (post_saved != 0) {
                 mSaveLayout.setVisibility(View.VISIBLE);
                 mSavedPost.setText(mContext.getString(R.string.delete_from_savedposts));
@@ -101,6 +106,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         mDeleteLayout = view.findViewById(R.id.deletePostLayout);
         mSaveLayout = view.findViewById(R.id.savePostLayout);
         mHideLayout = view.findViewById(R.id.hidePostLayout);
+        mEdit = view.findViewById(R.id.updatePostLayout);
         mContext = getContext();
 
 
@@ -154,6 +160,21 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                 confirmDialogEditeText.show(getFragmentManager(), "cc");
                         }
                         break;
+
+
+                    case R.id.updatePostLayout:
+                        UpdatePostFragment postFragment = new UpdatePostFragment();
+                        Bundle b=new Bundle();
+                        b.putParcelable("post",post);
+                        postFragment.setArguments(b);
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        if (getActivity() instanceof BaseActivity)
+                            fr.replace(R.id.baseLayout, postFragment);
+                        else
+                            fr.replace(R.id.mainLayoutConnection, postFragment);
+                        fr.addToBackStack("").commit();
+                        dismiss();
+                        break;
                 }
             }
         };
@@ -163,6 +184,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         mReport.setOnClickListener(clickListener);
         mHideLayout.setOnClickListener(clickListener);
         mSaveLayout.setOnClickListener(clickListener);
+        mEdit.setOnClickListener(clickListener);
     }
 
     interface OnClickDialog {

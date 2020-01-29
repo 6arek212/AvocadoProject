@@ -686,6 +686,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     bottomSheetDialog.post_userId = postsList.get(getAdapterPosition()).getUser_id();
                     bottomSheetDialog.post_id = postsList.get(getAdapterPosition()).getPost_id();
                     bottomSheetDialog.post_saved = postsList.get(getAdapterPosition()).getSaved_post_id();
+                    bottomSheetDialog.post=postsList.get(getAdapterPosition());
+
                     bottomSheetDialog.show(fragmentManager, "bottomSheetDialog");
 
 
@@ -1044,6 +1046,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                     bottomSheetDialogPic.show(fragmentManager, "pic");
                     bottomSheetDialogPic.isCurrentUser=is_current_user;
                     bottomSheetDialogPic.profileImage=user.getUser_profile_photo();
+
                     bottomSheetDialogPic.setOnChangeProfilePicListner(new BottomSheetDialogPic.OnChangeProfilePicListener() {
                         @Override
                         public void onChange(String imageUrl) {

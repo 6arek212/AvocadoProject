@@ -3,9 +3,6 @@ package com.example.testavocado.ccc
 import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -13,8 +10,37 @@ import com.example.testavocado.R
 import com.example.testavocado.Utils.TimeMethods
 import android.R.attr.button
 import android.net.Uri
+import android.text.TextWatcher
 import android.view.animation.Animation
 import android.view.animation.AlphaAnimation
+import android.widget.*
+import androidx.appcompat.widget.AppCompatEditText
+
+
+@BindingAdapter("textWatcher")
+fun bindtextWatcher(
+        editText: AppCompatEditText,
+        textwatcher: TextWatcher?
+) {
+    editText.addTextChangedListener(textwatcher)
+}
+
+
+@BindingAdapter("spinnerListener")
+fun spinnerInit(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener?
+) {
+
+    spinner.onItemSelectedListener = listener
+
+}
+
+
+@BindingAdapter("edtext")
+fun edtext(ed:EditText, tx: String?) {
+    ed.setText(tx)
+}
 
 
 @BindingAdapter("numBind")

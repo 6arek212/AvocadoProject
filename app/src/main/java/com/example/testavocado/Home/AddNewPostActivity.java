@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.bumptech.glide.Glide;
 import com.example.testavocado.Models.Setting;
 import com.example.testavocado.Models.Status;
+import com.example.testavocado.Service.BackgroundService;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -338,6 +339,21 @@ public class AddNewPostActivity extends AppCompatActivity {
         mPostType.setAdapter(arrayAdapter);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            stopService();
+        }catch (Exception e){
+
+        }
+    }
+
+    public void stopService() {
+        BackgroundService.stopThis();
+        stopService(new Intent(this, BackgroundService.class));
+    }
 
 }
 
