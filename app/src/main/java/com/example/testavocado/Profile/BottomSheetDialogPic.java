@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -50,28 +51,30 @@ public class BottomSheetDialogPic extends BottomSheetDialogFragment {
     }
 
 
-
     public void setOnChangeProfilePicListner(OnChangeProfilePicListener onChangeProfilePicListner) {
         this.onChangeProfilePicListner = onChangeProfilePicListner;
     }
-
 
 
     //interface
     public OnChangeProfilePicListener onChangeProfilePicListner;
 
 
-
-
     //widgets
-    TextView mChangePic, mShowPic;
+    ConstraintLayout mChangePicLayout, mShowPicLayout;
     //vars
     private Context mContext;
     private String[] permission;
     private int current_user_id;
+    public boolean isCurrentUser;
+    public String profileImage;
 
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+    }
 
     @Nullable
     @Override
@@ -82,36 +85,35 @@ public class BottomSheetDialogPic extends BottomSheetDialogFragment {
         initWidgets(view);
 
 
-
-
         return view;
     }
 
 
     private void initWidgets(View view) {
-        mContext=getContext();
-        mChangePic = view.findViewById(R.id.changePic);
-        mShowPic = view.findViewById(R.id.showPic);
+        mContext = getContext();
         permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
+        mChangePicLayout = view.findViewById(R.id.changePicLayout);
+        mShowPicLayout = view.findViewById(R.id.showPicLayout);
 
-
+        if (!isCurrentUser)
+            mChangePicLayout.setVisibility(View.GONE);
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int id = v.getId();
 
                 switch (id) {
-                    case R.id.changePic:
+                    case R.id.changePicLayout:
                         if (Permissions.checkPermissionsArray(permission, mContext)) {
                             startActivityForResult(new Intent(mContext, GetaPicActivity.class), PHOTO_CODE);
 
                         } else {
 
-                            Permissions.verifyPermission(permission, (BaseActivity)mContext);
+                            Permissions.verifyPermission(permission, (BaseActivity) mContext);
                         }
                         break;
 
-                    case R.id.showPic:
+                    case R.id.showPicLayout:
                         showPic();
                         break;
 
@@ -120,24 +122,19 @@ public class BottomSheetDialogPic extends BottomSheetDialogFragment {
         };
 
 
-        mChangePic.setOnClickListener(clickListener);
-        mShowPic.setOnClickListener(clickListener);
+        mChangePicLayout.setOnClickListener(clickListener);
+        mShowPicLayout.setOnClickListener(clickListener);
     }
 
 
-
-    private void showPic(){
-        ImageFragment imageFragment=new ImageFragment();
-        imageFragment.imageUrl=HelpMethods.get_user_profile_pic_sharedprefernces(mContext);
-        FragmentManager fr=getFragmentManager();
-        FragmentTransaction tr=fr.beginTransaction();
-        tr.addToBackStack(getString(R.string.image_fragment)).replace(R.id.baseLayout,imageFragment).commit();
+    private void showPic() {
+        ImageFragment imageFragment = new ImageFragment();
+        imageFragment.imageUrl =profileImage;
+        FragmentManager fr = getFragmentManager();
+        FragmentTransaction tr = fr.beginTransaction();
+        tr.addToBackStack(getString(R.string.image_fragment)).replace(R.id.baseLayout, imageFragment).commit();
         dismiss();
     }
-
-
-
-
 
 
     @Override
@@ -167,13 +164,13 @@ public class BottomSheetDialogPic extends BottomSheetDialogFragment {
 
                                 @Override
                                 public void onServerException(String ex) {
-                                    Log.d(TAG, "onServerException: "+ex);
+                                    Log.d(TAG, "onServerException: " + ex);
 
                                 }
 
                                 @Override
                                 public void onFailureListener(String ex) {
-                                    Log.d(TAG, "onFailureListener: "+ex);
+                                    Log.d(TAG, "onFailureListener: " + ex);
 
                                 }
                             });
@@ -193,10 +190,6 @@ public class BottomSheetDialogPic extends BottomSheetDialogFragment {
             }
         }
     }
-
-
-
-
 
 
 }

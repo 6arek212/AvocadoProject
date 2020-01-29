@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Dialogs.CommentMethodsHandler;
 import com.example.testavocado.Models.Comment;
 import com.example.testavocado.R;
@@ -67,15 +68,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         commentViewHolder.mCommentTime.setText(TimeMethods.getTimestampDifference(commentList.get(i).getComment_date_time()));
 
         Glide.with(mContext)
+                .asBitmap()
                 .load(commentList.get(i).getComment_user_profile_image_path())
                 .centerCrop()
-                .error(R.drawable.error)
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.loading_img)
+                                .error(R.drawable.error)
+                )
                 .into(commentViewHolder.mProfileImage);
 
 
         if(commentList.get(i).getComment_user_id()==current_user_id || is_user_Post){
-            commentViewHolder.mDeleteComment.setVisibility(View.VISIBLE);
-            addDeleteCommentOnClick(commentViewHolder.mDeleteComment,i);
+            commentViewHolder.deleteComment();
         }else {
             commentViewHolder.mDeleteComment.setVisibility(View.GONE);
         }
@@ -86,44 +91,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
 
 
-    private void addDeleteCommentOnClick(TextView mDeleteComment,final int i) {
-        mDeleteComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert=new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
-                alert.setTitle("Are you sure for deleting the comment for "+commentList.get(i).getComment_user_name());
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CommentMethodsHandler.deleteComment(commentList.get(i).getComment_id(),post_id, new CommentMethodsHandler.OnDeletingCommentListener() {
-                            @Override
-                            public void OnDeleted() {
-                                commentList.remove(i);
-                                notifyItemRemoved(i);
-                                onDeletingCommentListener.OnDeleteComment();
-                            }
-
-                            @Override
-                            public void onServerException(String ex) {
-                                Log.d(TAG, "onServerException: "+ex);
-
-                            }
-
-                            @Override
-                            public void onFailureListener(String ex) {
-                                Log.d(TAG, "onFailureListener: "+ex);
-
-                            }
-                        });
-                    }
-                });
-
-                alert.setNegativeButton("Cancel",null);
-                alert.show();
-            }
-        });
-
-    }
 
 
 
@@ -174,6 +141,44 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             mCommentTime = itemView.findViewById(R.id.commentTime);
             mProfileImage=itemView.findViewById(R.id.profileImage);
             mDeleteComment=itemView.findViewById(R.id.deleteComment);
+        }
+
+        public void deleteComment() {
+            mDeleteComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alert=new AlertDialog.Builder(mContext,R.style.AlertDialogStyle2);
+                    alert.setTitle("Are you sure for deleting the comment for "+commentList.get(getAdapterPosition()).getComment_user_name());
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CommentMethodsHandler.deleteComment(commentList.get(getAdapterPosition()).getComment_id(),post_id, new CommentMethodsHandler.OnDeletingCommentListener() {
+                                @Override
+                                public void OnDeleted() {
+                                    commentList.remove(getAdapterPosition());
+                                    notifyItemRemoved(getAdapterPosition());
+                                    onDeletingCommentListener.OnDeleteComment();
+                                }
+
+                                @Override
+                                public void onServerException(String ex) {
+                                    Log.d(TAG, "onServerException: "+ex);
+
+                                }
+
+                                @Override
+                                public void onFailureListener(String ex) {
+                                    Log.d(TAG, "onFailureListener: "+ex);
+
+                                }
+                            });
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel",null);
+                    alert.show();
+                }
+            });
         }
     }
 

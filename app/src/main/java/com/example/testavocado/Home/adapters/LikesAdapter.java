@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Models.Like;
 import com.example.testavocado.Profile.ProfileFragment;
@@ -128,9 +129,14 @@ public class LikesAdapter extends RecyclerView.Adapter {
 
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(likes.get(position).getProfile_image())
                     .centerCrop()
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(vh.mProfileImage);
 
             attachProfileOnClick(vh.profileLink, position);

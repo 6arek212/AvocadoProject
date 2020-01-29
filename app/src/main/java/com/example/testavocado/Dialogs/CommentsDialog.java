@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,6 +56,13 @@ public class CommentsDialog extends DialogFragment {
     private Context mContext;
     private int current_userId;
     private String datetime;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+    }
 
 
     @Nullable

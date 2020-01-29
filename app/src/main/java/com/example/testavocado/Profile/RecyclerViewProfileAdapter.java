@@ -185,8 +185,8 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
             v1.mPostsCount.setText(user.getUser_posts_count() + "");
             v1.mbio.setText(user.getUser_bio());
             v1.mBirthDate.setText(TimeMethods.convertDateTimeFormatDateOnly(user.getUser_birth_date()));
-            if (is_current_user)
-                changeProfilePic(v1);
+
+            v1.changeProfilePic();
 
             Glide.with(mContext)
                     .asBitmap()
@@ -362,37 +362,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
     }
 
 
-    private void changeProfilePic(final InfoViewHolder v1) {
-        v1.mProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheetDialogPic bottomSheetDialogPic = new BottomSheetDialogPic();
-                bottomSheetDialogPic.show(fragmentManager, "pic");
 
-                bottomSheetDialogPic.setOnChangeProfilePicListner(new BottomSheetDialogPic.OnChangeProfilePicListener() {
-                    @Override
-                    public void onChange(String imageUrl) {
-
-                        HelpMethods.updateProfilePic(imageUrl, mContext);
-
-                        Glide.with(mContext)
-                                .asBitmap()
-                                .load(imageUrl)
-                                .centerCrop()
-                                .apply(
-                                        new RequestOptions()
-                                                .placeholder(R.drawable.loading_img)
-                                                .error(R.drawable.error)
-                                )
-                                .into(v1.mProfileImage);
-                    }
-                });
-
-            }
-        });
-
-
-    }
 
 
     /**
@@ -1060,6 +1030,36 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                         public void onFailureListener(String ex) {
                             Log.d(TAG, "onFailureListener: " + ex);
 
+                        }
+                    });
+                }
+            });
+        }
+
+        public void changeProfilePic() {
+            mProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BottomSheetDialogPic bottomSheetDialogPic = new BottomSheetDialogPic();
+                    bottomSheetDialogPic.show(fragmentManager, "pic");
+                    bottomSheetDialogPic.isCurrentUser=is_current_user;
+                    bottomSheetDialogPic.profileImage=user.getUser_profile_photo();
+                    bottomSheetDialogPic.setOnChangeProfilePicListner(new BottomSheetDialogPic.OnChangeProfilePicListener() {
+                        @Override
+                        public void onChange(String imageUrl) {
+
+                            HelpMethods.updateProfilePic(imageUrl, mContext);
+
+                            Glide.with(mContext)
+                                    .asBitmap()
+                                    .load(imageUrl)
+                                    .centerCrop()
+                                    .apply(
+                                            new RequestOptions()
+                                                    .placeholder(R.drawable.loading_img)
+                                                    .error(R.drawable.error)
+                                    )
+                                    .into(mProfileImage);
                         }
                     });
                 }

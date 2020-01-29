@@ -43,52 +43,55 @@
                 </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-                android:background="@color/colorBlue"
+                android:background="@color/colorLiteBlue"
+                android:elevation="10dp"
                 android:paddingLeft="25dp"
                 android:paddingTop="10dp"
                 android:paddingRight="25dp"
                 android:paddingBottom="10dp">
 
-                <androidx.coordinatorlayout.widget.CoordinatorLayout
-                    android:layout_width="match_parent"
+
+                <EditText
+                    android:id="@+id/addCommentText"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                    <EditText
-                        android:id="@+id/addCommentText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bg_grey_rounded"
-                        android:hint="add a comment ..."
-                        android:maxLines="6"
-                        android:padding="9dp"
-                        android:paddingRight="16dp"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_grey_rounded"
+                    android:hint="add a comment ..."
+                    android:maxLines="6"
+                    android:padding="9dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/add"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="right"
-                        android:backgroundTint="@color/colorRed"
-                        android:src="@drawable/ic_send"
-                        app:fabSize="mini"
-                        app:layout_scrollFlags="scroll|enterAlways|snap" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/colorRed"
+                    android:src="@drawable/ic_send"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@+id/addCommentText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_scrollFlags="scroll|enterAlways|snap" />
 
-                </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
