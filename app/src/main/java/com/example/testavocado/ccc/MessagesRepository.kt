@@ -305,7 +305,7 @@ class MessagesRepository(
         }
         val key = myRef.child("chats").child(chat.chatId).child("messages").push().key
         Log.d("chatIdiD","$chat")
-        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg ")
+        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg  tokeb $token")
 
         key?.let {
             val message = Message(key, msg, TimeMethods.getUTCdatetimeAsString(), userId, chat.chatId, pic, longitude = long, latitude = latit,number = number)
@@ -443,7 +443,7 @@ class MessagesRepository(
             _error.postValue("Error try again")
             return
         }
-        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg ")
+        Log.d("sendMessageChat","chatid ${chat.chatId}  pic $pic   msg $msg   tokeb $token")
 
         val key = myRef.child("chats").push().key
 

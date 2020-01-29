@@ -43,7 +43,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
 
 public class registeraccount_page extends AppCompatActivity {
     public static final String TAG = "registeraccount";
@@ -169,7 +168,7 @@ public class registeraccount_page extends AppCompatActivity {
                     DatabaseReference fr=FirebaseDatabase.getInstance().getReference();
                     Log.d(TAG, "onComplete: "+task.getResult().getToken());
                     fr.child("users").child(String.valueOf(user_id)).child("token").setValue(task.getResult().getToken());
-                    updateTheToken(task.getResult().getToken(),registeraccount_page.this);
+                    //updateTheToken(task.getResult().getToken(),registeraccount_page.this);
                     HelpMethods.addToken(task.getResult().getToken(),registeraccount_page.this);
                 }
             }

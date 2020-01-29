@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Home.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -209,9 +210,14 @@ public class PostsAdapter extends RecyclerView.Adapter {
             v1.mPostTime.setText(postsList.get(i).getPost_date_time());
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(postsList.get(i).getUser_profile_photo())
                     .centerCrop()
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
 

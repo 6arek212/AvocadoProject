@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Models.UserAdd;
 import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
@@ -135,9 +136,14 @@ public class RecyclerViewRequestsAdapter extends RecyclerView.Adapter {
 
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(requestList.get(i).getUser_profile_photo())
                     .centerCrop()
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
             v1.accept();

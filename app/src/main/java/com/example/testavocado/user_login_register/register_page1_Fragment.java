@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.EditeInfo.InfoMethodsHandler;
 import com.example.testavocado.GalleryAndPicSnap.GetaPicActivity;
@@ -288,7 +290,19 @@ public class register_page1_Fragment extends Fragment {
 
 
                     Uri uri = Uri.fromFile(new File(imagePath));
-                    circleImageViewprofilepicture.setImageURI(uri);
+                    //circleImageViewprofilepicture.setImageURI(uri);
+                    //TODO
+                    Glide.with(mContext)
+                            .asBitmap()
+                            .load(uri)
+                            .centerCrop()
+                            .apply(
+                                    new RequestOptions()
+                                            .placeholder(R.drawable.loading_img)
+                                            .error(R.drawable.error)
+                            )
+                            .into(circleImageViewprofilepicture);
+
                     selectedImage = uri;
                     is_image_seclected = true;
 

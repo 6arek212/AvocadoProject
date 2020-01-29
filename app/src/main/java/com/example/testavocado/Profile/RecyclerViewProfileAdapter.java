@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsActivity;
 import com.example.testavocado.ccc.Chat3;
@@ -188,10 +189,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                 changeProfilePic(v1);
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(user.getUser_profile_photo())
                     .centerCrop()
-                    .placeholder(R.drawable.loading_img)
-                    .error(R.drawable.profile_ic)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
 
@@ -256,10 +261,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
 
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(postsList.get(i).getUser_profile_photo())
                     .centerCrop()
-                    .placeholder(R.drawable.loading_img)
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
 
@@ -367,10 +376,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter {
                         HelpMethods.updateProfilePic(imageUrl, mContext);
 
                         Glide.with(mContext)
+                                .asBitmap()
                                 .load(imageUrl)
                                 .centerCrop()
-                                .placeholder(R.drawable.loading_img)
-                                .error(R.drawable.profile_ic)
+                                .apply(
+                                        new RequestOptions()
+                                                .placeholder(R.drawable.loading_img)
+                                                .error(R.drawable.error)
+                                )
                                 .into(v1.mProfileImage);
                     }
                 });

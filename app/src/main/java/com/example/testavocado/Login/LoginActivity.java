@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.testavocado.ForgotPasswordActivity;
 import com.example.testavocado.Models.Setting;
+import com.example.testavocado.Service.BackgroundService;
 import com.example.testavocado.ShakeDetector;
 import com.example.testavocado.user_login_register.registeraccount_page;
 
@@ -121,6 +122,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // Add the following line to register the Session Manager Listener onResume
+        try{
+            stopService();
+        }catch (Exception e){
+
+        }
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -251,6 +257,12 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(mContext, BaseActivity.class);
         startActivity(intent);
         finish();
+    }
+
+
+    public void stopService() {
+        BackgroundService.stopThis();
+        stopService(new Intent(this, BackgroundService.class));
     }
 
 

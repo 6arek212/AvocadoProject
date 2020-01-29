@@ -1,9 +1,11 @@
 package com.example.testavocado.Utils;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +14,8 @@ import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.R;
-
 
 
 public class ImageFragment extends Fragment {
@@ -32,23 +34,23 @@ public class ImageFragment extends Fragment {
     }
 
 
-
-
-
     private void initWidgets(View view) {
-        Log.d(TAG, "initWidgets: "+imageUrl);
-       mImage = view.findViewById(R.id.image);
+        Log.d(TAG, "initWidgets: " + imageUrl);
+        mImage = view.findViewById(R.id.image);
 
-        Glide.with(getContext())
-                .load(imageUrl)
-                .centerCrop()
-                .error(R.drawable.error)
-                .into(mImage);
+        if (getContext() != null)
+            Glide.with(getContext())
+                    .asBitmap()
+                    .load(imageUrl)
+                    .centerCrop()
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
+                    .into(mImage);
 
     }
-
-
-
 
 
 }

@@ -74,11 +74,11 @@ class MessageWithPicViewModel (val application: Application,val userId:Int,val i
             override fun onSuccessListener(ImageUrl: String?) {
                 Log.d("MessageWithPicViewModel","$ImageUrl   $text  ${chat.chatId}")
                 if(chat.chatId.isNullOrEmpty()){
-                    repo.sendAndCreateChat(text,ImageUrl)
+                    repo.sendAndCreateChat(text,ImageUrl,token = chat.token)
                     _navigateBack.value=true
                     _prog.value=false
                 }else{
-                    repo.sendMessage(text,ImageUrl)
+                    repo.sendMessage(text,ImageUrl,token = chat.token)
                     _navigateBack.value=true
                     _prog.value=false
                 }

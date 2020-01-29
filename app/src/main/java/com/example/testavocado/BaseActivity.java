@@ -49,7 +49,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-import static com.example.testavocado.FirebaseBroadcastKt.updateTheToken;
 import static com.example.testavocado.Home.adapters.PostsAdapter.POST_CODE;
 
 
@@ -132,7 +131,7 @@ public class BaseActivity extends AppCompatActivity {
                     Log.d(TAG, "onComplete: " + task.getResult().getToken());
                     DatabaseReference fr = FirebaseDatabase.getInstance().getReference();
                     fr.child("users").child(String.valueOf(HelpMethods.checkSharedPreferencesForUserId(mContext))).child("token").setValue(task.getResult().getToken());
-                    updateTheToken(task.getResult().getToken(), BaseActivity.this);
+                    //updateTheToken(task.getResult().getToken(), BaseActivity.this);
                 }
             }
         });

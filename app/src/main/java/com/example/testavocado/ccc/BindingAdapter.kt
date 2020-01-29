@@ -49,7 +49,7 @@ fun bindImageUri(imgView: ImageView, imgUrl: Uri?) {
             .centerCrop()
             .apply(
                     RequestOptions()
-                            .placeholder(R.drawable.loading_animation)
+                            .placeholder(R.drawable.loading_img)
                             .error(R.drawable.profile_ic)
             )
             .into(imgView)
@@ -77,7 +77,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .centerCrop()
             .apply(
                     RequestOptions()
-                            .placeholder(R.drawable.loading_animation)
+                            .placeholder(R.drawable.loading_img)
                             .error(R.drawable.profile_ic)
             )
             .into(imgView)

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.R;
 
@@ -59,10 +60,14 @@ public class ImagesViewPagerClick extends PagerAdapter {
 
 
         Glide.with(context)
+                .asBitmap()
                 .load(imageUrls.get(position))
-                .placeholder(R.drawable.loading_img)
                 .centerCrop()
-                .error(R.drawable.error)
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.loading_img)
+                                .error(R.drawable.error)
+                )
                 .into(imageView);
 
 

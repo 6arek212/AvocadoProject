@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.testavocado.R;
 
@@ -75,10 +76,14 @@ public class GridImageAdapter extends ArrayAdapter<String> {
 
 
         Glide.with(getContext())
+                .asBitmap()
                 .load(imgURL)
                 .centerCrop()
-                .error(R.drawable.error)
-                .placeholder(R.drawable.loading_img)
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.loading_img)
+                                .error(R.drawable.error)
+                )
                 .into(viewHolder.image);
 
 

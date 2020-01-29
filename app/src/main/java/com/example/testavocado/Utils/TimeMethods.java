@@ -97,7 +97,26 @@ public class TimeMethods {
     }
 
 
+    public static String convertDateTimeFormat3(String date){
+        Log.d(TAG, "convertDateTimeFormat3: "+date);
+        SimpleDateFormat oldFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
+        oldFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal ="";
 
+        try {
+            value = oldFormatter.parse(date);
+            SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm a");
+
+            newFormatter.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormatter.format(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(TAG, "getNewDate: "+e.getMessage());
+        }
+
+        return dueDateAsNormal;
+    }
 
 
     public static String getNewLocalDate(String date){

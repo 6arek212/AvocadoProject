@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Chat.ChatActivity;
 import com.example.testavocado.Connection.ConnectionsActivity;
 import com.example.testavocado.Connection.ShowRequestsFragment;
@@ -127,10 +128,14 @@ public class NotificationAdapter extends RecyclerView.Adapter {
             v1.mNotificationType.setText(notifications.get(i).getType_txt());
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(notifications.get(i).getUser_sent_profile_image())
                     .centerCrop()
-                    .placeholder(R.drawable.loading_img)
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
 

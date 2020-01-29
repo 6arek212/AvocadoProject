@@ -68,8 +68,6 @@ class FirebaseBroadcast : FirebaseMessagingService() {
         if (HelpMethods.checkSharedPreferencesForUserId(this) != -1) {
             Log.d("onNewToken", "token $token    ${HelpMethods.checkSharedPreferencesForUserId(this)}")
             fr.child("users").child(HelpMethods.checkSharedPreferencesForUserId(this).toString()).child("token").setValue(token)
-            updateTheToken(token, this)
-
         }
 
     }
@@ -91,23 +89,7 @@ class FirebaseBroadcast : FirebaseMessagingService() {
 }
 
 
-fun updateTheToken(token: String, context: Context) {
-    RegisterMethods.updateToken(token, HelpMethods.checkSharedPreferencesForUserId(context), object : RegisterMethods.OnNotificationListener {
-        override fun onSuccessListener() {
-            Log.d(TAG, "token updated")
-        }
 
-        override fun onServerException(ex: String?) {
-            Log.d(TAG, "onServerException $ex")
-
-        }
-
-        override fun onFailureListener(ex: String?) {
-            Log.d(TAG, "onFailureListener $ex")
-
-        }
-    });
-}
 
 
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.R;
 
 import java.util.ArrayList;
@@ -53,9 +54,14 @@ public class HorizotalRecyclerImageSlide extends RecyclerView.Adapter<HorizotalR
 
 
         Glide.with(context)
+                .asBitmap()
                 .load(images.get(i).toString())
                 .centerCrop()
-                .error(R.drawable.error)
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.loading_img)
+                                .error(R.drawable.error)
+                )
                 .into(viewHolder.mImage);
 
 

@@ -374,7 +374,6 @@ public class SearchConnectionFragment extends Fragment {
             public void onFailureListener(String ex) {
                 Log.d(TAG, "onFailureListener: " + ex);
                 adapter.removeProg();
-                adapter.clearList();
                 mSwipe.setRefreshing(false);
                 Snackbar.make(requireActivity().findViewById(android.R.id.content), getString(R.string.CHECK_INTERNET), Snackbar.LENGTH_SHORT).show();
 

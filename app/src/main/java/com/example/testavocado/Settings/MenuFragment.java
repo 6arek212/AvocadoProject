@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Account_settings1;
 import com.example.testavocado.BaseActivity;
 import com.example.testavocado.Chat.SQLiteMethods;
@@ -72,10 +73,14 @@ public class MenuFragment extends Fragment {
         //setting profile pic in menu
         String profile_pic_path=HelpMethods.get_user_profile_pic_sharedprefernces(mContext);
         Glide.with(mContext)
-                .load(profile_pic_path).
-                centerCrop()
-                .placeholder(R.drawable.loading_img)
-                .error(R.drawable.profile_ic)
+                .asBitmap()
+                .load(profile_pic_path)
+                .centerCrop()
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.loading_img)
+                                .error(R.drawable.error)
+                )
                 .into(profile_pic);
 
         Log.d(TAG, "onCreateView:path= "+profile_pic_path);

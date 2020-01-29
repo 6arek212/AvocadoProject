@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.testavocado.Models.UserAdd;
 import com.example.testavocado.Profile.ProfileFragment;
 import com.example.testavocado.R;
@@ -151,9 +152,14 @@ public class RecyclerViewAddConnectionAdapter extends RecyclerView.Adapter {
             v1.mUserFullName.setText(userAddList.get(i).getUser_first_name() + " " + userAddList.get(i).getUser_last_name());
 
             Glide.with(mContext)
+                    .asBitmap()
                     .load(userAddList.get(i).getUser_profile_photo())
                     .centerCrop()
-                    .error(R.drawable.error)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.loading_img)
+                                    .error(R.drawable.error)
+                    )
                     .into(v1.mProfileImage);
 
 
