@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.FileProvider;
 
@@ -47,6 +48,8 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.os.Environment.DIRECTORY_PICTURES;
 import static com.example.testavocado.EditeInfo.ProfilePhotoUploadFragment.PHOTO_CODE;
+import static com.example.testavocado.Utils.Permissions.GPS;
+import static com.example.testavocado.Utils.Permissions.GPS2;
 
 
 public class PhotoFragment extends Fragment {
@@ -120,11 +123,20 @@ public class PhotoFragment extends Fragment {
 
     private void openCameraIntent() {
         String[] permission = new String[]{Permissions.CAMERA_PERMISSION, Permissions.READ_STORAGE_PERMISSION, Permissions.WRITE_STORAGE_PERMISSION};
-
-        ;
-        if (!Permissions.checkPermissionsArray(permission, mContext)) {
-            Permissions.verifyPermission(permission,getActivity());
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        &&ActivityCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
+        ;
+
 
         Intent pictureIntent = new Intent(
                 MediaStore.ACTION_IMAGE_CAPTURE);
