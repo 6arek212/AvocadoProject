@@ -63,4 +63,4 @@ This is a social app in native Android hope you like it .
 
 ## Authors
 
-* **Tarik Husin** 
+* **Tarik Husin**  - linkedin -> https://www.linkedin.com/in/tarik-husin-706754184/
