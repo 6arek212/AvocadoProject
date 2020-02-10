@@ -9,11 +9,11 @@ This is a social app in native Android hope you like it .
 * Android studio 
 * Java
 * Kotlin
+* Kotlin Coroutines
 * MVVM Architecture
 * Android jetpack (Room(Sqlite) ,Navigation , Databinging )
 * Asp.net restful api
 * C#
-* Kotlin Coroutines
 * Firebase FCM Cloud Messaging
 * Firebase real time database
 * Microsoft SQL
