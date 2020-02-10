@@ -37,6 +37,11 @@ This is a social app in native Android hope you like it .
 ![alt text](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
 
 
+## App UI
+![alt text](https://g.top4top.io/p_1501mjamb1.png)
+
+
+
 
 
 ## Authors
