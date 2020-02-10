@@ -28,6 +28,8 @@ This is a social app in native Android hope you like it .
 * Alerts
 * Chat
 * Privacy
+* Update info
+* Share post with -> (friends only , public)
 
 
 
