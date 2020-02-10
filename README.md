@@ -15,6 +15,8 @@ This is a social app in native Android hope you like it .
 * C#
 * Kotlin Coroutines
 * Firebase FCM Cloud Messaging
+* Firebase real time database
+* Microsoft SQL
 
 ## Authors
 
