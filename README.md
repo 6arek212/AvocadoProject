@@ -2,7 +2,7 @@
 
 
 Hello there ,
-This is a social app in Android native hope you like it .
+This is a social app in native Android hope you like it .
 
 ## Built With
 
