@@ -12,11 +12,16 @@ This is a social app in Android native hope you like it .
 * MVVM Architecture
 * Android jetpack (Room(Sqlite) ,Navigation , Databinging )
 * Asp.net restful api
-
-
+* C#
+* Kotlin Coroutines
+* Firebase FCM Cloud Messaging
 
 ## Authors
 
 * **Tarik Husin** 
 
-https://developer.android.com/topic/libraries/architecture/images/final-architecture.png
+
+## MVVM Architecture
+![alt text](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+
+
