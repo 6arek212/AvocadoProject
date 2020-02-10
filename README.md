@@ -35,8 +35,8 @@ This is a social app in native Android hope you like it .
 
 ## MVVM Architecture
 
-![alt text](https://4.bp.blogspot.com/-NnAkV5vpYuw/XNMYF4RtLvI/AAAAAAAAI70/kdgLm3cnTO4FB4rUC0v9smscN3zHJPlLgCLcBGAs/s1600/Jetpack_logo%2B%25282%2529.png)
 ![alt text](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+![alt text](https://venturebeat.com/wp-content/uploads/2019/05/android-jetpack-logo.png?fit=400%2C200&strip=all)
 
 
 ## App UI
